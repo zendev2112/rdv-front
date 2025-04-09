@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Define the border-border class in utilities layer */
+@layer utilities {
+  .border-border {
+    border-color: #e5e5e5;
+  }
+}
+
+/* Basic styling with enhanced core colors */
+body {
+  background-color: #ffffff;
+  color: #292929;
+}
+
+/* Apply enhanced color system to common elements */
+@layer base {
+
+  /* Enhanced Typography styling */
+  h1,
+  h2.article-title {
+    color: #000000;
+    font-weight: bold;
+  }
+
+  h2.section-title {
+    color: #ff0808;
+    font-weight: bold;
+    border-bottom: 2px solid #ff0808;
+    padding-bottom: 0.5rem;
+  }
+
+  h3 {
+    color: #000000;
+    font-weight: bold;
+  }
+
+  h4 {
+    color: #292929;
+    font-weight: 600;
+  }
+
+  p,
+  li {
+    color: #292929;
+  }
+
+  blockquote {
+    border-left: 4px solid #ff0808;
+    padding-left: 1rem;
+    color: #292929;
+    background-color: #faf6ef;
+    font-style: italic;
+    margin: 1.5rem 0;
+    padding: 1rem;
+  }
+
+  mark {
+    background-color: #ff0808;
+    color: #ffffff;
+    padding: 0 0.25rem;
+  }
+
+  hr {
+    border-color: #e5e5e5;
+    margin: 2rem 0;
+  }
+
+  .metadata,
+  figcaption,
+  .timestamp {
+    color: #8c8c8c;
+  }
+}
+
+/* Enhanced Custom color classes */
+.text-primary-red {
+  color: #ff0808 !important;
+}
+
+.bg-primary-red {
+  background-color: #ff0808 !important;
+  color: #ffffff;
+}
+
+.border-primary-red {
+  border-color: #ff0808 !important;
+}
+
+.bg-cream {
+  background-color: #faf6ef !important;
+}
+
+.border-cream {
+  border-color: #faf6ef !important;
+}
+
+.text-dark-gray {
+  color: #292929 !important;
+}
+
+.bg-dark-gray {
+  background-color: #292929 !important;
+  color: #ffffff;
+}
+
+.border-dark-gray {
+  border-color: #292929 !important;
+}
+
+/* Section-specific colors */
+.politics-header {
+  color: #0a3d62;
+  border-bottom: 2px solid #0a3d62;
+  padding-bottom: 0.25rem;
+}
+
+.business-header {
+  color: #2c6e49;
+  border-bottom: 2px solid #2c6e49;
+  padding-bottom: 0.25rem;
+}
+
+.opinion-header {
+  color: #5e3b73;
+  border-bottom: 2px solid #5e3b73;
+  padding-bottom: 0.25rem;
+}
+
+.sports-header {
+  color: #e67e22;
+  border-bottom: 2px solid #e67e22;
+  padding-bottom: 0.25rem;
+}
+
+.lifestyle-header {
+  color: #2a9d8f;
+  border-bottom: 2px solid #2a9d8f;
+  padding-bottom: 0.25rem;
+}
+
+.tech-header {
+  color: #3498db;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.25rem;
+}
+
+.agro-header {
+  color: #558b2f;
+  border-bottom: 2px solid #558b2f;
+  padding-bottom: 0.25rem;
+}
+
+/* Red background variations */
+.bg-primary-red-light {
+  background-color: rgba(255, 8, 8, 0.05);
+}
+
+.bg-primary-red-10 {
+  background-color: rgba(255, 8, 8, 0.1);
+}
+
+.bg-primary-red-20 {
+  background-color: rgba(255, 8, 8, 0.2);
+}
+
+/* Full-width accent elements */
+.accent-bar {
+  background-color: #ff0808;
+  height: 4px;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.accent-bar-thin {
+  background-color: #ff0808;
+  height: 2px;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.accent-bar-section {
+  background-color: #ff0808;
+  height: 8px;
+  width: 60px;
+  margin-bottom: 1rem;
+}
+
+/* Red section headers */
+.red-section-header {
+  background-color: #ff0808;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.red-accent-bar {
+  height: 4px;
+  background-color: #ff0808;
+  width: 100%;
+  margin: 1rem 0;
+}
