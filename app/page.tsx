@@ -22,6 +22,13 @@ import NewsSectionGrid from '@/components/NewsSectionGrid'
 import WeatherSection from '@/components/WeatherSection'
 import Header from '@/components/Header'
 import FarmaciasDeTurno from '@/components/FarmaciasDeTurno'
+import ActualidadSection from '@/components/ActualidadSection'
+import PoliticsAndEconomySection from '@/components/PoliticsAndEconomySection'
+import AdPlaceholder from '@/components/AdPlaceholder'
+import MasNoticiasSection from '@/components/MasNoticiasSection'
+import VolgaTVSection from '@/components/VolgaTVSection'
+import RadioPlayerShowcase from '@/components/RadioPlayerShowcase'
+import { SportsNewsSection } from '@/components/SportsNewsSection'
 
 export default function Home() {
   // Sample data for FeaturedSection
@@ -653,7 +660,6 @@ export default function Home() {
 
       {/* Additional news grid section */}
       <NewsSectionGrid
-        
         sectionColor="default"
         articles={[
           {
@@ -709,522 +715,386 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Featured article with large image */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          {/* Article content */}
-          <div className="md:col-span-1">
-            <h2 className="text-3xl font-bold mb-4">
-              Radiografía de la Legislatura porteña: en qué gasta la nueva meca
-              de los candidatos
-            </h2>
-            <div className="flex items-center mb-4">
-              <div className="bg-gray-200 text-xs px-2 py-1 rounded mr-2">
-                Política
-              </div>
-            </div>
-            <div className="flex items-center">
-              <Image
-                src="/placeholder.svg?height=40&width=40"
-                alt="Laura Serra"
-                width={40}
-                height={40}
-                className="w-10 h-10 rounded-full mr-3"
-              />
-              <p className="text-sm text-gray-500">Por Laura Serra</p>
-            </div>
-          </div>
+      {/* Add ActualidadSection here */}
+      <ActualidadSection
+        featuredArticle={{
+          id: 'featured-1',
+          title:
+            'Las bolsas asiáticas y europeas se desploman y caen los futuros de EE.UU',
+          summary:
+            'Los mercados globales experimentan turbulencias tras el anuncio de nuevas políticas económicas. Analistas advierten sobre posibles consecuencias a largo plazo.',
+          imageUrl: '/placeholder.svg?height=400&width=600',
+          author: 'Carlos Martinez',
+        }}
+        articles={[
+          {
+            id: '1',
+            title:
+              'Elecciones 2024: los candidatos presentan sus propuestas económicas',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Laura Fernandez',
+          },
+          {
+            id: '2',
+            title:
+              'Avance científico: descubren nueva técnica para tratamiento del Alzheimer',
+            summary: 'Investigadores locales logran importante hallazgo',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Manuel Gimenez',
+          },
+          {
+            id: '3',
+            title:
+              'El brutal planchazo en el partido: roja directa y polémica en las redes',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Juan Deportes',
+            isVideo: true,
+          },
+          {
+            id: '4',
+            title:
+              'Recomendaciones para cuidar la salud mental en tiempos de crisis',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Ana Salud',
+          },
+          {
+            id: '5',
+            title:
+              'Nuevas tecnologías agrícolas revolucionan el campo argentino',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Roberto Campo',
+          },
+          {
+            id: '6',
+            title:
+              'Receta del día: tarta invertida con pistachos para sorprender',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'María Cocina',
+          },
+          {
+            id: '7',
+            title:
+              'El fenómeno cultural que está cambiando los hábitos de consumo',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Pedro Sociedad',
+          },
+          {
+            id: '8',
+            title: 'Entrevista exclusiva: "Nunca me consideré un gran actor"',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Lucía Espectáculos',
+            isVideo: true,
+          },
+          {
+            id: '9',
+            title: 'Consejos para convertir tu casa en un espacio inteligente',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Fernando Tecnología',
+          },
+          {
+            id: '10',
+            title:
+              'La odisea del segundo viaje humanitario a zonas de conflicto',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Carolina Internacional',
+          },
+          {
+            id: '11',
+            title:
+              'Cinco razones por las que deberías incorporar limón a tu agua',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Martín Nutrición',
+          },
+          {
+            id: '12',
+            title:
+              'Lo mejor de Montevideo: guía completa para una escapada perfecta',
+            imageUrl: '/placeholder.svg?height=150&width=250',
+            author: 'Javier Viajes',
+          },
+        ]}
+      />
 
-          {/* Article image */}
-          <div className="md:col-span-1">
-            <Image
-              src="/placeholder.svg?height=400&width=500"
-              alt="Legislatura porteña"
-              width={500}
-              height={400}
-              className="w-full h-auto"
-            />
-          </div>
-
-          {/* Advertisement */}
-          <div className="md:col-span-1">
-            <div className="bg-gray-100 p-4 h-full">
-              <p className="text-xs text-gray-500 mb-2">AD</p>
-              <div className="flex flex-col items-center justify-center h-full">
-                <div className="text-center">
-                  <h3 className="font-bold text-xl mb-2">
-                    Adobe Creative Cloud
-                  </h3>
-                  <p className="mb-4">
-                    Crea lo que quieras con el plan de Todas las Aplicaciones
-                  </p>
-                  <p className="mb-4">
-                    Da vida a todas tus ideas con Creative Cloud.
-                  </p>
-                  <button className="border border-black rounded-full px-4 py-2 text-sm">
-                    Probar ahora
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* News articles row */}
-      <section className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          {/* Article 1 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=150&width=250"
-              alt="Acto por Malvinas"
-              width={250}
-              height={150}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-base font-bold mb-1">
-              <span className="font-bold">Solo en Off.</span> Problemas con la
-              letra de la marcha y tomas de catch en el acto por Malvinas
-            </h3>
-          </div>
-
-          {/* Article 2 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=150&width=250"
-              alt="Pilar desaparecida"
-              width={250}
-              height={150}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-base font-bold mb-1">
-              <span className="font-bold">
-                A 40 kilómetros de dónde desapareció.
-              </span>{' '}
-              Encontraron el cuerpo de Pilar, una de las hermanitas buscadas
-              tras el temporal en Bahía
-            </h3>
-          </div>
-
-          {/* Article 3 */}
-          <div className="relative">
-            <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
-              VIDEO
-            </div>
-            <Image
-              src="/placeholder.svg?height=150&width=250"
-              alt="Benedetto planchazo"
-              width={250}
-              height={150}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-base font-bold mb-1">
-              <span className="font-bold">De mal en peor.</span> El brutal
-              planchazo de Benedetto: roja directa y un presente complicado en
-              Paraguay
-            </h3>
-          </div>
-
-          {/* Article 4 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=150&width=250"
-              alt="Carlos Sainz"
-              width={250}
-              height={150}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-base font-bold mb-1">
-              <span className="font-bold">GP de Japón.</span> Carlos Sainz
-              recibió una exorbitante multa por llegar tarde al himno y dio una
-              inusual explicación
-            </h3>
-          </div>
-
-          {/* Article 5 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=150&width=250"
-              alt="Festival colorido"
-              width={250}
-              height={150}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-base font-bold mb-1">
-              {/* Title not fully visible in screenshot */}
-            </h3>
-          </div>
-        </div>
-      </section>
-
-      {/* Additional news articles row */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Article 1 */}
-          <div className="border-r border-gray-200 pr-4">
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Elecciones comunitarias"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Elecciones comunitarias.</span> La
-              ortodoxia ganó los comicios y extendió a veinte años su dominio en
-              la AMIA
-            </h3>
-            <p className="text-sm text-gray-500">Por Jaime Rosemberg</p>
-          </div>
-
-          {/* Article 2 */}
-          <div className="border-r border-gray-200 pr-4">
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="30 días frenéticos"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">30 días frenéticos.</span> Aconsejan a
-              los empresarios del agro cautela ante el momento de incertidumbre
-              generalizada
-            </h3>
-          </div>
-
-          {/* Article 3 */}
-          <div className="border-r border-gray-200 pr-4">
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="La guerra olvidada"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">La guerra olvidada.</span> La odisea
-              del segundo viaje humanitario de la organización de Enrique
-              Piñeyro a Sudán
-            </h3>
-            <p className="text-sm text-gray-500">Por Lucía Sol Miguel</p>
-          </div>
-
-          {/* Article 4 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Campeón"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Campeón.</span> Ángel Cabrera
-              consiguió su primer título en el Champions Tour y llega encendido
-              al Masters de Augusta
-            </h3>
-            <p className="text-sm text-gray-500">Por Alejo Miranda</p>
-          </div>
-        </div>
-      </section>
-
-      <FarmaciasDeTurno/>
+      <FarmaciasDeTurno />
 
       {/* Politics and Economy Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-light-gray">
-        <h2 className="text-2xl font-bold mb-6 uppercase text-primary-red">
-          POLÍTICA Y ECONOMÍA
-        </h2>
+      <PoliticsAndEconomySection
+        mainArticle={{
+          id: 'politics-main-1',
+          title: {
+            highlight: 'Debate previsional',
+            regular:
+              'Números claves que difieren según el lugar del país y que impactan con fuerza',
+          },
+          summary:
+            'El debate sobre el sistema previsional continúa generando controversia mientras los distintos sectores intentan llegar a un acuerdo.',
+          author: 'Jorge Fontevecchia',
+          imageUrl: '/placeholder.svg?height=400&width=600',
+          hasVideo: false,
+        }}
+        sideArticles={[
+          {
+            id: 'politics-side-1',
+            title: {
+              highlight: 'Fondo monetario',
+              regular:
+                'La Argentina logró consolidar el respaldo del FMI para las próximas etapas del acuerdo',
+            },
+            author: 'Manuel Adorni',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+            hasVideo: false,
+          },
+          {
+            id: 'politics-side-2',
+            title: {
+              highlight: 'Los desafíos',
+              regular:
+                'Inflación y salarios: la compleja ecuación que el gobierno intenta resolver',
+            },
+            author: 'Cecilia Boufflet',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+            hasVideo: false,
+          },
+          {
+            id: 'politics-side-3',
+            title: {
+              highlight: 'Análisis',
+              regular:
+                'Las cinco claves para entender el panorama político de cara a las elecciones',
+            },
+            author: 'Carlos Pagni',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+            hasVideo: true,
+          },
+        ]}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Main article content */}
-          <div className="md:col-span-1">
-            <h3 className="text-2xl font-bold mb-4">
-              <span className="font-bold">Debate previsional.</span> Números
-              claves, que difieren según el lugar del país y que impactan con
-              fuerza
-            </h3>
-          </div>
+      <VolgaTVSection
+        featuredVideo={{
+          id: 'lsng3PUSsPk', // This is the YouTube video ID
+          title: 'Recetas del Volga - Especial Strudel',
+          thumbnailUrl:
+            'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CObT3L8G&rs=AOn4CLDk09J84xvon5wiTO62nws9LQ5JOQ',
+          publishedAt: 'Mayo 2023',
+          viewCount: '2.3K',
+          duration: '4:13',
+        }}
+        recentVideos={[
+          {
+            id: 'oamFbnsVhEk',
+            title: 'La Casa del Terror llego a Coronel Suarez',
+            thumbnailUrl:
+              'https://i.ytimg.com/an_webp/oamFbnsVhEk/mqdefault_6s.webp?du=3000&sqp=CNCz3L8G&rs=AOn4CLDiDLur5Txhq04hWTBFSkTmsm6V9Q',
+            publishedAt: 'Abril 2023',
+            viewCount: '1.2K',
+            duration: '2:42',
+          },
+          {
+            id: 'ZZ4cEA-vYsM',
+            title: 'Recetas del Volga - Der Kreppel',
+            thumbnailUrl:
+              'https://i.ytimg.com/an_webp/ZZ4cEA-vYsM/mqdefault_6s.webp?du=3000&sqp=CMWs3L8G&rs=AOn4CLBrfP3gMYRoKVxIRBzAch0TKm8U9g',
+            publishedAt: 'Abril 2023',
+            viewCount: '952',
+            duration: '2:58',
+          },
+          {
+            id: '5qUla4Twb_U',
+            title: 'Recetas del Volga - Runde Sunde',
+            thumbnailUrl:
+              'https://i.ytimg.com/vi/5qUla4Twb_U/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGGUgZShlMA8=&rs=AOn4CLCI30kV_9XJUxsRvgOFnLgAM5iwyQ',
+            publishedAt: 'Marzo 2023',
+            viewCount: '1.5K',
+            duration: '3:10',
+          },
+          {
+            id: 'E-VHv8mCOCU',
+            title: 'Recetas del Volga - Moultasche',
+            thumbnailUrl:
+              'https://i.ytimg.com/an_webp/E-VHv8mCOCU/mqdefault_6s.webp?du=3000&sqp=COXS3L8G&rs=AOn4CLBMOukFWGOvB9LsTpF0WdQAGea5mw',
+            publishedAt: 'Febrero 2023',
+            viewCount: '3.1K',
+            duration: '5:42',
+          },
+        ]}
+      />
 
-          {/* Article images */}
-          <div className="md:col-span-2 grid grid-cols-2 gap-4">
-            <Image
-              src="/placeholder.svg?height=250&width=350"
-              alt="Debate previsional imagen 1"
-              width={350}
-              height={250}
-              className="w-full h-auto"
-            />
-            <Image
-              src="/placeholder.svg?height=250&width=350"
-              alt="Debate previsional imagen 2"
-              width={350}
-              height={250}
-              className="w-full h-auto"
-            />
-          </div>
-        </div>
-      </section>
+      <AdPlaceholder />
 
-      {/* More News Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-light-gray">
-        <h2 className="text-2xl font-bold mb-6 uppercase text-primary-red">
-          MÁS NOTICIAS
-        </h2>
+      <MasNoticiasSection
+        articles={[
+          // First 6 articles for the main grid
+          {
+            id: '1',
+            title:
+              'El Gobierno anuncia nuevas medidas económicas para contener la inflación',
+            summary:
+              'Paquete de medidas busca estabilizar precios en sectores clave de la economía',
+            author: 'Carlos Rodriguez',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '2',
+            title:
+              'Avances en investigación contra el cáncer muestran resultados prometedores',
+            author: 'Laura Fernandez',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '3',
+            title:
+              'El clásico de fútbol termina en empate tras un partido de alta intensidad',
+            summary:
+              'Los equipos no lograron romper la paridad en un encuentro con pocas situaciones claras',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '4',
+            title:
+              'Nueva exposición de arte contemporáneo llega al museo principal',
+            author: 'María González',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '5',
+            title:
+              'El fenómeno climático afectará a la región durante los próximos meses',
+            summary:
+              'Meteorólogos advierten sobre posibles consecuencias en la agricultura',
+            author: 'Juan Pérez',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '6',
+            title:
+              'Tecnología innovadora promete revolucionar la industria de la energía renovable',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
 
-        {/* First row of articles */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          {/* Article 1 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Montevideo"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Cruzar el charco.</span> Lo mejor de
-              Montevideo: del chivito al parque Rodó, ideal para una escapada
-            </h3>
-            <p className="text-sm text-gray-500">Por Pierre Dumas</p>
-          </div>
+          // Additional 4 articles for the bottom row
+          {
+            id: '7',
+            title:
+              'Destacan la importancia de la educación financiera desde edades tempranas',
+            author: 'Elena Sánchez',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '8',
+            title:
+              'Nuevo estudio revela beneficios inesperados de la práctica regular de meditación',
+            summary:
+              'Investigadores destacan efectos positivos en la memoria y concentración',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '9',
+            title:
+              'Festival gastronómico internacional regresa con edición ampliada este año',
+            author: 'Roberto Martínez',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+          {
+            id: '10',
+            title:
+              'Lanzan convocatoria para proyectos de innovación social con financiamiento estatal',
+            summary:
+              'Las propuestas seleccionadas recibirán apoyo técnico y económico',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+          },
+        ]}
+        headlines={[
+          {
+            id: 'h1',
+            title:
+              'Anuncian cambios en el gabinete ministerial tras reunión de emergencia',
+            timestamp: 'Hace 10 minutos',
+          },
+          {
+            id: 'h2',
+            title:
+              'Suman 5 medallas para la delegación nacional en competencia internacional',
+            timestamp: 'Hace 25 minutos',
+          },
+          {
+            id: 'h3',
+            title:
+              'Alertan por tormentas fuertes con posibilidad de granizo en el centro del país',
+            timestamp: 'Hace 42 minutos',
+          },
+          {
+            id: 'h4',
+            title:
+              'La bolsa local reacciona positivamente ante nuevos datos económicos',
+            timestamp: 'Hace 1 hora',
+          },
+          {
+            id: 'h5',
+            title:
+              'Investigación revela nuevos hallazgos sobre hábitos de consumo digital',
+            timestamp: 'Hace 1 hora',
+          },
+        ]}
+      />
 
-          {/* Article 2 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Mex Urtizberea"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">"En mi cabeza tengo 12 años".</span>{' '}
-              Mex Urtizberea: del suceso de ¡FA! al invitado que más espera, sus
-              ataques de pánico y por qué elige la soledad
-            </h3>
-            <p className="text-sm text-gray-500">Por Pablo Mascareño</p>
-          </div>
+      {/* Add Radio Player Showcase */}
+      {/* Radio Player Showcase - Full Width */}
+      <div className="container mx-auto px-4 py-6">
+        <RadioPlayerShowcase
+          frequency="99.5"
+          stationName="Radio del Volga"
+          radioLink="https://app.radiodelvolga.com.ar/"
+        />
+      </div>
 
-          {/* Article 3 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Lalo Schifrin"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">
-                "Lo que más me costó fue la aceptación".
-              </span>{' '}
-              El regreso "en música" de Lalo Schifrin a los 92 y todo lo que le
-              queda por componer
-            </h3>
-            <p className="text-sm text-gray-500">Por Mauro Apicella</p>
-          </div>
-
-          {/* Article 4 */}
-          <div className="relative">
-            <div className="absolute top-2 left-2 bg-white text-black text-xs px-2 py-1 rounded">
-              Living
-            </div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Decoración económica"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Encantadora y económica.</span> Una
-              alternativa de decoración de bajo costo y mantenimiento que vuelve
-              con fuerza
-            </h3>
-            <p className="text-sm text-gray-500">
-              Por Daniela Rusak y Karina Contini
-            </p>
-          </div>
-        </div>
-
-        {/* Second row of articles */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Article 1 */}
-          <div className="relative">
-            <div className="absolute top-2 right-2 bg-yellow-300 text-black text-xs px-2 py-1 rounded-full flex items-center">
-              <span className="mr-1">⭐</span> Suscriptores
-            </div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Carole Landis"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">"No te cases con un extraño".</span>{' '}
-              Carole Landis, la bella actriz que soñaba con...
-            </h3>
-          </div>
-
-          {/* Article 2 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Pedro Aznar y David Lebón"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Pedro Aznar y David Lebón.</span> El
-              homenaje a Serú Girán en el Quilmes Rock...
-            </h3>
-          </div>
-
-          {/* Article 3 */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Rosario niño"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Rosario.</span> Un niño de 12 años
-              está en grave estado luego de dispararse...
-            </h3>
-          </div>
-
-          {/* Article 4 */}
-          <div className="relative">
-            <div className="absolute top-2 right-2 bg-yellow-300 text-black text-xs px-2 py-1 rounded-full flex items-center">
-              <span className="mr-1">⭐</span> Suscriptores
-            </div>
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Cerebro"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Trivia.</span> ¿Cuánto sabés sobre el
-              cerebro?
-            </h3>
-            <p className="text-sm text-gray-500">Por Cintia Perazo</p>
-          </div>
-        </div>
-      </section>
+      <AdPlaceholder />
 
       {/* Sports News Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-light-gray">
-        <h2 className="text-2xl font-bold mb-6 uppercase text-primary-red">
-          ACTUALIDAD DEPORTIVA
-        </h2>
-
-        {/* Main sports article */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Article content */}
-          <div>
-            <h3 className="text-3xl font-bold mb-3">
+      <SportsNewsSection
+        mainArticle={{
+          title: (
+            <>
               <span className="font-bold">De la mano de "Maravilla".</span> Con
               un triplete de Martínez, Racing activó el 'modo copero' y se
               acercó a los puestos de clasificación
-            </h3>
-            <p className="text-gray-700 mb-4">
-              El delantero fue la indiscutida figura en el triunfo por 4-1,
-              convirtiendo un triplete tras un año
-            </p>
-            <p className="text-sm text-gray-500">Por Franco Tossi</p>
-          </div>
-
-          {/* Article image */}
-          <div>
-            <Image
-              src="/placeholder.svg?height=400&width=500"
-              alt="Jugador de Racing celebrando"
-              width={500}
-              height={400}
-              className="w-full h-auto"
-            />
-          </div>
-        </div>
-
-        {/* Two video articles */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Video article 1 */}
-          <div className="flex gap-4">
-            <div className="relative w-1/2">
-              <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
-                VIDEO
-              </div>
-              <Image
-                src="/placeholder.svg?height=200&width=250"
-                alt="Incidente en Liga de España"
-                width={250}
-                height={200}
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="w-1/2">
-              <h3 className="text-lg font-bold mb-1">
+            </>
+          ),
+          content:
+            'El delantero fue la indiscutida figura en el triunfo por 4-1, convirtiendo un triplete tras un año sin marcar de a tres. El equipo de Gustavo Costas volvió a mostrar su mejor versión y se reencuentra con la victoria tras dos partidos sin conseguirla.',
+          author: 'Franco Tossi',
+          imageUrl: '/placeholder.svg?height=400&width=500',
+        }}
+        sideArticles={[
+          {
+            title: (
+              <>
                 <span className="font-bold">Insólito.</span> En la Liga de
                 España, dos compañeros casi terminan a las trompadas en el banco
                 de suplentes
-              </h3>
-            </div>
-          </div>
-
-          {/* Video article 2 */}
-          <div className="flex gap-4">
-            <div className="w-1/2">
-              <h3 className="text-lg font-bold mb-1">
+              </>
+            ),
+            content:
+              'Durante el partido entre Villarreal y Atlético de Madrid, las cámaras captaron un fuerte cruce entre dos futbolistas del equipo colchonero que estaban en el banco.',
+            author: 'Redacción Deportes',
+            imageUrl: '/placeholder.svg?height=200&width=250',
+            hasVideo: true,
+          },
+          {
+            title: (
+              <>
                 <span className="font-bold">Argentinos, de lujo.</span> Media
                 hora a toda orquesta, taco, sombrero, golazos... y un
                 agradecimiento a "Chiqui" Tapia
-              </h3>
-            </div>
-            <div className="relative w-1/2">
-              <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
-                VIDEO
-              </div>
-              <Image
-                src="/placeholder.svg?height=200&width=250"
-                alt="Jugadores de Argentinos Juniors"
-                width={250}
-                height={200}
-                className="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* LN Music Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <div className="flex justify-between items-center py-4">
-          <div className="flex items-center">
-            <Image
-              src="/placeholder.svg?height=60&width=120"
-              alt="LN + música 104.9"
-              width={120}
-              height={60}
-              className="h-12 w-auto mr-4"
-            />
-            <span className="text-xl">El mundo necesita más música</span>
-          </div>
-          <button className="bg-black text-yellow-300 rounded-full px-4 py-2 text-sm font-medium flex items-center">
-            ESCUCHA + MÚSICA
-            <Play className="w-4 h-4 ml-2" />
-          </button>
-        </div>
-      </section>
+              </>
+            ),
+            content:
+              'El equipo de La Paternal desplegó un fútbol de alto nivel durante el primer tiempo y se impuso con autoridad frente a Barracas Central por 3-0, consolidándose en los primeros puestos del torneo.',
+            author: 'Germán Wille',
+            imageUrl: '/placeholder.svg?height=200&width=250',
+            hasVideo: true,
+          },
+        ]}
+      />
 
       {/* Stories and Characters Section */}
       <section className="container mx-auto px-4 py-6 border-t border-gray-200">

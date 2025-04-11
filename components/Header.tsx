@@ -9,13 +9,13 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="bg-primary-red text-white border-b border-light-gray">
+    <header className="sticky top-0 z-50 bg-white shadow-sm bg-primary-red text-white border-b border-light-gray">
       {/* Main header area */}
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Left section - Menu and Search */}
         <div className="flex items-center">
           {/* Mobile menu toggle */}
-          <button 
+          <button
             className="mr-4 flex items-center text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -37,9 +37,7 @@ export default function Header() {
             {/* Use a smaller logo size on mobile */}
             <div className="relative h-10 w-48 sm:h-16 sm:w-64">
               {/* Fallback to text logo if image isn't available */}
-              <div className="absolute inset-0 flex items-center justify-center">
- 
-              </div>
+              <div className="absolute inset-0 flex items-center justify-center"></div>
               <Image
                 src="/images/logo.svg"
                 alt="Noticias Logo"
@@ -78,14 +76,14 @@ export default function Header() {
                 />
               </svg>
             </span>
-            <span className="hidden xs:inline">SUSCRIBITE</span> 
+            <span className="hidden xs:inline">SUSCRIBITE</span>
             <span className="hidden sm:inline">POR $900</span>
           </button>
         </div>
       </div>
 
       {/* Mobile menu - slides down when menu is open */}
-      <div 
+      <div
         className={`${
           mobileMenuOpen ? 'max-h-screen py-4' : 'max-h-0 py-0 overflow-hidden'
         } transition-all duration-300 ease-in-out bg-white text-dark-gray`}
@@ -93,10 +91,18 @@ export default function Header() {
         <div className="container mx-auto px-4">
           <nav className="flex flex-col">
             {/* Mobile menu links */}
-            {['Política', 'Economía', 'Sociedad', 'Mundo', 'Opinión', 'Deportes', 'Lifestyle'].map((item) => (
-              <Link 
-                key={item} 
-                href="#" 
+            {[
+              'Política',
+              'Economía',
+              'Sociedad',
+              'Mundo',
+              'Opinión',
+              'Deportes',
+              'Lifestyle',
+            ].map((item) => (
+              <Link
+                key={item}
+                href="#"
                 className="py-3 border-b border-light-gray text-dark-gray hover:text-primary-red"
               >
                 {item}
@@ -104,16 +110,28 @@ export default function Header() {
             ))}
             {/* Additional mobile-only links */}
             <div className="pt-4 pb-2">
-              <Link href="#" className="block py-2 text-dark-gray hover:text-primary-red">
+              <Link
+                href="#"
+                className="block py-2 text-dark-gray hover:text-primary-red"
+              >
                 Mi Cuenta
               </Link>
-              <Link href="#" className="block py-2 text-dark-gray hover:text-primary-red">
+              <Link
+                href="#"
+                className="block py-2 text-dark-gray hover:text-primary-red"
+              >
                 Newsletters
               </Link>
-              <Link href="#" className="block py-2 text-dark-gray hover:text-primary-red">
+              <Link
+                href="#"
+                className="block py-2 text-dark-gray hover:text-primary-red"
+              >
                 Club LA NACIÓN
               </Link>
-              <Link href="#" className="block py-2 text-dark-gray hover:text-primary-red">
+              <Link
+                href="#"
+                className="block py-2 text-dark-gray hover:text-primary-red"
+              >
                 Ayuda
               </Link>
             </div>

@@ -57,7 +57,7 @@ export default function NewsSectionGrid({
           className="mb-6 pb-2 border-b-2 flex"
           style={{ borderColor: sectionStyle.bg }}
         >
-          
+
         </div>
 
         {/* Article grid with alternating cream backgrounds */}
@@ -65,11 +65,11 @@ export default function NewsSectionGrid({
           {articles.map((article, index) => (
             <Card
               key={article.id}
-              className={`overflow-hidden border-0 ${
-                index < 3 ? 'border-r border-gray-200 pr-4' : ''
-              } ${index % 2 === 1 ? 'bg-faf6ef' : 'bg-white'}`}
+              className={`overflow-hidden border-0 flex flex-col ${
+                index < 3 ? 'border-r border-gray-200' : ''
+              } ${index % 2 === 1 ? 'bg-[#faf6ef]' : 'bg-white'}`}
             >
-              <div className="relative aspect-video w-full overflow-hidden">
+              <div className="relative aspect-video w-full">
                 {article.hasVideo && (
                   <Badge
                     variant="default"
@@ -81,13 +81,12 @@ export default function NewsSectionGrid({
                 <Image
                   src={article.imageUrl}
                   alt={article.title.regular}
-                  width={600}
-                  height={338}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                   priority={index < 2}
                 />
               </div>
-              <CardContent className="px-0 pt-4 pb-0">
+              <CardContent className="px-4 pt-4 pb-0 flex-grow flex flex-col">
                 <h3 className="text-lg font-bold mb-1 leading-tight">
                   {article.title.highlight && (
                     <span className="font-bold text-primary-red">
@@ -98,7 +97,7 @@ export default function NewsSectionGrid({
                 </h3>
               </CardContent>
               {article.author && (
-                <CardFooter className="px-0 pt-2 pb-4 justify-start">
+                <CardFooter className="px-4 pt-2 pb-4">
                   <p className="text-sm text-dark-gray">Por {article.author}</p>
                 </CardFooter>
               )}
