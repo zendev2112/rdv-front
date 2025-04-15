@@ -36,7 +36,7 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
           <h2 className="text-2xl font-bold text-[#292929]">
             MÁS NOTICIAS
           </h2>
-          <div className="ml-auto h-1 w-24 bg-[#ff0808]"></div>
+          <div className="ml-auto h-1 w-24 bg-primary-red"></div>
         </div>
         
         {/* Main layout with 2-column grid + sidebar */}
@@ -62,22 +62,25 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
+                    {/* Hover effect with gray overlay */}
+                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
                   </div>
                   
                   {/* Content area */}
                   <div className="p-4">
-                    <h3 className="text-lg font-bold mb-2 text-[#292929] line-clamp-3">
+                    <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929] line-clamp-3">
+                      <span className="text-primary-red font-bold">Noticia.</span>{' '}
                       {article.title}
                     </h3>
                     
                     {article.summary && (
-                      <p className="text-sm text-[#292929]/70 mb-2 line-clamp-2">
+                      <p className="text-sm text-dark-gray mb-2 line-clamp-2">
                         {article.summary}
                       </p>
                     )}
                     
                     {article.author && (
-                      <p className="text-xs text-[#292929]/60">
+                      <p className="text-sm text-dark-gray">
                         Por {article.author}
                       </p>
                     )}
@@ -90,8 +93,8 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
           {/* Redesigned Sidebar with lines and dots */}
           <div className="lg:col-span-1">
             <div className="bg-white border border-gray-100 rounded-md overflow-hidden">
-              <div className="border-l-4 border-[#ff0808] pl-4 py-4 mb-2">
-                <h3 className="text-xl font-bold text-[#292929]">
+              <div className="border-l-4 border-primary-red pl-4 py-4 mb-2">
+                <h3 className="text-xl font-bold leading-tight text-[#292929]">
                   Últimas noticias
                 </h3>
               </div>
@@ -104,7 +107,7 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
                   >
                     {/* Dot and line styling */}
                     <div className="absolute left-4 top-0 bottom-0 flex flex-col items-center">
-                      <div className="w-2 h-2 rounded-full bg-[#ff0808] mt-4"></div>
+                      <div className="w-2 h-2 rounded-full bg-primary-red mt-4"></div>
                       {index < headlines.length - 1 && (
                         <div className="w-0.5 bg-gray-200 flex-grow"></div>
                       )}
@@ -112,7 +115,7 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
                     
                     <a 
                       href="#" 
-                      className="text-base font-medium text-[#292929] hover:text-[#ff0808] transition-colors block"
+                      className="text-base font-medium leading-tight text-[#292929] hover:text-primary-red transition-colors block"
                       onClick={(e) => {
                         e.preventDefault()
                         console.log(`Headline clicked: ${headline.id}`)
@@ -122,8 +125,8 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
                     </a>
                     {headline.timestamp && (
                       <div className="flex items-center mt-2">
-                        <Clock className="h-3 w-3 text-[#292929]/40 mr-1" />
-                        <p className="text-xs text-[#292929]/60">
+                        <Clock className="h-3 w-3 text-dark-gray mr-1" />
+                        <p className="text-xs text-dark-gray">
                           {headline.timestamp}
                         </p>
                       </div>
@@ -133,7 +136,7 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
               </ul>
               
               <div className="p-4 text-right border-t border-gray-100">
-                <a href="#" className="text-xs font-medium text-[#ff0808] hover:underline inline-flex items-center">
+                <a href="#" className="text-xs font-medium text-primary-red hover:underline inline-flex items-center">
                   Ver todas las noticias
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
                     <path d="m9 18 6-6-6-6"/>
@@ -164,22 +167,25 @@ export default function MasNoticiasSection({ articles, headlines }: MasNoticiasS
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
+                    {/* Hover effect with gray overlay */}
+                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
                   </div>
                   
                   {/* Content area */}
                   <div className="p-4">
-                    <h3 className="text-base font-bold mb-2 text-[#292929] line-clamp-3">
+                    <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929] line-clamp-3">
+                      <span className="text-primary-red font-bold">Noticia.</span>{' '}
                       {article.title}
                     </h3>
                     
                     {article.summary && (
-                      <p className="text-sm text-[#292929]/70 mb-2 line-clamp-2">
+                      <p className="text-sm text-dark-gray mb-2 line-clamp-2">
                         {article.summary}
                       </p>
                     )}
                     
                     {article.author && (
-                      <p className="text-xs text-[#292929]/60">
+                      <p className="text-sm text-dark-gray">
                         Por {article.author}
                       </p>
                     )}

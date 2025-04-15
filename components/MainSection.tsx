@@ -23,14 +23,14 @@ export default function MainSection() {
 
           {/* Title with red highlighting */}
           <div className="mb-4">
-            <h1 className="text-2xl font-bold mb-2 leading-tight">
+            <h1 className="text-3xl font-bold mb-3 leading-tight">
               <span className="text-primary-red font-bold">
                 "Título principal".
               </span>{' '}
               Las bolsas asiáticas y europeas se desploman y caen los futuros de
               EE.UU
             </h1>
-            <p className="text-dark-gray mb-2 text-sm">
+            <p className="text-dark-gray mb-3 text-base">
               Bajada de nota con más detalle. Se utiliza para ampliar el
               contexto de forma concisa y legible.
             </p>
@@ -54,9 +54,6 @@ export default function MainSection() {
         {/* Right column (60% width) with cream background */}
         <div className="md:w-3/5 bg-cream p-4 rounded-md">
           {/* Section header - keeping only bottom border */}
-          <h2 className="text-lg font-bold mb-4 pb-2 border-b border-gray-300">
-            NOTICIAS RELACIONADAS
-          </h2>
 
           {/* Top row (50% height) with two equal cards - reduced height */}
           <div className="flex flex-col md:flex-row gap-4 mb-4">
@@ -72,11 +69,13 @@ export default function MainSection() {
                   />
                 </div>
                 <CardContent className="p-3">
-                  <h3 className="text-base font-semibold">
-                    <span className="text-primary-red font-bold">Sociedad.</span> Segunda
-                    nota destacada
+                  <h3 className="text-lg font-bold leading-tight">
+                    <span className="text-primary-red font-bold">
+                      Sociedad.
+                    </span>{' '}
+                    Segunda nota destacada
                   </h3>
-                  <p className="text-xs text-dark-gray mt-1">
+                  <p className="text-sm text-dark-gray mt-1">
                     Por Autor/a Placeholder
                   </p>
                 </CardContent>
@@ -95,11 +94,13 @@ export default function MainSection() {
                   />
                 </div>
                 <CardContent className="p-3">
-                  <h3 className="text-base font-semibold">
-                    <span className="text-primary-red font-bold">Internacional.</span>{' '}
+                  <h3 className="text-lg font-bold leading-tight">
+                    <span className="text-primary-red font-bold">
+                      Internacional.
+                    </span>{' '}
                     Tercera nota destacada
                   </h3>
-                  <p className="text-xs text-dark-gray mt-1">
+                  <p className="text-sm text-dark-gray mt-1">
                     Por Autor/a Placeholder
                   </p>
                 </CardContent>
@@ -124,11 +125,13 @@ export default function MainSection() {
                   />
                 </div>
                 <CardContent className="p-3">
-                  <h3 className="text-sm font-semibold">
-                    <span className="text-primary-red font-bold">Política.</span> Análisis
-                    sobre turbulencias
+                  <h3 className="text-lg font-bold leading-tight">
+                    <span className="text-primary-red font-bold">
+                      Política.
+                    </span>{' '}
+                    Análisis sobre turbulencias
                   </h3>
-                  <p className="text-xs text-dark-gray mt-1">
+                  <p className="text-sm text-dark-gray mt-1">
                     Por Autor/a Placeholder
                   </p>
                 </CardContent>
@@ -147,11 +150,13 @@ export default function MainSection() {
                   />
                 </div>
                 <CardContent className="p-3">
-                  <h3 className="text-sm font-semibold">
-                    <span className="text-primary-red font-bold">Judiciales.</span> Fallo
-                    reciente
+                  <h3 className="text-lg font-bold leading-tight">
+                    <span className="text-primary-red font-bold">
+                      Judiciales.
+                    </span>{' '}
+                    Fallo reciente
                   </h3>
-                  <p className="text-xs text-dark-gray mt-1">
+                  <p className="text-sm text-dark-gray mt-1">
                     Por Autor/a Placeholder
                   </p>
                 </CardContent>
@@ -170,11 +175,13 @@ export default function MainSection() {
                   />
                 </div>
                 <CardContent className="p-3">
-                  <h3 className="text-sm font-semibold">
-                    <span className="text-primary-red font-bold">Deportes.</span> Resumen
-                    del empate
+                  <h3 className="text-lg font-bold leading-tight">
+                    <span className="text-primary-red font-bold">
+                      Deportes.
+                    </span>{' '}
+                    Resumen del empate
                   </h3>
-                  <p className="text-xs text-dark-gray mt-1">
+                  <p className="text-sm text-dark-gray mt-1">
                     Por Autor/a Placeholder
                   </p>
                 </CardContent>

@@ -56,28 +56,30 @@ export default function PoliticsAndEconomySection({
                   className="object-cover"
                   priority
                 />
+                {/* Hover effect with gray overlay */}
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
 
               {/* Text content below */}
               <CardContent className="p-5">
                 {/* Title with highlighted part */}
-                <h3 className="text-xl font-bold mb-3 text-[#292929]">
+                <h3 className="text-3xl font-bold mb-3 leading-tight text-[#292929]">
                   {mainArticle.title.highlight && (
-                    <span className="text-[#ff0808] font-extrabold">{mainArticle.title.highlight}. </span>
+                    <span className="text-primary-red font-bold">{mainArticle.title.highlight}. </span>
                   )}
                   {mainArticle.title.regular}
                 </h3>
 
                 {/* Summary */}
                 {mainArticle.summary && (
-                  <p className="text-[#292929]/80 text-sm mb-4 line-clamp-3">
+                  <p className="text-dark-gray text-base mb-4 line-clamp-3">
                     {mainArticle.summary}
                   </p>
                 )}
 
                 {/* Author name */}
                 {mainArticle.author && (
-                  <p className="text-xs text-[#292929]/70">
+                  <p className="text-sm text-dark-gray">
                     Por {mainArticle.author}
                   </p>
                 )}
@@ -93,15 +95,15 @@ export default function PoliticsAndEconomySection({
                 <div className="flex flex-col sm:flex-row">
                   {/* Text content */}
                   <CardContent className="p-4 sm:w-2/3 flex flex-col justify-center">
-                    <h3 className="text-base font-bold mb-2 text-[#292929]">
+                    <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
                       {article.title.highlight && (
-                        <span className="text-[#ff0808] font-extrabold">{article.title.highlight}. </span>
+                        <span className="text-primary-red font-bold">{article.title.highlight}. </span>
                       )}
                       {article.title.regular}
                     </h3>
                     
                     {article.author && (
-                      <p className="text-xs text-[#292929]/70 mt-auto">
+                      <p className="text-sm text-dark-gray mt-auto">
                         Por {article.author}
                       </p>
                     )}
@@ -120,6 +122,8 @@ export default function PoliticsAndEconomySection({
                       fill
                       className="object-cover"
                     />
+                    {/* Hover effect with gray overlay */}
+                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
                   </div>
                 </div>
               </Card>

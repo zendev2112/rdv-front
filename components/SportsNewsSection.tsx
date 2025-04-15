@@ -31,16 +31,17 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
           <div className="flex flex-col md:flex-row gap-6">
             {/* Text Content - Left */}
             <div className="md:w-1/2">
-              <h3 className="text-2xl font-bold mb-3">
+              <h3 className="text-3xl font-bold mb-3 leading-tight">
+                <span className="text-primary-red font-bold">Deportes.</span>{' '}
                 {mainArticle.title}
               </h3>
               {mainArticle.content && (
-                <p className="text-gray-700 mb-4">
+                <p className="text-base text-dark-gray mb-4">
                   {mainArticle.content}
                 </p>
               )}
               {mainArticle.author && (
-                <p className="text-sm text-gray-500">Por {mainArticle.author}</p>
+                <p className="text-sm text-dark-gray">Por {mainArticle.author}</p>
               )}
             </div>
             
@@ -54,6 +55,8 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
                   className="object-cover rounded-md"
                   priority
                 />
+                {/* Hover effect with gray overlay */}
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
                 {mainArticle.hasVideo && (
                   <Badge
                     className="absolute top-2 left-2 bg-black text-white border-0 rounded px-2 py-1 text-xs"
@@ -78,16 +81,17 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
               <div className="flex flex-col md:flex-row gap-4">
                 {/* Text Content - Left */}
                 <div className="md:w-2/3">
-                  <h3 className="text-xl font-bold mb-2">
+                  <h3 className="text-lg font-bold mb-2 leading-tight">
+                    <span className="text-primary-red font-bold">Deportes.</span>{' '}
                     {article.title}
                   </h3>
                   {article.content && (
-                    <p className="text-gray-700 mb-2">
+                    <p className="text-sm text-dark-gray mb-2">
                       {article.content}
                     </p>
                   )}
                   {article.author && (
-                    <p className="text-sm text-gray-500">Por {article.author}</p>
+                    <p className="text-sm text-dark-gray">Por {article.author}</p>
                   )}
                 </div>
                 
@@ -100,6 +104,8 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
                       fill
                       className="object-cover rounded-md"
                     />
+                    {/* Hover effect with gray overlay */}
+                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
                     {article.hasVideo && (
                       <Badge
                         className="absolute top-2 left-2 bg-black text-white border-0 rounded px-2 py-1 text-xs"

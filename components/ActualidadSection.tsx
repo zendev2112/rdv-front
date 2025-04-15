@@ -39,26 +39,27 @@ export default function ActualidadSection({
           <Card className="overflow-hidden border-0 shadow-sm bg-white">
             <div className="flex flex-col md:flex-row">
               {/* Text content - 50% width on desktop */}
-              <div className="md:w-1/2 p-6 flex flex-col justify-center">
-                <h3 className="text-2xl font-bold mb-3 line-clamp-3 text-[#292929]">
+              <div className="md:w-1/2 p-5 flex flex-col justify-center">
+                <h3 className="text-3xl font-bold mb-3 leading-tight line-clamp-3 text-[#292929]">
+                  <span className="text-primary-red font-bold">Actualidad.</span>{' '}
                   {featuredArticle.title}
                 </h3>
                 {featuredArticle.summary && (
-                  <p className="text-[#292929]/80 mb-4 line-clamp-4">
+                  <p className="text-base text-dark-gray mb-3 line-clamp-3">
                     {featuredArticle.summary}
                   </p>
                 )}
-                <p className="text-sm text-[#292929]/70 mt-auto">
+                <p className="text-sm text-dark-gray mt-1">
                   Por {featuredArticle.author}
                 </p>
               </div>
               
               {/* Image - 50% width on desktop */}
-              <div className="md:w-1/2 relative aspect-video md:aspect-auto">
+              <div className="md:w-1/2 relative" style={{ height: '400px' }}>
                 {featuredArticle.isVideo && (
                   <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="bg-[#ff0808] bg-opacity-80 rounded-full p-4">
-                      <Play className="h-10 w-10 text-white" />
+                    <div className="bg-primary-red rounded-full p-3">
+                      <Play className="h-8 w-8 text-white" />
                     </div>
                   </div>
                 )}
@@ -69,6 +70,8 @@ export default function ActualidadSection({
                   className="object-cover"
                   priority
                 />
+                {/* Hover effect with gray overlay */}
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
             </div>
           </Card>
@@ -83,11 +86,11 @@ export default function ActualidadSection({
                 index % 2 === 0 ? 'bg-white' : 'bg-[#faf6ef]'
               }`}
             >
-              <div className="relative aspect-video w-full">
+              <div className="relative aspect-video w-full" style={{ height: '190px' }}>
                 {article.isVideo && (
                   <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div className="bg-[#ff0808] bg-opacity-80 rounded-full p-2">
-                      <Play className="h-6 w-6 text-white" />
+                    <div className="bg-primary-red rounded-full p-2">
+                      <Play className="h-5 w-5 text-white" />
                     </div>
                   </div>
                 )}
@@ -97,22 +100,25 @@ export default function ActualidadSection({
                   fill
                   className="object-cover"
                 />
+                {/* Hover effect with gray overlay */}
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
-              <CardContent className="p-4">
-                <h3 className="text-base font-bold mb-1 line-clamp-2 text-[#292929]">
+              <CardContent className="p-3">
+                <h3 className="text-lg font-bold mb-2 leading-tight line-clamp-2 text-[#292929]">
+                  <span className="text-primary-red font-bold">Noticia.</span>{' '}
                   {article.title}
                 </h3>
                 {article.summary && (
-                  <p className="text-[#292929]/80 mb-2 text-sm line-clamp-2">
+                  <p className="text-sm text-dark-gray mb-1 line-clamp-2">
                     {article.summary}
                   </p>
                 )}
-                <div className="flex items-center mt-2">
-                  <p className="text-xs text-[#292929]/70">
+                <div className="flex items-center mt-1">
+                  <p className="text-sm text-dark-gray">
                     Por {article.author}
                   </p>
                   {index % 4 === 0 && (
-                    <span className="ml-auto text-xs bg-[#ff0808] text-white px-2 py-0.5 rounded-sm">
+                    <span className="ml-auto text-xs bg-primary-red text-white px-2 py-0.5 rounded-sm">
                       DESTACADO
                     </span>
                   )}

@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { Search, Bell, Menu, Play, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import FeaturedSection from '../components/FeaturedSection' // Add this import
 import OpinionSection from '../components/OpinionSection'
 import WellnessSection from '../components/WellnessSection'
 import FarmingSection from '../components/FarmingSection'
@@ -29,6 +28,10 @@ import MasNoticiasSection from '@/components/MasNoticiasSection'
 import VolgaTVSection from '@/components/VolgaTVSection'
 import RadioPlayerShowcase from '@/components/RadioPlayerShowcase'
 import { SportsNewsSection } from '@/components/SportsNewsSection'
+import { StoriesAndCharactersSection } from '@/components/StoriesAndCharactersSection'
+import YouMayBeInterestedSection from '@/components/YouMayBeInterestedSection'
+import FooditSection from '@/components/FooditSection'
+import QuinielaSection from '@/components/QuinielaSection'
 
 export default function Home() {
   // Sample data for FeaturedSection
@@ -554,9 +557,6 @@ export default function Home() {
           </div>
         </div>
         <div className="flex items-center space-x-4 ml-4">
-          <Link href="#" className="hover:text-blue-800">
-            CLUB LN
-          </Link>
           <Link href="#" className="hover:text-blue-800 flex items-center">
             <svg
               viewBox="0 0 24 24"
@@ -576,16 +576,16 @@ export default function Home() {
             EN VIVO
           </Link>
           <Link href="#" className="hover:text-blue-800">
-            FOODIT
+            COCINA
           </Link>
           <Link href="#" className="hover:text-blue-800">
-            CANCHALLENA
+            LIFESTYLE
           </Link>
           <Link href="#" className="hover:text-blue-800">
-            BONVIVIR
+            AGRO
           </Link>
           <Link href="#" className="hover:text-blue-800">
-            LN 104.9 + MÚSICA
+            99.5 + MÚSICA
           </Link>
         </div>
       </div>
@@ -613,7 +613,7 @@ export default function Home() {
           </span>
           <div className="flex-1"></div>
           <Link href="#" className="text-gray-700 hover:text-blue-800">
-            LN Juegos
+            Juegos
           </Link>
           <Link href="#" className="text-gray-700 hover:text-blue-800">
             Suscriptores
@@ -1096,380 +1096,77 @@ export default function Home() {
         ]}
       />
 
-      {/* Stories and Characters Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <h2 className="text-2xl font-bold mb-6 uppercase">
-          HISTORIAS Y PERSONAJES
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Main article */}
-          <div className="md:col-span-1">
-            <Image
-              src="/placeholder.svg?height=400&width=400"
-              alt="Tini Stoessel"
-              width={400}
-              height={400}
-              className="w-full h-auto mb-4"
-            />
-            <h3 className="text-2xl font-bold mb-1">
+      {/* Stories and Characters Section with shadcn */}
+      <StoriesAndCharactersSection
+        mainArticle={{
+          title: (
+            <>
               <span className="font-bold">"Hola mi vida".</span> Tini Stoessel
-              tuvo...
-            </h3>
-          </div>
-
-          {/* Side articles */}
-          <div className="md:col-span-2 space-y-6">
-            {/* Article 1 */}
-            <div className="flex gap-4">
-              <div className="w-2/3">
-                <h3 className="text-xl font-bold mb-2">
-                  <span className="font-bold">Historias.</span> Es argentino y
-                  se animó con un proyecto de US$4 millones a pasos de la cancha
-                  de polo
-                </h3>
-                <p className="text-sm text-gray-500">Por Ariel Goldfarb</p>
-              </div>
-              <div className="w-1/3">
-                <Image
-                  src="/placeholder.svg?height=150&width=200"
-                  alt="Emprendedor argentino"
-                  width={200}
-                  height={150}
-                  className="w-full h-auto"
-                />
-              </div>
-            </div>
-
-            {/* Article 2 */}
-            <div className="flex gap-4">
-              <div className="w-2/3">
-                <h3 className="text-xl font-bold mb-2">
-                  <span className="font-bold">
-                    Prometió volver con un Rosario bendecido en Calcuta.
-                  </span>{' '}
-                  Vivía lejos y supo que su madre tenía cáncer "Es una locura"
-                </h3>
-                <p className="text-sm text-gray-500">Por Carina Durn</p>
-              </div>
-              <div className="w-1/3">
-                <Image
-                  src="/placeholder.svg?height=150&width=200"
-                  alt="Hombre con gafas"
-                  width={200}
-                  height={150}
-                  className="w-full h-auto"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* You May Be Interested In Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <h2 className="text-2xl font-bold mb-6 uppercase">
-          TE PUEDE INTERESAR
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Article 1 */}
-          <div className="mb-6">
-            <div className="relative">
-              <Image
-                src="/placeholder.svg?height=200&width=300"
-                alt="Pasaporte italiano"
-                width={300}
-                height={200}
-                className="w-full h-auto mb-3"
-              />
-              <div className="absolute bottom-3 left-0 bg-black text-white text-xs px-2 py-1">
-                TEST DE INTERÉS GENERAL
-              </div>
-            </div>
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Trivia.</span> ¿Qué importante cambio
-              rige para obtener la ciudadanía italiana?
-            </h3>
-            <p className="text-sm text-gray-500">Por Cintia Perazo</p>
-          </div>
-
-          {/* Article 2 */}
-          <div className="mb-6">
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Piscinas naturales de Brasil"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Imperdible.</span> Las mejores
-              piscinas naturales del nordeste de Brasil, para nadar entre peces
-              de colores
-            </h3>
-            <p className="text-sm text-gray-500">Por Silvina Pini</p>
-          </div>
-
-          {/* Article 3 */}
-          <div className="mb-6">
-            <div className="relative">
-              <Image
-                src="/placeholder.svg?height=200&width=300"
-                alt="Pareja en la playa"
-                width={300}
-                height={200}
-                className="w-full h-auto mb-3"
-              />
-              <div className="absolute bottom-3 left-0 bg-black text-white text-xs px-2 py-1">
-                CAMBIO DE VIDA
-              </div>
-            </div>
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Cambio de vida.</span> Buscaba un
-              lugar para casarse y encontró un parador en la playa que lo
-              convirtió en cocinero
-            </h3>
-            <p className="text-sm text-gray-500">Por Ana van Gelderen</p>
-          </div>
-
-          {/* Article 4 */}
-          <div className="mb-6">
-            <div className="relative">
-              <Image
-                src="/placeholder.svg?height=200&width=300"
-                alt="Concierto"
-                width={300}
-                height={200}
-                className="w-full h-auto mb-3"
-              />
-              <div className="absolute bottom-3 left-0 bg-black text-white text-xs px-2 py-1">
-                VIDEO
-              </div>
-            </div>
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">LA NACION World Tour 2025.</span> Te
-              llevamos a ver Dua Lipa, Oasis y Coldplay alrededor del mundo
-            </h3>
-          </div>
-
-          {/* Article 5 */}
-          <div className="mb-6">
-            <div className="relative">
-              <Image
-                src="/placeholder.svg?height=200&width=300"
-                alt="Casa de campo"
-                width={300}
-                height={200}
-                className="w-full h-auto mb-3"
-              />
-              <div className="absolute bottom-3 left-0 bg-black text-white text-xs px-2 py-1">
-                FOTOS
-              </div>
-            </div>
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Espectacular hallazgo.</span> La
-              misteriosa casa de campo
-            </h3>
-          </div>
-
-          {/* Article 6 */}
-          <div className="mb-6">
-            <Image
-              src="/placeholder.svg?height=200&width=300"
-              alt="Gala de eliminación"
-              width={300}
-              height={200}
-              className="w-full h-auto mb-3"
-            />
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Rating.</span> La gala de eliminación
-              con votos
-            </h3>
-          </div>
-
-          {/* Article 7 */}
-          <div className="mb-6">
-            <div className="relative">
-              <Image
-                src="/placeholder.svg?height=200&width=300"
-                alt="Construcción antigua"
-                width={300}
-                height={200}
-                className="w-full h-auto mb-3"
-              />
-              <div className="absolute top-3 left-3 bg-white text-black text-xs px-2 py-1 rounded">
-                Living
-              </div>
-            </div>
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">Mirando al monte.</span> Una
-              construcción antigua en
-            </h3>
-          </div>
-
-          {/* Article 8 */}
-          <div className="mb-6">
-            <div className="relative">
-              <Image
-                src="/placeholder.svg?height=200&width=300"
-                alt="Plantas de jardín"
-                width={300}
-                height={200}
-                className="w-full h-auto mb-3"
-              />
-              <div className="absolute top-3 left-3 bg-green-600 text-white text-xs px-2 py-1 rounded">
-                Jardín
-              </div>
-            </div>
-            <h3 className="text-lg font-bold mb-1">
-              <span className="font-bold">¿Cuál es cuál?.</span> Te ayudamos a
-              identificar "las
-            </h3>
-          </div>
-        </div>
-      </section>
+              tuvo un gesto inesperado con un fan que se volvió viral en redes
+            </>
+          ),
+          author: 'Martín Fernández Cruz',
+          imageUrl: '/placeholder.svg?height=400&width=400',
+        }}
+        sideArticles={[
+          {
+            title: (
+              <>
+                <span className="font-bold">Historias.</span> Es argentino y se
+                animó con un proyecto de US$4 millones a pasos de la cancha de
+                polo
+              </>
+            ),
+            author: 'Ariel Goldfarb',
+            imageUrl: '/placeholder.svg?height=150&width=200',
+          },
+          {
+            title: (
+              <>
+                <span className="font-bold">
+                  Prometió volver con un Rosario bendecido en Calcuta.
+                </span>{' '}
+                Vivía lejos y supo que su madre tenía cáncer "Es una locura"
+              </>
+            ),
+            author: 'Carina Durn',
+            imageUrl: '/placeholder.svg?height=150&width=200',
+          },
+          {
+            title: (
+              <>
+                <span className="font-bold">Relatos inspiradores.</span> La
+                historia del joven que dejó la ciudad para convertirse en guía
+                de montaña
+              </>
+            ),
+            author: 'Federico Wiemeyer',
+            imageUrl: '/placeholder.svg?height=150&width=200',
+          },
+        ]}
+      />
 
       {/* Foodit Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Foodit Logo and Description */}
-          <div className="md:col-span-1">
-            <div className="mb-4">
-              <Image
-                src="/placeholder.svg?height=80&width=150"
-                alt="Foodit"
-                width={150}
-                height={80}
-                className="h-16 w-auto mb-2"
-              />
-              <div className="text-gray-600">
-                <p>recetas,</p>
-                <p>menús y tips</p>
-                <p>
-                  para cocinar
-                  <ChevronRight className="inline w-4 h-4" />
-                </p>
-              </div>
-            </div>
-            <button className="border border-gray-300 rounded px-4 py-2 text-sm font-medium">
-              SUSCRIBITE A FOODIT
-            </button>
-          </div>
+      <FooditSection
+        logoSrc="/placeholder.svg?height=80&width=150"
+        categories={[
+          { name: 'MENU', href: '#' },
+          { name: 'TIPS Y SECRETOS DE COCINA', href: '#' },
+          { name: 'RECETAS FACILES', href: '#' },
+        ]}
+        mainArticle={{
+          titleBold: 'Dulce y crocante.',
+          titleRegular:
+            'Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso',
+          content:
+            'La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor',
+          imageUrl: '/placeholder.svg?height=300&width=400',
+          imageAlt: 'Tarta invertida con pistachos',
+        }}
+      />
 
-          {/* Recipe Article */}
-          <div className="md:col-span-2">
-            <div className="flex flex-col md:flex-row gap-6">
-              <div className="md:w-1/2">
-                <div className="flex space-x-4 mb-4 text-sm">
-                  <Link href="#" className="text-gray-600 hover:text-blue-800">
-                    MASTERCLASS
-                  </Link>
-                  <Link href="#" className="text-gray-600 hover:text-blue-800">
-                    TIPS Y SECRETOS DE COCINA
-                  </Link>
-                  <Link href="#" className="text-gray-600 hover:text-blue-800">
-                    RECETAS FACILES
-                  </Link>
-                </div>
-                <h3 className="text-2xl font-bold mb-3">
-                  <span className="font-bold">Dulce y crocante.</span> Una tarta
-                  invertida con pistachos para decirle adiós a la clásica de
-                  jamón y queso
-                </h3>
-                <p className="text-gray-700">
-                  La dulzura de las cebollas combina de maravilla con el perfume
-                  de las hierbas y el toque del fruto seco que está de moda; una
-                  receta para un almuerzo diferente y lleno de sabor
-                </p>
-              </div>
-              <div className="md:w-1/2">
-                <Image
-                  src="/placeholder.svg?height=300&width=400"
-                  alt="Tarta invertida con pistachos"
-                  width={400}
-                  height={300}
-                  className="w-full h-auto rounded"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+     <QuinielaSection/>
 
-      {/* LN Juegos Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <div className="mb-6">
-          <Image
-            src="/placeholder.svg?height=60&width=150"
-            alt="LN Juegos"
-            width={150}
-            height={60}
-            className="h-10 w-auto"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Game 1 - Nexos */}
-          <div className="relative border border-gray-200 rounded p-4 bg-purple-50">
-            <div className="absolute top-2 right-2 bg-black text-white text-xs px-2 py-1 rounded">
-              NUEVO
-            </div>
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/placeholder.svg?height=100&width=100"
-                alt="Nexos game"
-                width={100}
-                height={100}
-                className="h-20 w-auto"
-              />
-            </div>
-            <h3 className="text-lg font-bold text-center mb-1">Nexos</h3>
-            <p className="text-sm text-center">
-              ¿Podés descubrir las relaciones?
-            </p>
-          </div>
-
-          {/* Game 2 */}
-          <div className="border border-gray-200 rounded p-4 bg-blue-50">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/placeholder.svg?height=100&width=100"
-                alt="Game 2"
-                width={100}
-                height={100}
-                className="h-20 w-auto"
-              />
-            </div>
-          </div>
-
-          {/* Game 3 */}
-          <div className="border border-gray-200 rounded p-4 bg-blue-100">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/placeholder.svg?height=100&width=100"
-                alt="Game 3"
-                width={100}
-                height={100}
-                className="h-20 w-auto"
-              />
-            </div>
-          </div>
-
-          {/* Game 4 */}
-          <div className="border border-gray-200 rounded p-4 bg-yellow-50">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/placeholder.svg?height=100&width=100"
-                alt="Game 4"
-                width={100}
-                height={100}
-                className="h-20 w-auto"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Opinion Section */}
       <section className="container mx-auto px-4 py-6 border-t border-gray-200">
@@ -1586,6 +1283,52 @@ export default function Home() {
           storyCards={lifestyleSectionData.storyCards}
         />
       </section>
+
+      {/* You May Be Interested In Section */}
+      <YouMayBeInterestedSection
+        articles={[
+          {
+            title:
+              '¿Qué importante cambio rige para obtener la ciudadanía italiana?',
+            titleHighlight: 'Trivia',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+            author: 'Cintia Perazo',
+            badge: {
+              text: 'TEST DE INTERÉS GENERAL',
+              position: 'bottom-left',
+            },
+          },
+          {
+            title:
+              'Las mejores piscinas naturales del nordeste de Brasil, para nadar entre peces de colores',
+            titleHighlight: 'Imperdible',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+            author: 'Silvina Pini',
+          },
+          {
+            title:
+              'Buscaba un lugar para casarse y encontró un parador en la playa que lo convirtió en cocinero',
+            titleHighlight: 'Cambio de vida',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+            author: 'Ana van Gelderen',
+            badge: {
+              text: 'CAMBIO DE VIDA',
+              position: 'bottom-left',
+            },
+          },
+          {
+            title:
+              'Te llevamos a ver Dua Lipa, Oasis y Coldplay alrededor del mundo',
+            titleHighlight: 'LA NACION World Tour 2025',
+            imageUrl: '/placeholder.svg?height=200&width=300',
+            badge: {
+              text: 'VIDEO',
+              position: 'bottom-left',
+            },
+          },
+        ]}
+      />
+
       <Footer />
     </div>
   )
