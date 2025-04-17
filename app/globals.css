@@ -13,6 +13,8 @@
 body {
   background-color: #ffffff;
   color: #292929;
+  overflow-x: hidden;
+  /* Prevent horizontal scrolling */
 }
 
 /* Apply enhanced color system to common elements */

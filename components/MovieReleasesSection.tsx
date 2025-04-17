@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface FeaturedSportsNoteProps {
+interface MovieReleasesProps {
   quoteText: string;
   headlineText: string;
   caption: string;
@@ -10,13 +10,13 @@ interface FeaturedSportsNoteProps {
   hasVideo?: boolean;
 }
 
-export default function FeaturedSportsNote({
+export default function MovieReleases({
   quoteText,
   headlineText,
   caption,
   imageUrl,
   hasVideo = false,
-}: FeaturedSportsNoteProps) {
+}: MovieReleasesProps) {
   return (
     <section className="border-t border-b border-gray-200 my-4">
       <div className="container mx-auto px-4 py-6">

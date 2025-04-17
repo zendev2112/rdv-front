@@ -17,12 +17,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <head>
         {/* Remove styled-jsx and use a regular style tag */}
         <style dangerouslySetInnerHTML={{ __html: `
           .border-border {
             border-color: #e5e5e5 !important;
+          }
+          
+          html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
           }
         `}} />
       </head>

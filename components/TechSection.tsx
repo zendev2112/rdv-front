@@ -1,54 +1,90 @@
+"use client"
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { Badge } from './ui/badge'
+import { Card, CardContent } from './ui/card'
 
-interface Article {
+interface TechArticle {
   titleHighlight: string;
   titleRegular: string;
   imageUrl: string;
+  summary?: string;
+  author?: string;
+  hasVideo?: boolean;
 }
 
 interface TechSectionProps {
-  articles: Article[];
+  articles: TechArticle[];
 }
 
 export default function TechSection({ articles }: TechSectionProps) {
   return (
-    <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold uppercase text-tech mb-6">TECNOLOGÍA</h2>
-        <Link href="#" className="text-gray-700 hover:text-blue-800 flex items-center">
-          <span className="text-sm mr-1">Ver más</span>
-          <ChevronRight className="w-4 h-4" />
-        </Link>
+    <div className="container mx-auto px-4 py-6">
+      {/* Section Header */}
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-2xl font-bold">TECNOLOGÍA</h2>
+        <a href="#" className="text-primary-red text-sm font-medium hover:underline">
+          Ver más
+        </a>
       </div>
-      
+
+      {/* Tech Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {articles.map((article, index) => (
-          <article 
+          <a 
             key={index} 
-            className={`${
-              index < articles.length - 1 ? "md:border-r md:border-gray-200 md:pr-4" : ""
-            }`}
+            href="#" 
+            className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(`Tech article ${index} clicked`);
+            }}
           >
-            <div className="mb-3">
-              <Image
-                src={article.imageUrl}
-                alt={`${article.titleHighlight} ${article.titleRegular}`}
-                width={400}
-                height={300}
-                className="w-full h-auto"
-              />
-            </div>
-            <h3 className="text-lg leading-tight hover:underline">
-              <Link href="#">
-                <span className="font-bold">{article.titleHighlight}.</span> {article.titleRegular}
-              </Link>
-            </h3>
-          </article>
+            <Card className="border-0 shadow-none h-full">
+              <CardContent className="p-0 flex flex-col h-full">
+                {/* Article Image */}
+                <div className="relative w-full h-[200px] mb-4">
+                  <Image
+                    src={article.imageUrl}
+                    alt={`${article.titleHighlight} ${article.titleRegular}`}
+                    fill
+                    className="object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
+                  />
+                  {/* Hover effect with gray overlay */}
+                  <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
+                  {article.hasVideo && (
+                    <Badge
+                      className="absolute top-2 left-2 bg-black text-white border-0 rounded px-2 py-1 text-xs"
+                      variant="outline"
+                    >
+                      VIDEO
+                    </Badge>
+                  )}
+                </div>
+                
+                {/* Article Content */}
+                <div className="px-4 pb-4">
+                  <h3 className="text-lg font-bold mb-2 leading-tight">
+                    <span className="text-primary-red font-bold">{article.titleHighlight}.</span>{' '}
+                    {article.titleRegular}
+                  </h3>
+                  {article.summary && (
+                    <p className="text-sm text-dark-gray mb-2">
+                      {article.summary}
+                    </p>
+                  )}
+                  {article.author && (
+                    <p className="text-sm text-dark-gray">Por {article.author}</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </a>
         ))}
       </div>
-    </section>
-  );
+    </div>
+  )
 }

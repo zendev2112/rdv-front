@@ -41,9 +41,16 @@ export default function PoliticsAndEconomySection({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Featured Article - 50% width on desktop */}
           <div>
-            <Card className="overflow-hidden border-0 shadow-sm bg-white h-full">
+            <a 
+              href="#" 
+              className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(`Main article clicked: ${mainArticle.id}`);
+              }}
+            >
               {/* Main article image on top */}
-              <div className="relative aspect-[16/9] w-full">
+              <div className="relative aspect-[16/9] w-full overflow-hidden">
                 {mainArticle.hasVideo && (
                   <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
                     VIDEO
@@ -53,15 +60,15 @@ export default function PoliticsAndEconomySection({
                   src={mainArticle.imageUrl}
                   alt={mainArticle.title.regular}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                   priority
                 />
                 {/* Hover effect with gray overlay */}
-                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
 
               {/* Text content below */}
-              <CardContent className="p-5">
+              <div className="p-5">
                 {/* Title with highlighted part */}
                 <h3 className="text-3xl font-bold mb-3 leading-tight text-[#292929]">
                   {mainArticle.title.highlight && (
@@ -83,18 +90,26 @@ export default function PoliticsAndEconomySection({
                     Por {mainArticle.author}
                   </p>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </a>
           </div>
 
           {/* Side Articles - 50% width container */}
           <div className="space-y-4">
             {sideArticles.map((article) => (
-              <Card key={article.id} className="overflow-hidden border-0 shadow-sm bg-white">
+              <a 
+                key={article.id} 
+                href="#"
+                className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group"
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log(`Side article clicked: ${article.id}`);
+                }}
+              >
                 {/* Layout with text left, image right */}
                 <div className="flex flex-col sm:flex-row">
                   {/* Text content */}
-                  <CardContent className="p-4 sm:w-2/3 flex flex-col justify-center">
+                  <div className="p-4 sm:w-2/3 flex flex-col justify-center">
                     <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
                       {article.title.highlight && (
                         <span className="text-primary-red font-bold">{article.title.highlight}. </span>
@@ -107,10 +122,10 @@ export default function PoliticsAndEconomySection({
                         Por {article.author}
                       </p>
                     )}
-                  </CardContent>
+                  </div>
                   
                   {/* Article image */}
-                  <div className="relative sm:w-1/3 aspect-video sm:aspect-square">
+                  <div className="relative sm:w-1/3 aspect-video sm:aspect-square overflow-hidden">
                     {article.hasVideo && (
                       <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
                         VIDEO
@@ -120,13 +135,13 @@ export default function PoliticsAndEconomySection({
                       src={article.imageUrl}
                       alt={article.title.regular}
                       fill
-                      className="object-cover"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {/* Hover effect with gray overlay */}
-                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
+                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                   </div>
                 </div>
-              </Card>
+              </a>
             ))}
           </div>
         </div>

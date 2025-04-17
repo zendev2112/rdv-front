@@ -60,16 +60,21 @@ export default function NewsSectionGrid({
 
         </div>
 
-        {/* Article grid with alternating cream backgrounds */}
+        {/* Article grid with uniform white backgrounds */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {articles.map((article, index) => (
-            <Card
+            <a
+              href="#"
               key={article.id}
-              className={`overflow-hidden border-0 flex flex-col ${
-                index < 3 ? 'border-r border-gray-200' : ''
-              } ${index % 2 === 1 ? 'bg-[#faf6ef]' : 'bg-white'}`}
+              className={`block overflow-hidden flex flex-col rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group
+                ${index < 3 ? 'border-r border-gray-200' : ''} 
+                bg-white`}
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(`Article clicked: ${article.id}`);
+              }}
             >
-              <div className="relative aspect-video w-full">
+              <div className="relative aspect-video w-full overflow-hidden">
                 {article.hasVideo && (
                   <Badge
                     variant="default"
@@ -82,11 +87,13 @@ export default function NewsSectionGrid({
                   src={article.imageUrl}
                   alt={article.title.regular}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                   priority={index < 2}
                 />
+                {/* Hover effect with gray overlay */}
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
-              <CardContent className="px-4 pt-4 pb-0 flex-grow flex flex-col">
+              <div className="px-4 pt-4 pb-0 flex-grow flex flex-col">
                 <h3 className="text-lg font-bold mb-1 leading-tight">
                   {article.title.highlight && (
                     <span className="font-bold text-primary-red">
@@ -95,13 +102,13 @@ export default function NewsSectionGrid({
                   )}
                   {article.title.regular}
                 </h3>
-              </CardContent>
+              </div>
               {article.author && (
-                <CardFooter className="px-4 pt-2 pb-4">
+                <div className="px-4 pt-2 pb-4">
                   <p className="text-sm text-dark-gray">Por {article.author}</p>
-                </CardFooter>
+                </div>
               )}
-            </Card>
+            </a>
           ))}
         </div>
 

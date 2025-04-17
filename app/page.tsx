@@ -3,12 +3,12 @@ import { Search, Bell, Menu, Play, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import OpinionSection from '../components/OpinionSection'
 import WellnessSection from '../components/WellnessSection'
-import FarmingSection from '../components/FarmingSection'
+import WorldSection from '../components/WorldSection'
 import LifestyleFeature from '../components/LifestyleFeature'
 import TechSection from '../components/TechSection'
 import HashtagSection from '../components/HashtagSection'
 import TopReads from '../components/TopReads'
-import FeaturedSportsNote from '../components/FeaturedSportsNote'
+import MovieReleases from '@/components/MovieReleasesSection'
 import BusinessMainFeature from '../components/BusinessMainFeature'
 import EntertainmentMainFeature from '../components/EntertainmentMainFeature'
 import LifestyleFourColumnGrid from '../components/LifestyleFourColumnGrid'
@@ -32,6 +32,8 @@ import { StoriesAndCharactersSection } from '@/components/StoriesAndCharactersSe
 import YouMayBeInterestedSection from '@/components/YouMayBeInterestedSection'
 import FooditSection from '@/components/FooditSection'
 import QuinielaSection from '@/components/QuinielaSection'
+import IActualidad from '@/components/IActualidad'
+import ScienceAndHealth from '@/components/ScienceAndHealth'
 
 export default function Home() {
   // Sample data for FeaturedSection
@@ -217,7 +219,7 @@ export default function Home() {
 
   // Sample data for HashtagSection
   const hashtagSectionData = {
-    hashtagName: 'tendencias',
+    hashtagName: 'virales',
     featuredItem: {
       imageUrl: '/placeholder.svg?height=400&width=400',
       title: 'El fenómeno de la semana',
@@ -264,35 +266,30 @@ export default function Home() {
     articles: [
       {
         id: 1,
-        titleHighlight: 'Crisis cambiaria',
-        titleRegular:
-          'El dólar blue superó los $1300 y alcanzó un nuevo récord histórico en medio de la incertidumbre económica',
+        title: 'El dólar blue superó los $1300 y alcanzó un nuevo récord histórico en medio de la incertidumbre económica',
+        summary: 'El dólar paralelo sigue su tendencia alcista mientras los mercados aguardan nuevas medidas económicas del gobierno',
         imageUrl: '/placeholder.svg?height=100&width=150',
       },
       {
         id: 2,
-        titleHighlight: 'Audiencia clave',
-        titleRegular:
-          'La Corte Suprema decidirá esta semana sobre la validez del DNU de Milei que modificó más de 300 leyes',
+        title: 'La Corte Suprema decidirá esta semana sobre la validez del DNU de Milei que modificó más de 300 leyes',
+        summary: 'La decisión podría tener un impacto significativo en las reformas impulsadas por el gobierno',
       },
       {
         id: 3,
-        titleHighlight: 'Pronóstico',
-        titleRegular:
-          'Alerta meteorológica: anuncian tormentas fuertes con posible caída de granizo en Buenos Aires y otras provincias',
+        title: 'Alerta meteorológica: anuncian tormentas fuertes con posible caída de granizo en Buenos Aires y otras provincias',
+        summary: 'El Servicio Meteorológico Nacional emitió un comunicado especial advirtiendo sobre condiciones climáticas adversas',
         imageUrl: '/placeholder.svg?height=100&width=150',
       },
       {
         id: 4,
-        titleHighlight: 'Gran Hermano',
-        titleRegular:
-          'Furia se convirtió en la nueva eliminada del reality y estalló la polémica en las redes sociales',
+        title: 'Furia se convirtió en la nueva eliminada del reality y estalló la polémica en las redes sociales',
+        summary: 'La participante más controvertida abandonó la casa tras una reñida votación que sorprendió a los seguidores del programa',
       },
       {
         id: 5,
-        titleHighlight: 'Salud pública',
-        titleRegular:
-          'Dengue: confirman más de 50.000 casos en el país y expertos advierten que podría extenderse hasta mayo',
+        title: 'Dengue: confirman más de 50.000 casos en el país y expertos advierten que podría extenderse hasta mayo',
+        summary: 'Las autoridades sanitarias recomiendan extremar las medidas de prevención ante el aumento de casos',
         imageUrl: '/placeholder.svg?height=100&width=150',
       },
     ],
@@ -874,7 +871,7 @@ export default function Home() {
           id: 'lsng3PUSsPk', // This is the YouTube video ID
           title: 'Recetas del Volga - Especial Strudel',
           thumbnailUrl:
-            'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CObT3L8G&rs=AOn4CLDk09J84xvon5wiTO62nws9LQ5JOQ',
+            'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CKGt_r8G&rs=AOn4CLA5k94pmcT3ANQY-sZLcyEcs0qiwQ',
           publishedAt: 'Mayo 2023',
           viewCount: '2.3K',
           duration: '4:13',
@@ -884,7 +881,7 @@ export default function Home() {
             id: 'oamFbnsVhEk',
             title: 'La Casa del Terror llego a Coronel Suarez',
             thumbnailUrl:
-              'https://i.ytimg.com/an_webp/oamFbnsVhEk/mqdefault_6s.webp?du=3000&sqp=CNCz3L8G&rs=AOn4CLDiDLur5Txhq04hWTBFSkTmsm6V9Q',
+              'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CKGt_r8G&rs=AOn4CLA5k94pmcT3ANQY-sZLcyEcs0qiwQ',
             publishedAt: 'Abril 2023',
             viewCount: '1.2K',
             duration: '2:42',
@@ -893,7 +890,7 @@ export default function Home() {
             id: 'ZZ4cEA-vYsM',
             title: 'Recetas del Volga - Der Kreppel',
             thumbnailUrl:
-              'https://i.ytimg.com/an_webp/ZZ4cEA-vYsM/mqdefault_6s.webp?du=3000&sqp=CMWs3L8G&rs=AOn4CLBrfP3gMYRoKVxIRBzAch0TKm8U9g',
+              'https://i.ytimg.com/an_webp/ZZ4cEA-vYsM/mqdefault_6s.webp?du=3000&sqp=CMev_r8G&rs=AOn4CLAL9I5vSxkSMmZ-DYZ7h51_96U1BA',
             publishedAt: 'Abril 2023',
             viewCount: '952',
             duration: '2:58',
@@ -911,7 +908,7 @@ export default function Home() {
             id: 'E-VHv8mCOCU',
             title: 'Recetas del Volga - Moultasche',
             thumbnailUrl:
-              'https://i.ytimg.com/an_webp/E-VHv8mCOCU/mqdefault_6s.webp?du=3000&sqp=COXS3L8G&rs=AOn4CLBMOukFWGOvB9LsTpF0WdQAGea5mw',
+              'https://i.ytimg.com/an_webp/E-VHv8mCOCU/mqdefault_6s.webp?du=3000&sqp=COat_r8G&rs=AOn4CLCNUWWp2xa8M2K-irjspkzFlNQJUw',
             publishedAt: 'Febrero 2023',
             viewCount: '3.1K',
             duration: '5:42',
@@ -1165,47 +1162,81 @@ export default function Home() {
         }}
       />
 
-     <QuinielaSection/>
-
+      <QuinielaSection />
 
       {/* Opinion Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <OpinionSection
-          opinionCards={opinionSectionData.opinionCards}
-          featuredOpinion={opinionSectionData.featuredOpinion}
-          editorials={opinionSectionData.editorials}
-          smallOpinionCard={opinionSectionData.smallOpinionCard}
-        />
-      </section>
+      <OpinionSection
+        opinionCards={opinionSectionData.opinionCards}
+        featuredOpinion={opinionSectionData.featuredOpinion}
+        editorials={opinionSectionData.editorials}
+        smallOpinionCard={opinionSectionData.smallOpinionCard}
+      />
 
       {/* Wellness Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <WellnessSection
-          featuredArticle={wellnessSectionData.featuredArticle}
-          smallArticles={wellnessSectionData.smallArticles}
-        />
-      </section>
+      <WellnessSection
+        featuredArticle={wellnessSectionData.featuredArticle}
+        smallArticles={wellnessSectionData.smallArticles}
+      />
 
-      {/* Farming Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <FarmingSection
-          mainArticle={farmingSectionData.mainArticle}
-          sideArticles={farmingSectionData.sideArticles}
-        />
-      </section>
+      {/* World Section (formerly Farming Section) */}
+      <WorldSection
+        mainArticle={farmingSectionData.mainArticle}
+        sideArticles={farmingSectionData.sideArticles}
+      />
 
-      {/* Lifestyle Feature Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <LifestyleFeature
-          sectionTitle={lifestyleFeatureData.sectionTitle}
-          mainArticle={lifestyleFeatureData.mainArticle}
-          smallArticles={lifestyleFeatureData.smallArticles}
-        />
-      </section>
+      <IActualidad
+        logo={{
+          src: '/images/iactualidad-logo.png',
+          alt: 'iActualidad Logo',
+        }}
+        categories={[
+          { name: 'INTELIGENCIA ARTIFICIAL', href: '#' },
+          { name: 'BITCOIN', href: '#' },
+          { name: 'CRIPTOMONEDAS', href: '#' },
+          { name: 'ROBOTICA', href: '#' },
+        ]}
+        mainArticle={{
+          title:
+            'Bitcoin alcanza nuevo máximo histórico superando los 80.000 dólares',
+          content:
+            'La criptomoneda más popular del mundo continúa su tendencia alcista impulsada por la creciente adopción institucional y la reciente aprobación de ETFs por la SEC.',
+          author: 'Carlos Rodríguez',
+          imageUrl: '/placeholder.svg?height=400&width=600',
+        }}
+        sideArticles={[
+          {
+            title: 'La inflación de abril fue del 8,8%, según el INDEC',
+            subtitle:
+              'Es el dato mensual más bajo desde febrero del año pasado. Igualmente, el acumulado de los últimos 12 meses alcanza el 289,4%.',
+            author: 'María López',
+            imageUrl: '/placeholder.svg?height=150&width=150',
+          },
+          {
+            title:
+              'Presentan un proyecto de ley para modernizar el sistema financiero',
+            subtitle:
+              'La iniciativa busca impulsar la inversión y facilitar el acceso al crédito para pequeñas y medianas empresas.',
+            author: 'Juan Pérez',
+            imageUrl: '/placeholder.svg?height=150&width=150',
+          },
+        ]}
+      />
 
       {/* Tech Section */}
       <section className="container mx-auto px-4 py-6 border-t border-gray-200">
         <TechSection articles={techSectionData.articles} />
+      </section>
+
+      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+        <ScienceAndHealth
+          sectionTitle="CIENCIA Y SALUD"
+          logo={{
+            src: '/images/ciencia-salud-logo.png',
+            alt: 'Ciencia y Salud',
+          }}
+          mainArticle={lifestyleFeatureData.mainArticle}
+          smallArticles={lifestyleFeatureData.smallArticles}
+        />
       </section>
 
       {/* Hashtag Section */}
@@ -1222,9 +1253,9 @@ export default function Home() {
         <TopReads articles={topReadsData.articles} />
       </section>
 
-      {/* Featured Sports Note Section */}
+      {/* Featured Note Section */}
       <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <FeaturedSportsNote
+        <MovieReleases
           quoteText={featuredSportsNoteData.quoteText}
           headlineText={featuredSportsNoteData.headlineText}
           caption={featuredSportsNoteData.caption}
