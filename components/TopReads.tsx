@@ -81,6 +81,7 @@ export default function TopReads({ articles }: TopReadsProps) {
                     {/* Text content on right */}
                     <div className="p-4 flex-grow flex flex-col justify-between w-[75%]">
                       <h3 className="text-xl font-bold mb-3 leading-tight group-hover:text-primary-red transition-colors">
+                        <span className="text-primary-red font-bold">Destacado.</span>{' '}
                         {formatTitle(featuredArticle.title)}
                       </h3>
                       <p className="text-dark-gray text-sm">
@@ -119,6 +120,7 @@ export default function TopReads({ articles }: TopReadsProps) {
                           {article.id}
                         </div>
                         <h3 className="text-base font-bold leading-tight mb-2 group-hover:text-primary-red transition-colors">
+                          <span className="text-primary-red font-bold">Noticia.</span>{' '}
                           {formatTitle(article.title)}
                         </h3>
                         <p className="text-dark-gray text-xs line-clamp-3">
@@ -164,6 +166,7 @@ export default function TopReads({ articles }: TopReadsProps) {
                           {article.id}
                         </div>
                         <h3 className="text-base font-bold leading-tight mb-2 group-hover:text-primary-red transition-colors">
+                          <span className="text-primary-red font-bold">Noticia.</span>{' '}
                           {formatTitle(article.title)}
                         </h3>
                         <p className="text-dark-gray text-xs line-clamp-3">

@@ -3,15 +3,31 @@
 import Image from 'next/image'
 import { Search, Bell, Menu, X, Download, Smartphone } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  
+  // Track scroll position to adjust header positioning
+  useEffect(() => {
+    const handleScroll = () => {
+      // Determine if we've scrolled past the top bar (approx 1.5rem = 24px)
+      const isScrolled = window.scrollY > 24
+      setScrolled(isScrolled)
+    }
+    
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 bg-primary-red text-white border-b border-light-gray">
+    <header 
+      className={`fixed ${scrolled ? 'top-0' : 'top-[calc(1.5rem)]'} left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200`}
+    >
       {/* Main header area */}
       <div className="container mx-auto px-3 py-2 md:py-3 flex justify-between items-center">
         {/* Left section - Menu and Search */}

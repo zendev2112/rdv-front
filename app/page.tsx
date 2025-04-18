@@ -34,6 +34,7 @@ import FooditSection from '@/components/FooditSection'
 import QuinielaSection from '@/components/QuinielaSection'
 import IActualidad from '@/components/IActualidad'
 import ScienceAndHealth from '@/components/ScienceAndHealth'
+import MediaCarousel from '@/components/MediaCarousel'
 
 export default function Home() {
   // Sample data for FeaturedSection
@@ -266,30 +267,40 @@ export default function Home() {
     articles: [
       {
         id: 1,
-        title: 'El dólar blue superó los $1300 y alcanzó un nuevo récord histórico en medio de la incertidumbre económica',
-        summary: 'El dólar paralelo sigue su tendencia alcista mientras los mercados aguardan nuevas medidas económicas del gobierno',
+        title:
+          'El dólar blue superó los $1300 y alcanzó un nuevo récord histórico en medio de la incertidumbre económica',
+        summary:
+          'El dólar paralelo sigue su tendencia alcista mientras los mercados aguardan nuevas medidas económicas del gobierno',
         imageUrl: '/placeholder.svg?height=100&width=150',
       },
       {
         id: 2,
-        title: 'La Corte Suprema decidirá esta semana sobre la validez del DNU de Milei que modificó más de 300 leyes',
-        summary: 'La decisión podría tener un impacto significativo en las reformas impulsadas por el gobierno',
+        title:
+          'La Corte Suprema decidirá esta semana sobre la validez del DNU de Milei que modificó más de 300 leyes',
+        summary:
+          'La decisión podría tener un impacto significativo en las reformas impulsadas por el gobierno',
       },
       {
         id: 3,
-        title: 'Alerta meteorológica: anuncian tormentas fuertes con posible caída de granizo en Buenos Aires y otras provincias',
-        summary: 'El Servicio Meteorológico Nacional emitió un comunicado especial advirtiendo sobre condiciones climáticas adversas',
+        title:
+          'Alerta meteorológica: anuncian tormentas fuertes con posible caída de granizo en Buenos Aires y otras provincias',
+        summary:
+          'El Servicio Meteorológico Nacional emitió un comunicado especial advirtiendo sobre condiciones climáticas adversas',
         imageUrl: '/placeholder.svg?height=100&width=150',
       },
       {
         id: 4,
-        title: 'Furia se convirtió en la nueva eliminada del reality y estalló la polémica en las redes sociales',
-        summary: 'La participante más controvertida abandonó la casa tras una reñida votación que sorprendió a los seguidores del programa',
+        title:
+          'Furia se convirtió en la nueva eliminada del reality y estalló la polémica en las redes sociales',
+        summary:
+          'La participante más controvertida abandonó la casa tras una reñida votación que sorprendió a los seguidores del programa',
       },
       {
         id: 5,
-        title: 'Dengue: confirman más de 50.000 casos en el país y expertos advierten que podría extenderse hasta mayo',
-        summary: 'Las autoridades sanitarias recomiendan extremar las medidas de prevención ante el aumento de casos',
+        title:
+          'Dengue: confirman más de 50.000 casos en el país y expertos advierten que podría extenderse hasta mayo',
+        summary:
+          'Las autoridades sanitarias recomiendan extremar las medidas de prevención ante el aumento de casos',
         imageUrl: '/placeholder.svg?height=100&width=150',
       },
     ],
@@ -533,7 +544,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Top bar */}
+      {/* Top bar moved above the header */}
       <div className="bg-gray-100 px-4 py-1 flex items-center text-sm overflow-x-auto whitespace-nowrap">
         <div className="flex items-center space-x-4">
           <span>Coronel Suárez</span>
@@ -587,780 +598,919 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Header */}
+      {/* Header moved below top bar */}
       <Header />
 
-      {/* Currency rates */}
-      <div className="border-b border-gray-200 overflow-x-auto">
-        <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-4 whitespace-nowrap">
-          <span>
-            Dólar oficial <strong>$1095,50</strong>
-          </span>
-          <span>
-            Dólar blue <strong>$1310,00</strong>
-          </span>
-          <span>
-            Dólar tarjeta <strong>$1424,15</strong>
-          </span>
-          <span>
-            Dólar CCL <strong>$1337,00</strong>
-          </span>
-          <span>
-            Dólar MEP <strong>$1335,86</strong>
-          </span>
-          <div className="flex-1"></div>
-          <Link href="#" className="text-gray-700 hover:text-blue-800">
-            Juegos
-          </Link>
-          <Link href="#" className="text-gray-700 hover:text-blue-800">
-            Suscriptores
-          </Link>
-          <Link href="#" className="text-gray-700 hover:text-blue-800">
-            Newsletters
-          </Link>
-        </div>
-      </div>
-
-      {/* Breaking news ticker */}
-      <div className="border-b border-light-gray overflow-x-auto">
-        <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
-          <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
-            EN VIVO
-          </span>
-          <span className="font-bold">Medidas de Milei</span>
-          <span className="text-neutral-gray">Hace 22 min</span>
-          <span className="mx-2">•</span>
-          <span className="font-bold">
-            Derrumbe de las bolsas en Asia y Europa
-          </span>
-          <span className="text-neutral-gray">Hace 3 min</span>
-          <span className="mx-2">•</span>
-          <span className="font-bold">Dólar hoy</span>
-          <span className="text-neutral-gray">Hace 4 min</span>
-          <div className="flex-1"></div>
-          <Link href="#" className="text-dark-gray hover:text-primary-red">
-            Javier Milei
-          </Link>
-          <Link href="#" className="text-dark-gray hover:text-primary-red">
-            Dólar hoy
-          </Link>
-          <Link href="#" className="text-dark-gray hover:text-primary-red">
-            Corte Suprema
-          </Link>
-          <Link href="#" className="text-dark-gray hover:text-primary-red">
-            Fútbol argentino
-          </Link>
-        </div>
-      </div>
-      {/* Main content */}
-      <MainSection />
-
-      {/* Additional news grid section */}
-      <NewsSectionGrid
-        sectionColor="default"
-        articles={[
-          {
-            id: '1',
-            title: {
-              highlight: 'Análisis',
-              regular: 'Nuevas turbulencias en todos los frentes',
-            },
-            author: 'Claudio Jacquelin',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '2',
-            title: {
-              highlight: 'Límites al operativo',
-              regular:
-                'El juez Gallardo ordenó que la Policía porteña custodie la marcha de jubilados y corrió a las fuerzas de Bullrich',
-            },
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '3',
-            title: {
-              highlight: 'Las definiciones de Kovadloff',
-              regular:
-                'Las "contradicciones" de Milei, un peronismo "amnésico" y la "profunda crisis" de la política',
-            },
-            imageUrl: '/placeholder.svg?height=200&width=300',
-            hasVideo: true,
-          },
-          {
-            id: '4',
-            title: {
-              highlight: 'Empate en Florida',
-              regular:
-                'Messi convirtió un gol y jugó un gran partido, pero Inter Miami no pudo ante Toronto',
-            },
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-        ]}
-      />
-
-      {/* Weather section */}
-      <WeatherSection />
-
-      {/* Advertisement banner */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="bg-gray-100 p-4 text-center">
-          <p className="text-xs text-gray-500 mb-2">AD</p>
-          <div className="h-16 flex items-center justify-center">
-            <p className="text-gray-400">Advertisement Banner</p>
+      {/* Content with padding - updated value to accommodate both top bar and header */}
+      <div className="pt-[calc(1.5rem+100px)]">
+        {/* Currency rates */}
+        <div className="border-b border-gray-200 overflow-x-auto">
+          <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-4 whitespace-nowrap">
+            <span>
+              Dólar oficial <strong>$1095,50</strong>
+            </span>
+            <span>
+              Dólar blue <strong>$1310,00</strong>
+            </span>
+            <span>
+              Dólar tarjeta <strong>$1424,15</strong>
+            </span>
+            <span>
+              Dólar CCL <strong>$1337,00</strong>
+            </span>
+            <span>
+              Dólar MEP <strong>$1335,86</strong>
+            </span>
+            <div className="flex-1"></div>
+            <Link href="#" className="text-gray-700 hover:text-blue-800">
+              Juegos
+            </Link>
+            <Link href="#" className="text-gray-700 hover:text-blue-800">
+              Suscriptores
+            </Link>
+            <Link href="#" className="text-gray-700 hover:text-blue-800">
+              Newsletters
+            </Link>
           </div>
         </div>
-      </div>
 
-      {/* Add ActualidadSection here */}
-      <ActualidadSection
-        featuredArticle={{
-          id: 'featured-1',
-          title:
-            'Las bolsas asiáticas y europeas se desploman y caen los futuros de EE.UU',
-          summary:
-            'Los mercados globales experimentan turbulencias tras el anuncio de nuevas políticas económicas. Analistas advierten sobre posibles consecuencias a largo plazo.',
-          imageUrl: '/placeholder.svg?height=400&width=600',
-          author: 'Carlos Martinez',
-        }}
-        articles={[
-          {
-            id: '1',
-            title:
-              'Elecciones 2024: los candidatos presentan sus propuestas económicas',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Laura Fernandez',
-          },
-          {
-            id: '2',
-            title:
-              'Avance científico: descubren nueva técnica para tratamiento del Alzheimer',
-            summary: 'Investigadores locales logran importante hallazgo',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Manuel Gimenez',
-          },
-          {
-            id: '3',
-            title:
-              'El brutal planchazo en el partido: roja directa y polémica en las redes',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Juan Deportes',
-            isVideo: true,
-          },
-          {
-            id: '4',
-            title:
-              'Recomendaciones para cuidar la salud mental en tiempos de crisis',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Ana Salud',
-          },
-          {
-            id: '5',
-            title:
-              'Nuevas tecnologías agrícolas revolucionan el campo argentino',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Roberto Campo',
-          },
-          {
-            id: '6',
-            title:
-              'Receta del día: tarta invertida con pistachos para sorprender',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'María Cocina',
-          },
-          {
-            id: '7',
-            title:
-              'El fenómeno cultural que está cambiando los hábitos de consumo',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Pedro Sociedad',
-          },
-          {
-            id: '8',
-            title: 'Entrevista exclusiva: "Nunca me consideré un gran actor"',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Lucía Espectáculos',
-            isVideo: true,
-          },
-          {
-            id: '9',
-            title: 'Consejos para convertir tu casa en un espacio inteligente',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Fernando Tecnología',
-          },
-          {
-            id: '10',
-            title:
-              'La odisea del segundo viaje humanitario a zonas de conflicto',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Carolina Internacional',
-          },
-          {
-            id: '11',
-            title:
-              'Cinco razones por las que deberías incorporar limón a tu agua',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Martín Nutrición',
-          },
-          {
-            id: '12',
-            title:
-              'Lo mejor de Montevideo: guía completa para una escapada perfecta',
-            imageUrl: '/placeholder.svg?height=150&width=250',
-            author: 'Javier Viajes',
-          },
-        ]}
-      />
+        {/* Breaking news ticker */}
+        <div className="border-b border-light-gray overflow-x-auto">
+          <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
+            <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
+              EN VIVO
+            </span>
+            <span className="font-bold">Medidas de Milei</span>
+            <span className="text-neutral-gray">Hace 22 min</span>
+            <span className="mx-2">•</span>
+            <span className="font-bold">
+              Derrumbe de las bolsas en Asia y Europa
+            </span>
+            <span className="text-neutral-gray">Hace 3 min</span>
+            <span className="mx-2">•</span>
+            <span className="font-bold">Dólar hoy</span>
+            <span className="text-neutral-gray">Hace 4 min</span>
+            <div className="flex-1"></div>
+            <Link href="#" className="text-dark-gray hover:text-primary-red">
+              Javier Milei
+            </Link>
+            <Link href="#" className="text-dark-gray hover:text-primary-red">
+              Dólar hoy
+            </Link>
+            <Link href="#" className="text-dark-gray hover:text-primary-red">
+              Corte Suprema
+            </Link>
+            <Link href="#" className="text-dark-gray hover:text-primary-red">
+              Fútbol argentino
+            </Link>
+          </div>
+        </div>
+        {/* Main content */}
+        <MainSection />
 
-      <FarmaciasDeTurno />
-
-      {/* Politics and Economy Section */}
-      <PoliticsAndEconomySection
-        mainArticle={{
-          id: 'politics-main-1',
-          title: {
-            highlight: 'Debate previsional',
-            regular:
-              'Números claves que difieren según el lugar del país y que impactan con fuerza',
-          },
-          summary:
-            'El debate sobre el sistema previsional continúa generando controversia mientras los distintos sectores intentan llegar a un acuerdo.',
-          author: 'Jorge Fontevecchia',
-          imageUrl: '/placeholder.svg?height=400&width=600',
-          hasVideo: false,
-        }}
-        sideArticles={[
-          {
-            id: 'politics-side-1',
-            title: {
-              highlight: 'Fondo monetario',
-              regular:
-                'La Argentina logró consolidar el respaldo del FMI para las próximas etapas del acuerdo',
+        {/* Additional news grid section */}
+        <NewsSectionGrid
+          sectionColor="default"
+          articles={[
+            {
+              id: '1',
+              title: {
+                highlight: 'Análisis',
+                regular: 'Nuevas turbulencias en todos los frentes',
+              },
+              author: 'Claudio Jacquelin',
+              imageUrl: '/placeholder.svg?height=200&width=300',
             },
-            author: 'Manuel Adorni',
-            imageUrl: '/placeholder.svg?height=200&width=300',
+            {
+              id: '2',
+              title: {
+                highlight: 'Límites al operativo',
+                regular:
+                  'El juez Gallardo ordenó que la Policía porteña custodie la marcha de jubilados y corrió a las fuerzas de Bullrich',
+              },
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '3',
+              title: {
+                highlight: 'Las definiciones de Kovadloff',
+                regular:
+                  'Las "contradicciones" de Milei, un peronismo "amnésico" y la "profunda crisis" de la política',
+              },
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              hasVideo: true,
+            },
+            {
+              id: '4',
+              title: {
+                highlight: 'Empate en Florida',
+                regular:
+                  'Messi convirtió un gol y jugó un gran partido, pero Inter Miami no pudo ante Toronto',
+              },
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+          ]}
+        />
+
+        {/* Weather section */}
+        <WeatherSection />
+
+        {/* Advertisement banner */}
+        <div className="container mx-auto px-4 py-6">
+          <div className="bg-gray-100 p-4 text-center">
+            <p className="text-xs text-gray-500 mb-2">AD</p>
+            <div className="h-16 flex items-center justify-center">
+              <p className="text-gray-400">Advertisement Banner</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Add ActualidadSection here */}
+        <ActualidadSection
+          featuredArticle={{
+            id: 'featured-1',
+            title:
+              'Las bolsas asiáticas y europeas se desploman y caen los futuros de EE.UU',
+            summary:
+              'Los mercados globales experimentan turbulencias tras el anuncio de nuevas políticas económicas. Analistas advierten sobre posibles consecuencias a largo plazo.',
+            imageUrl: '/placeholder.svg?height=400&width=600',
+            author: 'Carlos Martinez',
+          }}
+          articles={[
+            {
+              id: '1',
+              title:
+                'Elecciones 2024: los candidatos presentan sus propuestas económicas',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Laura Fernandez',
+            },
+            {
+              id: '2',
+              title:
+                'Avance científico: descubren nueva técnica para tratamiento del Alzheimer',
+              summary: 'Investigadores locales logran importante hallazgo',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Manuel Gimenez',
+            },
+            {
+              id: '3',
+              title:
+                'El brutal planchazo en el partido: roja directa y polémica en las redes',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Juan Deportes',
+              isVideo: true,
+            },
+            {
+              id: '4',
+              title:
+                'Recomendaciones para cuidar la salud mental en tiempos de crisis',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Ana Salud',
+            },
+            {
+              id: '5',
+              title:
+                'Nuevas tecnologías agrícolas revolucionan el campo argentino',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Roberto Campo',
+            },
+            {
+              id: '6',
+              title:
+                'Receta del día: tarta invertida con pistachos para sorprender',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'María Cocina',
+            },
+            {
+              id: '7',
+              title:
+                'El fenómeno cultural que está cambiando los hábitos de consumo',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Pedro Sociedad',
+            },
+            {
+              id: '8',
+              title: 'Entrevista exclusiva: "Nunca me consideré un gran actor"',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Lucía Espectáculos',
+              isVideo: true,
+            },
+            {
+              id: '9',
+              title:
+                'Consejos para convertir tu casa en un espacio inteligente',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Fernando Tecnología',
+            },
+            {
+              id: '10',
+              title:
+                'La odisea del segundo viaje humanitario a zonas de conflicto',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Carolina Internacional',
+            },
+            {
+              id: '11',
+              title:
+                'Cinco razones por las que deberías incorporar limón a tu agua',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Martín Nutrición',
+            },
+            {
+              id: '12',
+              title:
+                'Lo mejor de Montevideo: guía completa para una escapada perfecta',
+              imageUrl: '/placeholder.svg?height=150&width=250',
+              author: 'Javier Viajes',
+            },
+          ]}
+        />
+
+        {/* Add MediaCarousel Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <MediaCarousel
+            title="VOLGA TV"
+            items={[
+              {
+                id: '1',
+                title:
+                  "Entrevista exclusiva: 'La tecnología cambiará el periodismo para siempre'",
+                imageUrl:
+                  '/placeholder.svg?height=220&width=320&text=Interview',
+                badgeText: 'ENTREVISTAS',
+                duration: '5:42',
+                videoUrl: '#',
+              },
+              {
+                id: '2',
+                title: 'La historia detrás del éxito del equipo nacional',
+                imageUrl: '/placeholder.svg?height=220&width=320&text=Sports',
+                badgeText: 'DEPORTES',
+                duration: '7:18',
+                videoUrl: '#',
+              },
+              {
+                id: '3',
+                title:
+                  'Nuevas tendencias en la gastronomía local: sabores que sorprenden',
+                imageUrl: '/placeholder.svg?height=220&width=320&text=Food',
+                badgeText: 'LIFESTYLE',
+                duration: '4:30',
+                videoUrl: '#',
+              },
+              {
+                id: '4',
+                title: 'Análisis político: ¿Qué esperar en los próximos meses?',
+                imageUrl: '/placeholder.svg?height=220&width=320&text=Politics',
+                badgeText: 'POLÍTICA',
+                duration: '8:05',
+                videoUrl: '#',
+              },
+              {
+                id: '5',
+                title: 'Avances tecnológicos que cambiarán nuestra vida diaria',
+                imageUrl: '/placeholder.svg?height=220&width=320&text=Tech',
+                badgeText: 'TECNOLOGÍA',
+                duration: '6:15',
+                videoUrl: '#',
+              },
+            ]}
+          />
+        </section>
+
+        <FarmaciasDeTurno />
+
+        {/* Politics and Economy Section */}
+        <PoliticsAndEconomySection
+          mainArticle={{
+            id: 'politics-main-1',
+            title: {
+              highlight: 'Debate previsional',
+              regular:
+                'Números claves que difieren según el lugar del país y que impactan con fuerza',
+            },
+            summary:
+              'El debate sobre el sistema previsional continúa generando controversia mientras los distintos sectores intentan llegar a un acuerdo.',
+            author: 'Jorge Fontevecchia',
+            imageUrl: '/placeholder.svg?height=400&width=600',
             hasVideo: false,
-          },
-          {
-            id: 'politics-side-2',
-            title: {
-              highlight: 'Los desafíos',
-              regular:
-                'Inflación y salarios: la compleja ecuación que el gobierno intenta resolver',
+          }}
+          sideArticles={[
+            {
+              id: 'politics-side-1',
+              title: {
+                highlight: 'Fondo monetario',
+                regular:
+                  'La Argentina logró consolidar el respaldo del FMI para las próximas etapas del acuerdo',
+              },
+              author: 'Manuel Adorni',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              hasVideo: false,
             },
-            author: 'Cecilia Boufflet',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-            hasVideo: false,
-          },
-          {
-            id: 'politics-side-3',
-            title: {
-              highlight: 'Análisis',
-              regular:
-                'Las cinco claves para entender el panorama político de cara a las elecciones',
+            {
+              id: 'politics-side-2',
+              title: {
+                highlight: 'Los desafíos',
+                regular:
+                  'Inflación y salarios: la compleja ecuación que el gobierno intenta resolver',
+              },
+              author: 'Cecilia Boufflet',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              hasVideo: false,
             },
-            author: 'Carlos Pagni',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-            hasVideo: true,
-          },
-        ]}
-      />
+            {
+              id: 'politics-side-3',
+              title: {
+                highlight: 'Análisis',
+                regular:
+                  'Las cinco claves para entender el panorama político de cara a las elecciones',
+              },
+              author: 'Carlos Pagni',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              hasVideo: true,
+            },
+          ]}
+        />
 
-      <VolgaTVSection
-        featuredVideo={{
-          id: 'lsng3PUSsPk', // This is the YouTube video ID
-          title: 'Recetas del Volga - Especial Strudel',
-          thumbnailUrl:
-            'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CKGt_r8G&rs=AOn4CLA5k94pmcT3ANQY-sZLcyEcs0qiwQ',
-          publishedAt: 'Mayo 2023',
-          viewCount: '2.3K',
-          duration: '4:13',
-        }}
-        recentVideos={[
-          {
-            id: 'oamFbnsVhEk',
-            title: 'La Casa del Terror llego a Coronel Suarez',
+        <VolgaTVSection
+          featuredVideo={{
+            id: 'lsng3PUSsPk', // This is the YouTube video ID
+            title: 'Recetas del Volga - Especial Strudel',
             thumbnailUrl:
               'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CKGt_r8G&rs=AOn4CLA5k94pmcT3ANQY-sZLcyEcs0qiwQ',
-            publishedAt: 'Abril 2023',
-            viewCount: '1.2K',
-            duration: '2:42',
-          },
-          {
-            id: 'ZZ4cEA-vYsM',
-            title: 'Recetas del Volga - Der Kreppel',
-            thumbnailUrl:
-              'https://i.ytimg.com/an_webp/ZZ4cEA-vYsM/mqdefault_6s.webp?du=3000&sqp=CMev_r8G&rs=AOn4CLAL9I5vSxkSMmZ-DYZ7h51_96U1BA',
-            publishedAt: 'Abril 2023',
-            viewCount: '952',
-            duration: '2:58',
-          },
-          {
-            id: '5qUla4Twb_U',
-            title: 'Recetas del Volga - Runde Sunde',
-            thumbnailUrl:
-              'https://i.ytimg.com/vi/5qUla4Twb_U/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGGUgZShlMA8=&rs=AOn4CLCI30kV_9XJUxsRvgOFnLgAM5iwyQ',
-            publishedAt: 'Marzo 2023',
-            viewCount: '1.5K',
-            duration: '3:10',
-          },
-          {
-            id: 'E-VHv8mCOCU',
-            title: 'Recetas del Volga - Moultasche',
-            thumbnailUrl:
-              'https://i.ytimg.com/an_webp/E-VHv8mCOCU/mqdefault_6s.webp?du=3000&sqp=COat_r8G&rs=AOn4CLCNUWWp2xa8M2K-irjspkzFlNQJUw',
-            publishedAt: 'Febrero 2023',
-            viewCount: '3.1K',
-            duration: '5:42',
-          },
-        ]}
-      />
-
-      <AdPlaceholder />
-
-      <MasNoticiasSection
-        articles={[
-          // First 6 articles for the main grid
-          {
-            id: '1',
-            title:
-              'El Gobierno anuncia nuevas medidas económicas para contener la inflación',
-            summary:
-              'Paquete de medidas busca estabilizar precios en sectores clave de la economía',
-            author: 'Carlos Rodriguez',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '2',
-            title:
-              'Avances en investigación contra el cáncer muestran resultados prometedores',
-            author: 'Laura Fernandez',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '3',
-            title:
-              'El clásico de fútbol termina en empate tras un partido de alta intensidad',
-            summary:
-              'Los equipos no lograron romper la paridad en un encuentro con pocas situaciones claras',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '4',
-            title:
-              'Nueva exposición de arte contemporáneo llega al museo principal',
-            author: 'María González',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '5',
-            title:
-              'El fenómeno climático afectará a la región durante los próximos meses',
-            summary:
-              'Meteorólogos advierten sobre posibles consecuencias en la agricultura',
-            author: 'Juan Pérez',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '6',
-            title:
-              'Tecnología innovadora promete revolucionar la industria de la energía renovable',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-
-          // Additional 4 articles for the bottom row
-          {
-            id: '7',
-            title:
-              'Destacan la importancia de la educación financiera desde edades tempranas',
-            author: 'Elena Sánchez',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '8',
-            title:
-              'Nuevo estudio revela beneficios inesperados de la práctica regular de meditación',
-            summary:
-              'Investigadores destacan efectos positivos en la memoria y concentración',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '9',
-            title:
-              'Festival gastronómico internacional regresa con edición ampliada este año',
-            author: 'Roberto Martínez',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-          {
-            id: '10',
-            title:
-              'Lanzan convocatoria para proyectos de innovación social con financiamiento estatal',
-            summary:
-              'Las propuestas seleccionadas recibirán apoyo técnico y económico',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-          },
-        ]}
-        headlines={[
-          {
-            id: 'h1',
-            title:
-              'Anuncian cambios en el gabinete ministerial tras reunión de emergencia',
-            timestamp: 'Hace 10 minutos',
-          },
-          {
-            id: 'h2',
-            title:
-              'Suman 5 medallas para la delegación nacional en competencia internacional',
-            timestamp: 'Hace 25 minutos',
-          },
-          {
-            id: 'h3',
-            title:
-              'Alertan por tormentas fuertes con posibilidad de granizo en el centro del país',
-            timestamp: 'Hace 42 minutos',
-          },
-          {
-            id: 'h4',
-            title:
-              'La bolsa local reacciona positivamente ante nuevos datos económicos',
-            timestamp: 'Hace 1 hora',
-          },
-          {
-            id: 'h5',
-            title:
-              'Investigación revela nuevos hallazgos sobre hábitos de consumo digital',
-            timestamp: 'Hace 1 hora',
-          },
-        ]}
-      />
-
-      {/* Add Radio Player Showcase */}
-      {/* Radio Player Showcase - Full Width */}
-      <div className="container mx-auto px-4 py-6">
-        <RadioPlayerShowcase
-          frequency="99.5"
-          stationName="Radio del Volga"
-          radioLink="https://app.radiodelvolga.com.ar/"
-        />
-      </div>
-
-      <AdPlaceholder />
-
-      {/* Sports News Section */}
-      <SportsNewsSection
-        mainArticle={{
-          title: (
-            <>
-              <span className="font-bold">De la mano de "Maravilla".</span> Con
-              un triplete de Martínez, Racing activó el 'modo copero' y se
-              acercó a los puestos de clasificación
-            </>
-          ),
-          content:
-            'El delantero fue la indiscutida figura en el triunfo por 4-1, convirtiendo un triplete tras un año sin marcar de a tres. El equipo de Gustavo Costas volvió a mostrar su mejor versión y se reencuentra con la victoria tras dos partidos sin conseguirla.',
-          author: 'Franco Tossi',
-          imageUrl: '/placeholder.svg?height=400&width=500',
-        }}
-        sideArticles={[
-          {
-            title: (
-              <>
-                <span className="font-bold">Insólito.</span> En la Liga de
-                España, dos compañeros casi terminan a las trompadas en el banco
-                de suplentes
-              </>
-            ),
-            content:
-              'Durante el partido entre Villarreal y Atlético de Madrid, las cámaras captaron un fuerte cruce entre dos futbolistas del equipo colchonero que estaban en el banco.',
-            author: 'Redacción Deportes',
-            imageUrl: '/placeholder.svg?height=200&width=250',
-            hasVideo: true,
-          },
-          {
-            title: (
-              <>
-                <span className="font-bold">Argentinos, de lujo.</span> Media
-                hora a toda orquesta, taco, sombrero, golazos... y un
-                agradecimiento a "Chiqui" Tapia
-              </>
-            ),
-            content:
-              'El equipo de La Paternal desplegó un fútbol de alto nivel durante el primer tiempo y se impuso con autoridad frente a Barracas Central por 3-0, consolidándose en los primeros puestos del torneo.',
-            author: 'Germán Wille',
-            imageUrl: '/placeholder.svg?height=200&width=250',
-            hasVideo: true,
-          },
-        ]}
-      />
-
-      {/* Stories and Characters Section with shadcn */}
-      <StoriesAndCharactersSection
-        mainArticle={{
-          title: (
-            <>
-              <span className="font-bold">"Hola mi vida".</span> Tini Stoessel
-              tuvo un gesto inesperado con un fan que se volvió viral en redes
-            </>
-          ),
-          author: 'Martín Fernández Cruz',
-          imageUrl: '/placeholder.svg?height=400&width=400',
-        }}
-        sideArticles={[
-          {
-            title: (
-              <>
-                <span className="font-bold">Historias.</span> Es argentino y se
-                animó con un proyecto de US$4 millones a pasos de la cancha de
-                polo
-              </>
-            ),
-            author: 'Ariel Goldfarb',
-            imageUrl: '/placeholder.svg?height=150&width=200',
-          },
-          {
-            title: (
-              <>
-                <span className="font-bold">
-                  Prometió volver con un Rosario bendecido en Calcuta.
-                </span>{' '}
-                Vivía lejos y supo que su madre tenía cáncer "Es una locura"
-              </>
-            ),
-            author: 'Carina Durn',
-            imageUrl: '/placeholder.svg?height=150&width=200',
-          },
-          {
-            title: (
-              <>
-                <span className="font-bold">Relatos inspiradores.</span> La
-                historia del joven que dejó la ciudad para convertirse en guía
-                de montaña
-              </>
-            ),
-            author: 'Federico Wiemeyer',
-            imageUrl: '/placeholder.svg?height=150&width=200',
-          },
-        ]}
-      />
-
-      {/* Foodit Section */}
-      <FooditSection
-        logoSrc="/placeholder.svg?height=80&width=150"
-        categories={[
-          { name: 'MENU', href: '#' },
-          { name: 'TIPS Y SECRETOS DE COCINA', href: '#' },
-          { name: 'RECETAS FACILES', href: '#' },
-        ]}
-        mainArticle={{
-          titleBold: 'Dulce y crocante.',
-          titleRegular:
-            'Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso',
-          content:
-            'La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor',
-          imageUrl: '/placeholder.svg?height=300&width=400',
-          imageAlt: 'Tarta invertida con pistachos',
-        }}
-      />
-
-      <QuinielaSection />
-
-      {/* Opinion Section */}
-      <OpinionSection
-        opinionCards={opinionSectionData.opinionCards}
-        featuredOpinion={opinionSectionData.featuredOpinion}
-        editorials={opinionSectionData.editorials}
-        smallOpinionCard={opinionSectionData.smallOpinionCard}
-      />
-
-      {/* Wellness Section */}
-      <WellnessSection
-        featuredArticle={wellnessSectionData.featuredArticle}
-        smallArticles={wellnessSectionData.smallArticles}
-      />
-
-      {/* World Section (formerly Farming Section) */}
-      <WorldSection
-        mainArticle={farmingSectionData.mainArticle}
-        sideArticles={farmingSectionData.sideArticles}
-      />
-
-      <IActualidad
-        logo={{
-          src: '/images/iactualidad-logo.png',
-          alt: 'iActualidad Logo',
-        }}
-        categories={[
-          { name: 'INTELIGENCIA ARTIFICIAL', href: '#' },
-          { name: 'BITCOIN', href: '#' },
-          { name: 'CRIPTOMONEDAS', href: '#' },
-          { name: 'ROBOTICA', href: '#' },
-        ]}
-        mainArticle={{
-          title:
-            'Bitcoin alcanza nuevo máximo histórico superando los 80.000 dólares',
-          content:
-            'La criptomoneda más popular del mundo continúa su tendencia alcista impulsada por la creciente adopción institucional y la reciente aprobación de ETFs por la SEC.',
-          author: 'Carlos Rodríguez',
-          imageUrl: '/placeholder.svg?height=400&width=600',
-        }}
-        sideArticles={[
-          {
-            title: 'La inflación de abril fue del 8,8%, según el INDEC',
-            subtitle:
-              'Es el dato mensual más bajo desde febrero del año pasado. Igualmente, el acumulado de los últimos 12 meses alcanza el 289,4%.',
-            author: 'María López',
-            imageUrl: '/placeholder.svg?height=150&width=150',
-          },
-          {
-            title:
-              'Presentan un proyecto de ley para modernizar el sistema financiero',
-            subtitle:
-              'La iniciativa busca impulsar la inversión y facilitar el acceso al crédito para pequeñas y medianas empresas.',
-            author: 'Juan Pérez',
-            imageUrl: '/placeholder.svg?height=150&width=150',
-          },
-        ]}
-      />
-
-      {/* Tech Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <TechSection articles={techSectionData.articles} />
-      </section>
-
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <ScienceAndHealth
-          sectionTitle="CIENCIA Y SALUD"
-          logo={{
-            src: '/images/ciencia-salud-logo.png',
-            alt: 'Ciencia y Salud',
+            publishedAt: 'Mayo 2023',
+            viewCount: '2.3K',
+            duration: '4:13',
           }}
-          mainArticle={lifestyleFeatureData.mainArticle}
-          smallArticles={lifestyleFeatureData.smallArticles}
+          recentVideos={[
+            {
+              id: 'oamFbnsVhEk',
+              title: 'La Casa del Terror llego a Coronel Suarez',
+              thumbnailUrl:
+                'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CKGt_r8G&rs=AOn4CLA5k94pmcT3ANQY-sZLcyEcs0qiwQ',
+              publishedAt: 'Abril 2023',
+              viewCount: '1.2K',
+              duration: '2:42',
+            },
+            {
+              id: 'ZZ4cEA-vYsM',
+              title: 'Recetas del Volga - Der Kreppel',
+              thumbnailUrl:
+                'https://i.ytimg.com/an_webp/ZZ4cEA-vYsM/mqdefault_6s.webp?du=3000&sqp=CMev_r8G&rs=AOn4CLAL9I5vSxkSMmZ-DYZ7h51_96U1BA',
+              publishedAt: 'Abril 2023',
+              viewCount: '952',
+              duration: '2:58',
+            },
+            {
+              id: '5qUla4Twb_U',
+              title: 'Recetas del Volga - Runde Sunde',
+              thumbnailUrl:
+                'https://i.ytimg.com/vi/5qUla4Twb_U/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGGUgZShlMA8=&rs=AOn4CLCI30kV_9XJUxsRvgOFnLgAM5iwyQ',
+              publishedAt: 'Marzo 2023',
+              viewCount: '1.5K',
+              duration: '3:10',
+            },
+            {
+              id: 'E-VHv8mCOCU',
+              title: 'Recetas del Volga - Moultasche',
+              thumbnailUrl:
+                'https://i.ytimg.com/an_webp/E-VHv8mCOCU/mqdefault_6s.webp?du=3000&sqp=COat_r8G&rs=AOn4CLCNUWWp2xa8M2K-irjspkzFlNQJUw',
+              publishedAt: 'Febrero 2023',
+              viewCount: '3.1K',
+              duration: '5:42',
+            },
+          ]}
         />
-      </section>
 
-      {/* Hashtag Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <HashtagSection
-          hashtagName={hashtagSectionData.hashtagName}
-          featuredItem={hashtagSectionData.featuredItem}
-          contentCards={hashtagSectionData.contentCards}
+        <AdPlaceholder />
+
+        <MasNoticiasSection
+          articles={[
+            // First 6 articles for the main grid
+            {
+              id: '1',
+              title:
+                'El Gobierno anuncia nuevas medidas económicas para contener la inflación',
+              summary:
+                'Paquete de medidas busca estabilizar precios en sectores clave de la economía',
+              author: 'Carlos Rodriguez',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '2',
+              title:
+                'Avances en investigación contra el cáncer muestran resultados prometedores',
+              author: 'Laura Fernandez',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '3',
+              title:
+                'El clásico de fútbol termina en empate tras un partido de alta intensidad',
+              summary:
+                'Los equipos no lograron romper la paridad en un encuentro con pocas situaciones claras',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '4',
+              title:
+                'Nueva exposición de arte contemporáneo llega al museo principal',
+              author: 'María González',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '5',
+              title:
+                'El fenómeno climático afectará a la región durante los próximos meses',
+              summary:
+                'Meteorólogos advierten sobre posibles consecuencias en la agricultura',
+              author: 'Juan Pérez',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '6',
+              title:
+                'Tecnología innovadora promete revolucionar la industria de la energía renovable',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+
+            // Additional 4 articles for the bottom row
+            {
+              id: '7',
+              title:
+                'Destacan la importancia de la educación financiera desde edades tempranas',
+              author: 'Elena Sánchez',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '8',
+              title:
+                'Nuevo estudio revela beneficios inesperados de la práctica regular de meditación',
+              summary:
+                'Investigadores destacan efectos positivos en la memoria y concentración',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '9',
+              title:
+                'Festival gastronómico internacional regresa con edición ampliada este año',
+              author: 'Roberto Martínez',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+            {
+              id: '10',
+              title:
+                'Lanzan convocatoria para proyectos de innovación social con financiamiento estatal',
+              summary:
+                'Las propuestas seleccionadas recibirán apoyo técnico y económico',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+            },
+          ]}
+          headlines={[
+            {
+              id: 'h1',
+              title:
+                'Anuncian cambios en el gabinete ministerial tras reunión de emergencia',
+              timestamp: 'Hace 10 minutos',
+            },
+            {
+              id: 'h2',
+              title:
+                'Suman 5 medallas para la delegación nacional en competencia internacional',
+              timestamp: 'Hace 25 minutos',
+            },
+            {
+              id: 'h3',
+              title:
+                'Alertan por tormentas fuertes con posibilidad de granizo en el centro del país',
+              timestamp: 'Hace 42 minutos',
+            },
+            {
+              id: 'h4',
+              title:
+                'La bolsa local reacciona positivamente ante nuevos datos económicos',
+              timestamp: 'Hace 1 hora',
+            },
+            {
+              id: 'h5',
+              title:
+                'Investigación revela nuevos hallazgos sobre hábitos de consumo digital',
+              timestamp: 'Hace 1 hora',
+            },
+          ]}
         />
-      </section>
 
-      {/* Top Reads Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <TopReads articles={topReadsData.articles} />
-      </section>
+        {/* Add Radio Player Showcase */}
+        {/* Radio Player Showcase - Full Width */}
+        <div className="container mx-auto px-4 py-6">
+          <RadioPlayerShowcase
+            frequency="99.5"
+            stationName="Radio del Volga"
+            radioLink="https://app.radiodelvolga.com.ar/"
+          />
+        </div>
 
-      {/* Featured Note Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <MovieReleases
-          quoteText={featuredSportsNoteData.quoteText}
-          headlineText={featuredSportsNoteData.headlineText}
-          caption={featuredSportsNoteData.caption}
-          imageUrl={featuredSportsNoteData.imageUrl}
-          hasVideo={featuredSportsNoteData.hasVideo}
+        <AdPlaceholder />
+
+        {/* Sports News Section */}
+        <SportsNewsSection
+          mainArticle={{
+            title: (
+              <>
+                <span className="font-bold">De la mano de "Maravilla".</span>{' '}
+                Con un triplete de Martínez, Racing activó el 'modo copero' y se
+                acercó a los puestos de clasificación
+              </>
+            ),
+            content:
+              'El delantero fue la indiscutida figura en el triunfo por 4-1, convirtiendo un triplete tras un año sin marcar de a tres. El equipo de Gustavo Costas volvió a mostrar su mejor versión y se reencuentra con la victoria tras dos partidos sin conseguirla.',
+            author: 'Franco Tossi',
+            imageUrl: '/placeholder.svg?height=400&width=500',
+          }}
+          sideArticles={[
+            {
+              title: (
+                <>
+                  <span className="font-bold">Insólito.</span> En la Liga de
+                  España, dos compañeros casi terminan a las trompadas en el
+                  banco de suplentes
+                </>
+              ),
+              content:
+                'Durante el partido entre Villarreal y Atlético de Madrid, las cámaras captaron un fuerte cruce entre dos futbolistas del equipo colchonero que estaban en el banco.',
+              author: 'Redacción Deportes',
+              imageUrl: '/placeholder.svg?height=200&width=250',
+              hasVideo: true,
+            },
+            {
+              title: (
+                <>
+                  <span className="font-bold">Argentinos, de lujo.</span> Media
+                  hora a toda orquesta, taco, sombrero, golazos... y un
+                  agradecimiento a "Chiqui" Tapia
+                </>
+              ),
+              content:
+                'El equipo de La Paternal desplegó un fútbol de alto nivel durante el primer tiempo y se impuso con autoridad frente a Barracas Central por 3-0, consolidándose en los primeros puestos del torneo.',
+              author: 'Germán Wille',
+              imageUrl: '/placeholder.svg?height=200&width=250',
+              hasVideo: true,
+            },
+          ]}
         />
-      </section>
 
-      {/* Business Main Feature Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+        {/* Stories and Characters Section with shadcn */}
+        <StoriesAndCharactersSection
+          mainArticle={{
+            title: (
+              <>
+                <span className="font-bold">"Hola mi vida".</span> Tini Stoessel
+                tuvo un gesto inesperado con un fan que se volvió viral en redes
+              </>
+            ),
+            author: 'Martín Fernández Cruz',
+            imageUrl: '/placeholder.svg?height=400&width=400',
+          }}
+          sideArticles={[
+            {
+              title: (
+                <>
+                  <span className="font-bold">Historias.</span> Es argentino y
+                  se animó con un proyecto de US$4 millones a pasos de la cancha
+                  de polo
+                </>
+              ),
+              author: 'Ariel Goldfarb',
+              imageUrl: '/placeholder.svg?height=150&width=200',
+            },
+            {
+              title: (
+                <>
+                  <span className="font-bold">
+                    Prometió volver con un Rosario bendecido en Calcuta.
+                  </span>{' '}
+                  Vivía lejos y supo que su madre tenía cáncer "Es una locura"
+                </>
+              ),
+              author: 'Carina Durn',
+              imageUrl: '/placeholder.svg?height=150&width=200',
+            },
+            {
+              title: (
+                <>
+                  <span className="font-bold">Relatos inspiradores.</span> La
+                  historia del joven que dejó la ciudad para convertirse en guía
+                  de montaña
+                </>
+              ),
+              author: 'Federico Wiemeyer',
+              imageUrl: '/placeholder.svg?height=150&width=200',
+            },
+          ]}
+        />
+
+        {/* Foodit Section */}
+        <FooditSection
+          logoSrc="/placeholder.svg?height=80&width=150"
+          categories={[
+            { name: 'MENU', href: '#' },
+            { name: 'TIPS Y SECRETOS DE COCINA', href: '#' },
+            { name: 'RECETAS FACILES', href: '#' },
+          ]}
+          mainArticle={{
+            titleBold: 'Dulce y crocante.',
+            titleRegular:
+              'Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso',
+            content:
+              'La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor',
+            imageUrl: '/placeholder.svg?height=300&width=400',
+            imageAlt: 'Tarta invertida con pistachos',
+          }}
+        />
+
+        <QuinielaSection />
+
+        {/* Opinion Section */}
+        <OpinionSection
+          opinionCards={opinionSectionData.opinionCards}
+          featuredOpinion={opinionSectionData.featuredOpinion}
+          editorials={opinionSectionData.editorials}
+          smallOpinionCard={opinionSectionData.smallOpinionCard}
+        />
+
+        {/* Wellness Section */}
+        <WellnessSection
+          featuredArticle={wellnessSectionData.featuredArticle}
+          smallArticles={wellnessSectionData.smallArticles}
+        />
+
+        {/* World Section (formerly Farming Section) */}
+        <WorldSection
+          mainArticle={farmingSectionData.mainArticle}
+          sideArticles={farmingSectionData.sideArticles}
+        />
+
+        <IActualidad
+          logo={{
+            src: '/images/iactualidad-logo.png',
+            alt: 'iActualidad Logo',
+          }}
+          categories={[
+            { name: 'INTELIGENCIA ARTIFICIAL', href: '#' },
+            { name: 'BITCOIN', href: '#' },
+            { name: 'CRIPTOMONEDAS', href: '#' },
+            { name: 'ROBOTICA', href: '#' },
+          ]}
+          mainArticle={{
+            title:
+              'Bitcoin alcanza nuevo máximo histórico superando los 80.000 dólares',
+            content:
+              'La criptomoneda más popular del mundo continúa su tendencia alcista impulsada por la creciente adopción institucional y la reciente aprobación de ETFs por la SEC.',
+            author: 'Carlos Rodríguez',
+            imageUrl: '/placeholder.svg?height=400&width=600',
+          }}
+          sideArticles={[
+            {
+              title: 'La inflación de abril fue del 8,8%, según el INDEC',
+              subtitle:
+                'Es el dato mensual más bajo desde febrero del año pasado. Igualmente, el acumulado de los últimos 12 meses alcanza el 289,4%.',
+              author: 'María López',
+              imageUrl: '/placeholder.svg?height=150&width=150',
+            },
+            {
+              title:
+                'Presentan un proyecto de ley para modernizar el sistema financiero',
+              subtitle:
+                'La iniciativa busca impulsar la inversión y facilitar el acceso al crédito para pequeñas y medianas empresas.',
+              author: 'Juan Pérez',
+              imageUrl: '/placeholder.svg?height=150&width=150',
+            },
+          ]}
+        />
+
+        {/* Tech Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <TechSection articles={techSectionData.articles} />
+        </section>
+
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <ScienceAndHealth
+            sectionTitle="CIENCIA Y SALUD"
+            logo={{
+              src: '/images/ciencia-salud-logo.png',
+              alt: 'Ciencia y Salud',
+            }}
+            mainArticle={lifestyleFeatureData.mainArticle}
+            smallArticles={lifestyleFeatureData.smallArticles}
+          />
+        </section>
+
+        {/* Hashtag Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <HashtagSection
+            hashtagName={hashtagSectionData.hashtagName}
+            featuredItem={hashtagSectionData.featuredItem}
+            contentCards={hashtagSectionData.contentCards}
+          />
+        </section>
+
+        {/* Top Reads Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <TopReads articles={topReadsData.articles} />
+        </section>
+
+        {/* Movie Releases Section - Updated to use 3 articles */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <MovieReleases
+            articles={[
+              {
+                id: 1,
+                title: 'El Dibu habla de todo',
+                quoteText: 'El Dibu habla de todo',
+                headlineText:
+                  'Emiliano Martínez reveló cómo maneja la presión en los penales y explicó su ritual antes de cada partido',
+                summary:
+                  'El arquero de la selección argentina contó detalles de su preparación mental y física en una entrevista exclusiva',
+                imageUrl: '/placeholder.svg?height=340&width=600',
+                hasVideo: true,
+              },
+              {
+                id: 2,
+                title: 'Oppenheimer llega a los cines',
+                headlineText:
+                  'Christopher Nolan regresa con un drama histórico que explora la creación de la bomba atómica',
+                summary:
+                  'La película recibió elogios de la crítica por sus actuaciones y su impactante dirección visual',
+                imageUrl: '/placeholder.svg?height=340&width=600',
+                hasVideo: false,
+              },
+              {
+                id: 3,
+                title: 'Spider-Man: nueva película',
+                quoteText: 'Es el mejor guion hasta ahora',
+                headlineText:
+                  'Tom Holland confirma que la próxima entrega de Spider-Man comenzará a filmarse en 2025',
+                summary:
+                  'El actor británico regresará para su cuarta película en solitario como el héroe arácnido',
+                imageUrl: '/placeholder.svg?height=340&width=600',
+                hasVideo: false,
+              },
+            ]}
+          />
+        </section>
+
+        {/* Business Main Feature Section */}
         <BusinessMainFeature
-          mainArticle={businessMainFeatureData.mainArticle}
-          sideArticles={businessMainFeatureData.sideArticles}
-        />
-      </section>
-
-      {/* Entertainment Main Feature Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <EntertainmentMainFeature
-          mainFeature={entertainmentMainFeatureData.mainFeature}
-          secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
-          adData={entertainmentMainFeatureData.adData}
-        />
-      </section>
-
-      {/* Lifestyle Four Column Grid Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <LifestyleFourColumnGrid
-          sectionTitle={lifestyleFourColumnGridData.sectionTitle}
-          articles={lifestyleFourColumnGridData.articles}
-          adContent={lifestyleFourColumnGridData.adContent}
-        />
-      </section>
-
-      {/* Real Estate Four Column Grid Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <RealEstateFourColumnGrid
-          properties={realEstateFourColumnGridData.properties}
-          adContent={realEstateFourColumnGridData.adContent}
-        />
-      </section>
-
-      {/* Agro Four Column Grid Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <AgroFourColumnGrid
-          articles={agroFourColumnGridData.articles}
-          adContent={agroFourColumnGridData.adContent}
-        />
-      </section>
-
-      {/* Lifestyle Section */}
-      <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-        <LifestyleSection
-          sectionTitle={lifestyleSectionData.sectionTitle}
-          mainArticle={lifestyleSectionData.mainArticle}
-          storyCards={lifestyleSectionData.storyCards}
-        />
-      </section>
-
-      {/* You May Be Interested In Section */}
-      <YouMayBeInterestedSection
-        articles={[
-          {
-            title:
-              '¿Qué importante cambio rige para obtener la ciudadanía italiana?',
-            titleHighlight: 'Trivia',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-            author: 'Cintia Perazo',
-            badge: {
-              text: 'TEST DE INTERÉS GENERAL',
-              position: 'bottom-left',
+          logo={{
+            src: '/images/business-logo.png',
+            alt: 'Business Section Logo',
+          }}
+          categories={[
+            { name: 'MERCADOS', href: '#' },
+            { name: 'EMPRESAS', href: '#' },
+            { name: 'FINANZAS', href: '#' },
+            { name: 'ECONOMÍA', href: '#' },
+          ]}
+          mainArticle={{
+            id: 'business-main-1',
+            title: {
+              highlight: 'Inversiones',
+              regular:
+                'Las acciones argentinas registran su mejor semana del año con subas de hasta 15%',
             },
-          },
-          {
-            title:
-              'Las mejores piscinas naturales del nordeste de Brasil, para nadar entre peces de colores',
-            titleHighlight: 'Imperdible',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-            author: 'Silvina Pini',
-          },
-          {
-            title:
-              'Buscaba un lugar para casarse y encontró un parador en la playa que lo convirtió en cocinero',
-            titleHighlight: 'Cambio de vida',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-            author: 'Ana van Gelderen',
-            badge: {
-              text: 'CAMBIO DE VIDA',
-              position: 'bottom-left',
+            summary:
+              'El mercado financiero local mostró un fuerte repunte impulsado por el anuncio de nuevas medidas económicas y la mejora en las perspectivas de inversión extranjera.',
+            author: 'Carlos Martínez',
+            imageUrl: '/placeholder.svg?height=400&width=600',
+            hasVideo: false,
+          }}
+          sideArticles={[
+            {
+              id: 'business-side-1',
+              title: {
+                highlight: 'Tecnología',
+                regular:
+                  'La startup argentina que revoluciona el sector fintech recibió inversión millonaria',
+              },
+              author: 'Laura González',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              hasVideo: false,
             },
-          },
-          {
-            title:
-              'Te llevamos a ver Dua Lipa, Oasis y Coldplay alrededor del mundo',
-            titleHighlight: 'LA NACION World Tour 2025',
-            imageUrl: '/placeholder.svg?height=200&width=300',
-            badge: {
-              text: 'VIDEO',
-              position: 'bottom-left',
+            {
+              id: 'business-side-2',
+              title: {
+                highlight: 'Comercio exterior',
+                regular:
+                  'Crecen las exportaciones de servicios basados en conocimiento',
+              },
+              author: 'Martín Rodríguez',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              hasVideo: true,
             },
-          },
-        ]}
-      />
+            {
+              id: 'business-side-3',
+              title: {
+                highlight: 'Análisis',
+                regular:
+                  'Los sectores que más empleo generaron en el último trimestre',
+              },
+              author: 'Julia Fernández',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              hasVideo: false,
+            },
+          ]}
+        />
 
-      <Footer />
+        {/* Entertainment Main Feature Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <EntertainmentMainFeature
+            mainFeature={entertainmentMainFeatureData.mainFeature}
+            secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
+            adData={entertainmentMainFeatureData.adData}
+          />
+        </section>
+
+        {/* Lifestyle Four Column Grid Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <LifestyleFourColumnGrid
+            sectionTitle={lifestyleFourColumnGridData.sectionTitle}
+            articles={lifestyleFourColumnGridData.articles}
+            adContent={lifestyleFourColumnGridData.adContent}
+          />
+        </section>
+
+        {/* Real Estate Four Column Grid Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <RealEstateFourColumnGrid
+            properties={realEstateFourColumnGridData.properties}
+            adContent={realEstateFourColumnGridData.adContent}
+          />
+        </section>
+
+        {/* Agro Four Column Grid Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <AgroFourColumnGrid
+            articles={agroFourColumnGridData.articles}
+            adContent={agroFourColumnGridData.adContent}
+          />
+        </section>
+
+        {/* Lifestyle Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <LifestyleSection
+            sectionTitle={lifestyleSectionData.sectionTitle}
+            mainArticle={lifestyleSectionData.mainArticle}
+            storyCards={lifestyleSectionData.storyCards}
+          />
+        </section>
+
+        {/* You May Be Interested In Section */}
+        <YouMayBeInterestedSection
+          articles={[
+            {
+              title:
+                '¿Qué importante cambio rige para obtener la ciudadanía italiana?',
+              titleHighlight: 'Trivia',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              author: 'Cintia Perazo',
+              badge: {
+                text: 'TEST DE INTERÉS GENERAL',
+                position: 'bottom-left',
+              },
+            },
+            {
+              title:
+                'Las mejores piscinas naturales del nordeste de Brasil, para nadar entre peces de colores',
+              titleHighlight: 'Imperdible',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              author: 'Silvina Pini',
+            },
+            {
+              title:
+                'Buscaba un lugar para casarse y encontró un parador en la playa que lo convirtió en cocinero',
+              titleHighlight: 'Cambio de vida',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              author: 'Ana van Gelderen',
+              badge: {
+                text: 'CAMBIO DE VIDA',
+                position: 'bottom-left',
+              },
+            },
+            {
+              title:
+                'Te llevamos a ver Dua Lipa, Oasis y Coldplay alrededor del mundo',
+              titleHighlight: 'LA NACION World Tour 2025',
+              imageUrl: '/placeholder.svg?height=200&width=300',
+              badge: {
+                text: 'VIDEO',
+                position: 'bottom-left',
+              },
+            },
+          ]}
+        />
+
+        <Footer />
+      </div>
     </div>
   )
 }
