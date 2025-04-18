@@ -57,7 +57,15 @@ export default function BusinessMainFeature({
             </div>
           )}
 
-          {/* Categories in IActualidad style */}
+          {/* Title and red accent line */}
+          <div className="flex items-center pb-2 border-b border-[#292929]/20">
+            <h2 className="text-2xl font-bold text-[#292929]">
+              PYMES Y EMPRENDIMIENTOS
+            </h2>
+            <div className="ml-auto h-1 w-24 bg-[#ff0808]"></div>
+          </div>
+
+          {/* Categories in IActualidad style - moved below title */}
           {categories && categories.length > 0 && (
             <div className="flex flex-wrap gap-4">
               {categories.map((category, index) => (
@@ -72,14 +80,6 @@ export default function BusinessMainFeature({
               ))}
             </div>
           )}
-
-          {/* Title and red accent line */}
-          <div className="flex items-center pb-2 border-b border-[#292929]/20">
-            <h2 className="text-2xl font-bold text-[#292929]">
-              {!logo && "COMUNIDAD DE NEGOCIOS"}
-            </h2>
-            <div className="ml-auto h-1 w-24 bg-[#ff0808]"></div>
-          </div>
         </div>
 
         {/* Two column grid layout exactly like PoliticsAndEconomySection */}

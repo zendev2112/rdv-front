@@ -20,23 +20,22 @@ interface Article {
   author?: string
   imageUrl: string
   hasVideo?: boolean
-  badgeText?: string
 }
 
-interface RealEstateFourColumnGridProps {
+interface SalidasSectionProps {
   logo?: {
     src: string;
     alt: string;
   };
   categories?: CategoryLink[];
-  properties: Article[];
+  articles: Article[];
 }
 
-export default function RealEstateFourColumnGrid({
+export default function SalidasSection({
   logo,
   categories = [],
-  properties,
-}: RealEstateFourColumnGridProps) {
+  articles,
+}: SalidasSectionProps) {
   return (
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
@@ -56,12 +55,12 @@ export default function RealEstateFourColumnGrid({
             </div>
           )}
 
-          {/* Title and blue accent line */}
+          {/* Title and orange accent line */}
           <div className="flex items-center pb-2 border-b border-[#292929]/20">
             <h2 className="text-2xl font-bold text-[#292929]">
-              PROPIEDADES
+              SALIDAS
             </h2>
-            <div className="ml-auto h-1 w-24 bg-[#3498db]"></div>
+            <div className="ml-auto h-1 w-24 bg-[#e67e22]"></div>
           </div>
 
           {/* Categories in IActualidad style - below title */}
@@ -71,7 +70,7 @@ export default function RealEstateFourColumnGrid({
                 <Link 
                   href={category.href} 
                   key={index}
-                  className="text-xs font-medium text-dark-gray hover:text-[#3498db] transition-colors flex items-center"
+                  className="text-xs font-medium text-dark-gray hover:text-[#e67e22] transition-colors flex items-center"
                 >
                   {category.name}
                   <ChevronRight size={12} className="ml-0.5" />
@@ -81,33 +80,28 @@ export default function RealEstateFourColumnGrid({
           )}
         </div>
 
-        {/* Four column grid layout for properties */}
+        {/* Four column grid layout for articles */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {properties.slice(0, 4).map((property) => (
+          {articles.slice(0, 4).map((article) => (
             <a 
-              key={property.id} 
+              key={article.id} 
               href="#" 
               className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
               onClick={(e) => {
                 e.preventDefault();
-                console.log(`Property clicked: ${property.id}`);
+                console.log(`Article clicked: ${article.id}`);
               }}
             >
-              {/* Property image on top */}
+              {/* Article image on top */}
               <div className="relative aspect-[4/3] w-full overflow-hidden">
-                {property.hasVideo && (
+                {article.hasVideo && (
                   <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
                     VIDEO
                   </div>
                 )}
-                {property.badgeText && (
-                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
-                    {property.badgeText}
-                  </div>
-                )}
                 <Image
-                  src={property.imageUrl}
-                  alt={property.title.regular}
+                  src={article.imageUrl}
+                  alt={article.title.regular}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -118,21 +112,21 @@ export default function RealEstateFourColumnGrid({
               {/* Text content below */}
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
-                  {property.title.highlight && (
-                    <span className="text-[#3498db] font-bold">{property.title.highlight}. </span>
+                  {article.title.highlight && (
+                    <span className="text-[#e67e22] font-bold">{article.title.highlight}. </span>
                   )}
-                  {property.title.regular}
+                  {article.title.regular}
                 </h3>
                 
-                {property.summary && (
+                {article.summary && (
                   <p className="text-dark-gray text-sm mb-3 line-clamp-2">
-                    {property.summary}
+                    {article.summary}
                   </p>
                 )}
                 
-                {property.author && (
+                {article.author && (
                   <p className="text-xs text-dark-gray mt-auto">
-                    Por {property.author}
+                    Por {article.author}
                   </p>
                 )}
               </div>

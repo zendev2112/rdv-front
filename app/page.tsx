@@ -11,7 +11,7 @@ import TopReads from '../components/TopReads'
 import MovieReleases from '@/components/MovieReleasesSection'
 import BusinessMainFeature from '../components/BusinessMainFeature'
 import EntertainmentMainFeature from '../components/EntertainmentMainFeature'
-import LifestyleFourColumnGrid from '../components/LifestyleFourColumnGrid'
+import SalidasSection from '../components/SalidasSection' // Changed import
 import RealEstateFourColumnGrid from '../components/RealEstateFourColumnGrid'
 import AgroFourColumnGrid from '../components/AgroFourColumnGrid'
 import LifestyleSection from '../components/LifestyleSection'
@@ -1366,10 +1366,12 @@ export default function Home() {
             alt: 'Business Section Logo',
           }}
           categories={[
-            { name: 'MERCADOS', href: '#' },
-            { name: 'EMPRESAS', href: '#' },
-            { name: 'FINANZAS', href: '#' },
-            { name: 'ECONOMÍA', href: '#' },
+            { name: 'PROPIEDADES', href: '#' },
+            { name: 'EMPRENDEDORES', href: '#' },
+            { name: 'PYMES', href: '#' },
+            { name: 'CAMPO', href: '#' },
+            { name: 'INDICES', href: '#' },
+            { name: 'DOLAR HOY', href: '#' },
           ]}
           mainArticle={{
             id: 'business-main-1',
@@ -1426,24 +1428,128 @@ export default function Home() {
           <EntertainmentMainFeature
             mainFeature={entertainmentMainFeatureData.mainFeature}
             secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
-            adData={entertainmentMainFeatureData.adData}
           />
         </section>
 
-        {/* Lifestyle Four Column Grid Section */}
+        {/* Salidas Section - Replaced LifestyleFourColumnGrid */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <LifestyleFourColumnGrid
-            sectionTitle={lifestyleFourColumnGridData.sectionTitle}
-            articles={lifestyleFourColumnGridData.articles}
-            adContent={lifestyleFourColumnGridData.adContent}
+          <SalidasSection
+            categories={[
+              { name: 'RESTAURANTES', href: '#' },
+              { name: 'VINOS', href: '#' },
+              { name: 'TEATRO', href: '#' },
+              { name: 'FIESTAS REGIONALES', href: '#' },
+            ]}
+            articles={[
+              {
+                id: 'salidas-1',
+                title: {
+                  highlight: 'Teatro',
+                  regular:
+                    'Las obras imperdibles que se estrenan este mes en la cartelera porteña',
+                },
+                summary:
+                  'Un recorrido por las propuestas más destacadas que llegan a los escenarios de la ciudad',
+                author: 'María Guerrero',
+                imageUrl: '/placeholder.svg?height=250&width=300&text=Teatro',
+                hasVideo: false,
+              },
+              {
+                id: 'salidas-2',
+                title: {
+                  highlight: 'Música',
+                  regular:
+                    'La agenda de conciertos para el fin de semana: todas las opciones',
+                },
+                author: 'Pablo Rocker',
+                imageUrl:
+                  '/placeholder.svg?height=250&width=300&text=Conciertos',
+                hasVideo: false,
+              },
+              {
+                id: 'salidas-3',
+                title: {
+                  highlight: 'Gastronomía',
+                  regular:
+                    'Cinco restaurantes con vista panorámica para disfrutar de la ciudad',
+                },
+                summary:
+                  'Propuestas culinarias que combinan buena mesa y paisajes urbanos espectaculares',
+                author: 'Sofía Gourmet',
+                imageUrl:
+                  '/placeholder.svg?height=250&width=300&text=Restaurantes',
+                hasVideo: false,
+              },
+              {
+                id: 'salidas-4',
+                title: {
+                  highlight: 'Cine',
+                  regular:
+                    'Festival de cine independiente: guía completa de proyecciones y eventos especiales',
+                },
+                author: 'Lucas Director',
+                imageUrl: '/placeholder.svg?height=250&width=300&text=Cine',
+                hasVideo: true,
+              },
+            ]}
           />
         </section>
 
         {/* Real Estate Four Column Grid Section */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
           <RealEstateFourColumnGrid
-            properties={realEstateFourColumnGridData.properties}
-            adContent={realEstateFourColumnGridData.adContent}
+            categories={[
+              { name: 'INMUEBLES COMERCIALES', href: '#' },
+              { name: 'CONSTRUCCION Y DISEÑO', href: '#' },
+              { name: 'CASAS Y DEPARTAMENTOS', href: '#' },
+              { name: 'INVERSIONES', href: '#' },
+            ]}
+            properties={[
+              {
+                id: 'property-1',
+                title: {
+                  highlight: 'Mercado inmobiliario',
+                  regular:
+                    'Cuáles son los barrios de Buenos Aires donde más subieron los precios de los alquileres',
+                },
+                author: 'Mauricio Giambartolomei',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                badgeText: 'FOTOS Y VIDEO',
+              },
+              {
+                id: 'property-2',
+                title: {
+                  highlight: 'Arquitectura',
+                  regular:
+                    'Una casa de 100 años totalmente renovada: la transformación que respeta el estilo original',
+                },
+                author: 'Fabián López',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                badgeText: 'FOTOS',
+              },
+              {
+                id: 'property-3',
+                title: {
+                  highlight: 'Tendencia',
+                  regular:
+                    'Aumenta la demanda de propiedades en barrios cerrados: los factores que explican el fenómeno',
+                },
+                author: 'María Julieta Rumi',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+              },
+              {
+                id: 'property-4',
+                title: {
+                  highlight: 'Inversiones',
+                  regular:
+                    'Las zonas con mayor potencial de valorización para comprar propiedades este año',
+                },
+                author: 'Carlos Martínez',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                summary:
+                  'Un análisis de las áreas emergentes que ofrecen las mejores oportunidades para inversores inmobiliarios',
+              },
+            ]}
           />
         </section>
 
