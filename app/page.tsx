@@ -1495,6 +1495,75 @@ export default function Home() {
           />
         </section>
 
+        {/* Lifestyle Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <LifestyleSection
+            sectionTitle="SALUD"
+            categories={[
+              { name: 'VIAJES', href: '#' },
+              { name: 'DESCANSO', href: '#' },
+              { name: 'MENTE', href: '#' },
+              { name: 'FITNESS', href: '#' },
+              { name: 'NUTRICION', href: '#' },
+              { name: 'VIDA SANA', href: '#' },
+            ]}
+            articles={[
+              {
+                id: 'lifestyle-1',
+                title: {
+                  highlight: 'Bienestar',
+                  regular:
+                    'Vivir conscientemente: el arte de disfrutar el momento presente',
+                },
+                summary:
+                  'Frente a un mundo hiperconectado y acelerado, cada vez más personas buscan formas de desacelerar y conectar con su entorno',
+                author: 'Martina Canavesi',
+                imageUrl:
+                  '/placeholder.svg?height=250&width=300&text=Mindfulness',
+              },
+              {
+                id: 'lifestyle-2',
+                title: {
+                  highlight: 'Yoga',
+                  regular:
+                    'Cinco posturas fáciles para incorporar a tu rutina diaria',
+                },
+                summary:
+                  'Estas asanas básicas te ayudarán a ganar flexibilidad y reducir el estrés sin necesidad de experiencia previa',
+                author: 'Laura Giménez',
+                imageUrl: '/placeholder.svg?height=250&width=300&text=Yoga',
+                hasFeaturedBadge: true,
+              },
+              {
+                id: 'lifestyle-3',
+                title: {
+                  highlight: 'Decoración',
+                  regular:
+                    'Cómo lograr espacios armoniosos con menos elementos',
+                },
+                author: 'Carlos Martínez',
+                imageUrl:
+                  '/placeholder.svg?height=250&width=300&text=Minimalismo',
+                summary:
+                  'El minimalismo no se trata solo de tener menos cosas, sino de elegir con propósito cada objeto que habita tu hogar',
+              },
+              {
+                id: 'lifestyle-4',
+                title: {
+                  highlight: 'Alimentación',
+                  regular:
+                    'Por qué los nutricionistas recomiendan escuchar a tu cuerpo',
+                },
+                author: 'Federico Sánchez',
+                imageUrl:
+                  '/placeholder.svg?height=250&width=300&text=Nutrición',
+                summary:
+                  'Este enfoque propone dejar de lado las dietas restrictivas y aprender a identificar las señales naturales de hambre y saciedad',
+              },
+            ]}
+          />
+        </section>
+
         {/* Real Estate Four Column Grid Section */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
           <RealEstateFourColumnGrid
@@ -1556,17 +1625,53 @@ export default function Home() {
         {/* Agro Four Column Grid Section */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
           <AgroFourColumnGrid
-            articles={agroFourColumnGridData.articles}
-            adContent={agroFourColumnGridData.adContent}
-          />
-        </section>
-
-        {/* Lifestyle Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <LifestyleSection
-            sectionTitle={lifestyleSectionData.sectionTitle}
-            mainArticle={lifestyleSectionData.mainArticle}
-            storyCards={lifestyleSectionData.storyCards}
+            categories={[
+              { name: 'REGIONALES', href: '#' },
+              { name: 'TECNOLOGÍAS', href: '#' },
+              { name: 'GANADERÍA', href: '#' },
+              { name: 'AGRICULTURA', href: '#' },
+              { name: 'REMATES', href: '#' },
+            ]}
+            articles={[
+              {
+                id: 'agro-1',
+                title: {
+                  highlight: 'Clima',
+                  regular: 'Las zonas afectadas por las lluvias excesivas y cómo impacta en la cosecha de maíz y soja'
+                },
+                author: 'Fernando Bertello',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+              },
+              {
+                id: 'agro-2',
+                title: {
+                  highlight: 'Exportaciones',
+                  regular: 'El agro generó US$33.000 millones en 2024 y se convirtió en el principal sector exportador del país'
+                },
+                author: 'Belkis Martínez',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                summary: 'Las ventas al exterior de productos agropecuarios superaron las expectativas del gobierno y del sector privado',
+              },
+              {
+                id: 'agro-3',
+                title: {
+                  highlight: 'Innovación',
+                  regular: 'La tecnología que reduce un 30% el uso de agua en cultivos y revoluciona el riego por goteo'
+                },
+                author: 'José Luis Brea',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+              },
+              {
+                id: 'agro-4',
+                title: {
+                  highlight: 'Ganadería',
+                  regular: 'Presentaron nueva técnica para mejorar la eficiencia reproductiva en rodeos bovinos'
+                },
+                author: 'Gabriela Origlia',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                hasVideo: true,
+              }
+            ]}
           />
         </section>
 

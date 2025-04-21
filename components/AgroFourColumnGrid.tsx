@@ -1,132 +1,139 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Leaf } from "lucide-react";
+'use client'
 
-interface Article {
-  titleHighlight: string;
-  titleRegular: string;
-  imageUrl: string;
-  author?: string;
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
+
+interface CategoryLink {
+  name: string;
+  href: string;
 }
 
-interface AdContent {
-  price: string;
-  imageUrl: string;
-  ctaText: string;
+interface Article {
+  id: string
+  title: {
+    highlight?: string
+    regular: string
+  }
+  summary?: string
+  author?: string
+  imageUrl: string
+  hasVideo?: boolean
 }
 
 interface AgroFourColumnGridProps {
+  logo?: {
+    src: string;
+    alt: string;
+  };
+  categories?: CategoryLink[];
   articles: Article[];
-  adContent: AdContent;
 }
 
 export default function AgroFourColumnGrid({
+  logo,
+  categories = [],
   articles,
-  adContent,
 }: AgroFourColumnGridProps) {
   return (
-    <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-      {/* Section header */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center">
-            <Leaf className="w-5 h-5 text-green-700 mr-2" />
-            <h2 className="text-green-700 font-bold text-lg">LN | campo</h2>
-          </div>
-          <div className="flex space-x-4 text-sm text-gray-600">
-            <Link href="#" className="uppercase hover:text-green-700">
-              Regionales
-            </Link>
-            <Link href="#" className="uppercase hover:text-green-700">
-              Tecnologías
-            </Link>
-            <Link href="#" className="uppercase hover:text-green-700">
-              Ganadería
-            </Link>
-            <Link href="#" className="uppercase hover:text-green-700">
-              Agricultura
-            </Link>
-            <Link href="#" className="uppercase hover:text-green-700">
-              Remates
-            </Link>
-          </div>
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* First 3 columns: Articles */}
-        {articles.slice(0, 3).map((article, index) => (
-          <article key={index} className="mb-6">
-            <div className="mb-3">
-              <Image
-                src={article.imageUrl}
-                alt={`${article.titleHighlight} ${article.titleRegular}`}
-                width={300}
-                height={200}
-                className="w-full h-32 object-cover"
+    <section className="py-8 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Section header */}
+        <div className="flex flex-col space-y-4 mb-6">
+          {/* Logo if provided */}
+          {logo && (
+            <div className="relative w-48 h-16">
+              <Image 
+                src={logo.src} 
+                alt={logo.alt}
+                fill
+                className="object-contain object-left"
+                priority
+                unoptimized
               />
             </div>
-            <h3 className="mb-2 leading-tight">
-              <Link href="#" className="hover:underline">
-                <span className="text-green-700 font-bold">{article.titleHighlight}.</span>{" "}
-                <span className="font-serif">{article.titleRegular}</span>
-              </Link>
-            </h3>
-            {article.author && (
-              <p className="text-xs text-gray-500">
-                Por {article.author}
-              </p>
-            )}
-          </article>
-        ))}
-        
-        {/* 4th column: Ad */}
-        <div className="bg-purple-100 rounded-lg overflow-hidden flex flex-col">
-          <div className="text-center pt-6 px-4 mb-2">
-            <Image
-              src="/placeholder.svg?height=60&width=120"
-              alt="Adobe Creative Cloud"
-              width={120}
-              height={60}
-              className="h-8 w-auto mx-auto"
-            />
+          )}
+
+          {/* Title and green accent line */}
+          <div className="flex items-center pb-2 border-b border-[#292929]/20">
+            <h2 className="text-2xl font-bold text-[#292929]">
+              CAMPO
+            </h2>
+            <div className="ml-auto h-1 w-24 bg-[#4CAF50]"></div>
           </div>
-          
-          <div className="px-4 text-center">
-            <p className="text-sm mb-1">Plan Creative Cloud completo</p>
-            <p className="text-xl font-bold mb-3">{adContent.price}/mes*</p>
-          </div>
-          
-          <div className="flex justify-center mb-4 relative">
-            <div className="absolute top-0 right-10 w-12 h-12 rounded-full bg-purple-300"></div>
-            <div className="absolute bottom-6 left-10 w-8 h-8 rounded-full bg-purple-200"></div>
-            <Image
-              src={adContent.imageUrl}
-              alt="Adobe Creative"
-              width={180}
-              height={180}
-              className="relative z-10"
-            />
-          </div>
-          
-          <div className="text-center px-4 mb-4">
-            <p className="text-sm mb-4">Crea lo que quieras, donde quieras</p>
-            <button className="bg-purple-700 text-white py-2 px-6 rounded-full text-sm hover:bg-purple-800">
-              {adContent.ctaText}
-            </button>
-          </div>
-          
-          <div className="bg-purple-700 text-white text-xs p-2 mt-auto text-center">
-            * Precio válido por 3 meses
-          </div>
+
+          {/* Categories in IActualidad style - below title */}
+          {categories && categories.length > 0 && (
+            <div className="flex flex-wrap gap-4">
+              {categories.map((category, index) => (
+                <Link 
+                  href={category.href} 
+                  key={index}
+                  className="text-xs font-medium text-dark-gray hover:text-[#4CAF50] transition-colors flex items-center"
+                >
+                  {category.name}
+                  <ChevronRight size={12} className="ml-0.5" />
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Four column grid layout for articles */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {articles.slice(0, 4).map((article) => (
+            <a 
+              key={article.id} 
+              href="#" 
+              className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(`Article clicked: ${article.id}`);
+              }}
+            >
+              {/* Article image on top */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
+                {article.hasVideo && (
+                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
+                    VIDEO
+                  </div>
+                )}
+                <Image
+                  src={article.imageUrl}
+                  alt={article.title.regular}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                {/* Hover effect with gray overlay */}
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+              </div>
+
+              {/* Text content below */}
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
+                  {article.title.highlight && (
+                    <span className="text-[#4CAF50] font-bold">{article.title.highlight}. </span>
+                  )}
+                  {article.title.regular}
+                </h3>
+                
+                {article.summary && (
+                  <p className="text-dark-gray text-sm mb-3 line-clamp-2">
+                    {article.summary}
+                  </p>
+                )}
+                
+                {article.author && (
+                  <p className="text-xs text-dark-gray mt-auto">
+                    Por {article.author}
+                  </p>
+                )}
+              </div>
+            </a>
+          ))}
         </div>
       </div>
-      
-      {/* Lifestyle section preview */}
-      <div className="mt-8 border-t border-gray-200 pt-4">
-        <h3 className="text-2xl font-bold uppercase">LIFESTYLE</h3>
-      </div>
     </section>
-  );
+  )
 }

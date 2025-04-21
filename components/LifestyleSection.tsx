@@ -1,96 +1,147 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+'use client'
+
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
+
+interface CategoryLink {
+  name: string;
+  href: string;
+}
 
 interface Article {
-  title: string;
-  subtitle?: string;
-  author?: string;
-  imageUrl: string;
-  hasFeaturedBadge?: boolean;
+  id: string
+  title: {
+    highlight?: string
+    regular: string
+  }
+  summary?: string
+  author?: string
+  imageUrl: string
+  hasVideo?: boolean
+  hasFeaturedBadge?: boolean
 }
 
 interface LifestyleSectionProps {
-  mainArticle: Article;
-  storyCards: Article[];
+  logo?: {
+    src: string;
+    alt: string;
+  };
+  categories?: CategoryLink[];
+  articles: Article[];
   sectionTitle: string;
 }
 
 export default function LifestyleSection({
-  mainArticle,
-  storyCards,
+  logo,
+  categories = [],
+  articles,
   sectionTitle,
 }: LifestyleSectionProps) {
   return (
-    <section className="container mx-auto px-4 py-6">
-      <h2 className="text-2xl font-bold mb-6 uppercase">{sectionTitle}</h2>
-      
-      {/* Main Feature - 2 column layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {/* Left column: Text content */}
-        <div className="flex flex-col justify-center">
-          <h3 className="text-2xl font-serif font-bold mb-4 leading-tight">
-            {mainArticle.title}
-          </h3>
-          {mainArticle.subtitle && (
-            <p className="text-gray-700 mb-4 font-serif">{mainArticle.subtitle}</p>
-          )}
-          {mainArticle.author && (
-            <p className="text-sm text-gray-500">Por {mainArticle.author}</p>
-          )}
-        </div>
-        
-        {/* Right column: Image */}
-        <div className="flex justify-center">
-          <div className="w-full max-w-md">
-            <Image
-              src={mainArticle.imageUrl}
-              alt={mainArticle.title}
-              width={400}
-              height={600}
-              className="rounded w-full h-auto object-cover"
-            />
-          </div>
-        </div>
-      </div>
-      
-      {/* Divider */}
-      <div className="border-t border-gray-200 my-6"></div>
-      
-      {/* Story Cards - 2 column grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
-        {storyCards.map((card, index) => (
-          <article key={index} className="flex flex-col md:flex-row gap-4">
-            <div className="md:w-1/3 relative">
-              <Image
-                src={card.imageUrl}
-                alt={card.title}
-                width={200}
-                height={150}
-                className="w-full h-auto object-cover"
+    <section className="py-8 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Section header */}
+        <div className="flex flex-col space-y-4 mb-6">
+          {/* Logo if provided */}
+          {logo && (
+            <div className="relative w-48 h-16">
+              <Image 
+                src={logo.src} 
+                alt={logo.alt}
+                fill
+                className="object-contain object-left"
+                priority
+                unoptimized
               />
-              {card.hasFeaturedBadge && (
-                <div className="absolute top-2 right-2 bg-yellow-300 text-black text-xs px-2 py-1 rounded-full">
-                  DESTACADO
-                </div>
-              )}
             </div>
-            <div className="md:w-2/3">
-              <h4 className="text-lg font-bold mb-2 leading-tight">
-                <Link href="#" className="hover:text-blue-800">
-                  {card.title}
+          )}
+
+          {/* Title and green accent line */}
+          <div className="flex items-center pb-2 border-b border-[#292929]/20">
+            <h2 className="text-2xl font-bold text-[#292929]">
+              {sectionTitle}
+            </h2>
+            <div className="ml-auto h-1 w-24 bg-[#2a9d8f]"></div>
+          </div>
+
+          {/* Categories in IActualidad style - below title */}
+          {categories && categories.length > 0 && (
+            <div className="flex flex-wrap gap-4">
+              {categories.map((category, index) => (
+                <Link 
+                  href={category.href} 
+                  key={index}
+                  className="text-xs font-medium text-dark-gray hover:text-[#2a9d8f] transition-colors flex items-center"
+                >
+                  {category.name}
+                  <ChevronRight size={12} className="ml-0.5" />
                 </Link>
-              </h4>
-              {card.subtitle && (
-                <p className="text-sm text-gray-700 mb-2">{card.subtitle}</p>
-              )}
-              {card.author && (
-                <p className="text-xs text-gray-500">Por {card.author}</p>
-              )}
+              ))}
             </div>
-          </article>
-        ))}
+          )}
+        </div>
+
+        {/* Four column grid layout for articles */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {articles.slice(0, 4).map((article) => (
+            <a 
+              key={article.id} 
+              href="#" 
+              className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(`Article clicked: ${article.id}`);
+              }}
+            >
+              {/* Article image on top */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
+                {article.hasVideo && (
+                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
+                    VIDEO
+                  </div>
+                )}
+                {article.hasFeaturedBadge && (
+                  <div className="absolute top-2 right-2 bg-[#2a9d8f] text-white text-xs px-2 py-1 rounded z-10">
+                    DESTACADO
+                  </div>
+                )}
+                <Image
+                  src={article.imageUrl}
+                  alt={article.title.regular || article.title.highlight || ''}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                {/* Hover effect with gray overlay */}
+                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+              </div>
+
+              {/* Text content below */}
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
+                  {article.title.highlight && (
+                    <span className="text-[#2a9d8f] font-bold">{article.title.highlight}. </span>
+                  )}
+                  {article.title.regular}
+                </h3>
+                
+                {article.summary && (
+                  <p className="text-dark-gray text-sm mb-3 line-clamp-2">
+                    {article.summary}
+                  </p>
+                )}
+                
+                {article.author && (
+                  <p className="text-xs text-dark-gray mt-auto">
+                    Por {article.author}
+                  </p>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
-  );
+  )
 }
