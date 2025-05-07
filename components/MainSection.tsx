@@ -17,7 +17,6 @@ export default function MainSection() {
               DESTACADO
             </span>
             <span className="ml-2 text-dark-gray text-xs">
-              Actualizado hace 10 min
             </span>
           </div>
 
@@ -26,31 +25,23 @@ export default function MainSection() {
             <a 
               href="#" 
               className="block cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
-                console.log('Main article clicked');
-              }}
             >
-              {/* Title with red highlighting - now inside the clickable area */}
               <div className="p-4 bg-white">
                 <h1 className="text-3xl font-bold mb-3 leading-tight">
                   <span className="text-primary-red font-bold">
-                    "Título principal".
                   </span>{' '}
-                  Las bolsas asiáticas y europeas se desploman y caen los futuros de
-                  EE.UU
+                  Headline Title
                 </h1>
                 <p className="text-dark-gray mb-3 text-base">
-                  Bajada de nota con más detalle. Se utiliza para ampliar el
-                  contexto de forma concisa y legible.
+                  Introduction to the main article
                 </p>
               </div>
               
               {/* Image container with fixed aspect ratio */}
               <div className="relative aspect-[16/9] w-full overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=400&width=400"
-                  alt="Nota Principal"
+                  src="/public/images/placeholder.jpg"
+                  alt="Main article featured image"
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
@@ -62,17 +53,16 @@ export default function MainSection() {
               <div className="p-4 bg-white">
                 <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929] line-clamp-3">
                   <span className="text-primary-red font-bold">
-                    Economía.
                   </span>{' '}
-                  Las bolsas asiáticas y europeas se desploman y caen los futuros de EE.UU
+                  Main article title
                 </h3>
                 
                 <p className="text-sm text-dark-gray mb-2 line-clamp-2">
-                  Bajada de nota con más detalle. Se utiliza para ampliar el contexto de forma concisa y legible.
+                  Brief summary of the article content
                 </p>
                 
                 <p className="text-sm text-dark-gray">
-                  Por Redacción
+                  April 24, 2025
                 </p>
               </div>
             </a>
@@ -81,23 +71,16 @@ export default function MainSection() {
 
         {/* Right column (60% width) with cream background */}
         <div className="md:w-3/5 bg-cream p-4 rounded-md">
-          {/* Top row (50% height) with two equal cards - updated to match MasNoticias styling */}
           <div className="flex flex-col md:flex-row gap-4 mb-4">
-            {/* Second article (30% of total width) */}
             <div className="md:w-1/2">
-              <a 
-                href="#" 
+              <a href="#" 
                 className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-full"
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log('Second article clicked');
-                }}
               >
                 {/* Image container with fixed aspect ratio */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=190&width=350"
-                    alt="Nota 2"
+                    src="/public/images/placeholder.jpg"
+                    alt="Featured news image 1"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -109,32 +92,25 @@ export default function MainSection() {
                 <div className="p-4">
                   <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929] line-clamp-3">
                     <span className="text-primary-red font-bold">
-                      Sociedad.
                     </span>{' '}
-                    Segunda nota destacada
+                    Featured news title 1
                   </h3>
                   <p className="text-sm text-dark-gray">
-                    Por Autor/a Placeholder
+                    April 24, 2025
                   </p>
                 </div>
               </a>
             </div>
 
-            {/* Third article (30% of total width) */}
             <div className="md:w-1/2 mt-4 md:mt-0">
-              <a 
-                href="#" 
+              <a href="#"
                 className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-full"
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log('Third article clicked');
-                }}
               >
                 {/* Image container with fixed aspect ratio */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=190&width=350"
-                    alt="Nota 3"
+                    src="/public/images/placeholder.jpg"
+                    alt="Featured news image 2"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -146,12 +122,11 @@ export default function MainSection() {
                 <div className="p-4">
                   <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929] line-clamp-3">
                     <span className="text-primary-red font-bold">
-                      Internacional.
                     </span>{' '}
-                    Tercera nota destacada
+                    Featured news title 2
                   </h3>
                   <p className="text-sm text-dark-gray">
-                    Por Autor/a Placeholder
+                    April 24, 2025
                   </p>
                 </div>
               </a>
@@ -161,23 +136,16 @@ export default function MainSection() {
           {/* Simple gray divider */}
           <div className="h-px bg-gray-200 my-4"></div>
 
-          {/* Bottom row (50% height) with three equal cards - updated to match MasNoticias styling */}
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Fourth article (20% of total width) */}
             <div className="md:w-1/3">
-              <a 
-                href="#" 
+              <a href="#"
                 className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-full"
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log('Fourth article clicked');
-                }}
               >
                 {/* Image container with fixed aspect ratio */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=140&width=200"
-                    alt="Nota 4"
+                    src="/public/images/placeholder.jpg"
+                    alt="News article image 1"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -189,32 +157,25 @@ export default function MainSection() {
                 <div className="p-4">
                   <h3 className="text-lg font-bold leading-tight text-[#292929] line-clamp-3">
                     <span className="text-primary-red font-bold">
-                      Política.
                     </span>{' '}
-                    Análisis sobre turbulencias
+                    News article title 1
                   </h3>
                   <p className="text-sm text-dark-gray">
-                    Por Autor/a Placeholder
+                    April 24, 2025
                   </p>
                 </div>
               </a>
             </div>
 
-            {/* Fifth article (20% of total width) */}
             <div className="md:w-1/3 mt-4 md:mt-0">
-              <a 
-                href="#" 
+              <a href="#"
                 className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-full"
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log('Fifth article clicked');
-                }}
               >
                 {/* Image container with fixed aspect ratio */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=140&width=200"
-                    alt="Nota 5"
+                    src="/public/images/placeholder.jpg"
+                    alt="News article image 2"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -226,32 +187,25 @@ export default function MainSection() {
                 <div className="p-4">
                   <h3 className="text-lg font-bold leading-tight text-[#292929] line-clamp-3">
                     <span className="text-primary-red font-bold">
-                      Judiciales.
                     </span>{' '}
-                    Fallo reciente
+                    News article title 2
                   </h3>
                   <p className="text-sm text-dark-gray">
-                    Por Autor/a Placeholder
+                    April 24, 2025
                   </p>
                 </div>
               </a>
             </div>
 
-            {/* Sixth article (20% of total width) */}
             <div className="md:w-1/3 mt-4 md:mt-0">
-              <a 
-                href="#" 
+              <a href="#"
                 className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-full"
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log('Sixth article clicked');
-                }}
               >
                 {/* Image container with fixed aspect ratio */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=140&width=200"
-                    alt="Nota 6"
+                    src="/public/images/placeholder.jpg"
+                    alt="News article image 3"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -263,12 +217,11 @@ export default function MainSection() {
                 <div className="p-4">
                   <h3 className="text-lg font-bold leading-tight text-[#292929] line-clamp-3">
                     <span className="text-primary-red font-bold">
-                      Deportes.
                     </span>{' '}
-                    Resumen del empate
+                    News article title 3
                   </h3>
                   <p className="text-sm text-dark-gray">
-                    Por Autor/a Placeholder
+                    April 24, 2025
                   </p>
                 </div>
               </a>
