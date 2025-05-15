@@ -18,17 +18,17 @@ interface ContentCard {
   regularText: string;
 }
 
-interface HashtagSectionProps {
+interface TendenciasSectionProps {
   hashtagName: string;
   featuredItem: FeaturedItem;
   contentCards: ContentCard[];
 }
 
-export default function HashtagSection({
+export default function TendenciasSection({
   hashtagName,
   featuredItem,
   contentCards,
-}: HashtagSectionProps) {
+}: TendenciasSectionProps) {
   return (
     <section className="container mx-auto px-4 py-8 border-t border-gray-200">
       {/* Hashtag Title - styled as a graphic label */}
@@ -38,7 +38,7 @@ export default function HashtagSection({
           #{hashtagName}
         </h2>
       </div>
-      
+
       <div className="flex flex-col md:flex-row gap-8">
         {/* Left: Featured circular image with title/description */}
         <div className="md:w-1/3 flex flex-col items-center text-center">
@@ -52,17 +52,24 @@ export default function HashtagSection({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
             </div>
-            <Badge className="mb-3 bg-primary-red hover:bg-primary-red text-white">Destacado</Badge>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-primary-red transition-colors">{featuredItem.title}</h3>
+            <Badge className="mb-3 bg-primary-red hover:bg-primary-red text-white">
+              Destacado
+            </Badge>
+            <h3 className="text-xl font-bold mb-2 group-hover:text-primary-red transition-colors">
+              {featuredItem.title}
+            </h3>
             <p className="text-dark-gray">{featuredItem.description}</p>
           </Link>
         </div>
-        
+
         {/* Right: 3-column grid of content cards */}
         <div className="md:w-2/3">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {contentCards.map((card, index) => (
-              <Card key={index} className="border-0 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group">
+              <Card
+                key={index}
+                className="border-0 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+              >
                 <Link href="#" className="block w-full">
                   <div className="relative aspect-video overflow-hidden">
                     <Image
@@ -76,7 +83,9 @@ export default function HashtagSection({
                   </div>
                   <CardContent className="p-3">
                     <div className="text-center">
-                      <span className="text-primary-red font-bold">{card.highlightedText}</span>{" "}
+                      <span className="text-primary-red font-bold">
+                        {card.highlightedText}
+                      </span>{' '}
                       <span className="text-dark-gray">{card.regularText}</span>
                     </div>
                   </CardContent>
@@ -87,5 +96,5 @@ export default function HashtagSection({
         </div>
       </div>
     </section>
-  );
+  )
 }

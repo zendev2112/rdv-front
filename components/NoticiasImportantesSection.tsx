@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
 
-interface NewsArticle {
+interface NoticiasImportantes {
   id: string
   title: {
     highlight?: string
@@ -15,8 +15,7 @@ interface NewsArticle {
   hasVideo?: boolean
 }
 
-interface NewsSectionGridProps {
-  
+interface NoticiasImportantesProps {
   sectionColor?:
     | 'politics'
     | 'business'
@@ -26,14 +25,13 @@ interface NewsSectionGridProps {
     | 'tech'
     | 'agro'
     | 'default'
-  articles: NewsArticle[]
+  articles: NoticiasImportantes[]
 }
 
-export default function NewsSectionGrid({
-  
+export default function NoticiasImportantesSection({
   sectionColor = 'default',
   articles,
-}: NewsSectionGridProps) {
+}: NoticiasImportantesProps) {
   // Color system mapping for section headers and accents
   const colorMap = {
     politics: { bg: '#0a3d62', text: '#ffffff' },
@@ -56,9 +54,7 @@ export default function NewsSectionGrid({
         <div
           className="mb-6 pb-2 border-b-2 flex"
           style={{ borderColor: sectionStyle.bg }}
-        >
-
-        </div>
+        ></div>
 
         {/* Article grid with uniform white backgrounds */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -70,8 +66,8 @@ export default function NewsSectionGrid({
                 ${index < 3 ? 'border-r border-gray-200' : ''} 
                 bg-white`}
               onClick={(e) => {
-                e.preventDefault();
-                console.log(`Article clicked: ${article.id}`);
+                e.preventDefault()
+                console.log(`Article clicked: ${article.id}`)
               }}
             >
               <div className="relative aspect-video w-full overflow-hidden">

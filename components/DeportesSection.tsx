@@ -14,12 +14,12 @@ interface SportArticle {
   hasVideo?: boolean
 }
 
-interface SportsNewsSectionProps {
+interface DeportesSectionProps {
   mainArticle: SportArticle
   sideArticles: SportArticle[]
 }
 
-export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSectionProps) {
+export function DeportesSection({ mainArticle, sideArticles }: DeportesSectionProps) {
   return (
     <section className="container mx-auto px-4 py-6 border-t border-gray-200">
       <h2 className="text-2xl font-bold mb-6 uppercase">
@@ -31,8 +31,10 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
         href="#"
         className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group mb-8"
         onClick={(e) => {
-          e.preventDefault();
-          console.log(`Main sports article clicked: ${mainArticle.id || 'main'}`);
+          e.preventDefault()
+          console.log(
+            `Main sports article clicked: ${mainArticle.id || 'main'}`
+          )
         }}
       >
         <div className="flex flex-col md:flex-row gap-6">
@@ -51,12 +53,15 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
               <p className="text-sm text-dark-gray">Por {mainArticle.author}</p>
             )}
           </div>
-          
+
           {/* Image - Right */}
           <div className="md:w-1/2">
             <div className="relative w-full h-[300px] overflow-hidden">
               <Image
-                src={mainArticle.imageUrl || '/placeholder.svg?height=600&width=800'}
+                src={
+                  mainArticle.imageUrl ||
+                  '/placeholder.svg?height=600&width=800'
+                }
                 alt="Imagen principal"
                 fill
                 className="object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
@@ -87,8 +92,12 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
             href="#"
             className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group"
             onClick={(e) => {
-              e.preventDefault();
-              console.log(`Side sports article clicked: ${article.id || `side-article-${index}`}`);
+              e.preventDefault()
+              console.log(
+                `Side sports article clicked: ${
+                  article.id || `side-article-${index}`
+                }`
+              )
             }}
           >
             <div className="flex flex-col md:flex-row gap-4">
@@ -107,12 +116,15 @@ export function SportsNewsSection({ mainArticle, sideArticles }: SportsNewsSecti
                   <p className="text-sm text-dark-gray">Por {article.author}</p>
                 )}
               </div>
-              
+
               {/* Image - Right */}
               <div className="md:w-1/3">
                 <div className="relative w-full h-[180px] overflow-hidden">
                   <Image
-                    src={article.imageUrl || '/placeholder.svg?height=400&width=500'}
+                    src={
+                      article.imageUrl ||
+                      '/placeholder.svg?height=400&width=500'
+                    }
                     alt="Imagen secundaria"
                     fill
                     className="object-cover rounded-md group-hover:scale-105 transition-transform duration-300"

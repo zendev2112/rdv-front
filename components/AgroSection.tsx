@@ -22,7 +22,7 @@ interface Article {
   hasVideo?: boolean
 }
 
-interface AgroFourColumnGridProps {
+interface AgroSectionProps {
   logo?: {
     src: string;
     alt: string;
@@ -31,11 +31,7 @@ interface AgroFourColumnGridProps {
   articles: Article[];
 }
 
-export default function AgroFourColumnGrid({
-  logo,
-  categories = [],
-  articles,
-}: AgroFourColumnGridProps) {
+export default function AgroSection({ logo, categories = [], articles }: AgroSectionProps) {
   return (
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
@@ -44,8 +40,8 @@ export default function AgroFourColumnGrid({
           {/* Logo if provided */}
           {logo && (
             <div className="relative w-48 h-16">
-              <Image 
-                src={logo.src} 
+              <Image
+                src={logo.src}
                 alt={logo.alt}
                 fill
                 className="object-contain object-left"
@@ -57,9 +53,7 @@ export default function AgroFourColumnGrid({
 
           {/* Title and green accent line */}
           <div className="flex items-center pb-2 border-b border-[#292929]/20">
-            <h2 className="text-2xl font-bold text-[#292929]">
-              CAMPO
-            </h2>
+            <h2 className="text-2xl font-bold text-[#292929]">CAMPO</h2>
             <div className="ml-auto h-1 w-24 bg-[#4CAF50]"></div>
           </div>
 
@@ -67,8 +61,8 @@ export default function AgroFourColumnGrid({
           {categories && categories.length > 0 && (
             <div className="flex flex-wrap gap-4">
               {categories.map((category, index) => (
-                <Link 
-                  href={category.href} 
+                <Link
+                  href={category.href}
                   key={index}
                   className="text-xs font-medium text-dark-gray hover:text-[#4CAF50] transition-colors flex items-center"
                 >
@@ -83,13 +77,13 @@ export default function AgroFourColumnGrid({
         {/* Four column grid layout for articles */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {articles.slice(0, 4).map((article) => (
-            <a 
-              key={article.id} 
-              href="#" 
+            <a
+              key={article.id}
+              href="#"
               className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
               onClick={(e) => {
-                e.preventDefault();
-                console.log(`Article clicked: ${article.id}`);
+                e.preventDefault()
+                console.log(`Article clicked: ${article.id}`)
               }}
             >
               {/* Article image on top */}
@@ -113,17 +107,19 @@ export default function AgroFourColumnGrid({
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
                   {article.title.highlight && (
-                    <span className="text-[#4CAF50] font-bold">{article.title.highlight}. </span>
+                    <span className="text-[#4CAF50] font-bold">
+                      {article.title.highlight}.{' '}
+                    </span>
                   )}
                   {article.title.regular}
                 </h3>
-                
+
                 {article.summary && (
                   <p className="text-dark-gray text-sm mb-3 line-clamp-2">
                     {article.summary}
                   </p>
                 )}
-                
+
                 {article.author && (
                   <p className="text-xs text-dark-gray mt-auto">
                     Por {article.author}

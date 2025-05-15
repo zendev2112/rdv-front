@@ -22,7 +22,7 @@ interface NewsArticle {
   hasVideo?: boolean
 }
 
-interface BusinessMainFeatureProps {
+interface NegociosSectionProps {
   logo?: {
     src: string;
     alt: string;
@@ -32,12 +32,12 @@ interface BusinessMainFeatureProps {
   sideArticles: NewsArticle[];
 }
 
-export default function BusinessMainFeature({
+export default function NegociosSection({
   logo,
   categories = [],
   mainArticle,
   sideArticles,
-}: BusinessMainFeatureProps) {
+}: NegociosSectionProps) {
   return (
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
@@ -46,8 +46,8 @@ export default function BusinessMainFeature({
           {/* Logo if provided */}
           {logo && (
             <div className="relative w-48 h-16">
-              <Image 
-                src={logo.src} 
+              <Image
+                src={logo.src}
                 alt={logo.alt}
                 fill
                 className="object-contain object-left"
@@ -69,8 +69,8 @@ export default function BusinessMainFeature({
           {categories && categories.length > 0 && (
             <div className="flex flex-wrap gap-4">
               {categories.map((category, index) => (
-                <Link 
-                  href={category.href} 
+                <Link
+                  href={category.href}
                   key={index}
                   className="text-xs font-medium text-dark-gray hover:text-primary-red transition-colors flex items-center"
                 >
@@ -86,12 +86,12 @@ export default function BusinessMainFeature({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Featured Article - 50% width on desktop */}
           <div>
-            <a 
-              href="#" 
+            <a
+              href="#"
               className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
               onClick={(e) => {
-                e.preventDefault();
-                console.log(`Main article clicked: ${mainArticle.id}`);
+                e.preventDefault()
+                console.log(`Main article clicked: ${mainArticle.id}`)
               }}
             >
               {/* Main article image on top */}
@@ -117,7 +117,9 @@ export default function BusinessMainFeature({
                 {/* Title with highlighted part */}
                 <h3 className="text-3xl font-bold mb-3 leading-tight text-[#292929]">
                   {mainArticle.title.highlight && (
-                    <span className="text-primary-red font-bold">{mainArticle.title.highlight}. </span>
+                    <span className="text-primary-red font-bold">
+                      {mainArticle.title.highlight}.{' '}
+                    </span>
                   )}
                   {mainArticle.title.regular}
                 </h3>
@@ -142,13 +144,13 @@ export default function BusinessMainFeature({
           {/* Side Articles - 50% width container */}
           <div className="space-y-4">
             {sideArticles.map((article) => (
-              <a 
-                key={article.id} 
+              <a
+                key={article.id}
                 href="#"
                 className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group"
                 onClick={(e) => {
-                  e.preventDefault();
-                  console.log(`Side article clicked: ${article.id}`);
+                  e.preventDefault()
+                  console.log(`Side article clicked: ${article.id}`)
                 }}
               >
                 {/* Layout with text left, image right */}
@@ -157,18 +159,20 @@ export default function BusinessMainFeature({
                   <div className="p-4 sm:w-2/3 flex flex-col justify-center">
                     <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
                       {article.title.highlight && (
-                        <span className="text-primary-red font-bold">{article.title.highlight}. </span>
+                        <span className="text-primary-red font-bold">
+                          {article.title.highlight}.{' '}
+                        </span>
                       )}
                       {article.title.regular}
                     </h3>
-                    
+
                     {article.author && (
                       <p className="text-sm text-dark-gray mt-auto">
                         Por {article.author}
                       </p>
                     )}
                   </div>
-                  
+
                   {/* Article image */}
                   <div className="relative sm:w-1/3 aspect-video sm:aspect-square overflow-hidden">
                     {article.hasVideo && (

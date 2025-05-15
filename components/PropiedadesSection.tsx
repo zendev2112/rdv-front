@@ -23,7 +23,7 @@ interface Article {
   badgeText?: string
 }
 
-interface RealEstateFourColumnGridProps {
+interface PropiedadesSectionProps {
   logo?: {
     src: string;
     alt: string;
@@ -32,11 +32,11 @@ interface RealEstateFourColumnGridProps {
   properties: Article[];
 }
 
-export default function RealEstateFourColumnGrid({
+export default function PropiedadesSection({
   logo,
   categories = [],
   properties,
-}: RealEstateFourColumnGridProps) {
+}: PropiedadesSectionProps) {
   return (
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
@@ -45,8 +45,8 @@ export default function RealEstateFourColumnGrid({
           {/* Logo if provided */}
           {logo && (
             <div className="relative w-48 h-16">
-              <Image 
-                src={logo.src} 
+              <Image
+                src={logo.src}
                 alt={logo.alt}
                 fill
                 className="object-contain object-left"
@@ -58,9 +58,7 @@ export default function RealEstateFourColumnGrid({
 
           {/* Title and blue accent line */}
           <div className="flex items-center pb-2 border-b border-[#292929]/20">
-            <h2 className="text-2xl font-bold text-[#292929]">
-              PROPIEDADES
-            </h2>
+            <h2 className="text-2xl font-bold text-[#292929]">PROPIEDADES</h2>
             <div className="ml-auto h-1 w-24 bg-[#3498db]"></div>
           </div>
 
@@ -68,8 +66,8 @@ export default function RealEstateFourColumnGrid({
           {categories && categories.length > 0 && (
             <div className="flex flex-wrap gap-4">
               {categories.map((category, index) => (
-                <Link 
-                  href={category.href} 
+                <Link
+                  href={category.href}
                   key={index}
                   className="text-xs font-medium text-dark-gray hover:text-[#3498db] transition-colors flex items-center"
                 >
@@ -84,13 +82,13 @@ export default function RealEstateFourColumnGrid({
         {/* Four column grid layout for properties */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {properties.slice(0, 4).map((property) => (
-            <a 
-              key={property.id} 
-              href="#" 
+            <a
+              key={property.id}
+              href="#"
               className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
               onClick={(e) => {
-                e.preventDefault();
-                console.log(`Property clicked: ${property.id}`);
+                e.preventDefault()
+                console.log(`Property clicked: ${property.id}`)
               }}
             >
               {/* Property image on top */}
@@ -119,17 +117,19 @@ export default function RealEstateFourColumnGrid({
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
                   {property.title.highlight && (
-                    <span className="text-[#3498db] font-bold">{property.title.highlight}. </span>
+                    <span className="text-[#3498db] font-bold">
+                      {property.title.highlight}.{' '}
+                    </span>
                   )}
                   {property.title.regular}
                 </h3>
-                
+
                 {property.summary && (
                   <p className="text-dark-gray text-sm mb-3 line-clamp-2">
                     {property.summary}
                   </p>
                 )}
-                
+
                 {property.author && (
                   <p className="text-xs text-dark-gray mt-auto">
                     Por {property.author}

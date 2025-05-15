@@ -7,7 +7,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface WeatherData {
+interface ClimaData {
   location: string
   currentTemp: number
   condition: string
@@ -23,23 +23,23 @@ interface WeatherData {
   }[]
 }
 
-export default function WeatherSection() {
+export default function ClimaSection() {
   // Sample data - in a real app, this would come from an API
-  const weatherData: WeatherData = {
-    location: "Coronel Suarez",
+  const weatherData: ClimaData = {
+    location: 'Coronel Suarez',
     currentTemp: 24,
-    condition: "Parcialmente nublado",
+    condition: 'Parcialmente nublado',
     highTemp: 26,
     lowTemp: 18,
     humidity: 65,
     windSpeed: 12,
     forecast: [
-      { day: "Hoy", highTemp: 26, lowTemp: 18, condition: "cloudy" },
-      { day: "Mañana", highTemp: 28, lowTemp: 19, condition: "sunny" },
-      { day: "Miércoles", highTemp: 25, lowTemp: 17, condition: "rainy" },
-      { day: "Jueves", highTemp: 22, lowTemp: 16, condition: "cloudy-sun" },
-      { day: "Viernes", highTemp: 24, lowTemp: 15, condition: "sunny" }
-    ]
+      { day: 'Hoy', highTemp: 26, lowTemp: 18, condition: 'cloudy' },
+      { day: 'Mañana', highTemp: 28, lowTemp: 19, condition: 'sunny' },
+      { day: 'Miércoles', highTemp: 25, lowTemp: 17, condition: 'rainy' },
+      { day: 'Jueves', highTemp: 22, lowTemp: 16, condition: 'cloudy-sun' },
+      { day: 'Viernes', highTemp: 24, lowTemp: 15, condition: 'sunny' },
+    ],
   }
 
   // Map weather conditions to icons

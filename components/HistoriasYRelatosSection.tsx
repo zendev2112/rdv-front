@@ -13,15 +13,15 @@ interface StoryArticle {
   hasVideo?: boolean
 }
 
-interface StoriesAndCharactersSectionProps {
+interface HistoriasYRelatosSectionProps {
   mainArticle: StoryArticle
   sideArticles: StoryArticle[]
 }
 
-export function StoriesAndCharactersSection({
+export function HistoriasYRelatosSection({
   mainArticle,
-  sideArticles
-}: StoriesAndCharactersSectionProps) {
+  sideArticles,
+}: HistoriasYRelatosSectionProps) {
   return (
     <section className="container mx-auto px-4 py-6 border-t border-gray-200">
       <h2 className="text-2xl font-bold mb-6 uppercase">
@@ -32,12 +32,12 @@ export function StoriesAndCharactersSection({
       <div className="flex flex-col md:flex-row gap-8">
         {/* First Column - Main Article (Image on top, text at bottom) */}
         <div className="w-full md:w-1/2">
-          <a 
-            href="#" 
+          <a
+            href="#"
             className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
             onClick={(e) => {
-              e.preventDefault();
-              console.log(`Main story article clicked`);
+              e.preventDefault()
+              console.log(`Main story article clicked`)
             }}
           >
             <Card className="border-0 shadow-none h-full">
@@ -62,11 +62,13 @@ export function StoriesAndCharactersSection({
                     </Badge>
                   )}
                 </div>
-                
+
                 {/* Main Article Text Below Image */}
                 <div className="flex-grow">
                   <h3 className="text-3xl font-bold mb-3 leading-tight">
-                    <span className="text-primary-red font-bold">Historia.</span>{' '}
+                    <span className="text-primary-red font-bold">
+                      Historia.
+                    </span>{' '}
                     {mainArticle.title}
                   </h3>
                   {mainArticle.summary && (
@@ -75,25 +77,27 @@ export function StoriesAndCharactersSection({
                     </p>
                   )}
                   {mainArticle.author && (
-                    <p className="text-sm text-dark-gray">Por {mainArticle.author}</p>
+                    <p className="text-sm text-dark-gray">
+                      Por {mainArticle.author}
+                    </p>
                   )}
                 </div>
               </CardContent>
             </Card>
           </a>
         </div>
-        
+
         {/* Second Column - Stacked Side Articles (Text left, image right) */}
         <div className="w-full md:w-1/2">
           <div className="space-y-6">
             {sideArticles.map((article, index) => (
-              <a 
-                key={index} 
-                href="#" 
+              <a
+                key={index}
+                href="#"
                 className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
                 onClick={(e) => {
-                  e.preventDefault();
-                  console.log(`Side article ${index} clicked`);
+                  e.preventDefault()
+                  console.log(`Side article ${index} clicked`)
                 }}
               >
                 <Card className="border-0 shadow-none">
@@ -102,7 +106,9 @@ export function StoriesAndCharactersSection({
                       {/* Text Content on Left */}
                       <div className="sm:w-3/5 w-full">
                         <h3 className="text-lg font-bold mb-2 leading-tight break-words">
-                          <span className="text-primary-red font-bold">Personaje.</span>{' '}
+                          <span className="text-primary-red font-bold">
+                            Personaje.
+                          </span>{' '}
                           {article.title}
                         </h3>
                         {article.summary && (
@@ -111,10 +117,12 @@ export function StoriesAndCharactersSection({
                           </p>
                         )}
                         {article.author && (
-                          <p className="text-sm text-dark-gray">Por {article.author}</p>
+                          <p className="text-sm text-dark-gray">
+                            Por {article.author}
+                          </p>
                         )}
                       </div>
-                      
+
                       {/* Image on Right */}
                       <div className="sm:w-2/5">
                         <div className="relative w-full h-[120px]">

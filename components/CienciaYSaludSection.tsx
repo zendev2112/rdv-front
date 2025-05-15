@@ -13,7 +13,7 @@ interface Article {
   author?: string;
 }
 
-interface ScienceAndHealthProps {
+interface CienciaYSaludSectionProps {
   sectionTitle: string;
   logo?: {
     src: string;
@@ -23,33 +23,33 @@ interface ScienceAndHealthProps {
   smallArticles: Article[];
 }
 
-export default function ScienceAndHealth({
+export default function CienciaYSaludSection({
   sectionTitle,
   logo,
   mainArticle,
   smallArticles,
-}: ScienceAndHealthProps) {
+}: CienciaYSaludSectionProps) {
   return (
     <section className="py-6">
       <div className="container mx-auto px-4">
         {/* Divisory line */}
         <div className="border-b border-[#292929]/20 mb-6"></div>
-        
+
         {/* Section title instead of logo */}
         <div className="mb-6">
           <h2 className="text-2xl font-bold">{sectionTitle}</h2>
         </div>
-        
+
         {/* Main content layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Main article - full width */}
           <div className="md:col-span-12">
-            <a 
-              href="#" 
+            <a
+              href="#"
               className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
               onClick={(e) => {
-                e.preventDefault();
-                console.log(`Main article clicked`);
+                e.preventDefault()
+                console.log(`Main article clicked`)
               }}
             >
               <div className="flex flex-col md:flex-row">
@@ -63,20 +63,22 @@ export default function ScienceAndHealth({
                   />
                   <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
                 </div>
-                
+
                 {/* Content area */}
                 <div className="md:w-1/2 p-4 md:p-6">
                   <h2 className="text-xl md:text-2xl font-bold mb-3 leading-tight">
-                    <span className="text-primary-red font-bold">{mainArticle.titleHighlight}.</span>{' '}
+                    <span className="text-primary-red font-bold">
+                      {mainArticle.titleHighlight}.
+                    </span>{' '}
                     {mainArticle.titleRegular}
                   </h2>
-                  
+
                   {mainArticle.subtitle && (
                     <p className="text-dark-gray mb-3">
                       {mainArticle.subtitle}
                     </p>
                   )}
-                  
+
                   {mainArticle.author && (
                     <p className="text-sm text-dark-gray">
                       Por {mainArticle.author}
@@ -86,18 +88,18 @@ export default function ScienceAndHealth({
               </div>
             </a>
           </div>
-          
+
           {/* Side articles - three columns */}
           <div className="md:col-span-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {smallArticles.map((article, index) => (
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   key={index}
                   className="flex flex-col bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
                   onClick={(e) => {
-                    e.preventDefault();
-                    console.log(`Side article ${index} clicked`);
+                    e.preventDefault()
+                    console.log(`Side article ${index} clicked`)
                   }}
                 >
                   {/* Image container - TOP */}
@@ -110,14 +112,16 @@ export default function ScienceAndHealth({
                     />
                     <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
                   </div>
-                  
+
                   {/* Content area - BOTTOM */}
                   <div className="p-4 flex-grow">
                     <h3 className="text-base font-bold leading-tight mb-2">
-                      <span className="text-primary-red font-bold">{article.titleHighlight}.</span>{' '}
+                      <span className="text-primary-red font-bold">
+                        {article.titleHighlight}.
+                      </span>{' '}
                       {article.titleRegular}
                     </h3>
-                    
+
                     {article.author && (
                       <p className="text-sm text-dark-gray">
                         Por {article.author}
@@ -131,5 +135,5 @@ export default function ScienceAndHealth({
         </div>
       </div>
     </section>
-  );
+  )
 }

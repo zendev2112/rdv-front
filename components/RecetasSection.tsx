@@ -8,7 +8,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
-interface FooditSectionProps {
+interface RecetasSectionProps {
   logoSrc?: string
   categories?: {
     name: string
@@ -23,23 +23,23 @@ interface FooditSectionProps {
   }
 }
 
-export default function FooditSection({
-  logoSrc = "/images/logo-recetario.svg",
+export default function RecetasSection({
+  logoSrc = '/images/logo-recetario.svg',
   categories = [
-    { name: "MENU", href: "#" },
-    { name: "TIPS Y SECRETOS DE COCINA", href: "#" },
-    { name: "RECETAS FACILES", href: "#" },
+    { name: 'MENU', href: '#' },
+    { name: 'TIPS Y SECRETOS DE COCINA', href: '#' },
+    { name: 'RECETAS FACILES', href: '#' },
   ],
   mainArticle = {
-    titleBold: "Dulce y crocante.",
+    titleBold: 'Dulce y crocante.',
     titleRegular:
-      "Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso",
+      'Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso',
     content:
-      "La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor",
-    imageUrl: "/placeholder.svg?height=300&width=400",
-    imageAlt: "Tarta invertida con pistachos",
+      'La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor',
+    imageUrl: '/placeholder.svg?height=300&width=400',
+    imageAlt: 'Tarta invertida con pistachos',
   },
-}: FooditSectionProps) {
+}: RecetasSectionProps) {
   return (
     <section className="container mx-auto px-4 py-6 border-t border-gray-200">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -81,12 +81,12 @@ export default function FooditSection({
                 <div className="md:w-3/5">
                   <div className="flex flex-wrap gap-6 mb-6 text-sm">
                     {categories.map((category, index) => (
-                      <Link 
-                        key={index} 
-                        href={category.href} 
+                      <Link
+                        key={index}
+                        href={category.href}
                         className={cn(
-                          buttonVariants({ variant: "link" }),
-                          "text-dark-gray hover:text-blue-800 p-0 h-auto whitespace-nowrap"
+                          buttonVariants({ variant: 'link' }),
+                          'text-dark-gray hover:text-blue-800 p-0 h-auto whitespace-nowrap'
                         )}
                       >
                         {category.name}
@@ -94,14 +94,18 @@ export default function FooditSection({
                     ))}
                   </div>
                   <h3 className="text-2xl font-bold mb-3 leading-tight">
-                    <span className="text-primary-red font-bold">{mainArticle.titleBold}</span> {mainArticle.titleRegular}
+                    <span className="text-primary-red font-bold">
+                      {mainArticle.titleBold}
+                    </span>{' '}
+                    {mainArticle.titleRegular}
                   </h3>
-                  <p className="text-dark-gray">
-                    {mainArticle.content}
-                  </p>
+                  <p className="text-dark-gray">{mainArticle.content}</p>
                 </div>
                 <div className="md:w-2/5">
-                  <AspectRatio ratio={4/3} className="overflow-hidden rounded-md">
+                  <AspectRatio
+                    ratio={4 / 3}
+                    className="overflow-hidden rounded-md"
+                  >
                     <Image
                       src={mainArticle.imageUrl}
                       alt={mainArticle.imageAlt}

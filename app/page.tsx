@@ -2,41 +2,51 @@ import Image from 'next/image'
 import { Search, Bell, Menu, Play, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import OpinionSection from '../components/OpinionSection'
-import WellnessSection from '../components/WellnessSection'
-import WorldSection from '../components/WorldSection'
-import LifestyleFeature from '../components/LifestyleFeature'
+import BienestarSection from '../components/BienestarSection'
+import MundoSection from '../components/MundoSection'
 import TechSection from '../components/TechSection'
-import HashtagSection from '../components/HashtagSection'
+import TendenciasSection from '../components/TendenciasSection'
 import TopReads from '../components/TopReads'
-import MovieReleases from '@/components/MovieReleasesSection'
-import BusinessMainFeature from '../components/BusinessMainFeature'
-import EntertainmentMainFeature from '../components/EntertainmentMainFeature'
+import EstrenosSection from '@/components/EstrenosSection'
+import NegociosSection from '../components/NegociosSection'
+import EspectaculosSection from '../components/EspectaculosSection'
 import SalidasSection from '../components/SalidasSection' // Changed import
-import RealEstateFourColumnGrid from '../components/RealEstateFourColumnGrid'
-import AgroFourColumnGrid from '../components/AgroFourColumnGrid'
+import PropiedadesSection from '../components/PropiedadesSection'
+import AgroSection from '@/components/AgroSection'
 import LifestyleSection from '../components/LifestyleSection'
 import Footer from '../components/Footer'
-import MainSection from '@/components/MainSection'
-import NewsSectionGrid from '@/components/NewsSectionGrid'
-import WeatherSection from '@/components/WeatherSection'
+import PrincipalSection from '@/components/PrincipalSection'
+import NoticiasImportantesSection from '@/components/NoticiasImportantesSection'
+import ClimaSection from '@/components/ClimaSection'
 import Header from '@/components/Header'
 import FarmaciasDeTurno from '@/components/FarmaciasDeTurno'
 import ActualidadSection from '@/components/ActualidadSection'
-import PoliticsAndEconomySection from '@/components/PoliticsAndEconomySection'
+import PoliticaYEconomiaSection from '@/components/PoliticaYEconomiaSection'
 import AdPlaceholder from '@/components/AdPlaceholder'
 import MasNoticiasSection from '@/components/MasNoticiasSection'
 import VolgaTVSection from '@/components/VolgaTVSection'
 import RadioPlayerShowcase from '@/components/RadioPlayerShowcase'
-import { SportsNewsSection } from '@/components/SportsNewsSection'
-import { StoriesAndCharactersSection } from '@/components/StoriesAndCharactersSection'
+import { DeportesSection } from '@/components/DeportesSection'
+import { HistoriasYRelatosSection } from '@/components/HistoriasYRelatosSection'
 import YouMayBeInterestedSection from '@/components/YouMayBeInterestedSection'
-import FooditSection from '@/components/FooditSection'
+import RecetasSection from '@/components/RecetasSection'
 import QuinielaSection from '@/components/QuinielaSection'
 import IActualidad from '@/components/IActualidad'
-import ScienceAndHealth from '@/components/ScienceAndHealth'
+import CienciaYSaludSection from '@/components/CienciaYSaludSection'
 import MediaCarousel from '@/components/MediaCarousel'
+import PueblosAlemanesSection from '@/components/PueblosAlemanesSection'
+import HuanguelenSection from '@/components/HuanguelenSection'
+import LaSextaSection from '@/components/LaSextaSection'
+import CulturaSection from '@/components/CulturaSection'
+import EspecialSection from '@/components/EspecialSection'
+import { fetchSectionArticles } from '@/utils/api'
 
-export default function Home() {
+// This is a Server Component
+export default async function Home() {
+  // Fetch data for each section
+  const principalSectionArticles = await fetchSectionArticles('PrincipalSection')
+  // Other section data...
+
   // Sample data for FeaturedSection
   const featuredArticle = {
     title:
@@ -666,10 +676,10 @@ export default function Home() {
           </div>
         </div>
         {/* Main content */}
-        <MainSection />
+        <PrincipalSection />
 
         {/* Additional news grid section */}
-        <NewsSectionGrid
+        <NoticiasImportantesSection
           sectionColor="default"
           articles={[
             {
@@ -713,7 +723,20 @@ export default function Home() {
         />
 
         {/* Weather section */}
-        <WeatherSection />
+        <ClimaSection />
+
+        <PueblosAlemanesSection />
+        <HuanguelenSection />
+        <LaSextaSection />
+        {/* Special Section - Currently Disabled */}
+        <EspecialSection
+          title="ESPECIAL: ELECCIONES 2025"
+          subtitle="Cobertura especial del proceso electoral"
+          isDisabled={true}
+          disabledMessage="Nuestra cobertura especial de las elecciones estará disponible a partir del 1 de junio"
+          backgroundImage="/placeholder.svg?height=400&width=1200&text=Elecciones+2025"
+          themeColor="#990000"
+        />
 
         {/* Advertisement banner */}
         <div className="container mx-auto px-4 py-6">
@@ -881,7 +904,7 @@ export default function Home() {
         <FarmaciasDeTurno />
 
         {/* Politics and Economy Section */}
-        <PoliticsAndEconomySection
+        <PoliticaYEconomiaSection
           mainArticle={{
             id: 'politics-main-1',
             title: {
@@ -983,6 +1006,64 @@ export default function Home() {
         />
 
         <AdPlaceholder />
+
+        {/* Agro Four Column Grid Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <AgroSection
+            categories={[
+              { name: 'REGIONALES', href: '#' },
+              { name: 'TECNOLOGÍAS', href: '#' },
+              { name: 'GANADERÍA', href: '#' },
+              { name: 'AGRICULTURA', href: '#' },
+              { name: 'REMATES', href: '#' },
+            ]}
+            articles={[
+              {
+                id: 'agro-1',
+                title: {
+                  highlight: 'Clima',
+                  regular:
+                    'Las zonas afectadas por las lluvias excesivas y cómo impacta en la cosecha de maíz y soja',
+                },
+                author: 'Fernando Bertello',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+              },
+              {
+                id: 'agro-2',
+                title: {
+                  highlight: 'Exportaciones',
+                  regular:
+                    'El agro generó US$33.000 millones en 2024 y se convirtió en el principal sector exportador del país',
+                },
+                author: 'Belkis Martínez',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                summary:
+                  'Las ventas al exterior de productos agropecuarios superaron las expectativas del gobierno y del sector privado',
+              },
+              {
+                id: 'agro-3',
+                title: {
+                  highlight: 'Innovación',
+                  regular:
+                    'La tecnología que reduce un 30% el uso de agua en cultivos y revoluciona el riego por goteo',
+                },
+                author: 'José Luis Brea',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+              },
+              {
+                id: 'agro-4',
+                title: {
+                  highlight: 'Ganadería',
+                  regular:
+                    'Presentaron nueva técnica para mejorar la eficiencia reproductiva en rodeos bovinos',
+                },
+                author: 'Gabriela Origlia',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                hasVideo: true,
+              },
+            ]}
+          />
+        </section>
 
         <MasNoticiasSection
           articles={[
@@ -1113,7 +1194,7 @@ export default function Home() {
         <AdPlaceholder />
 
         {/* Sports News Section */}
-        <SportsNewsSection
+        <DeportesSection
           mainArticle={{
             title: (
               <>
@@ -1160,7 +1241,7 @@ export default function Home() {
         />
 
         {/* Stories and Characters Section with shadcn */}
-        <StoriesAndCharactersSection
+        <HistoriasYRelatosSection
           mainArticle={{
             title: (
               <>
@@ -1210,7 +1291,7 @@ export default function Home() {
         />
 
         {/* Foodit Section */}
-        <FooditSection
+        <RecetasSection
           logoSrc="/placeholder.svg?height=80&width=150"
           categories={[
             { name: 'MENU', href: '#' },
@@ -1239,13 +1320,13 @@ export default function Home() {
         />
 
         {/* Wellness Section */}
-        <WellnessSection
+        <BienestarSection
           featuredArticle={wellnessSectionData.featuredArticle}
           smallArticles={wellnessSectionData.smallArticles}
         />
 
         {/* World Section (formerly Farming Section) */}
-        <WorldSection
+        <MundoSection
           mainArticle={farmingSectionData.mainArticle}
           sideArticles={farmingSectionData.sideArticles}
         />
@@ -1294,7 +1375,7 @@ export default function Home() {
         </section>
 
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <ScienceAndHealth
+          <CienciaYSaludSection
             sectionTitle="CIENCIA Y SALUD"
             logo={{
               src: '/images/ciencia-salud-logo.png',
@@ -1307,7 +1388,7 @@ export default function Home() {
 
         {/* Hashtag Section */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <HashtagSection
+          <TendenciasSection
             hashtagName={hashtagSectionData.hashtagName}
             featuredItem={hashtagSectionData.featuredItem}
             contentCards={hashtagSectionData.contentCards}
@@ -1321,7 +1402,7 @@ export default function Home() {
 
         {/* Movie Releases Section - Updated to use 3 articles */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <MovieReleases
+          <EstrenosSection
             articles={[
               {
                 id: 1,
@@ -1360,7 +1441,7 @@ export default function Home() {
         </section>
 
         {/* Business Main Feature Section */}
-        <BusinessMainFeature
+        <NegociosSection
           logo={{
             src: '/images/business-logo.png',
             alt: 'Business Section Logo',
@@ -1425,7 +1506,7 @@ export default function Home() {
 
         {/* Entertainment Main Feature Section */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <EntertainmentMainFeature
+          <EspectaculosSection
             mainFeature={entertainmentMainFeatureData.mainFeature}
             secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
           />
@@ -1564,9 +1645,68 @@ export default function Home() {
           />
         </section>
 
+        {/* Cultura Section */}
+        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <CulturaSection
+            mainArticle={{
+              id: 'cultura-main',
+              title:
+                'Arte contemporáneo llega al museo municipal con exposición internacional',
+              slug: 'arte-contemporaneo-exposicion-internacional-museo',
+              excerpt:
+                'Con más de 50 obras de artistas locales e internacionales, la muestra explora la relación entre la percepción humana y las nuevas tecnologías digitales, creando experiencias inmersivas.',
+              source: 'Lucía Méndez',
+              imgUrl: '/placeholder.svg?height=400&width=600',
+              section: 'EXPOSICIÓN',
+              overline: 'Arte contemporáneo',
+              published_at: '2025-05-10T14:30:00Z',
+            }}
+            sideArticles={[
+              {
+                id: 'cultura-side-1',
+                title:
+                  'Vuelve "Casa de muñecas" con un elenco renovado y una visión contemporánea',
+                slug: 'casa-de-munecas-elenco-renovado-vision-contemporanea',
+                excerpt:
+                  'La obra de Henrik Ibsen sorprende con una reinterpretación que acerca el clásico a las preocupaciones actuales sobre género y autonomía personal.',
+                source: 'Gabriel Torres',
+                imgUrl: '/placeholder.svg?height=200&width=300',
+                section: 'ESCENA',
+                overline: 'Teatro',
+                published_at: '2025-05-11T09:15:00Z',
+              },
+              {
+                id: 'cultura-side-2',
+                title:
+                  'El escritor local presentó su nuevo libro en una sala colmada',
+                slug: 'escritor-local-presento-nuevo-libro',
+                source: 'Marina Peralta',
+                imgUrl: '/placeholder.svg?height=200&width=300',
+                section: 'LETRAS',
+                overline: 'Literatura',
+                'yt - video': 'https://youtube.com/watch?v=abcdefg12345',
+                published_at: '2025-05-09T18:45:00Z',
+              },
+              {
+                id: 'cultura-side-3',
+                title:
+                  'Jazz en el parque: el ciclo musical que revitaliza los espacios públicos',
+                slug: 'jazz-parque-ciclo-musical-espacios-publicos',
+                excerpt:
+                  'Cada fin de semana, músicos locales ofrecen conciertos gratuitos en diferentes plazas de la ciudad, atrayendo a un público diverso.',
+                source: 'Diego Martínez',
+                imgUrl: '/placeholder.svg?height=200&width=300',
+                section: 'MÚSICA',
+                overline: 'Ciclo cultural',
+                published_at: '2025-05-08T16:20:00Z',
+              },
+            ]}
+          />
+        </section>
+
         {/* Real Estate Four Column Grid Section */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <RealEstateFourColumnGrid
+          <PropiedadesSection
             categories={[
               { name: 'INMUEBLES COMERCIALES', href: '#' },
               { name: 'CONSTRUCCION Y DISEÑO', href: '#' },
@@ -1618,59 +1758,6 @@ export default function Home() {
                 summary:
                   'Un análisis de las áreas emergentes que ofrecen las mejores oportunidades para inversores inmobiliarios',
               },
-            ]}
-          />
-        </section>
-
-        {/* Agro Four Column Grid Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <AgroFourColumnGrid
-            categories={[
-              { name: 'REGIONALES', href: '#' },
-              { name: 'TECNOLOGÍAS', href: '#' },
-              { name: 'GANADERÍA', href: '#' },
-              { name: 'AGRICULTURA', href: '#' },
-              { name: 'REMATES', href: '#' },
-            ]}
-            articles={[
-              {
-                id: 'agro-1',
-                title: {
-                  highlight: 'Clima',
-                  regular: 'Las zonas afectadas por las lluvias excesivas y cómo impacta en la cosecha de maíz y soja'
-                },
-                author: 'Fernando Bertello',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-              },
-              {
-                id: 'agro-2',
-                title: {
-                  highlight: 'Exportaciones',
-                  regular: 'El agro generó US$33.000 millones en 2024 y se convirtió en el principal sector exportador del país'
-                },
-                author: 'Belkis Martínez',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-                summary: 'Las ventas al exterior de productos agropecuarios superaron las expectativas del gobierno y del sector privado',
-              },
-              {
-                id: 'agro-3',
-                title: {
-                  highlight: 'Innovación',
-                  regular: 'La tecnología que reduce un 30% el uso de agua en cultivos y revoluciona el riego por goteo'
-                },
-                author: 'José Luis Brea',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-              },
-              {
-                id: 'agro-4',
-                title: {
-                  highlight: 'Ganadería',
-                  regular: 'Presentaron nueva técnica para mejorar la eficiencia reproductiva en rodeos bovinos'
-                },
-                author: 'Gabriela Origlia',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-                hasVideo: true,
-              }
             ]}
           />
         </section>

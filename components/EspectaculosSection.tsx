@@ -30,7 +30,7 @@ interface SecondaryFeature {
   hasVideo?: boolean;
 }
 
-interface EntertainmentMainFeatureProps {
+interface EspectaculosSectionProps {
   logo?: {
     src: string;
     alt: string;
@@ -40,12 +40,12 @@ interface EntertainmentMainFeatureProps {
   secondaryFeatures: SecondaryFeature[];
 }
 
-export default function EntertainmentMainFeature({
+export default function EspectaculosSection({
   logo,
   categories = [],
   mainFeature,
   secondaryFeatures,
-}: EntertainmentMainFeatureProps) {
+}: EspectaculosSectionProps) {
   return (
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
@@ -54,8 +54,8 @@ export default function EntertainmentMainFeature({
           {/* Logo if provided */}
           {logo && (
             <div className="relative w-48 h-16">
-              <Image 
-                src={logo.src} 
+              <Image
+                src={logo.src}
                 alt={logo.alt}
                 fill
                 className="object-contain object-left"
@@ -67,9 +67,7 @@ export default function EntertainmentMainFeature({
 
           {/* Title and red accent line */}
           <div className="flex items-center pb-2 border-b border-[#292929]/20">
-            <h2 className="text-2xl font-bold text-[#292929]">
-              ESPECTÁCULOS
-            </h2>
+            <h2 className="text-2xl font-bold text-[#292929]">ESPECTÁCULOS</h2>
             <div className="ml-auto h-1 w-24 bg-[#ff0808]"></div>
           </div>
 
@@ -77,8 +75,8 @@ export default function EntertainmentMainFeature({
           {categories && categories.length > 0 && (
             <div className="flex flex-wrap gap-4">
               {categories.map((category, index) => (
-                <Link 
-                  href={category.href} 
+                <Link
+                  href={category.href}
                   key={index}
                   className="text-xs font-medium text-dark-gray hover:text-primary-red transition-colors flex items-center"
                 >
@@ -110,18 +108,20 @@ export default function EntertainmentMainFeature({
                 />
                 <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
-              
+
               {/* Text content on the right */}
               <div className="md:w-1/2 p-5 flex flex-col justify-center">
                 <h3 className="text-3xl font-bold mb-3 leading-tight text-[#292929]">
-                  <span className="text-primary-red font-bold">"{mainFeature.quoteText}". </span>
+                  <span className="text-primary-red font-bold">
+                    "{mainFeature.quoteText}".{' '}
+                  </span>
                   {mainFeature.titleText}
                 </h3>
-                
+
                 <p className="text-dark-gray text-base mb-4 line-clamp-3">
                   {mainFeature.subheading}
                 </p>
-                
+
                 <div className="flex items-center">
                   {mainFeature.author.avatarUrl && (
                     <Image
@@ -133,17 +133,20 @@ export default function EntertainmentMainFeature({
                     />
                   )}
                   <p className="text-sm text-dark-gray">
-                    Por <span className="font-medium">{mainFeature.author.name}</span>
+                    Por{' '}
+                    <span className="font-medium">
+                      {mainFeature.author.name}
+                    </span>
                   </p>
                 </div>
               </div>
             </Link>
           </div>
-          
+
           {/* Secondary articles row - 2 articles side by side */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {secondaryFeatures.slice(0, 2).map((feature, index) => (
-              <div 
+              <div
                 key={index}
                 className="overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
               >
@@ -151,17 +154,20 @@ export default function EntertainmentMainFeature({
                   {/* Text on the left */}
                   <div className="p-4 w-2/3 flex flex-col justify-center">
                     <h4 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
-                      <span className="text-primary-red font-bold">{feature.titleBold}. </span>
+                      <span className="text-primary-red font-bold">
+                        {feature.titleBold}.{' '}
+                      </span>
                       {feature.titleRegular}
                     </h4>
-                    
+
                     {feature.author && (
                       <p className="text-sm text-dark-gray mt-auto">
-                        Por <span className="font-medium">{feature.author}</span>
+                        Por{' '}
+                        <span className="font-medium">{feature.author}</span>
                       </p>
                     )}
                   </div>
-                  
+
                   {/* Image on the right */}
                   <div className="relative w-1/3 aspect-square overflow-hidden">
                     {feature.hasVideo && (
@@ -184,5 +190,5 @@ export default function EntertainmentMainFeature({
         </div>
       </div>
     </section>
-  );
+  )
 }
