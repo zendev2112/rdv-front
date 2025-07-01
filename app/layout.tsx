@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: 'Radio del Volga',
-  description: 'A La Nación newspaper clone created with Next.js',
+  description: 'Radio del Volga',
 }
 
 export default function RootLayout({

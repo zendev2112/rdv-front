@@ -1,32 +1,170 @@
 'use client'
 
-import Image from 'next/image'
-import { Search, Bell, Menu, X, Download, Smartphone } from 'lucide-react'
-import Link from 'next/link'
-
 import { useState, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import Link from 'next/link'
+import Image from 'next/image'
+import {
+  Search,
+  Bell,
+  Menu,
+  X,
+  Download,
+  Smartphone,
+  ChevronDown,
+  ChevronRight,
+} from 'lucide-react'
+
+// --- 1. Updated menu structure - Pymes y Emprendimientos as its own section ---
+const menuSections = [
+  { label: 'Radio del Volga', href: '/radio-del-volga' },
+  { label: 'Mapa del Sitio', href: '/mapa-del-sitio' },
+  { label: 'Coronel Suárez', href: '/coronel-suarez' },
+  {
+    label: 'Pueblos Alemanes',
+    children: [
+      { label: 'Santa Trinidad', href: '/santa-trinidad' },
+      { label: 'San José', href: '/san-jose' },
+      { label: 'Santa María', href: '/santa-maria' },
+    ],
+  },
+  { label: 'Huanguelén', href: '/huanguelen' },
+  { label: 'La Sexta', href: '/la-sexta' },
+  { label: 'Política', href: '/politica' },
+  {
+    label: 'Economía',
+    children: [
+      { label: 'Actualidad', href: '/economia/actualidad' },
+      { label: 'Dólar', href: '/economia/dolar' },
+      { label: 'Propiedades', href: '/economia/propiedades' },
+    ],
+  },
+  {
+    label: 'Pymes y Emprendimientos',
+    children: [
+      { label: 'Inmuebles', href: '/pymes/inmuebles' },
+      { label: 'Campos', href: '/pymes/campos' },
+      { label: 'Construcción y Diseño', href: '/pymes/construccion-diseno' },
+    ],
+  },
+  {
+    label: 'Agro',
+    children: [
+      { label: 'Agricultura', href: '/agro/agricultura' },
+      { label: 'Ganadería', href: '/agro/ganaderia' },
+      { label: 'Tecnologías', href: '/agro/tecnologias' },
+    ],
+  },
+  {
+    label: 'Sociedad',
+    children: [
+      { label: 'Educación', href: '/sociedad/educacion' },
+      { label: 'Policiales', href: '/sociedad/policiales' },
+      { label: 'Efemérides', href: '/sociedad/efemerides' },
+      { label: 'Ciencia', href: '/sociedad/ciencia' },
+    ],
+  },
+  {
+    label: 'Salud',
+    children: [
+      { label: 'Vida en Armonía', href: '/salud/vida-en-armonia' },
+      { label: 'Nutrición y energía', href: '/salud/nutricion-energia' },
+      { label: 'Fitness', href: '/salud/fitness' },
+      { label: 'Salud mental', href: '/salud/salud-mental' },
+    ],
+  },
+  { label: 'Cultura', href: '/cultura' },
+  { label: 'Opinión', href: '/opinion' },
+  { label: 'Deportes', href: '/deportes' },
+  {
+    label: 'Lifestyle',
+    children: [
+      { label: 'Turismo', href: '/lifestyle/turismo' },
+      { label: 'Horóscopo', href: '/lifestyle/horoscopo' },
+      { label: 'Feriados', href: '/lifestyle/feriados' },
+      { label: 'Loterías y Quinielas', href: '/lifestyle/loterias-quinielas' },
+      { label: 'Moda y Belleza', href: '/lifestyle/moda-belleza' },
+      { label: 'Mascotas', href: '/lifestyle/mascotas' },
+    ],
+  },
+  { label: 'Volga Beneficios', href: '/volga-beneficios' },
+  { label: 'Vinos', href: '/vinos' },
+  { label: 'El Recetario', href: '/el-recetario' },
+]
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  
+  const [openSections, setOpenSections] = useState(new Set())
+
+  // Toggle subsection visibility
+  const toggleSection = (sectionLabel) => {
+    const newOpenSections = new Set(openSections)
+    if (newOpenSections.has(sectionLabel)) {
+      newOpenSections.delete(sectionLabel)
+    } else {
+      newOpenSections.add(sectionLabel)
+    }
+    setOpenSections(newOpenSections)
+  }
+
+  // --- Render menu with collapsible subsections ---
+  const renderMenu = (items, level = 0) => {
+    return (
+      <ul className={level === 0 ? 'pl-0' : 'pl-4'}>
+        {items.map((item) => (
+          <li key={item.label} className="mb-1">
+            {item.href ? (
+              <Link
+                href={item.href}
+                className={`block py-2 text-gray-800 hover:text-primary-red text-sm ${
+                  level === 0 ? 'font-semibold' : ''
+                } transition-colors`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <button
+                onClick={() => toggleSection(item.label)}
+                className="w-full flex items-center justify-between py-2 text-gray-800 text-sm font-semibold hover:text-primary-red transition-colors"
+              >
+                <span>{item.label}</span>
+                {openSections.has(item.label) ? (
+                  <ChevronDown className="w-4 h-4" />
+                ) : (
+                  <ChevronRight className="w-4 h-4" />
+                )}
+              </button>
+            )}
+            {item.children && openSections.has(item.label) && (
+              <div className="overflow-hidden">
+                {renderMenu(item.children, level + 1)}
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
   // Track scroll position to adjust header positioning
   useEffect(() => {
     const handleScroll = () => {
-      // Determine if we've scrolled past the top bar (approx 1.5rem = 24px)
       const isScrolled = window.scrollY > 24
       setScrolled(isScrolled)
     }
-    
+
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
-    <header 
-      className={`fixed ${scrolled ? 'top-0' : 'top-[calc(1.5rem)]'} left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200`}
+    <header
+      className={`fixed ${
+        scrolled ? 'top-0' : 'top-[calc(1.5rem)]'
+      } left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200`}
     >
       {/* Main header area */}
       <div className="container mx-auto px-3 py-2 md:py-3 flex justify-between items-center">
@@ -34,26 +172,21 @@ export default function Header() {
         <div className="flex items-center">
           {/* Mobile menu toggle */}
           <button
-            className="mr-3 md:mr-4 flex items-center text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+            className="text-white p-2"
+            aria-label="Abrir menú"
+            onClick={() => setMobileMenuOpen((open) => !open)}
           >
             {mobileMenuOpen ? (
-              <X className="w-5 h-5 md:w-6 md:h-6 mr-1 md:mr-2" />
+              <X className="w-6 h-6" />
             ) : (
-              <Menu className="w-5 h-5 md:w-6 md:h-6 mr-1 md:mr-2" />
+              <Menu className="w-6 h-6" />
             )}
-            <span className="font-bold text-xs md:text-sm hidden sm:inline">SECCIONES</span>
-          </button>
-          <button className="text-white" aria-label="Search">
-            <Search className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
         {/* Center section - Logo */}
         <div className="flex-1 flex justify-center">
           <Link href="/" className="text-center">
-            {/* Use a smaller logo size on mobile */}
             <div className="relative h-8 w-32 sm:h-10 sm:w-48 md:h-16 md:w-64">
               <Image
                 src="/images/logo.svg"
@@ -72,8 +205,7 @@ export default function Header() {
           <button className="text-white p-1" aria-label="Notifications">
             <Bell className="w-5 h-5 md:w-6 md:h-6" />
           </button>
-          
-          {/* App Download Button - Truly Mobile Friendly */}
+
           <Button
             variant="outline"
             size="sm"
@@ -84,72 +216,34 @@ export default function Header() {
             </div>
             <div className="flex flex-col items-start leading-none sm:leading-normal">
               <span className="text-[9px] sm:text-xs">VOLGA BENEFICIOS </span>
-              <span className="text-[10px] sm:text-sm font-extrabold"> APP</span>
+              <span className="text-[10px] sm:text-sm font-extrabold">
+                {' '}
+                APP
+              </span>
             </div>
           </Button>
         </div>
       </div>
 
-      {/* Mobile menu - slides down when menu is open */}
+      {/* Mobile and Desktop menu - slides down when menu is open */}
       <div
         className={`${
-          mobileMenuOpen ? 'max-h-screen py-2' : 'max-h-0 py-0 overflow-hidden'
-        } transition-all duration-300 ease-in-out bg-white text-dark-gray`}
+          mobileMenuOpen ? 'max-h-[80vh] py-4' : 'max-h-0 py-0 overflow-hidden'
+        } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
       >
         <div className="container mx-auto px-4">
-          <nav className="flex flex-col">
-            {/* Mobile menu links */}
-            {[
-              'Política',
-              'Economía',
-              'Sociedad',
-              'Mundo',
-              'Opinión',
-              'Deportes',
-              'Lifestyle',
-            ].map((item) => (
-              <Link
-                key={item}
-                href="#"
-                className="py-2 border-b border-light-gray text-dark-gray hover:text-primary-red text-sm md:text-base"
-              >
-                {item}
-              </Link>
-            ))}
-            {/* Additional mobile-only links */}
-            <div className="pt-3 pb-2">
-              <Link
-                href="#"
-                className="block py-1.5 text-dark-gray hover:text-primary-red text-sm"
-              >
-                Mi Cuenta
-              </Link>
-              <Link
-                href="#"
-                className="block py-1.5 text-dark-gray hover:text-primary-red text-sm"
-              >
-                Newsletters
-              </Link>
-              <Link
-                href="#"
-                className="block py-1.5 text-dark-gray hover:text-primary-red text-sm"
-              >
-                Club LA NACIÓN
-              </Link>
-              <Link
-                href="#"
-                className="block py-1.5 text-dark-gray hover:text-primary-red text-sm"
-              >
-                Ayuda
-              </Link>
-            </div>
-            {/* Mobile subscribe button */}
-            <div className="pt-3 pb-2">
-              <button className="bg-primary-red text-white rounded px-4 py-2 text-sm font-medium w-full hover:bg-opacity-90 transition-opacity">
-                SUSCRIBIRSE
-              </button>
-            </div>
-          </nav>
+          <div className="max-h-[70vh] overflow-y-auto">
+            <nav className="flex flex-col">
+              {/* Menu links */}
+              {renderMenu(menuSections)}
+              {/* Subscribe button */}
+              <div className="pt-4 pb-2 border-t border-gray-200 mt-4">
+                <button className="bg-primary-red text-white rounded px-4 py-2 text-sm font-medium w-full hover:bg-opacity-90 transition-opacity">
+                  SUSCRIBIRSE
+                </button>
+              </div>
+            </nav>
+          </div>
         </div>
       </div>
     </header>

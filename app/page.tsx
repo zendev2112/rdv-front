@@ -678,49 +678,8 @@ export default async function Home() {
         {/* Main content */}
         <PrincipalSection />
 
-        {/* Additional news grid section */}
-        <NoticiasImportantesSection
-          sectionColor="default"
-          articles={[
-            {
-              id: '1',
-              title: {
-                highlight: 'Análisis',
-                regular: 'Nuevas turbulencias en todos los frentes',
-              },
-              author: 'Claudio Jacquelin',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '2',
-              title: {
-                highlight: 'Límites al operativo',
-                regular:
-                  'El juez Gallardo ordenó que la Policía porteña custodie la marcha de jubilados y corrió a las fuerzas de Bullrich',
-              },
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '3',
-              title: {
-                highlight: 'Las definiciones de Kovadloff',
-                regular:
-                  'Las "contradicciones" de Milei, un peronismo "amnésico" y la "profunda crisis" de la política',
-              },
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              hasVideo: true,
-            },
-            {
-              id: '4',
-              title: {
-                highlight: 'Empate en Florida',
-                regular:
-                  'Messi convirtió un gol y jugó un gran partido, pero Inter Miami no pudo ante Toronto',
-              },
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-          ]}
-        />
+        
+        <NoticiasImportantesSection sectionColor="default" />
 
         {/* Weather section */}
         <ClimaSection />
