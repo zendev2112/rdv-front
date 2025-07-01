@@ -3,6 +3,10 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useArticles } from '../hooks/useArticles' // Import our new hook
+import OptimizedImage from './OptimizedImage' // Import the new component
+
+
 
 interface Article {
   id: string
@@ -19,49 +23,7 @@ interface Article {
   hasVideo?: boolean
 }
 
-// Same SafeImage component from PrincipalSection
-function SafeImage({
-  src,
-  alt,
-  fill = false,
-  className = '',
-  priority = false,
-}) {
-  if (!src) {
-    return (
-      <div
-        className={`relative w-full h-full bg-gray-200 flex items-center justify-center ${className}`}
-      >
-        <span className="text-gray-400">No image</span>
-      </div>
-    )
-  }
 
-  return (
-    <div
-      className={`relative w-full h-full ${fill ? 'absolute inset-0' : ''}`}
-      style={{ overflow: 'hidden' }}
-    >
-      <img
-        src={src}
-        alt={alt || 'Article image'}
-        className={`w-full h-full object-cover ${className}`}
-        loading={priority ? 'eager' : 'lazy'}
-        onError={(e) => {
-          console.error('Direct image failed to load:', src)
-          const proxyUrl = `/api/imageproxy?url=${encodeURIComponent(src)}`
-          e.currentTarget.src = proxyUrl
-
-          e.currentTarget.onerror = () => {
-            console.error('Proxy image also failed:', proxyUrl)
-            e.currentTarget.src =
-              "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Cpath d='M30 40 L50 65 L70 40' stroke='%23cccccc' fill='none' stroke-width='2'/%3E%3Ccircle cx='50' cy='30' r='10' fill='%23cccccc'/%3E%3C/svg%3E"
-          }
-        }}
-      />
-    </div>
-  )
-}
 
 // Same getSectionPath function from PrincipalSection
 function getSectionPath(section: string | undefined): string {
@@ -83,47 +45,9 @@ interface NoticiasImportantesSectionProps {
 export default function NoticiasImportantesSection({
   sectionColor = 'default',
 }: NoticiasImportantesSectionProps) {
-  const [articles, setArticles] = useState<Article[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { articles, loading, error } = useArticles('NoticiasImportantesSection')
+
   const previousArticlesRef = useRef<Article[]>([])
-
-  // Same fetching logic as PrincipalSection
-  useEffect(() => {
-    async function fetchArticles() {
-      try {
-        setLoading(true)
-        const response = await fetch(
-          '/api/articles?front=NoticiasImportantesSection&status=published'
-        )
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch articles')
-        }
-
-        const result = await response.json()
-        const apiArticles = Array.isArray(result) ? result : []
-
-        // Same comparison logic as PrincipalSection
-        const existingIds = new Set(articles.map((a) => a.id))
-        const hasNewArticles = apiArticles.some((a) => !existingIds.has(a.id))
-
-        if (hasNewArticles || articles.length === 0) {
-          setArticles(apiArticles)
-          previousArticlesRef.current = []
-        }
-      } catch (err) {
-        console.error('Error fetching noticias importantes articles:', err)
-        setError('Failed to load articles')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchArticles()
-    const interval = setInterval(fetchArticles, 5 * 60 * 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   // ...existing code...
   const processedArticles = useMemo(() => {
@@ -253,7 +177,7 @@ export default function NoticiasImportantesSection({
               }/${article.slug}`}
               className="block h-full flex flex-col"
             >
-              {/* Image on top */}
+              {/* REPLACE SafeImage with OptimizedImage */}
               <div className="relative w-full h-40 md:h-48 overflow-hidden">
                 {article.hasVideo && (
                   <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -269,12 +193,13 @@ export default function NoticiasImportantesSection({
                   </div>
                 )}
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                <SafeImage
+                <OptimizedImage
                   src={article.imgUrl}
                   alt={article.title}
                   fill
                   className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                   priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 25vw"
                 />
               </div>
               {/* Text below */}

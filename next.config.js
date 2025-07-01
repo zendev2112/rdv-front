@@ -13,6 +13,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
         hostname: '**.ytimg.com',
       },
       {
@@ -38,6 +46,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'pxcdn.lanueva.com',
         pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.clarin.com',
       },
       {
         protocol: 'https',
