@@ -7,43 +7,6 @@ import { useArticles } from '../hooks/useArticles'
 import OptimizedImage from './OptimizedImage' // Import the new component
 
 
-// Utility function to handle cascading displacement
-function displaceArticles(type, newArticle, currentState) {
-  const { main, upper, lower } = currentState;
-
-  // Create new state
-  const newState = {
-    main: null,
-    upper: [...upper],
-    lower: [...lower],
-  };
-
-  if (type === 'principal') {
-    // New Principal arrives
-    newState.main = newArticle; // New Principal
-    if (main) newState.upper[0] = main; // Former Principal → Upper1
-    if (upper[0]) newState.upper[1] = upper[0]; // Former Upper1 → Upper2
-    if (upper[1]) newState.lower.unshift(upper[1]); // Former Upper2 → Lower1
-  } else if (type === 'secundario') {
-    // New Secundario arrives
-    newState.main = main; // Keep Principal
-    newState.upper[0] = newArticle; // New Secundario → Upper1
-    if (upper[0]) newState.upper[1] = upper[0]; // Former Upper1 → Upper2
-    if (upper[1]) newState.lower.unshift(upper[1]); // Former Upper2 → Lower1
-  } else if (type === 'normal') {
-    // New Normal arrives
-    newState.main = main; // Keep Principal
-    newState.upper[0] = upper[0]; // Keep Upper1
-    newState.upper[1] = newArticle; // New Normal → Upper2
-    if (upper[1]) newState.lower.unshift(upper[1]); // Former Upper2 → Lower1
-  }
-
-  // Ensure lower row has max 3 articles
-  newState.lower = newState.lower.slice(0, 3);
-
-  return newState;
-}
-
 interface Article {
   id: string
   title: string
@@ -54,6 +17,10 @@ interface Article {
   order?: string
   created_at?: string
   section?: string
+}
+
+interface PrincipalSectionProps {
+  serverData?: Article[] // New optional prop for server-side data
 }
 
 
@@ -69,8 +36,18 @@ function getSectionPath(section: string | undefined): string {
   return section
 }
 
-export default function PrincipalSection() {
-  const { articles, loading, error } = useArticles('PrincipalSection')
+export default function PrincipalSection({
+  serverData,
+}: PrincipalSectionProps) {
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('PrincipalSection')
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
   const previousArticlesRef = useRef<Article[]>([])
   // We'll use a separate ref to track the lower row positions
   const lowerRowOrderRef = useRef<string[]>([])
@@ -450,12 +427,12 @@ export default function PrincipalSection() {
     }
   }, [mainArticle, upperRowArticles, lowerRowArticles])
 
-  // Check if we have a main article before rendering
-  if (loading && (!mainArticle || articles.length === 0)) {
+  // UPDATED: Change loading to isLoading, error to hasError
+  if (isLoading && (!mainArticle || articles.length === 0)) {
     return <div className="container mx-auto p-4">Loading...</div>
   }
 
-  if (error && (!mainArticle || articles.length === 0)) {
+  if (hasError && (!mainArticle || articles.length === 0)) {
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
@@ -467,11 +444,12 @@ export default function PrincipalSection() {
     )
   }
 
-  if (loading && articles.length === 0) {
+  // UPDATED: Change loading to isLoading, error to hasError
+  if (isLoading && articles.length === 0) {
     return <div className="container mx-auto p-4">Loading...</div>
   }
 
-  if (error && articles.length === 0) {
+  if (hasError && articles.length === 0) {
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
@@ -587,19 +565,19 @@ export default function PrincipalSection() {
                   }/${article.slug}`}
                   className="block h-full flex flex-col"
                 >
-                {/* Keep existing mobile height */}
-                <div className="relative w-full p-4 pb-1">
-                  <div className="relative w-full h-48 sm:h-32 overflow-hidden rounded">
-                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
-                    <OptimizedImage
-                      src={article.imgUrl}
-                      alt={article.title}
-                      fill
-                      className="object-cover rounded transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 20vw"
-                    />
+                  {/* Keep existing mobile height */}
+                  <div className="relative w-full p-4 pb-1">
+                    <div className="relative w-full h-48 sm:h-32 overflow-hidden rounded">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
+                      <OptimizedImage
+                        src={article.imgUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover rounded transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 20vw"
+                      />
+                    </div>
                   </div>
-                </div>
                   <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-opacity duration-300 group-hover:opacity-90">
                     <h2 className="text-lg font-bold leading-tight">
                       {article.overline && (

@@ -76,16 +76,33 @@ export default function ClimaSection() {
       </div>
     )
 
+  // Defensive check for data shape
+  const timelines = data?.data?.timelines
+  if (error || !data || !timelines) {
+    return (
+      <div className="py-6 border-t border-gray-200">
+        <div className="container mx-auto px-4">
+          <div className="mb-6 border-b border-light-gray pb-2 flex items-center">
+            <div className="h-5 w-1 bg-primary-red mr-3"></div>
+            <h2 className="text-xl font-bold uppercase">EL CLIMA</h2>
+          </div>
+          <div className="text-center text-dark-gray">
+            No se pudo cargar el pronóstico del tiempo
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   // Map Tomorrow.io data to our structure
-  const currentWeather = data.data.timelines.find(
-    (t: any) => t.timestep === '1h'
-  )?.intervals[0]
-  const dailyWeather = data.data.timelines
+  const currentWeather = timelines.find((t: any) => t.timestep === '1h')
+    ?.intervals?.[0]
+  const dailyWeather = timelines
     .find((t: any) => t.timestep === '1d')
-    ?.intervals.slice(0, 5)
-  const hourlyWeather = data.data.timelines
+    ?.intervals?.slice(0, 5)
+  const hourlyWeather = timelines
     .find((t: any) => t.timestep === '1h')
-    ?.intervals.slice(0, 12)
+    ?.intervals?.slice(0, 12)
 
   const weatherData: WeatherData = {
     location: 'Coronel Suárez',

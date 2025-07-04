@@ -678,7 +678,6 @@ export default async function Home() {
         {/* Main content */}
         <PrincipalSection />
 
-        
         <NoticiasImportantesSection sectionColor="default" />
 
         {/* Weather section */}
@@ -707,106 +706,146 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Add ActualidadSection here */}
-        <ActualidadSection
-          featuredArticle={{
-            id: 'featured-1',
-            title:
-              'Las bolsas asiáticas y europeas se desploman y caen los futuros de EE.UU',
-            summary:
-              'Los mercados globales experimentan turbulencias tras el anuncio de nuevas políticas económicas. Analistas advierten sobre posibles consecuencias a largo plazo.',
-            imageUrl: '/placeholder.svg?height=400&width=600',
-            author: 'Carlos Martinez',
-          }}
-          articles={[
-            {
-              id: '1',
-              title:
-                'Elecciones 2024: los candidatos presentan sus propuestas económicas',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Laura Fernandez',
-            },
-            {
-              id: '2',
-              title:
-                'Avance científico: descubren nueva técnica para tratamiento del Alzheimer',
-              summary: 'Investigadores locales logran importante hallazgo',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Manuel Gimenez',
-            },
-            {
-              id: '3',
-              title:
-                'El brutal planchazo en el partido: roja directa y polémica en las redes',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Juan Deportes',
-              isVideo: true,
-            },
-            {
-              id: '4',
-              title:
-                'Recomendaciones para cuidar la salud mental en tiempos de crisis',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Ana Salud',
-            },
-            {
-              id: '5',
-              title:
-                'Nuevas tecnologías agrícolas revolucionan el campo argentino',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Roberto Campo',
-            },
-            {
-              id: '6',
-              title:
-                'Receta del día: tarta invertida con pistachos para sorprender',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'María Cocina',
-            },
-            {
-              id: '7',
-              title:
-                'El fenómeno cultural que está cambiando los hábitos de consumo',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Pedro Sociedad',
-            },
-            {
-              id: '8',
-              title: 'Entrevista exclusiva: "Nunca me consideré un gran actor"',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Lucía Espectáculos',
-              isVideo: true,
-            },
-            {
-              id: '9',
-              title:
-                'Consejos para convertir tu casa en un espacio inteligente',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Fernando Tecnología',
-            },
-            {
-              id: '10',
-              title:
-                'La odisea del segundo viaje humanitario a zonas de conflicto',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Carolina Internacional',
-            },
-            {
-              id: '11',
-              title:
-                'Cinco razones por las que deberías incorporar limón a tu agua',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Martín Nutrición',
-            },
-            {
-              id: '12',
-              title:
-                'Lo mejor de Montevideo: guía completa para una escapada perfecta',
-              imageUrl: '/placeholder.svg?height=150&width=250',
-              author: 'Javier Viajes',
-            },
-          ]}
-        />
+        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-8">
+          <div className="flex-1 min-w-0">
+            <ActualidadSection
+              featuredArticle={{
+                id: 'featured-1',
+                title:
+                  'Las bolsas asiáticas y europeas se desploman y caen los futuros de EE.UU',
+                summary:
+                  'Los mercados globales experimentan turbulencias tras el anuncio de nuevas políticas económicas. Analistas advierten sobre posibles consecuencias a largo plazo.',
+                imageUrl: '/placeholder.svg?height=400&width=600',
+                author: 'Carlos Martinez',
+              }}
+              articles={[
+                {
+                  id: '1',
+                  title:
+                    'Elecciones 2024: los candidatos presentan sus propuestas económicas',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Laura Fernandez',
+                },
+                {
+                  id: '2',
+                  title:
+                    'Avance científico: descubren nueva técnica para tratamiento del Alzheimer',
+                  summary: 'Investigadores locales logran importante hallazgo',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Manuel Gimenez',
+                },
+                {
+                  id: '3',
+                  title:
+                    'El brutal planchazo en el partido: roja directa y polémica en las redes',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Juan Deportes',
+                  isVideo: true,
+                },
+                {
+                  id: '4',
+                  title:
+                    'Recomendaciones para cuidar la salud mental en tiempos de crisis',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Ana Salud',
+                },
+                {
+                  id: '5',
+                  title:
+                    'Nuevas tecnologías agrícolas revolucionan el campo argentino',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Roberto Campo',
+                },
+                {
+                  id: '6',
+                  title:
+                    'Receta del día: tarta invertida con pistachos para sorprender',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'María Cocina',
+                },
+                {
+                  id: '7',
+                  title:
+                    'El fenómeno cultural que está cambiando los hábitos de consumo',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Pedro Sociedad',
+                },
+                {
+                  id: '8',
+                  title:
+                    'Entrevista exclusiva: "Nunca me consideré un gran actor"',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Lucía Espectáculos',
+                  isVideo: true,
+                },
+                {
+                  id: '9',
+                  title:
+                    'Consejos para convertir tu casa en un espacio inteligente',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Fernando Tecnología',
+                },
+                {
+                  id: '10',
+                  title:
+                    'La odisea del segundo viaje humanitario a zonas de conflicto',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Carolina Internacional',
+                },
+                {
+                  id: '11',
+                  title:
+                    'Cinco razones por las que deberías incorporar limón a tu agua',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Martín Nutrición',
+                },
+                {
+                  id: '12',
+                  title:
+                    'Lo mejor de Montevideo: guía completa para una escapada perfecta',
+                  imageUrl: '/placeholder.svg?height=150&width=250',
+                  author: 'Javier Viajes',
+                },
+              ]}
+            />
+          </div>
+          <div className="w-full md:w-80 flex-shrink-0">
+            <MasNoticiasSection
+              headlines={[
+                {
+                  id: 'h1',
+                  title:
+                    'Anuncian cambios en el gabinete ministerial tras reunión de emergencia',
+                  timestamp: 'Hace 10 minutos',
+                },
+                {
+                  id: 'h2',
+                  title:
+                    'Suman 5 medallas para la delegación nacional en competencia internacional',
+                  timestamp: 'Hace 25 minutos',
+                },
+                {
+                  id: 'h3',
+                  title:
+                    'Alertan por tormentas fuertes con posibilidad de granizo en el centro del país',
+                  timestamp: 'Hace 42 minutos',
+                },
+                {
+                  id: 'h4',
+                  title:
+                    'La bolsa local reacciona positivamente ante nuevos datos económicos',
+                  timestamp: 'Hace 1 hora',
+                },
+                {
+                  id: 'h5',
+                  title:
+                    'Investigación revela nuevos hallazgos sobre hábitos de consumo digital',
+                  timestamp: 'Hace 1 hora',
+                },
+              ]}
+            />
+          </div>
+        </div>
 
         {/* Add MediaCarousel Section */}
         <section className="container mx-auto px-4 py-6 border-t border-gray-200">
@@ -1023,122 +1062,6 @@ export default async function Home() {
             ]}
           />
         </section>
-
-        <MasNoticiasSection
-          articles={[
-            // First 6 articles for the main grid
-            {
-              id: '1',
-              title:
-                'El Gobierno anuncia nuevas medidas económicas para contener la inflación',
-              summary:
-                'Paquete de medidas busca estabilizar precios en sectores clave de la economía',
-              author: 'Carlos Rodriguez',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '2',
-              title:
-                'Avances en investigación contra el cáncer muestran resultados prometedores',
-              author: 'Laura Fernandez',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '3',
-              title:
-                'El clásico de fútbol termina en empate tras un partido de alta intensidad',
-              summary:
-                'Los equipos no lograron romper la paridad en un encuentro con pocas situaciones claras',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '4',
-              title:
-                'Nueva exposición de arte contemporáneo llega al museo principal',
-              author: 'María González',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '5',
-              title:
-                'El fenómeno climático afectará a la región durante los próximos meses',
-              summary:
-                'Meteorólogos advierten sobre posibles consecuencias en la agricultura',
-              author: 'Juan Pérez',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '6',
-              title:
-                'Tecnología innovadora promete revolucionar la industria de la energía renovable',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-
-            // Additional 4 articles for the bottom row
-            {
-              id: '7',
-              title:
-                'Destacan la importancia de la educación financiera desde edades tempranas',
-              author: 'Elena Sánchez',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '8',
-              title:
-                'Nuevo estudio revela beneficios inesperados de la práctica regular de meditación',
-              summary:
-                'Investigadores destacan efectos positivos en la memoria y concentración',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '9',
-              title:
-                'Festival gastronómico internacional regresa con edición ampliada este año',
-              author: 'Roberto Martínez',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-            {
-              id: '10',
-              title:
-                'Lanzan convocatoria para proyectos de innovación social con financiamiento estatal',
-              summary:
-                'Las propuestas seleccionadas recibirán apoyo técnico y económico',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-            },
-          ]}
-          headlines={[
-            {
-              id: 'h1',
-              title:
-                'Anuncian cambios en el gabinete ministerial tras reunión de emergencia',
-              timestamp: 'Hace 10 minutos',
-            },
-            {
-              id: 'h2',
-              title:
-                'Suman 5 medallas para la delegación nacional en competencia internacional',
-              timestamp: 'Hace 25 minutos',
-            },
-            {
-              id: 'h3',
-              title:
-                'Alertan por tormentas fuertes con posibilidad de granizo en el centro del país',
-              timestamp: 'Hace 42 minutos',
-            },
-            {
-              id: 'h4',
-              title:
-                'La bolsa local reacciona positivamente ante nuevos datos económicos',
-              timestamp: 'Hace 1 hora',
-            },
-            {
-              id: 'h5',
-              title:
-                'Investigación revela nuevos hallazgos sobre hábitos de consumo digital',
-              timestamp: 'Hace 1 hora',
-            },
-          ]}
-        />
 
         {/* Add Radio Player Showcase */}
         {/* Radio Player Showcase - Full Width */}

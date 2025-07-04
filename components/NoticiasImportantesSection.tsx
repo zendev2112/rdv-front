@@ -8,6 +8,7 @@ import OptimizedImage from './OptimizedImage' // Import the new component
 
 
 
+
 interface Article {
   id: string
   title: string
@@ -39,13 +40,25 @@ function getSectionPath(section: string | undefined): string {
 }
 
 interface NoticiasImportantesSectionProps {
-  sectionColor?: 'default' | 'red' | 'blue' | 'green'
+  sectionColor?: 'default' | 'blue' | 'green' | 'orange' | 'purple'
+  serverData?: Article[] // NEW: Add this prop
 }
 
 export default function NoticiasImportantesSection({
   sectionColor = 'default',
+  serverData,
 }: NoticiasImportantesSectionProps) {
-  const { articles, loading, error } = useArticles('NoticiasImportantesSection')
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('NoticiasImportantesSection', 8)
+
+  // Add these three lines right after:
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
 
   const previousArticlesRef = useRef<Article[]>([])
 
@@ -138,7 +151,7 @@ export default function NoticiasImportantesSection({
     }
   }, [processedArticles])
 
-  if (loading && articles.length === 0) {
+  if (isLoading && articles.length === 0) {
     return (
       <div className="container mx-auto p-4">
         Loading noticias importantes...
@@ -146,7 +159,7 @@ export default function NoticiasImportantesSection({
     )
   }
 
-  if (error && articles.length === 0) {
+  if (hasError && articles.length === 0) {
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
@@ -228,5 +241,4 @@ export default function NoticiasImportantesSection({
       </div>
     </section>
   )
- 
 }
