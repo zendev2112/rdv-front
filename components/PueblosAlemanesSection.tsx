@@ -161,33 +161,27 @@ export default function PueblosAlemanesSection({
       {/* header */}
       <div className="mb-6 border-b border-light-gray pb-2 flex items-center justify-between">
         <div className="flex items-center">
-          <div className="h-5 w-1 bg-primary-red mr-3" />
+          <div className="h-5 w-1  mr-3" />
           <h2 className="text-xl font-bold uppercase">Pueblos Alemanes</h2>
         </div>
-        <Link
-          href="/pueblos-alemanes"
-          className="text-primary-red hover:underline text-sm font-medium flex items-center"
-        >
-          Ver todos <ChevronRight className="w-4 h-4 ml-1" />
-        </Link>
       </div>
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* main article */}
         {mainArticle && (
-          <div className="md:w-2/5 relative bg-white rounded-md overflow-hidden group">
+          <div className="w-full relative bg-white rounded-md overflow-visible group md:w-2/5 md:overflow-hidden">
             <Link
               href={`/${getSectionPath(mainArticle.section)}/${
                 mainArticle.slug
               }`}
               className="block h-full flex flex-col"
             >
-              <div className="relative w-full h-64 md:h-80">
+              <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-64 md:h-80">
                 <OptimizedImage
                   src={mainArticle.imgUrl}
                   alt={mainArticle.title}
                   fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                   priority
                   sizes="(max-width: 768px) 100vw, 40vw"
                 />
@@ -218,16 +212,16 @@ export default function PueblosAlemanesSection({
         <div className="hidden md:block w-px bg-gray-300 opacity-80 mx-6"></div>
 
         {/* side articles (3 items) */}
-        <div className="md:w-3/5 flex flex-col">
+        <div className="md:w-3/5 flex flex-col md:-mt-4">
           {sideArticles.map((article, idx) => (
             <React.Fragment key={article.id}>
-              <div className="flex bg-white rounded-md overflow-hidden group">
+              <div className="bg-white rounded-md overflow-hidden group">
                 <Link
                   href={`/${getSectionPath(article.section)}/${article.slug}`}
-                  className="flex flex-1"
+                  className="flex flex-col md:flex-row flex-1 w-full"
                 >
                   {/* text left */}
-                  <div className="flex-1 flex flex-col justify-between p-4">
+                  <div className="flex-1 flex flex-col justify-between p-4 order-2 md:order-1">
                     <h4 className="text-base font-bold leading-tight text-[#292929] mb-1">
                       {article.overline && (
                         <span className="text-primary-red font-bold">
@@ -243,17 +237,16 @@ export default function PueblosAlemanesSection({
                       {/* date removed */}
                     </div>
                   </div>
-
                   {/* image right */}
-                  <div className="relative w-full md:w-1/3 p-4 pb-1">
+                  <div className="relative w-full md:w-1/3 p-4 pb-1 order-1 md:order-2">
                     <div className="relative w-full h-48 sm:h-32 overflow-hidden rounded">
                       <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded" />
                       <OptimizedImage
                         src={article.imgUrl}
                         alt={article.title}
                         fill
-                        className="object-cover rounded transition-opacity duration-300 group-hover:opacity-90"
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover md:rounded transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 20vw"
                       />
                     </div>
                   </div>

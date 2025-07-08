@@ -467,7 +467,7 @@ export default function PrincipalSection({
             className="block h-full flex flex-col"
           >
             {/* FIX: Add explicit height and ensure relative positioning */}
-            <div className="relative w-full p-4 pb-1 h-64 md:h-[70%]">
+            <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-48 md:h-[70%]">
               <div className="relative w-full h-full overflow-hidden rounded">
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
                 <OptimizedImage
@@ -516,7 +516,7 @@ export default function PrincipalSection({
                   className="block h-full flex flex-col"
                 >
                   {/* FIX: Add explicit height for mobile */}
-                  <div className="relative w-full p-4 pb-1 h-48 md:h-[65%]">
+                  <div className="relative w-full p-2 md:p-4 h-48 md:h-[65%]">
                     <div className="relative w-full h-full overflow-hidden rounded">
                       <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
                       <OptimizedImage
@@ -566,7 +566,7 @@ export default function PrincipalSection({
                   className="block h-full flex flex-col"
                 >
                   {/* Keep existing mobile height */}
-                  <div className="relative w-full p-4 pb-1">
+                  <div className="relative w-full p-2 md:p-4 pb-1 md:pb-1">
                     <div className="relative w-full h-48 sm:h-32 overflow-hidden rounded">
                       <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
                       <OptimizedImage

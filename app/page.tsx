@@ -7,10 +7,10 @@ import MundoSection from '../components/MundoSection'
 import TechSection from '../components/TechSection'
 import TendenciasSection from '../components/TendenciasSection'
 import TopReads from '../components/TopReads'
-import EstrenosSection from '@/components/EstrenosSection'
+import HuanguelenSection from '@/components/HuanguelenSection'
 import NegociosSection from '../components/NegociosSection'
 import EspectaculosSection from '../components/EspectaculosSection'
-import SalidasSection from '../components/SalidasSection' // Changed import
+import LaSextaSection from '../components/LaSextaSection' // Changed import
 import PropiedadesSection from '../components/PropiedadesSection'
 import AgroSection from '@/components/AgroSection'
 import LifestyleSection from '../components/LifestyleSection'
@@ -35,16 +35,29 @@ import IActualidad from '@/components/IActualidad'
 import CienciaYSaludSection from '@/components/CienciaYSaludSection'
 import MediaCarousel from '@/components/MediaCarousel'
 import PueblosAlemanesSection from '@/components/PueblosAlemanesSection'
-import HuanguelenSection from '@/components/HuanguelenSection'
-import LaSextaSection from '@/components/LaSextaSection'
 import CulturaSection from '@/components/CulturaSection'
-import EspecialSection from '@/components/EspecialSection'
 import { fetchSectionArticles } from '@/utils/api'
+import { fetchLatestVideos } from '@/lib/youtube/fetchLatestVideos'
 
 // This is a Server Component
 export default async function Home() {
   // Fetch data for each section
   const principalSectionArticles = await fetchSectionArticles('PrincipalSection')
+  const noticiasImportantesArticles = await fetchSectionArticles(
+    'NoticiasImportantesSection'
+  )
+  const pueblosAlemanesArticles = await fetchSectionArticles(
+    'PueblosAlemanesSection'
+  )
+  const huanguelenArticles = await fetchSectionArticles('HuanguelenSection')
+  const laSextaArticles = await fetchSectionArticles('LaSextaSection')
+
+  const videos = await fetchLatestVideos(5)
+  const featuredVideo = videos[0]
+  const recentVideos = videos.slice(1)
+
+
+
   // Other section data...
 
   // Sample data for FeaturedSection
@@ -676,25 +689,23 @@ export default async function Home() {
           </div>
         </div>
         {/* Main content */}
-        <PrincipalSection />
+        <PrincipalSection serverData={principalSectionArticles} />
 
-        <NoticiasImportantesSection sectionColor="default" />
+        <NoticiasImportantesSection serverData={noticiasImportantesArticles} />
 
         {/* Weather section */}
         <ClimaSection />
 
-        <PueblosAlemanesSection />
-        <HuanguelenSection />
-        <LaSextaSection />
-        {/* Special Section - Currently Disabled */}
-        <EspecialSection
-          title="ESPECIAL: ELECCIONES 2025"
-          subtitle="Cobertura especial del proceso electoral"
-          isDisabled={true}
-          disabledMessage="Nuestra cobertura especial de las elecciones estará disponible a partir del 1 de junio"
-          backgroundImage="/placeholder.svg?height=400&width=1200&text=Elecciones+2025"
-          themeColor="#990000"
+        <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
+
+        <VolgaTVSection
+          featuredVideo={featuredVideo}
+          recentVideos={recentVideos}
         />
+
+        <HuanguelenSection serverData={huanguelenArticles} />
+
+        <LaSextaSection serverData={laSextaArticles} />
 
         {/* Advertisement banner */}
         <div className="container mx-auto px-4 py-6">
@@ -953,55 +964,6 @@ export default async function Home() {
           ]}
         />
 
-        <VolgaTVSection
-          featuredVideo={{
-            id: 'lsng3PUSsPk', // This is the YouTube video ID
-            title: 'Recetas del Volga - Especial Strudel',
-            thumbnailUrl:
-              'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CKGt_r8G&rs=AOn4CLA5k94pmcT3ANQY-sZLcyEcs0qiwQ',
-            publishedAt: 'Mayo 2023',
-            viewCount: '2.3K',
-            duration: '4:13',
-          }}
-          recentVideos={[
-            {
-              id: 'oamFbnsVhEk',
-              title: 'La Casa del Terror llego a Coronel Suarez',
-              thumbnailUrl:
-                'https://i.ytimg.com/an_webp/lsng3PUSsPk/mqdefault_6s.webp?du=3000&sqp=CKGt_r8G&rs=AOn4CLA5k94pmcT3ANQY-sZLcyEcs0qiwQ',
-              publishedAt: 'Abril 2023',
-              viewCount: '1.2K',
-              duration: '2:42',
-            },
-            {
-              id: 'ZZ4cEA-vYsM',
-              title: 'Recetas del Volga - Der Kreppel',
-              thumbnailUrl:
-                'https://i.ytimg.com/an_webp/ZZ4cEA-vYsM/mqdefault_6s.webp?du=3000&sqp=CMev_r8G&rs=AOn4CLAL9I5vSxkSMmZ-DYZ7h51_96U1BA',
-              publishedAt: 'Abril 2023',
-              viewCount: '952',
-              duration: '2:58',
-            },
-            {
-              id: '5qUla4Twb_U',
-              title: 'Recetas del Volga - Runde Sunde',
-              thumbnailUrl:
-                'https://i.ytimg.com/vi/5qUla4Twb_U/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGGUgZShlMA8=&rs=AOn4CLCI30kV_9XJUxsRvgOFnLgAM5iwyQ',
-              publishedAt: 'Marzo 2023',
-              viewCount: '1.5K',
-              duration: '3:10',
-            },
-            {
-              id: 'E-VHv8mCOCU',
-              title: 'Recetas del Volga - Moultasche',
-              thumbnailUrl:
-                'https://i.ytimg.com/an_webp/E-VHv8mCOCU/mqdefault_6s.webp?du=3000&sqp=COat_r8G&rs=AOn4CLCNUWWp2xa8M2K-irjspkzFlNQJUw',
-              publishedAt: 'Febrero 2023',
-              viewCount: '3.1K',
-              duration: '5:42',
-            },
-          ]}
-        />
 
         <AdPlaceholder />
 
@@ -1282,46 +1244,6 @@ export default async function Home() {
           <TopReads articles={topReadsData.articles} />
         </section>
 
-        {/* Movie Releases Section - Updated to use 3 articles */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <EstrenosSection
-            articles={[
-              {
-                id: 1,
-                title: 'El Dibu habla de todo',
-                quoteText: 'El Dibu habla de todo',
-                headlineText:
-                  'Emiliano Martínez reveló cómo maneja la presión en los penales y explicó su ritual antes de cada partido',
-                summary:
-                  'El arquero de la selección argentina contó detalles de su preparación mental y física en una entrevista exclusiva',
-                imageUrl: '/placeholder.svg?height=340&width=600',
-                hasVideo: true,
-              },
-              {
-                id: 2,
-                title: 'Oppenheimer llega a los cines',
-                headlineText:
-                  'Christopher Nolan regresa con un drama histórico que explora la creación de la bomba atómica',
-                summary:
-                  'La película recibió elogios de la crítica por sus actuaciones y su impactante dirección visual',
-                imageUrl: '/placeholder.svg?height=340&width=600',
-                hasVideo: false,
-              },
-              {
-                id: 3,
-                title: 'Spider-Man: nueva película',
-                quoteText: 'Es el mejor guion hasta ahora',
-                headlineText:
-                  'Tom Holland confirma que la próxima entrega de Spider-Man comenzará a filmarse en 2025',
-                summary:
-                  'El actor británico regresará para su cuarta película en solitario como el héroe arácnido',
-                imageUrl: '/placeholder.svg?height=340&width=600',
-                hasVideo: false,
-              },
-            ]}
-          />
-        </section>
-
         {/* Business Main Feature Section */}
         <NegociosSection
           logo={{
@@ -1391,70 +1313,6 @@ export default async function Home() {
           <EspectaculosSection
             mainFeature={entertainmentMainFeatureData.mainFeature}
             secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
-          />
-        </section>
-
-        {/* Salidas Section - Replaced LifestyleFourColumnGrid */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <SalidasSection
-            categories={[
-              { name: 'RESTAURANTES', href: '#' },
-              { name: 'VINOS', href: '#' },
-              { name: 'TEATRO', href: '#' },
-              { name: 'FIESTAS REGIONALES', href: '#' },
-            ]}
-            articles={[
-              {
-                id: 'salidas-1',
-                title: {
-                  highlight: 'Teatro',
-                  regular:
-                    'Las obras imperdibles que se estrenan este mes en la cartelera porteña',
-                },
-                summary:
-                  'Un recorrido por las propuestas más destacadas que llegan a los escenarios de la ciudad',
-                author: 'María Guerrero',
-                imageUrl: '/placeholder.svg?height=250&width=300&text=Teatro',
-                hasVideo: false,
-              },
-              {
-                id: 'salidas-2',
-                title: {
-                  highlight: 'Música',
-                  regular:
-                    'La agenda de conciertos para el fin de semana: todas las opciones',
-                },
-                author: 'Pablo Rocker',
-                imageUrl:
-                  '/placeholder.svg?height=250&width=300&text=Conciertos',
-                hasVideo: false,
-              },
-              {
-                id: 'salidas-3',
-                title: {
-                  highlight: 'Gastronomía',
-                  regular:
-                    'Cinco restaurantes con vista panorámica para disfrutar de la ciudad',
-                },
-                summary:
-                  'Propuestas culinarias que combinan buena mesa y paisajes urbanos espectaculares',
-                author: 'Sofía Gourmet',
-                imageUrl:
-                  '/placeholder.svg?height=250&width=300&text=Restaurantes',
-                hasVideo: false,
-              },
-              {
-                id: 'salidas-4',
-                title: {
-                  highlight: 'Cine',
-                  regular:
-                    'Festival de cine independiente: guía completa de proyecciones y eventos especiales',
-                },
-                author: 'Lucas Director',
-                imageUrl: '/placeholder.svg?height=250&width=300&text=Cine',
-                hasVideo: true,
-              },
-            ]}
           />
         </section>
 
