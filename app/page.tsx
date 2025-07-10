@@ -23,7 +23,7 @@ import FarmaciasDeTurno from '@/components/FarmaciasDeTurno'
 import ActualidadSection from '@/components/ActualidadSection'
 import PoliticaYEconomiaSection from '@/components/PoliticaYEconomiaSection'
 import AdPlaceholder from '@/components/AdPlaceholder'
-import MasNoticiasSection from '@/components/MasNoticiasSection'
+import UltimasNoticiasSection from '@/components/UltimasNoticiasSection'
 import VolgaTVSection from '@/components/VolgaTVSection'
 import RadioPlayerShowcase from '@/components/RadioPlayerShowcase'
 import { DeportesSection } from '@/components/DeportesSection'
@@ -36,7 +36,9 @@ import CienciaYSaludSection from '@/components/CienciaYSaludSection'
 import MediaCarousel from '@/components/MediaCarousel'
 import PueblosAlemanesSection from '@/components/PueblosAlemanesSection'
 import CulturaSection from '@/components/CulturaSection'
+import MobileNavBar from '@/components/MobileNavBar'
 import { fetchSectionArticles } from '@/utils/api'
+import { fetchLatestHeadlines } from '@/utils/api'
 import { fetchLatestVideos } from '@/lib/youtube/fetchLatestVideos'
 
 // This is a Server Component
@@ -55,6 +57,9 @@ export default async function Home() {
   const videos = await fetchLatestVideos(5)
   const featuredVideo = videos[0]
   const recentVideos = videos.slice(1)
+
+  const actualidadArticles = await fetchSectionArticles('ActualidadSection')
+  const latestHeadlines = await fetchLatestHeadlines()
 
 
 
@@ -698,6 +703,8 @@ export default async function Home() {
 
         <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
 
+        <FarmaciasDeTurno />
+
         <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
@@ -719,141 +726,11 @@ export default async function Home() {
 
         <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-8">
           <div className="flex-1 min-w-0">
-            <ActualidadSection
-              featuredArticle={{
-                id: 'featured-1',
-                title:
-                  'Las bolsas asiáticas y europeas se desploman y caen los futuros de EE.UU',
-                summary:
-                  'Los mercados globales experimentan turbulencias tras el anuncio de nuevas políticas económicas. Analistas advierten sobre posibles consecuencias a largo plazo.',
-                imageUrl: '/placeholder.svg?height=400&width=600',
-                author: 'Carlos Martinez',
-              }}
-              articles={[
-                {
-                  id: '1',
-                  title:
-                    'Elecciones 2024: los candidatos presentan sus propuestas económicas',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Laura Fernandez',
-                },
-                {
-                  id: '2',
-                  title:
-                    'Avance científico: descubren nueva técnica para tratamiento del Alzheimer',
-                  summary: 'Investigadores locales logran importante hallazgo',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Manuel Gimenez',
-                },
-                {
-                  id: '3',
-                  title:
-                    'El brutal planchazo en el partido: roja directa y polémica en las redes',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Juan Deportes',
-                  isVideo: true,
-                },
-                {
-                  id: '4',
-                  title:
-                    'Recomendaciones para cuidar la salud mental en tiempos de crisis',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Ana Salud',
-                },
-                {
-                  id: '5',
-                  title:
-                    'Nuevas tecnologías agrícolas revolucionan el campo argentino',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Roberto Campo',
-                },
-                {
-                  id: '6',
-                  title:
-                    'Receta del día: tarta invertida con pistachos para sorprender',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'María Cocina',
-                },
-                {
-                  id: '7',
-                  title:
-                    'El fenómeno cultural que está cambiando los hábitos de consumo',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Pedro Sociedad',
-                },
-                {
-                  id: '8',
-                  title:
-                    'Entrevista exclusiva: "Nunca me consideré un gran actor"',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Lucía Espectáculos',
-                  isVideo: true,
-                },
-                {
-                  id: '9',
-                  title:
-                    'Consejos para convertir tu casa en un espacio inteligente',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Fernando Tecnología',
-                },
-                {
-                  id: '10',
-                  title:
-                    'La odisea del segundo viaje humanitario a zonas de conflicto',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Carolina Internacional',
-                },
-                {
-                  id: '11',
-                  title:
-                    'Cinco razones por las que deberías incorporar limón a tu agua',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Martín Nutrición',
-                },
-                {
-                  id: '12',
-                  title:
-                    'Lo mejor de Montevideo: guía completa para una escapada perfecta',
-                  imageUrl: '/placeholder.svg?height=150&width=250',
-                  author: 'Javier Viajes',
-                },
-              ]}
-            />
+            <ActualidadSection serverData={actualidadArticles}/>
           </div>
           <div className="w-full md:w-80 flex-shrink-0">
-            <MasNoticiasSection
-              headlines={[
-                {
-                  id: 'h1',
-                  title:
-                    'Anuncian cambios en el gabinete ministerial tras reunión de emergencia',
-                  timestamp: 'Hace 10 minutos',
-                },
-                {
-                  id: 'h2',
-                  title:
-                    'Suman 5 medallas para la delegación nacional en competencia internacional',
-                  timestamp: 'Hace 25 minutos',
-                },
-                {
-                  id: 'h3',
-                  title:
-                    'Alertan por tormentas fuertes con posibilidad de granizo en el centro del país',
-                  timestamp: 'Hace 42 minutos',
-                },
-                {
-                  id: 'h4',
-                  title:
-                    'La bolsa local reacciona positivamente ante nuevos datos económicos',
-                  timestamp: 'Hace 1 hora',
-                },
-                {
-                  id: 'h5',
-                  title:
-                    'Investigación revela nuevos hallazgos sobre hábitos de consumo digital',
-                  timestamp: 'Hace 1 hora',
-                },
-              ]}
+            <UltimasNoticiasSection 
+              headlines={latestHeadlines}
             />
           </div>
         </div>
@@ -910,8 +787,6 @@ export default async function Home() {
           />
         </section>
 
-        <FarmaciasDeTurno />
-
         {/* Politics and Economy Section */}
         <PoliticaYEconomiaSection
           mainArticle={{
@@ -963,7 +838,6 @@ export default async function Home() {
             },
           ]}
         />
-
 
         <AdPlaceholder />
 
@@ -1548,6 +1422,7 @@ export default async function Home() {
         />
 
         <Footer />
+        <MobileNavBar />
       </div>
     </div>
   )
