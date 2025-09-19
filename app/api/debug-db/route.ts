@@ -33,10 +33,9 @@ export async function GET() {
       serviceError = result.error
     }
 
-    // Check table info directly
-    const { data: tableInfo, error: tableError } = await supabaseAnon
-      .rpc('get_table_info', { table_name: 'articles' })
-      .catch(() => ({ data: null, error: 'RPC not available' }))
+    // Remove the problematic RPC call
+    let tableInfo = null
+    let tableError = null
 
     const response = {
       timestamp: new Date().toISOString(),
@@ -48,6 +47,7 @@ export async function GET() {
         error: anonError?.message || null,
         errorCode: anonError?.code || null,
         errorDetails: anonError?.details || null,
+        fullError: anonError,
       },
 
       // SERVICE key results
@@ -56,7 +56,9 @@ export async function GET() {
             count: serviceData?.length || 0,
             error: serviceError?.message || null,
             errorCode: serviceError?.code || null,
+            errorDetails: serviceError?.details || null,
             hasServiceKey: true,
+            fullError: serviceError,
           }
         : { hasServiceKey: false },
 
