@@ -41,6 +41,8 @@ import { fetchSectionArticles } from '@/utils/api'
 import { fetchLatestHeadlines } from '@/utils/api'
 import { fetchLatestVideos } from '@/lib/youtube/fetchLatestVideos'
 
+export const dynamic = 'force-dynamic'
+
 // This is a Server Component
 export default async function Home() {
   // Fetch data for each section
