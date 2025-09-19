@@ -1,54 +1,90 @@
+import { createClient } from '@supabase/supabase-js'
+
+// Initialize Supabase client for direct database calls
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+// Direct database implementation replacing the original function
 export async function fetchSectionArticles(section: string) {
   try {
-    // Use absolute URL for server component fetch
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/articles?front=${section}&status=published`, {
-      // Add cache control
-      cache: 'no-store'
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch articles: ${response.status}`);
+    console.log(`🔍 Direct DB fetch for section: ${section}`)
+
+    const { data, error } = await supabase
+      .from('articles')
+      .select('*')
+      .eq('front', section) // Using 'front' based on your logs
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .limit(10)
+
+    if (error) {
+      console.error('❌ Supabase error:', error)
+
+      // Fallback: try 'section' column instead of 'front'
+      const { data: fallbackData, error: fallbackError } = await supabase
+        .from('articles')
+        .select('*')
+        .eq('section', section)
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+        .limit(10)
+
+      if (fallbackError) {
+        console.error('❌ Fallback query also failed:', fallbackError)
+        return []
+      }
+
+      console.log(
+        `✅ Fallback: Found ${
+          fallbackData?.length || 0
+        } articles for ${section}`
+      )
+      return fallbackData || []
     }
-    
-    // Parse the response as JSON
-    const data = await response.json();
-    return Array.isArray(data) ? data : [];
+
+    console.log(
+      `✅ Direct DB: Found ${data?.length || 0} articles for ${section}`
+    )
+    return data || []
   } catch (error) {
-    console.error(`Error fetching ${section} articles:`, error);
-    // Return empty array on error
-    return [];
+    console.error(`❌ Error in direct fetch for ${section}:`, error)
+    return []
   }
 }
 
+// Direct database implementation replacing the original function
 export async function fetchLatestHeadlines() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(
-      `${baseUrl}/api/articles?status=published&limit=10&orderBy=created_at&order=desc`,
-      {
-        cache: 'no-store',
-      }
-    )
+    console.log('🔍 Direct DB fetch for latest headlines')
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch headlines: ${response.status}`)
+    const { data, error } = await supabase
+      .from('articles')
+      .select('id, title, slug, section, created_at, front')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .limit(10)
+
+    if (error) {
+      console.error('❌ Supabase error for headlines:', error)
+      return []
     }
 
-    const articles = await response.json()
-
-    // Transform to HeadlineItem format
-    return Array.isArray(articles)
-      ? articles.map((article) => ({
+    // Transform to HeadlineItem format (same as your existing function)
+    const headlines = Array.isArray(data)
+      ? data.map((article) => ({
           id: article.id,
           title: article.title,
           slug: article.slug,
-          section: article.section,
+          section: article.section || article.front, // Use section or front
           timestamp: article.created_at, // Keep the original ISO date string
         }))
       : []
+
+    console.log(`✅ Direct DB: Found ${headlines.length} headlines`)
+    return headlines
   } catch (error) {
-    console.error('Error fetching latest headlines:', error)
+    console.error('❌ Error in direct fetch for headlines:', error)
     return []
   }
 }
