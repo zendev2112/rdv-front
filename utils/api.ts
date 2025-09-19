@@ -1,35 +1,37 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Initialize Supabase client for direct database calls
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Use SERVICE ROLE key for server-side operations to bypass RLS
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-// DEBUG: Add this function to test connection
 export async function debugSupabaseConnection() {
   try {
     console.log('🔗 Testing Supabase connection...')
     console.log('🌐 URL:', supabaseUrl)
-    console.log('🔑 Key exists:', !!supabaseKey)
+    console.log(
+      '🔑 Using SERVICE key:',
+      !!process.env.SUPABASE_SERVICE_ROLE_KEY
+    )
 
-    // Test basic connection
-    const { data: tables, error: tablesError } = await supabase
+    // Get total count
+    const { count, error: countError } = await supabase
       .from('articles')
-      .select('count', { count: 'exact', head: true })
+      .select('*', { count: 'exact', head: true })
 
-    console.log('📊 Total articles count:', tables)
-    console.log('❌ Connection error:', tablesError)
+    console.log('📊 Total articles:', count)
 
-    // Test if table exists
+    // Get sample data
     const { data: sample, error: sampleError } = await supabase
       .from('articles')
       .select('*')
       .limit(5)
 
-    console.log('📋 Sample data:', sample)
-    console.log('❌ Sample error:', sampleError)
+    console.log('📋 Sample data count:', sample?.length || 0)
 
-    // Test different status values
+    // Get distinct statuses
     const { data: allStatuses } = await supabase
       .from('articles')
       .select('status')
@@ -40,20 +42,23 @@ export async function debugSupabaseConnection() {
       allStatuses?.map((a) => a.status)
     )
 
-    return { tables, sample, allStatuses }
+    return {
+      count,
+      countError,
+      sample,
+      sampleError,
+      allStatuses,
+      usingServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    }
   } catch (error) {
     console.error('💥 Debug connection failed:', error)
-    return null
+    return { error: error.message }
   }
 }
 
-// Your existing functions...
 export async function fetchSectionArticles(section: string) {
   try {
-    console.log(`🔍 Direct DB fetch for section: ${section}`)
-
-    // ADD DEBUG CALL
-    await debugSupabaseConnection()
+    console.log(`🔍 Fetching ${section} with SERVICE key...`)
 
     const { data, error } = await supabase
       .from('articles')
@@ -63,10 +68,16 @@ export async function fetchSectionArticles(section: string) {
       .order('created_at', { ascending: false })
       .limit(10)
 
-    if (error) {
-      console.error('❌ Supabase error:', error)
+    console.log(
+      `📊 Query result: ${data?.length || 0} articles, error: ${
+        error?.message || 'none'
+      }`
+    )
 
-      // Fallback: try 'section' column instead of 'front'
+    if (error) {
+      console.error('❌ Primary query failed:', error)
+
+      // Try fallback with 'section' column
       const { data: fallbackData, error: fallbackError } = await supabase
         .from('articles')
         .select('*')
@@ -76,31 +87,25 @@ export async function fetchSectionArticles(section: string) {
         .limit(10)
 
       if (fallbackError) {
-        console.error('❌ Fallback query also failed:', fallbackError)
+        console.error('❌ Fallback failed:', fallbackError)
         return []
       }
 
-      console.log(
-        `✅ Fallback: Found ${
-          fallbackData?.length || 0
-        } articles for ${section}`
-      )
+      console.log(`✅ Fallback success: ${fallbackData?.length || 0} articles`)
       return fallbackData || []
     }
 
-    console.log(
-      `✅ Direct DB: Found ${data?.length || 0} articles for ${section}`
-    )
+    console.log(`✅ Primary success: ${data?.length || 0} articles`)
     return data || []
   } catch (error) {
-    console.error(`❌ Error in direct fetch for ${section}:`, error)
+    console.error(`❌ Exception in fetchSectionArticles:`, error)
     return []
   }
 }
 
 export async function fetchLatestHeadlines() {
   try {
-    console.log('🔍 Direct DB fetch for latest headlines')
+    console.log('🔍 Fetching headlines with SERVICE key...')
 
     const { data, error } = await supabase
       .from('articles')
@@ -110,7 +115,7 @@ export async function fetchLatestHeadlines() {
       .limit(10)
 
     if (error) {
-      console.error('❌ Supabase error for headlines:', error)
+      console.error('❌ Headlines query failed:', error)
       return []
     }
 
@@ -124,10 +129,10 @@ export async function fetchLatestHeadlines() {
         }))
       : []
 
-    console.log(`✅ Direct DB: Found ${headlines.length} headlines`)
+    console.log(`✅ Headlines success: ${headlines.length} headlines`)
     return headlines
   } catch (error) {
-    console.error('❌ Error in direct fetch for headlines:', error)
+    console.error('❌ Exception in fetchLatestHeadlines:', error)
     return []
   }
 }
