@@ -5,15 +5,60 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-// Direct database implementation replacing the original function
+// DEBUG: Add this function to test connection
+export async function debugSupabaseConnection() {
+  try {
+    console.log('🔗 Testing Supabase connection...')
+    console.log('🌐 URL:', supabaseUrl)
+    console.log('🔑 Key exists:', !!supabaseKey)
+
+    // Test basic connection
+    const { data: tables, error: tablesError } = await supabase
+      .from('articles')
+      .select('count', { count: 'exact', head: true })
+
+    console.log('📊 Total articles count:', tables)
+    console.log('❌ Connection error:', tablesError)
+
+    // Test if table exists
+    const { data: sample, error: sampleError } = await supabase
+      .from('articles')
+      .select('*')
+      .limit(5)
+
+    console.log('📋 Sample data:', sample)
+    console.log('❌ Sample error:', sampleError)
+
+    // Test different status values
+    const { data: allStatuses } = await supabase
+      .from('articles')
+      .select('status')
+      .limit(10)
+
+    console.log(
+      '📝 Available statuses:',
+      allStatuses?.map((a) => a.status)
+    )
+
+    return { tables, sample, allStatuses }
+  } catch (error) {
+    console.error('💥 Debug connection failed:', error)
+    return null
+  }
+}
+
+// Your existing functions...
 export async function fetchSectionArticles(section: string) {
   try {
     console.log(`🔍 Direct DB fetch for section: ${section}`)
 
+    // ADD DEBUG CALL
+    await debugSupabaseConnection()
+
     const { data, error } = await supabase
       .from('articles')
       .select('*')
-      .eq('front', section) // Using 'front' based on your logs
+      .eq('front', section)
       .eq('status', 'published')
       .order('created_at', { ascending: false })
       .limit(10)
@@ -53,7 +98,6 @@ export async function fetchSectionArticles(section: string) {
   }
 }
 
-// Direct database implementation replacing the original function
 export async function fetchLatestHeadlines() {
   try {
     console.log('🔍 Direct DB fetch for latest headlines')
@@ -70,14 +114,13 @@ export async function fetchLatestHeadlines() {
       return []
     }
 
-    // Transform to HeadlineItem format (same as your existing function)
     const headlines = Array.isArray(data)
       ? data.map((article) => ({
           id: article.id,
           title: article.title,
           slug: article.slug,
-          section: article.section || article.front, // Use section or front
-          timestamp: article.created_at, // Keep the original ISO date string
+          section: article.section || article.front,
+          timestamp: article.created_at,
         }))
       : []
 
