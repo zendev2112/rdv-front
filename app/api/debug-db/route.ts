@@ -7,54 +7,82 @@ export async function GET() {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    const supabase = createClient(supabaseUrl, supabaseKey)
 
-    // Get ALL articles regardless of status
-    const { data: allArticles, error: allError } = await supabase
+    // Try with ANON key
+    const supabaseAnon = createClient(supabaseUrl, supabaseKey)
+
+    // Try with SERVICE ROLE key if available
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const supabaseService = serviceKey
+      ? createClient(supabaseUrl, serviceKey)
+      : null
+
+    console.log('🔍 Testing both keys...')
+
+    // Test with ANON key
+    const { data: anonData, error: anonError } = await supabaseAnon
       .from('articles')
       .select('*')
 
-    // Get count by status
-    const { data: statusCount, error: statusError } = await supabase
-      .from('articles')
-      .select('status')
+    // Test with SERVICE key if available
+    let serviceData = null,
+      serviceError = null
+    if (supabaseService) {
+      const result = await supabaseService.from('articles').select('*')
+      serviceData = result.data
+      serviceError = result.error
+    }
 
-    // Get distinct statuses
-    const { data: distinctStatuses } = await supabase
-      .from('articles')
-      .select('status')
-      .not('status', 'is', null)
-
-    // Get distinct sections/fronts
-    const { data: distinctSections } = await supabase
-      .from('articles')
-      .select('section, front')
+    // Check table info directly
+    const { data: tableInfo, error: tableError } = await supabaseAnon
+      .rpc('get_table_info', { table_name: 'articles' })
+      .catch(() => ({ data: null, error: 'RPC not available' }))
 
     const response = {
       timestamp: new Date().toISOString(),
-      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-      
-      // Raw data
-      totalArticles: allArticles?.length || 0,
-      allArticles: allArticles || [],
-      allError,
-      
-      // Status breakdown
-      statusCount: statusCount?.length || 0,
-      statuses: distinctStatuses?.map(s => s.status) || [],
-      
-      // Section breakdown
-      sections: distinctSections?.map(s => ({ section: s.section, front: s.front })) || [],
-      
-      // First 3 articles for inspection
-      sampleArticles: allArticles?.slice(0, 3) || []
+      supabaseUrl,
+
+      // ANON key results
+      anonResults: {
+        count: anonData?.length || 0,
+        error: anonError?.message || null,
+        errorCode: anonError?.code || null,
+        errorDetails: anonError?.details || null,
+      },
+
+      // SERVICE key results
+      serviceResults: serviceKey
+        ? {
+            count: serviceData?.length || 0,
+            error: serviceError?.message || null,
+            errorCode: serviceError?.code || null,
+            hasServiceKey: true,
+          }
+        : { hasServiceKey: false },
+
+      // Environment check
+      environment: {
+        hasAnonKey: !!supabaseKey,
+        hasServiceKey: !!serviceKey,
+        anonKeyLength: supabaseKey?.length,
+        serviceKeyLength: serviceKey?.length,
+      },
+
+      tableInfo,
+      tableError,
     }
-    
+
+    console.log('📊 Debug results:', response)
+
     return NextResponse.json(response)
   } catch (error) {
-    return NextResponse.json({ 
-      error: error.message,
-      stack: error.stack 
-    }, { status: 500 })
+    console.error('💥 Debug failed:', error)
+    return NextResponse.json(
+      {
+        error: error.message,
+        stack: error.stack,
+      },
+      { status: 500 }
+    )
   }
 }
