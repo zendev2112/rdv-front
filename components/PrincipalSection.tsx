@@ -59,86 +59,28 @@ export default function PrincipalSection({
 
   // Replace your entire processedArticles useMemo with this simpler version
 
-  const processedArticles = useMemo(() => {
-    // For first load, keep your existing initialization code
-    if (previousArticlesRef.current.length === 0) {
-      // Your existing first load code is fine - keep it
-      console.log('🔄 INITIAL LAYOUT - First Load')
-      // First create a map of articles by their explicit orders
-      const articlesByOrder = {
-        principal: articles.filter((a) => a.order === 'principal'),
-        secundario: articles.filter((a) => a.order === 'secundario'),
-        normal: articles.filter((a) => a.order === 'normal'),
-        other: articles.filter(
-          (a) =>
-            !a.order ||
-            (a.order !== 'principal' &&
-              a.order !== 'secundario' &&
-              a.order !== 'normal')
-        ),
-      }
+const processedArticles = useMemo(() => {
+  // For first load, keep your existing initialization code
+  if (previousArticlesRef.current.length === 0) {
+    console.log('🔄 INITIAL LAYOUT - First Load')
 
-      // Sort each category by creation date
-      Object.keys(articlesByOrder).forEach((key) => {
-        articlesByOrder[key].sort((a, b) => {
-          if (a.created_at && b.created_at) {
-            return (
-              new Date(b.created_at).getTime() -
-              new Date(a.created_at).getTime()
-            )
-          }
-          return 0
-        })
-      })
+    // Create a map of articles by their explicit orders
+    const articlesByOrder = {
+      principal: articles.filter((a) => a.order === 'principal'),
+      secundario: articles.filter((a) => a.order === 'secundario'),
+      normal: articles.filter((a) => a.order === 'normal'),
+      other: articles.filter(
+        (a) =>
+          !a.order ||
+          (a.order !== 'principal' &&
+            a.order !== 'secundario' &&
+            a.order !== 'normal')
+      ),
+    }
 
-      // Create array in exact layout order [MAIN, Upper1, Upper2, Lower1, Lower2, Lower3]
-      const initialLayout = []
-
-      // Add articles in the correct order with their correct positions
-      // Add principal article
-      if (articlesByOrder.principal.length > 0) {
-        initialLayout.push({ ...articlesByOrder.principal[0] })
-      } else if (articlesByOrder.other.length > 0) {
-        // No principal article, use the newest unassigned article
-        initialLayout.push({
-          ...articlesByOrder.other.shift(),
-          order: 'principal',
-        })
-      }
-
-      // Add secundario article
-      if (articlesByOrder.secundario.length > 0) {
-        initialLayout.push({ ...articlesByOrder.secundario[0] })
-      } else if (articlesByOrder.other.length > 0) {
-        // No secundario article, use the newest unassigned article
-        initialLayout.push({
-          ...articlesByOrder.other.shift(),
-          order: 'secundario',
-        })
-      }
-
-      // Add normal article
-      if (articlesByOrder.normal.length > 0) {
-        initialLayout.push({ ...articlesByOrder.normal[0] })
-      } else if (articlesByOrder.other.length > 0) {
-        // No normal article, use the newest unassigned article
-        initialLayout.push({
-          ...articlesByOrder.other.shift(),
-          order: 'normal',
-        })
-      }
-
-      // Add remaining articles to lower row (up to 3)
-      // First add any remaining explicitly ordered articles
-      const remainingArticles = [
-        ...articlesByOrder.principal.slice(1),
-        ...articlesByOrder.secundario.slice(1),
-        ...articlesByOrder.normal.slice(1),
-        ...articlesByOrder.other,
-      ]
-
-      // Sort by date again
-      remainingArticles.sort((a, b) => {
+    // Sort each category by creation date
+    Object.keys(articlesByOrder).forEach((key) => {
+      articlesByOrder[key].sort((a, b) => {
         if (a.created_at && b.created_at) {
           return (
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -146,188 +88,209 @@ export default function PrincipalSection({
         }
         return 0
       })
+    })
 
-      // Add up to 3 articles to the lower row
-      for (let i = 0; i < Math.min(remainingArticles.length, 3); i++) {
-        const lowerArticle = { ...remainingArticles[i] }
-        delete lowerArticle.order // Remove order to put in lower row
-        initialLayout.push(lowerArticle)
-      }
+    // Create initial layout ensuring we always have 6 positions
+    const initialLayout = []
+    const allAvailableArticles = [
+      ...articlesByOrder.principal,
+      ...articlesByOrder.secundario,
+      ...articlesByOrder.normal,
+      ...articlesByOrder.other,
+    ]
 
-      // Initialize lowerRowOrderRef with lower row article IDs
-      const lowerRowArticles = initialLayout.slice(3)
-      lowerRowOrderRef.current = lowerRowArticles.map((article) => article.id)
-
-      return initialLayout
+    // Position 0: Principal
+    if (articlesByOrder.principal.length > 0) {
+      initialLayout.push({ ...articlesByOrder.principal[0] })
+    } else if (allAvailableArticles.length > 0) {
+      initialLayout.push({ ...allAvailableArticles[0], order: 'principal' })
     }
 
-    // Find new articles
-    const newArticles = articles.filter(
-      (article) =>
-        !previousArticlesRef.current.some(
-          (prevArticle) => prevArticle.id === article.id
-        )
-    )
-
-    // If no new articles, return previous layout
-    if (newArticles.length === 0) {
-      return previousArticlesRef.current
-    }
-
-    console.log(
-      '🆕 NEW ARTICLES DETECTED:',
-      newArticles.length,
-      newArticles.map((a) => a.title)
-    )
-
-    // Get existing articles by position
-    const existingPrincipal = previousArticlesRef.current.find(
-      (a) => a.order === 'principal'
-    )
-    const existingSecundario = previousArticlesRef.current.find(
-      (a) => a.order === 'secundario'
-    )
-    const existingNormal = previousArticlesRef.current.find(
-      (a) => a.order === 'normal'
-    )
-    const existingLower = previousArticlesRef.current.filter(
-      (a) => !a.order || a.order === ''
-    )
-
-    // Get the highest priority new article
-    const newArticle = newArticles[0] // Just use the first new article for simplicity
-    const newArticleType = newArticle.order || 'principal' // Default to principal
-
-    console.log(
-      `🔄 Processing article: ${newArticleType} - ${newArticle.title}`
-    )
-
-    // Start with an empty new layout
-    const newLayout = []
-
-    // Apply displacement rules based on article type
-    if (newArticleType === 'principal' || !newArticleType) {
-      console.log('📊 NEW PRINCIPAL ARTICLE')
-
-      // 1. New article becomes principal
-      newLayout.push({ ...newArticle, order: 'principal' })
-
-      // 2. Former principal becomes secundario (Upper1)
-      if (existingPrincipal) {
-        newLayout.push({ ...existingPrincipal, order: 'secundario' })
-      }
-
-      // 3. Former secundario becomes normal (Upper2)
-      if (existingSecundario) {
-        newLayout.push({ ...existingSecundario, order: 'normal' })
-      }
-
-      // 4. Former normal goes to lower row (removing order)
-      if (existingNormal) {
-        const normalToLower = { ...existingNormal }
-        delete normalToLower.order
-        newLayout.push(normalToLower)
-      }
-
-      // 5. Add remaining lower row articles (except the new one)
-      const remainingLower = existingLower.filter((a) => a.id !== newArticle.id)
-
-      // Only add enough to fill lower row (up to 3 total including former normal)
-      const lowerCount = existingNormal ? 1 : 0
-      for (
-        let i = 0;
-        i < Math.min(remainingLower.length, 3 - lowerCount);
-        i++
-      ) {
-        const article = { ...remainingLower[i] }
-        delete article.order
-        newLayout.push(article)
-      }
-    } else if (newArticleType === 'secundario') {
-      console.log('📊 NEW SECUNDARIO ARTICLE')
-
-      // 1. Keep principal
-      if (existingPrincipal) {
-        newLayout.push(existingPrincipal)
-      }
-
-      // 2. New article becomes secundario (Upper1)
-      newLayout.push({ ...newArticle, order: 'secundario' })
-
-      // 3. Former secundario becomes normal (Upper2)
-      if (existingSecundario) {
-        newLayout.push({ ...existingSecundario, order: 'normal' })
-      }
-
-      // 4. Former normal goes to lower row (removing order)
-      if (existingNormal) {
-        const normalToLower = { ...existingNormal }
-        delete normalToLower.order
-        newLayout.push(normalToLower)
-      }
-
-      // 5. Add remaining lower row articles (except the new one)
-      const remainingLower = existingLower.filter((a) => a.id !== newArticle.id)
-
-      // Only add enough to fill lower row (up to 3 total including former normal)
-      const lowerCount = existingNormal ? 1 : 0
-      for (
-        let i = 0;
-        i < Math.min(remainingLower.length, 3 - lowerCount);
-        i++
-      ) {
-        const article = { ...remainingLower[i] }
-        delete article.order
-        newLayout.push(article)
-      }
-    } else if (newArticleType === 'normal') {
-      console.log('📊 NEW NORMAL ARTICLE')
-
-      // 1. Keep principal
-      if (existingPrincipal) {
-        newLayout.push(existingPrincipal)
-      }
-
-      // 2. Keep secundario (Upper1)
-      if (existingSecundario) {
-        newLayout.push(existingSecundario)
-      }
-
-      // 3. New article becomes normal (Upper2)
-      newLayout.push({ ...newArticle, order: 'normal' })
-
-      // 4. Former normal goes to lower row (removing order)
-      if (existingNormal) {
-        const normalToLower = { ...existingNormal }
-        delete normalToLower.order
-        newLayout.push(normalToLower)
-      }
-
-      // 5. Add remaining lower row articles (except the new one)
-      const remainingLower = existingLower.filter((a) => a.id !== newArticle.id)
-
-      // Only add enough to fill lower row (up to 3 total including former normal)
-      const lowerCount = existingNormal ? 1 : 0
-      for (
-        let i = 0;
-        i < Math.min(remainingLower.length, 3 - lowerCount);
-        i++
-      ) {
-        const article = { ...remainingLower[i] }
-        delete article.order
-        newLayout.push(article)
+    // Position 1: Secundario
+    if (articlesByOrder.secundario.length > 0) {
+      initialLayout.push({ ...articlesByOrder.secundario[0] })
+    } else {
+      const available = allAvailableArticles.filter(
+        (a) => !initialLayout.some((laid) => laid.id === a.id)
+      )
+      if (available.length > 0) {
+        initialLayout.push({ ...available[0], order: 'secundario' })
       }
     }
 
-    // Update lower row order tracking
-    const lowerRowArticles = newLayout.filter((a) => !a.order)
-    lowerRowOrderRef.current = lowerRowArticles.map((a) => a.id)
+    // Position 2: Normal
+    if (articlesByOrder.normal.length > 0) {
+      initialLayout.push({ ...articlesByOrder.normal[0] })
+    } else {
+      const available = allAvailableArticles.filter(
+        (a) => !initialLayout.some((laid) => laid.id === a.id)
+      )
+      if (available.length > 0) {
+        initialLayout.push({ ...available[0], order: 'normal' })
+      }
+    }
 
-    // Save for next time
-    previousArticlesRef.current = newLayout
+    // Positions 3-5: Lower row (fill remaining positions)
+    const usedIds = new Set(initialLayout.map((a) => a.id))
+    const remainingForLower = allAvailableArticles.filter(
+      (a) => !usedIds.has(a.id)
+    )
 
-    return newLayout
-  }, [articles])
+    for (let i = 0; i < 3 && i < remainingForLower.length; i++) {
+      const lowerArticle = { ...remainingForLower[i] }
+      delete lowerArticle.order
+      initialLayout.push(lowerArticle)
+    }
+
+    // Update tracking
+    const lowerRowArticles = initialLayout.slice(3)
+    lowerRowOrderRef.current = lowerRowArticles.map((article) => article.id)
+
+    return initialLayout
+  }
+
+  // Find new articles
+  const newArticles = articles.filter(
+    (article) =>
+      !previousArticlesRef.current.some(
+        (prevArticle) => prevArticle.id === article.id
+      )
+  )
+
+  // If no new articles, return previous layout
+  if (newArticles.length === 0) {
+    return previousArticlesRef.current
+  }
+
+  console.log(
+    '🆕 NEW ARTICLES DETECTED:',
+    newArticles.length,
+    newArticles.map((a) => a.title)
+  )
+
+  // **FIXED DISPLACEMENT LOGIC**
+  const newArticle = newArticles[0]
+  const newArticleType = newArticle.order || 'principal'
+
+  // Get current layout positions
+  const currentPrincipal = previousArticlesRef.current[0] // Position 0
+  const currentSecundario = previousArticlesRef.current[1] // Position 1
+  const currentNormal = previousArticlesRef.current[2] // Position 2
+  const currentLower = previousArticlesRef.current.slice(3) // Positions 3-5
+
+  // Create new layout array with exactly 6 positions
+  const newLayout = new Array(6).fill(null)
+
+  if (newArticleType === 'principal' || !newArticleType) {
+    console.log('📊 NEW PRINCIPAL ARTICLE')
+
+    // Position 0: New principal
+    newLayout[0] = { ...newArticle, order: 'principal' }
+
+    // Position 1: Former principal becomes secundario
+    if (currentPrincipal) {
+      newLayout[1] = { ...currentPrincipal, order: 'secundario' }
+    }
+
+    // Position 2: Former secundario becomes normal
+    if (currentSecundario) {
+      newLayout[2] = { ...currentSecundario, order: 'normal' }
+    }
+
+    // Positions 3-5: Former normal + existing lower articles
+    let lowerIndex = 3
+    if (currentNormal && lowerIndex < 6) {
+      const normalToLower = { ...currentNormal }
+      delete normalToLower.order
+      newLayout[lowerIndex++] = normalToLower
+    }
+
+    // Add existing lower articles
+    for (let i = 0; i < currentLower.length && lowerIndex < 6; i++) {
+      const article = { ...currentLower[i] }
+      delete article.order
+      newLayout[lowerIndex++] = article
+    }
+  } else if (newArticleType === 'secundario') {
+    console.log('📊 NEW SECUNDARIO ARTICLE')
+
+    // Position 0: Keep principal
+    newLayout[0] = currentPrincipal
+
+    // Position 1: New secundario
+    newLayout[1] = { ...newArticle, order: 'secundario' }
+
+    // Position 2: Former secundario becomes normal
+    if (currentSecundario) {
+      newLayout[2] = { ...currentSecundario, order: 'normal' }
+    }
+
+    // Positions 3-5: Former normal + existing lower articles
+    let lowerIndex = 3
+    if (currentNormal && lowerIndex < 6) {
+      const normalToLower = { ...currentNormal }
+      delete normalToLower.order
+      newLayout[lowerIndex++] = normalToLower
+    }
+
+    for (let i = 0; i < currentLower.length && lowerIndex < 6; i++) {
+      const article = { ...currentLower[i] }
+      delete article.order
+      newLayout[lowerIndex++] = article
+    }
+  } else if (newArticleType === 'normal') {
+    console.log('📊 NEW NORMAL ARTICLE')
+
+    // Positions 0-1: Keep principal and secundario
+    newLayout[0] = currentPrincipal
+    newLayout[1] = currentSecundario
+
+    // Position 2: New normal
+    newLayout[2] = { ...newArticle, order: 'normal' }
+
+    // Positions 3-5: Former normal + existing lower articles
+    let lowerIndex = 3
+    if (currentNormal && lowerIndex < 6) {
+      const normalToLower = { ...currentNormal }
+      delete normalToLower.order
+      newLayout[lowerIndex++] = normalToLower
+    }
+
+    for (let i = 0; i < currentLower.length && lowerIndex < 6; i++) {
+      const article = { ...currentLower[i] }
+      delete article.order
+      newLayout[lowerIndex++] = article
+    }
+  }
+
+  // **CRITICAL FIX**: Fill any remaining null positions with available articles
+  const usedIds = new Set(newLayout.filter(Boolean).map((a) => a.id))
+  const availableArticles = articles.filter((a) => !usedIds.has(a.id))
+
+  for (let i = 0; i < newLayout.length; i++) {
+    if (newLayout[i] === null && availableArticles.length > 0) {
+      const fallbackArticle = { ...availableArticles.shift() }
+
+      // Assign appropriate order based on position
+      if (i === 0) fallbackArticle.order = 'principal'
+      else if (i === 1) fallbackArticle.order = 'secundario'
+      else if (i === 2) fallbackArticle.order = 'normal'
+      else delete fallbackArticle.order // Lower row
+
+      newLayout[i] = fallbackArticle
+    }
+  }
+
+  // Filter out any remaining nulls and update tracking
+  const filteredLayout = newLayout.filter(Boolean)
+  const lowerRowArticles = filteredLayout.slice(3)
+  lowerRowOrderRef.current = lowerRowArticles.map((a) => a.id)
+
+  // Save for next time
+  previousArticlesRef.current = filteredLayout
+
+  return filteredLayout
+}, [articles])
 
   // Add this NEW useEffect for detecting new articles from SWR
   useEffect(() => {
