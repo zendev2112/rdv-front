@@ -42,6 +42,11 @@ import { fetchLatestHeadlines } from '@/utils/api'
 import { fetchLatestVideos } from '@/lib/youtube/fetchLatestVideos'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
+export const runtime = 'nodejs'
+export const maxDuration = 30
+
 
 // This is a Server Component
 export default async function Home() {

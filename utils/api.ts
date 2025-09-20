@@ -58,7 +58,9 @@ export async function debugSupabaseConnection() {
 
 export async function fetchSectionArticles(section: string) {
   try {
-    console.log(`🔍 Fetching ${section} with SERVICE key...`)
+    // Add timestamp to force fresh queries
+    const timestamp = new Date().toISOString()
+    console.log(`🔍 [${timestamp}] Fetching ${section}`)
 
     const { data, error } = await supabase
       .from('articles')
@@ -68,16 +70,9 @@ export async function fetchSectionArticles(section: string) {
       .order('created_at', { ascending: false })
       .limit(10)
 
-    console.log(
-      `📊 Query result: ${data?.length || 0} articles, error: ${
-        error?.message || 'none'
-      }`
-    )
-
     if (error) {
       console.error('❌ Primary query failed:', error)
 
-      // Try fallback with 'section' column
       const { data: fallbackData, error: fallbackError } = await supabase
         .from('articles')
         .select('*')
@@ -91,11 +86,9 @@ export async function fetchSectionArticles(section: string) {
         return []
       }
 
-      console.log(`✅ Fallback success: ${fallbackData?.length || 0} articles`)
       return fallbackData || []
     }
 
-    console.log(`✅ Primary success: ${data?.length || 0} articles`)
     return data || []
   } catch (error) {
     console.error(`❌ Exception in fetchSectionArticles:`, error)
