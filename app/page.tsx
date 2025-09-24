@@ -1428,7 +1428,7 @@ export default async function Home() {
           ]}
         />
 
-        <Footer />
+        
         <MobileNavBar />
       </div>
     </div>
