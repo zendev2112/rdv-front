@@ -206,6 +206,7 @@ body {
   margin: 1rem 0;
 }
 
+/* Remove the ::before rule completely and replace the sideline-pattern with this: */
 .sideline-pattern {
   background-color: #f8f8f8;
   background-image: repeating-linear-gradient(45deg,
@@ -213,24 +214,24 @@ body {
       transparent 2px,
       rgba(0, 0, 0, 0.03) 2px,
       rgba(0, 0, 0, 0.03) 3px);
-  /* Remove fixed height constraints */
-}
-
-/* Force full document height */
-html,
-body {
+  min-height: 100vh;
   height: 100%;
+  position: relative;
 }
 
-/* Make the layout container full height */
-#__next {
-  min-height: 100%;
-}
-
-/* Make sure the parent flex container stretches */
-.sideline-pattern::before {
+/* Alternative: Use a pseudo-element that covers the full height */
+.sideline-pattern::after {
   content: '';
-  display: block;
-  height: 100%;
-  min-height: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(45deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 3px);
+  pointer-events: none;
+  z-index: -1;
 }

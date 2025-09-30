@@ -14,25 +14,24 @@ export default function SidelinesLayout({
   className = '',
 }: SidelinesLayoutProps) {
   return (
-    <div className={`bg-white min-h-full ${className}`}>
-      <div className="flex justify-center">
+    <div className={`bg-white ${className}`} style={{ minHeight: '100vh' }}>
+      <div className="flex justify-center" style={{ minHeight: '100vh' }}>
         {/* Left Sideline */}
-        <div className="hidden xl:flex w-[160px] flex-shrink-0">
-          <div className="w-full sideline-pattern">
-            <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
-          </div>
+        <div className="hidden xl:block w-[160px] flex-shrink-0 sideline-pattern">
+          <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
         </div>
 
         {/* Main Content */}
-        <div className="w-[1200px] bg-white shadow-sm min-h-full">
+        <div
+          className="w-[1200px] bg-white shadow-sm"
+          style={{ minHeight: '100vh' }}
+        >
           {children}
         </div>
 
         {/* Right Sideline */}
-        <div className="hidden xl:flex w-[160px] flex-shrink-0">
-          <div className="w-full sideline-pattern">
-            <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
-          </div>
+        <div className="hidden xl:block w-[160px] flex-shrink-0 sideline-pattern">
+          <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
         </div>
       </div>
     </div>
