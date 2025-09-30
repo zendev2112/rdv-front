@@ -207,14 +207,13 @@ body {
 }
 
 .sideline-pattern {
-  background-color: white;
+  background-color: #f8f8f8;
   background-image: repeating-linear-gradient(45deg,
       transparent 0px,
-      transparent 2px,
-      rgba(229, 231, 235, 0.4) 2px,
-      rgba(229, 231, 235, 0.4) 4px);
+      transparent 4px,
+      rgba(0, 0, 0, 0.1) 4px,
+      rgba(0, 0, 0, 0.1) 8px);
   min-height: 100vh;
-  /* Ensure the pattern extends with content */
   height: 100%;
 }
 
