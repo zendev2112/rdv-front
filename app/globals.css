@@ -205,3 +205,23 @@ body {
   width: 100%;
   margin: 1rem 0;
 }
+
+.sideline-pattern {
+  background-color: white;
+  background-image: repeating-linear-gradient(45deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(229, 231, 235, 0.4) 2px,
+      rgba(229, 231, 235, 0.4) 4px);
+  min-height: 100vh;
+  /* Ensure the pattern extends with content */
+  height: 100%;
+}
+
+/* Make sure the parent flex container stretches */
+.sideline-pattern::before {
+  content: '';
+  display: block;
+  height: 100%;
+  min-height: inherit;
+}
