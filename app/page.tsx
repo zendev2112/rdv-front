@@ -40,6 +40,8 @@ import MobileNavBar from '@/components/MobileNavBar'
 import { fetchSectionArticles } from '@/utils/api'
 import { fetchLatestHeadlines } from '@/utils/api'
 import { fetchLatestVideos } from '@/lib/youtube/fetchLatestVideos'
+import SidelinesLayout from '@/components/SidelinesLayout'
+import { SkyscraperAd, SidebarRectangleAd } from '@/components/ads/SkyscraperAd'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -51,7 +53,9 @@ export const maxDuration = 30
 // This is a Server Component
 export default async function Home() {
   // Fetch data for each section
-  const principalSectionArticles = await fetchSectionArticles('PrincipalSection')
+  const principalSectionArticles = await fetchSectionArticles(
+    'PrincipalSection'
+  )
   const noticiasImportantesArticles = await fetchSectionArticles(
     'NoticiasImportantesSection'
   )
@@ -67,8 +71,6 @@ export default async function Home() {
 
   const actualidadArticles = await fetchSectionArticles('ActualidadSection')
   const latestHeadlines = await fetchLatestHeadlines()
-
-
 
   // Other section data...
 
@@ -577,8 +579,22 @@ export default async function Home() {
     ],
   }
 
+  // Define custom ads for sidelines (optional)
+  const leftSideAds = (
+    <div className="space-y-4">
+      <SkyscraperAd position="left" />
+    </div>
+  )
+
+  const rightSideAds = (
+    <div className="space-y-4">
+      <SkyscraperAd position="right" />
+      <SidebarRectangleAd />
+    </div>
+  )
+
   return (
-    <div className="min-h-screen bg-white">
+    <SidelinesLayout leftAd={leftSideAds} rightAd={rightSideAds}>
       {/* Top bar moved above the header */}
       <div className="bg-gray-100 px-4 py-1 flex items-center text-sm overflow-x-auto whitespace-nowrap">
         <div className="flex items-center space-x-4">
@@ -733,12 +749,10 @@ export default async function Home() {
 
         <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-8">
           <div className="flex-1 min-w-0">
-            <ActualidadSection serverData={actualidadArticles}/>
+            <ActualidadSection serverData={actualidadArticles} />
           </div>
           <div className="w-full md:w-80 flex-shrink-0">
-            <UltimasNoticiasSection 
-              headlines={latestHeadlines}
-            />
+            <UltimasNoticiasSection headlines={latestHeadlines} />
           </div>
         </div>
 
@@ -1428,9 +1442,8 @@ export default async function Home() {
           ]}
         />
 
-        
         <MobileNavBar />
       </div>
-    </div>
+    </SidelinesLayout>
   )
 }

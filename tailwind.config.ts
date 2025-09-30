@@ -9,6 +9,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+            screens: {
+        'xl': '1280px',    // When sidelines appear
+        '2xl': '1600px',   // Wider sidelines on very large screens
+      },
+      maxWidth: {
+        'content': '1200px', // Main content max width
+      },
       colors: {
         // Our custom colors
         cream: '#faf6ef',
