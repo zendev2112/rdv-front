@@ -226,3 +226,11 @@ body {
 #__next {
   min-height: 100%;
 }
+
+/* Make sure the parent flex container stretches */
+.sideline-pattern::before {
+  content: '';
+  display: block;
+  height: 100%;
+  min-height: inherit;
+}
