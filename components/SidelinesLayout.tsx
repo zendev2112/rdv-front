@@ -22,25 +22,28 @@ export default function SidelinesLayout({
       rgba(229, 231, 235, 0.3) 4px
     )`,
     backgroundColor: 'white',
-    minHeight: '100vh', // Ensure full height coverage
+    minHeight: '100%', // Full height of parent
+    height: 'auto', // Allow to grow with content
   }
 
   return (
-    <div className={`min-h-screen bg-white ${className}`}>
-      <div className="flex justify-center">
+    <div
+      className={`min-h-screen bg-white ${className}`}
+      style={{ minHeight: '100%' }}
+    >
+      <div className="flex justify-center min-h-full">
         {/* Left Sideline with diagonal stripes */}
         <div
           className="hidden xl:block w-[160px] flex-shrink-0"
           style={sidelineStyle}
         >
-          {/* Remove the inner div styling, just keep the content positioning */}
           <div className="sticky top-[180px] p-4">
             {/* Ads will be hidden but pattern visible */}
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="w-full max-w-[1200px] bg-white min-h-screen shadow-sm">
+        <div className="w-full max-w-[1200px] bg-white min-h-full shadow-sm">
           {children}
         </div>
 
@@ -49,7 +52,6 @@ export default function SidelinesLayout({
           className="hidden xl:block w-[160px] flex-shrink-0"
           style={sidelineStyle}
         >
-          {/* Remove the inner div styling, just keep the content positioning */}
           <div className="sticky top-[180px] p-4">
             {/* Ads will be hidden but pattern visible */}
           </div>
