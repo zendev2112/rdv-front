@@ -1,6 +1,4 @@
-// components/SidelinesLayout.tsx
 import React from 'react'
-import AdPlaceholder from './AdPlaceholder'
 
 interface SidelinesLayoutProps {
   children: React.ReactNode
@@ -15,22 +13,27 @@ export default function SidelinesLayout({
   rightAd,
   className = '',
 }: SidelinesLayoutProps) {
+  const sidelineStyle = {
+    backgroundImage: `repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(229, 231, 235, 0.3) 2px,
+      rgba(229, 231, 235, 0.3) 4px
+    )`,
+    backgroundColor: 'white',
+  }
+
   return (
-    <div className={`min-h-screen bg-gray-100 ${className}`}>
+    <div className={`min-h-screen bg-white ${className}`}>
       <div className="flex justify-center">
-        {/* Left Sideline */}
-        <div className="hidden xl:block w-[160px] flex-shrink-0">
+        {/* Left Sideline with diagonal stripes */}
+        <div
+          className="hidden xl:block w-[160px] flex-shrink-0"
+          style={sidelineStyle}
+        >
           <div className="sticky top-[180px] p-4">
-            {leftAd || (
-              <div className="space-y-4">
-                <AdPlaceholder
-                  width="160px"
-                  height="600px"
-                  type="Skyscraper"
-                  className="bg-gray-200"
-                />
-              </div>
-            )}
+            {/* Ads will be hidden but pattern visible */}
           </div>
         </div>
 
@@ -39,25 +42,13 @@ export default function SidelinesLayout({
           {children}
         </div>
 
-        {/* Right Sideline */}
-        <div className="hidden xl:block w-[160px] flex-shrink-0">
+        {/* Right Sideline with diagonal stripes */}
+        <div
+          className="hidden xl:block w-[160px] flex-shrink-0"
+          style={sidelineStyle}
+        >
           <div className="sticky top-[180px] p-4">
-            {rightAd || (
-              <div className="space-y-4">
-                <AdPlaceholder
-                  width="160px"
-                  height="600px"
-                  type="Skyscraper"
-                  className="bg-gray-200"
-                />
-                <AdPlaceholder
-                  width="160px"
-                  height="250px"
-                  type="Rectangle"
-                  className="bg-gray-200"
-                />
-              </div>
-            )}
+            {/* Ads will be hidden but pattern visible */}
           </div>
         </div>
       </div>
