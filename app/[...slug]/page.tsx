@@ -259,10 +259,24 @@ export default async function DynamicPage({ params }: PageProps) {
             {articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => {
-                  // Use the converted section_path_url
-                  const articlePath = article.section_path_url
-                    ? `/${article.section_path_url}/${article.slug}`
-                    : `/${article.section_slug}/${article.slug}` // fallback
+                  // Debug: log the article to see available fields
+                  console.log('Article fields:', {
+                    section_path: article.section_path,
+                    section_slug: article.section_slug,
+                    slug: article.slug,
+                  })
+
+                  // Convert ltree path to URL path
+                  let articlePath = `/${article.section_slug}/${article.slug}` // default fallback
+
+                  if (article.section_path) {
+                    // Convert ltree (dots) to URL path (slashes)
+                    const urlPath = String(article.section_path).replace(
+                      /\./g,
+                      '/'
+                    )
+                    articlePath = `/${urlPath}/${article.slug}`
+                  }
 
                   return (
                     <article
