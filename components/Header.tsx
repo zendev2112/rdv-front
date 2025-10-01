@@ -149,10 +149,10 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
-      {/* Main header area */}
-      <div className="container mx-auto px-3 py-2 md:py-3 flex justify-between items-center relative">
-        {/* Left section - Menu, SECCIONES text, and Search */}
-        <div className="flex items-center gap-1.5">
+      {/* Main header area - INCREASED PADDING */}
+      <div className="container mx-auto px-2 py-3 md:py-4 flex justify-between items-center relative">
+        {/* Left section - MOVED MORE TO THE LEFT */}
+        <div className="flex items-center gap-1.5 pl-0">
           {/* Mobile menu toggle */}
           <button
             className="text-white p-1"
@@ -165,12 +165,12 @@ export default function Header() {
               <Menu className="w-6 h-6" />
             )}
           </button>
-          
+
           {/* SECCIONES text */}
           <span className="text-white font-bold text-xs md:text-sm uppercase">
             SECCIONES
           </span>
-          
+
           {/* Search icon */}
           <button className="text-white p-1" aria-label="Buscar">
             <Search className="w-5 h-5 md:w-6 md:h-6" />
@@ -193,28 +193,11 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Right section - Bell icon and app button */}
-        <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
+        {/* Right section - Bell icon */}
+        <div className="flex items-center">
           <button className="text-white p-1" aria-label="Notifications">
             <Bell className="w-5 h-5 md:w-6 md:h-6" />
           </button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            className="px-1.5 py-1 h-auto bg-white text-[#ff0808] border-2 border-white hover:bg-[#ff0808] hover:text-white hover:border-white transition-all duration-200 flex items-center gap-1 sm:gap-2 font-bold shadow-md"
-          >
-            <div className="bg-[#ff0808] text-white rounded-full p-1 flex items-center justify-center shrink-0">
-              <Smartphone className="h-3 w-3" />
-            </div>
-            <div className="flex flex-col items-start leading-none sm:leading-normal">
-              <span className="text-[9px] sm:text-xs">VOLGA BENEFICIOS </span>
-              <span className="text-[10px] sm:text-sm font-extrabold">
-                {' '}
-                APP
-              </span>
-            </div>
-          </Button>
         </div>
       </div>
 
@@ -229,12 +212,6 @@ export default function Header() {
             <nav className="flex flex-col">
               {/* Menu links */}
               {renderMenu(menuSections)}
-              {/* Subscribe button */}
-              <div className="pt-4 pb-2 border-t border-gray-200 mt-4">
-                <button className="bg-primary-red text-white rounded px-4 py-2 text-sm font-medium w-full hover:bg-opacity-90 transition-opacity">
-                  SUSCRIBIRSE
-                </button>
-              </div>
             </nav>
           </div>
         </div>
