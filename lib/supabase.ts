@@ -6,10 +6,15 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export async function fetchArticlesBySection(sectionSlug: string) {
-  // Use the article_with_sections view to get articles with their paths
+  // Query with path conversion: replace dots with slashes
   const { data, error } = await supabase
     .from('article_with_sections')
-    .select('*')
+    .select(
+      `
+      *,
+      section_path_url:section_path
+    `
+    )
     .eq('section_slug', sectionSlug)
     .eq('status', 'published')
     .order('published_at', { ascending: false })
@@ -19,11 +24,16 @@ export async function fetchArticlesBySection(sectionSlug: string) {
     return []
   }
 
-  return data || []
+  // Convert ltree path (dots) to URL path (slashes)
+  return (data || []).map((article) => ({
+    ...article,
+    section_path_url: article.section_path
+      ? String(article.section_path).replace(/\./g, '/')
+      : null,
+  }))
 }
 
 export async function fetchArticleBySlug(slug: string) {
-  // Fetch article with its primary section path
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
@@ -37,10 +47,14 @@ export async function fetchArticleBySlug(slug: string) {
     return null
   }
 
+  // Convert ltree path to URL path
+  if (data && data.section_path) {
+    data.section_path_url = String(data.section_path).replace(/\./g, '/')
+  }
+
   return data
 }
 
-// New helper function to fetch all articles from parent + child sections
 export async function fetchArticlesByParentSection(
   parentSlug: string,
   childSlugs: string[]
@@ -57,5 +71,11 @@ export async function fetchArticlesByParentSection(
     return []
   }
 
-  return data || []
+  // Convert ltree paths to URL paths
+  return (data || []).map((article) => ({
+    ...article,
+    section_path_url: article.section_path
+      ? String(article.section_path).replace(/\./g, '/')
+      : null,
+  }))
 }

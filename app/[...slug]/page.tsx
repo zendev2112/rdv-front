@@ -259,10 +259,10 @@ export default async function DynamicPage({ params }: PageProps) {
             {articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => {
-                  // Use the section_path from the database
-                  const articlePath = article.section_path
-                    ? `/${article.section_path}/${article.slug}`
-                    : `/${pathKey}/${article.slug}`
+                  // Use the converted section_path_url
+                  const articlePath = article.section_path_url
+                    ? `/${article.section_path_url}/${article.slug}`
+                    : `/${article.section_slug}/${article.slug}` // fallback
 
                   return (
                     <article
