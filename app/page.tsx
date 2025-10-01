@@ -595,60 +595,6 @@ export default async function Home() {
 
   return (
     <SidelinesLayout leftAd={leftSideAds} rightAd={rightSideAds}>
-      {/* Top bar moved above the header */}
-      <div className="bg-gray-100 px-4 py-1 flex items-center text-sm overflow-x-auto whitespace-nowrap">
-        <div className="flex items-center space-x-4">
-          <span>Coronel Suárez</span>
-          <div className="flex items-center">
-            <svg
-              viewBox="0 0 24 24"
-              className="w-4 h-4 mr-1"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-            </svg>
-            <span>18.1°</span>
-          </div>
-        </div>
-        <div className="flex items-center space-x-4 ml-4">
-          <Link href="#" className="hover:text-blue-800 flex items-center">
-            <svg
-              viewBox="0 0 24 24"
-              className="w-4 h-4 mr-1"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <circle cx="12" cy="12" r="5" fill="currentColor" />
-            </svg>
-            EN VIVO
-          </Link>
-          <Link href="#" className="hover:text-blue-800">
-            COCINA
-          </Link>
-          <Link href="#" className="hover:text-blue-800">
-            LIFESTYLE
-          </Link>
-          <Link href="#" className="hover:text-blue-800">
-            AGRO
-          </Link>
-          <Link href="#" className="hover:text-blue-800">
-            99.5 + MÚSICA
-          </Link>
-        </div>
-      </div>
-
       {/* Header moved below top bar */}
       <Header />
 
@@ -673,15 +619,7 @@ export default async function Home() {
               Dólar MEP <strong>$1335,86</strong>
             </span>
             <div className="flex-1"></div>
-            <Link href="#" className="text-gray-700 hover:text-blue-800">
-              Juegos
-            </Link>
-            <Link href="#" className="text-gray-700 hover:text-blue-800">
-              Suscriptores
-            </Link>
-            <Link href="#" className="text-gray-700 hover:text-blue-800">
-              Newsletters
-            </Link>
+
           </div>
         </div>
 

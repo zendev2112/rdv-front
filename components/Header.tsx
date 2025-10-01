@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
@@ -95,7 +95,6 @@ const menuSections = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [openSections, setOpenSections] = useState(new Set())
 
   // Toggle subsection visibility
@@ -149,23 +148,8 @@ export default function Header() {
     )
   }
 
-  // Track scroll position to adjust header positioning
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 24
-      setScrolled(isScrolled)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <header
-      className={`fixed ${
-        scrolled ? 'top-0' : 'top-[calc(1.5rem)]'
-      } left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
       {/* Main header area */}
       <div className="container mx-auto px-3 py-2 md:py-3 flex justify-between items-center">
         {/* Left section - Menu and Search */}
