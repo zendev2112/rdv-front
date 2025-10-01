@@ -28,19 +28,7 @@ export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
           </span>
         ))}
       </div>
-      <style jsx>{`
-        .animate-marquee {
-          animation: marquee 40s linear infinite;
-        }
-        @keyframes marquee {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-      `}</style>
+     
     </div>
   )
 }
