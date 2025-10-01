@@ -150,9 +150,9 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
       {/* Main header area - INCREASED PADDING */}
-      <div className="container mx-auto px-2 py-3 md:py-4 flex justify-between items-center relative">
+      <div className="container mx-auto px-2 py-4 md:py-5 flex justify-between items-center relative">
         {/* Left section - MOVED MORE TO THE LEFT */}
-        <div className="flex items-center gap-1.5 pl-0">
+        <div className="flex items-center gap-1.5 pl-0 -ml-2 md:-ml-3">
           {/* Mobile menu toggle */}
           <button
             className="text-white p-1"
@@ -180,7 +180,7 @@ export default function Header() {
         {/* Center section - Logo - ABSOLUTELY CENTERED */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link href="/" className="text-center">
-            <div className="relative h-8 w-32 sm:h-10 sm:w-48 md:h-16 md:w-64">
+            <div className="relative h-10 w-36 sm:h-12 sm:w-48 md:h-20 md:w-72">
               <Image
                 src="/images/logo.svg"
                 alt="Noticias Logo"
