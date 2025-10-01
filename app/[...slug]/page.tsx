@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import {
   fetchArticlesBySection,
   fetchArticleBySlug,
+  fetchArticlesByParentSection,
   supabase,
 } from '@/lib/supabase'
 import Header from '@/components/Header'
@@ -194,18 +195,18 @@ export default async function DynamicPage({ params }: PageProps) {
   // First, check if this is a SECTION page
   const sectionConf = sectionConfig[pathKey]
   if (sectionConf) {
-    // Fetch articles - if parent section with children, fetch from all children
+    // Fetch articles
     let articles: any[] = []
 
     if (sectionConf.children && sectionConf.children.length > 0) {
-      // Parent section: fetch from all subsections
-      const allArticles = await Promise.all(
-        sectionConf.children.map((childId) => fetchArticlesBySection(childId))
+      // Parent section: fetch from all subsections using the helper
+      articles = await fetchArticlesByParentSection(
+        sectionConf.id,
+        sectionConf.children
       )
-      articles = allArticles.flat().filter(Boolean)
     } else {
       // Single section: fetch normally
-      articles = (await fetchArticlesBySection(sectionConf.id)) || []
+      articles = await fetchArticlesBySection(sectionConf.id)
     }
 
     return (
@@ -227,7 +228,6 @@ export default async function DynamicPage({ params }: PageProps) {
               {sectionConf.children && sectionConf.children.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {sectionConf.children.map((childId) => {
-                    // Find the child path in sectionConfig
                     const childPath = Object.keys(sectionConfig).find(
                       (key) => sectionConfig[key].id === childId
                     )
@@ -259,35 +259,21 @@ export default async function DynamicPage({ params }: PageProps) {
             {articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => {
-                  // Determine the correct article path
-                  // If viewing a parent section, find which child this article belongs to
-                  let articlePath = `/${pathKey}/${article.slug}`
-
-                  if (sectionConf.children && sectionConf.children.length > 0) {
-                    // This is a parent section, find the subsection this article belongs to
-                    const articleSectionId =
-                      article.section || article.sections?.[0]
-
-                    // Find the child path that matches this article's section
-                    const childPath = Object.keys(sectionConfig).find(
-                      (key) => sectionConfig[key].id === articleSectionId
-                    )
-
-                    if (childPath) {
-                      articlePath = `/${childPath}/${article.slug}`
-                    }
-                  }
+                  // Use the section_path from the database
+                  const articlePath = article.section_path
+                    ? `/${article.section_path}/${article.slug}`
+                    : `/${pathKey}/${article.slug}`
 
                   return (
                     <article
                       key={article.id}
                       className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
                     >
-                      {article.featured_image && (
+                      {article.imgUrl && (
                         <Link href={articlePath}>
                           <div className="relative h-48 w-full overflow-hidden">
                             <Image
-                              src={article.featured_image}
+                              src={article.imgUrl}
                               alt={article.title}
                               fill
                               className="object-cover hover:scale-105 transition-transform duration-300"
@@ -310,11 +296,6 @@ export default async function DynamicPage({ params }: PageProps) {
                               'es-AR'
                             )}
                           </span>
-                          {article.author && (
-                            <span className="font-medium">
-                              Por {article.author}
-                            </span>
-                          )}
                         </div>
                       </div>
                     </article>
