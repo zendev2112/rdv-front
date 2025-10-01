@@ -23,7 +23,7 @@ export default function DollarRates() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('https://dolarapi.com/v1/dolares')
+    fetch('https://api.bluelytics.com.ar/v2/latest')
       .then((res) => res.json())
       .then((data) => {
         setRates(data)
