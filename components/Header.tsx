@@ -13,6 +13,7 @@ import {
   Download,
   Smartphone,
   ChevronDown,
+  ChevronUp,
   ChevronRight,
 } from 'lucide-react'
 
@@ -23,6 +24,7 @@ const menuSections = [
   { label: 'Coronel Suárez', href: '/coronel-suarez' },
   {
     label: 'Pueblos Alemanes',
+    href: '/pueblos-alemanes',
     children: [
       { label: 'Santa Trinidad', href: '/santa-trinidad' },
       { label: 'San José', href: '/san-jose' },
@@ -35,6 +37,7 @@ const menuSections = [
   { label: 'Actualidad', href: '/actualidad' },
   {
     label: 'Economía',
+    href: '/economia',
     children: [
       { label: 'Dólar', href: '/economia/dolar' },
       { label: 'Propiedades', href: '/economia/propiedades' },
@@ -42,6 +45,7 @@ const menuSections = [
   },
   {
     label: 'Pymes y Emprendimientos',
+    href: '/pymes',
     children: [
       { label: 'Inmuebles', href: '/pymes/inmuebles' },
       { label: 'Campos', href: '/pymes/campos' },
@@ -50,6 +54,7 @@ const menuSections = [
   },
   {
     label: 'Agro',
+    href: '/agro',
     children: [
       { label: 'Agricultura', href: '/agro/agricultura' },
       { label: 'Ganadería', href: '/agro/ganaderia' },
@@ -58,6 +63,7 @@ const menuSections = [
   },
   {
     label: 'Sociedad',
+    href: '/sociedad',
     children: [
       { label: 'Educación', href: '/sociedad/educacion' },
       { label: 'Policiales', href: '/sociedad/policiales' },
@@ -67,6 +73,7 @@ const menuSections = [
   },
   {
     label: 'Salud',
+    href: '/salud',
     children: [
       { label: 'Vida en Armonía', href: '/salud/vida-en-armonia' },
       { label: 'Nutrición y energía', href: '/salud/nutricion-energia' },
@@ -79,6 +86,7 @@ const menuSections = [
   { label: 'Deportes', href: '/deportes' },
   {
     label: 'Lifestyle',
+    href: '/lifestyle',
     children: [
       { label: 'Turismo', href: '/lifestyle/turismo' },
       { label: 'Horóscopo', href: '/lifestyle/horoscopo' },
@@ -95,9 +103,9 @@ const menuSections = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [openSections, setOpenSections] = useState(new Set())
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set())
 
-  const toggleSection = (sectionLabel) => {
+  const toggleSection = (sectionLabel: string) => {
     const newOpenSections = new Set(openSections)
     if (newOpenSections.has(sectionLabel)) {
       newOpenSections.delete(sectionLabel)
@@ -108,44 +116,68 @@ export default function Header() {
   }
 
   // --- Render menu with collapsible subsections ---
-  const renderMenu = (items, level = 0) => {
+const renderMenu = (sections: typeof menuSections) => {
+  return sections.map((section) => {
+    const hasChildren = section.children && section.children.length > 0
+    const isExpanded = openSections.has(section.label)
+
+  if (hasChildren) {
     return (
-      <ul className={level === 0 ? 'pl-0' : 'pl-4'}>
-        {items.map((item) => (
-          <li key={item.label} className="mb-1">
-            {item.href ? (
+      <div key={section.label} className="border-b border-gray-200">
+        {/* Parent section - clickable link with expand button */}
+        <div className="flex items-center justify-between">
+          <Link
+            href={section.href!}
+            className="flex-1 py-3 px-4 hover:bg-gray-50 font-medium"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {section.label}
+          </Link>
+          <button
+            onClick={() => toggleSection(section.label)}
+            className="px-4 py-3 hover:bg-gray-50"
+            aria-label={`Toggle ${section.label} subsections`}
+          >
+            {isExpanded ? (
+              <ChevronUp className="w-5 h-5 text-gray-500" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-gray-500" />
+            )}
+          </button>
+        </div>
+
+        {/* Subsections - shown when expanded */}
+        {isExpanded && (
+          <div className="bg-gray-50 pl-6">
+            {section.children!.map((child) => (
               <Link
-                href={item.href}
-                className={`block py-2 text-gray-800 hover:text-primary-red text-sm ${
-                  level === 0 ? 'font-semibold' : ''
-                } transition-colors`}
+                key={child.href}
+                href={child.href}
+                className="block py-2 px-4 text-sm hover:text-primary-red hover:bg-gray-100"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {item.label}
+                {child.label}
               </Link>
-            ) : (
-              <button
-                onClick={() => toggleSection(item.label)}
-                className="w-full flex items-center justify-between py-2 text-gray-800 text-sm font-semibold hover:text-primary-red transition-colors"
-              >
-                <span>{item.label}</span>
-                {openSections.has(item.label) ? (
-                  <ChevronDown className="w-4 h-4" />
-                ) : (
-                  <ChevronRight className="w-4 h-4" />
-                )}
-              </button>
-            )}
-            {item.children && openSections.has(item.label) && (
-              <div className="overflow-hidden">
-                {renderMenu(item.children, level + 1)}
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+            ))}
+          </div>
+        )}
+      </div>
     )
   }
+
+    // No children - direct link
+    return (
+      <Link
+        key={section.href}
+        href={section.href!}
+        className="block py-3 px-4 border-b border-gray-200 hover:bg-gray-50 font-medium"
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        {section.label}
+      </Link>
+    )
+  })
+}
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
