@@ -656,57 +656,7 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Add MediaCarousel Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <MediaCarousel
-            title="VOLGA TV"
-            items={[
-              {
-                id: '1',
-                title:
-                  "Entrevista exclusiva: 'La tecnología cambiará el periodismo para siempre'",
-                imageUrl:
-                  '/placeholder.svg?height=220&width=320&text=Interview',
-                badgeText: 'ENTREVISTAS',
-                duration: '5:42',
-                videoUrl: '#',
-              },
-              {
-                id: '2',
-                title: 'La historia detrás del éxito del equipo nacional',
-                imageUrl: '/placeholder.svg?height=220&width=320&text=Sports',
-                badgeText: 'DEPORTES',
-                duration: '7:18',
-                videoUrl: '#',
-              },
-              {
-                id: '3',
-                title:
-                  'Nuevas tendencias en la gastronomía local: sabores que sorprenden',
-                imageUrl: '/placeholder.svg?height=220&width=320&text=Food',
-                badgeText: 'LIFESTYLE',
-                duration: '4:30',
-                videoUrl: '#',
-              },
-              {
-                id: '4',
-                title: 'Análisis político: ¿Qué esperar en los próximos meses?',
-                imageUrl: '/placeholder.svg?height=220&width=320&text=Politics',
-                badgeText: 'POLÍTICA',
-                duration: '8:05',
-                videoUrl: '#',
-              },
-              {
-                id: '5',
-                title: 'Avances tecnológicos que cambiarán nuestra vida diaria',
-                imageUrl: '/placeholder.svg?height=220&width=320&text=Tech',
-                badgeText: 'TECNOLOGÍA',
-                duration: '6:15',
-                videoUrl: '#',
-              },
-            ]}
-          />
-        </section>
+
 
         {/* Politics and Economy Section */}
         <PoliticaYEconomiaSection
