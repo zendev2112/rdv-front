@@ -643,16 +643,16 @@ export default async function Home() {
         <NoticiasImportantesSection serverData={noticiasImportantesArticles} />
 
         {/* Weather section */}
-        <ClimaSection />
+        {/* <ClimaSection /> */}
 
         <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
 
         <FarmaciasDeTurno />
 
-        {/*         <VolgaTVSection
+        <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
-        /> */}
+        />
 
         <HuanguelenSection serverData={huanguelenArticles} />
 
