@@ -258,49 +258,68 @@ export default async function DynamicPage({ params }: PageProps) {
 
             {articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {articles.map((article) => (
-                  <article
-                    key={article.id}
-                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-                  >
-                    {article.featured_image && (
-                      <Link href={`/${pathKey}/${article.slug}`}>
-                        <div className="relative h-48 w-full overflow-hidden">
-                          <Image
-                            src={article.featured_image}
-                            alt={article.title}
-                            fill
-                            className="object-cover hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      </Link>
-                    )}
-                    <div className="p-5">
-                      <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-primary-red transition-colors">
-                        <Link href={`/${pathKey}/${article.slug}`}>
-                          {article.title}
+                {articles.map((article) => {
+                  // Determine the correct article path
+                  // If viewing a parent section, find which child this article belongs to
+                  let articlePath = `/${pathKey}/${article.slug}`
+
+                  if (sectionConf.children && sectionConf.children.length > 0) {
+                    // This is a parent section, find the subsection this article belongs to
+                    const articleSectionId =
+                      article.section || article.sections?.[0]
+
+                    // Find the child path that matches this article's section
+                    const childPath = Object.keys(sectionConfig).find(
+                      (key) => sectionConfig[key].id === articleSectionId
+                    )
+
+                    if (childPath) {
+                      articlePath = `/${childPath}/${article.slug}`
+                    }
+                  }
+
+                  return (
+                    <article
+                      key={article.id}
+                      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                    >
+                      {article.featured_image && (
+                        <Link href={articlePath}>
+                          <div className="relative h-48 w-full overflow-hidden">
+                            <Image
+                              src={article.featured_image}
+                              alt={article.title}
+                              fill
+                              className="object-cover hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
                         </Link>
-                      </h2>
-                      {article.excerpt && (
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {article.excerpt}
-                        </p>
                       )}
-                      <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-200">
-                        <span>
-                          {new Date(article.published_at).toLocaleDateString(
-                            'es-AR'
-                          )}
-                        </span>
-                        {article.author && (
-                          <span className="font-medium">
-                            Por {article.author}
-                          </span>
+                      <div className="p-5">
+                        <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-primary-red transition-colors">
+                          <Link href={articlePath}>{article.title}</Link>
+                        </h2>
+                        {article.excerpt && (
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                            {article.excerpt}
+                          </p>
                         )}
+                        <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-200">
+                          <span>
+                            {new Date(article.published_at).toLocaleDateString(
+                              'es-AR'
+                            )}
+                          </span>
+                          {article.author && (
+                            <span className="font-medium">
+                              Por {article.author}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                ))}
+                    </article>
+                  )
+                })}
               </div>
             ) : (
               <div className="text-center py-20 bg-gray-50 rounded-lg">
