@@ -180,7 +180,7 @@ export default function Header() {
         {/* Center section - Logo - ABSOLUTELY CENTERED */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link href="/" className="text-center">
-            <div className="relative h-10 w-36 sm:h-12 sm:w-48 md:h-20 md:w-72">
+            <div className="relative h-8 w-32 sm:h-10 sm:w-48 md:h-16 md:w-64">
               <Image
                 src="/images/logo.svg"
                 alt="Noticias Logo"
