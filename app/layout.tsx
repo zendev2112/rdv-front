@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import MobileNavBar from '@/components/MobileNavBar'
 
 
 const inter = Inter({ subsets: ["latin"] })
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en" className="overflow-x-hidden">
       <head>
         {/* Remove styled-jsx and use a regular style tag */}
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           .border-border {
             border-color: #e5e5e5 !important;
           }
@@ -29,9 +32,14 @@ export default function RootLayout({
             max-width: 100vw;
             overflow-x: hidden;
           }
-        `}} />
+        `,
+          }}
+        />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <MobileNavBar />
+      </body>
     </html>
   )
 }
