@@ -1,5 +1,5 @@
 const API_KEY = process.env.YOUTUBE_API_KEY
-const CHANNEL_ID = process.env.CHANNEL_ID // Replace with your channel ID
+const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID
 
 export interface VideoItem {
   id: string
@@ -19,31 +19,76 @@ function parseYouTubeDuration(duration: string): string {
 }
 
 export async function fetchLatestVideos(maxResults = 5): Promise<VideoItem[]> {
-  if (!API_KEY || !CHANNEL_ID) return []
+  try {
+    if (!API_KEY || !CHANNEL_ID) {
+      console.error('YouTube API_KEY or CHANNEL_ID missing')
+      return []
+    }
 
-  // 1. Get latest video IDs
-  const searchUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${maxResults}`
-  const searchRes = await fetch(searchUrl)
-  const searchData = await searchRes.json()
+    // 1. Get latest video IDs
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${maxResults}`
+    const searchRes = await fetch(searchUrl, { next: { revalidate: 3600 } })
 
-  const videoIds = searchData.items
-    .filter((item: any) => item.id.kind === 'youtube#video')
-    .map((item: any) => item.id.videoId)
-    .join(',')
+    if (!searchRes.ok) {
+      console.error('YouTube search API failed:', searchRes.status)
+      return []
+    }
 
-  if (!videoIds) return []
+    const searchData = await searchRes.json()
 
-  // 2. Get video details (duration, view count)
-  const videosUrl = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&id=${videoIds}&part=snippet,contentDetails,statistics`
-  const videosRes = await fetch(videosUrl)
-  const videosData = await videosRes.json()
+    // CHECK IF ITEMS EXISTS
+    if (!searchData.items || !Array.isArray(searchData.items)) {
+      console.error(
+        'YouTube API returned no items:',
+        searchData.error || 'Unknown error'
+      )
+      return []
+    }
 
-  return videosData.items.map((item: any) => ({
-    id: item.id,
-    title: item.snippet.title,
-    thumbnailUrl: item.snippet.thumbnails.high.url,
-    publishedAt: new Date(item.snippet.publishedAt).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' }),
-    viewCount: item.statistics?.viewCount,
-    duration: parseYouTubeDuration(item.contentDetails.duration),
-  }))
+    const videoIds = searchData.items
+      .filter((item: any) => item.id.kind === 'youtube#video')
+      .map((item: any) => item.id.videoId)
+      .join(',')
+
+    if (!videoIds) {
+      console.error('No video IDs found')
+      return []
+    }
+
+    // 2. Get video details (duration, view count)
+    const videosUrl = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&id=${videoIds}&part=snippet,contentDetails,statistics`
+    const videosRes = await fetch(videosUrl, { next: { revalidate: 3600 } })
+
+    if (!videosRes.ok) {
+      console.error('YouTube videos API failed:', videosRes.status)
+      return []
+    }
+
+    const videosData = await videosRes.json()
+
+    // CHECK IF ITEMS EXISTS
+    if (!videosData.items || !Array.isArray(videosData.items)) {
+      console.error('YouTube videos API returned no items')
+      return []
+    }
+
+    return videosData.items.map((item: any) => ({
+      id: item.id,
+      title: item.snippet.title,
+      thumbnailUrl: item.snippet.thumbnails.high.url,
+      publishedAt: new Date(item.snippet.publishedAt).toLocaleDateString(
+        'es-AR',
+        {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }
+      ),
+      viewCount: item.statistics?.viewCount,
+      duration: parseYouTubeDuration(item.contentDetails.duration),
+    }))
+  } catch (error) {
+    console.error('Exception in fetchLatestVideos:', error)
+    return []
+  }
 }
