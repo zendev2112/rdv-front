@@ -43,6 +43,7 @@ import { fetchLatestVideos } from '@/lib/youtube/fetchLatestVideos'
 import SidelinesLayout from '@/components/SidelinesLayout'
 import { SkyscraperAd, SidebarRectangleAd } from '@/components/ads/SkyscraperAd'
 import DollarRates from '@/components/DollarRates'
+import NewsTicker from '@/components/NewsTicker'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -612,29 +613,7 @@ export default async function Home() {
             <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
               EN VIVO
             </span>
-            <span className="font-bold">Medidas de Milei</span>
-            <span className="text-neutral-gray">Hace 22 min</span>
-            <span className="mx-2">•</span>
-            <span className="font-bold">
-              Derrumbe de las bolsas en Asia y Europa
-            </span>
-            <span className="text-neutral-gray">Hace 3 min</span>
-            <span className="mx-2">•</span>
-            <span className="font-bold">Dólar hoy</span>
-            <span className="text-neutral-gray">Hace 4 min</span>
-            <div className="flex-1"></div>
-            <Link href="#" className="text-dark-gray hover:text-primary-red">
-              Javier Milei
-            </Link>
-            <Link href="#" className="text-dark-gray hover:text-primary-red">
-              Dólar hoy
-            </Link>
-            <Link href="#" className="text-dark-gray hover:text-primary-red">
-              Corte Suprema
-            </Link>
-            <Link href="#" className="text-dark-gray hover:text-primary-red">
-              Fútbol argentino
-            </Link>
+            <NewsTicker headlines={latestHeadlines} />
           </div>
         </div>
         {/* Main content */}
@@ -649,7 +628,7 @@ export default async function Home() {
 
         <FarmaciasDeTurno />
 
-{/*         <VolgaTVSection
+        {/*         <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
         /> */}
