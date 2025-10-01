@@ -150,35 +150,35 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
       {/* Main header area */}
-      <div className="container mx-auto px-3 py-2 md:py-3 flex justify-between items-center">
-        {/* Left section - Menu, SECCIONES text, and Search */}
-        <div className="flex items-center gap-2">
-          {/* Mobile menu toggle - BIGGER */}
+      <div className="container mx-auto px-3 py-2 md:py-3 flex items-center">
+        {/* Left section - Menu, SECCIONES text, and Search - SMALLER */}
+        <div className="flex items-center gap-1.5 mr-auto">
+          {/* Mobile menu toggle */}
           <button
-            className="text-white p-2"
+            className="text-white p-1"
             aria-label="Abrir menú"
             onClick={() => setMobileMenuOpen((open) => !open)}
           >
             {mobileMenuOpen ? (
-              <X className="w-8 h-8" />
+              <X className="w-6 h-6" />
             ) : (
-              <Menu className="w-8 h-8" />
+              <Menu className="w-6 h-6" />
             )}
           </button>
           
-          {/* SECCIONES text */}
-          <span className="text-white font-bold text-sm md:text-base uppercase">
+          {/* SECCIONES text - smaller */}
+          <span className="text-white font-bold text-xs md:text-sm uppercase">
             SECCIONES
           </span>
           
-          {/* Search icon */}
+          {/* Search icon - smaller */}
           <button className="text-white p-1" aria-label="Buscar">
-            <Search className="w-6 h-6 md:w-7 md:h-7" />
+            <Search className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
-        {/* Center section - Logo */}
-        <div className="flex-1 flex justify-center">
+        {/* Center section - Logo - ABSOLUTELY CENTERED */}
+        <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link href="/" className="text-center">
             <div className="relative h-8 w-32 sm:h-10 sm:w-48 md:h-16 md:w-64">
               <Image
@@ -193,8 +193,8 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Right section - Bell icon and app button */}
-        <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
+        {/* Right section - Bell icon */}
+        <div className="flex items-center ml-auto">
           <button className="text-white p-1" aria-label="Notifications">
             <Bell className="w-5 h-5 md:w-6 md:h-6" />
           </button>
