@@ -188,24 +188,7 @@ export default function Header() {
         <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
           <button className="text-white p-1" aria-label="Notifications">
             <Bell className="w-5 h-5 md:w-6 md:h-6" />
-          </button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            className="px-1.5 py-1 h-auto bg-white text-[#ff0808] border-2 border-white hover:bg-[#ff0808] hover:text-white hover:border-white transition-all duration-200 flex items-center gap-1 sm:gap-2 font-bold shadow-md"
-          >
-            <div className="bg-[#ff0808] text-white rounded-full p-1 flex items-center justify-center shrink-0">
-              <Smartphone className="h-3 w-3" />
-            </div>
-            <div className="flex flex-col items-start leading-none sm:leading-normal">
-              <span className="text-[9px] sm:text-xs">VOLGA BENEFICIOS </span>
-              <span className="text-[10px] sm:text-sm font-extrabold">
-                {' '}
-                APP
-              </span>
-            </div>
-          </Button>
+          </button>          
         </div>
       </div>
 
