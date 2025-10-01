@@ -1,5 +1,5 @@
 const API_KEY = process.env.YOUTUBE_API_KEY
-const CHANNEL_ID = 'UCp-yOJF49Ps2gLJvWZ3nr8A' // Replace with your channel ID
+const CHANNEL_ID = process.env.CHANNEL_ID // Replace with your channel ID
 
 export interface VideoItem {
   id: string

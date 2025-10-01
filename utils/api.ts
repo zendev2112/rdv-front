@@ -112,15 +112,19 @@ export async function fetchLatestHeadlines() {
       return []
     }
 
-    const headlines = Array.isArray(data)
-      ? data.map((article) => ({
-          id: article.id,
-          title: article.title,
-          slug: article.slug,
-          section: article.section || article.front,
-          timestamp: article.created_at,
-        }))
-      : []
+    // SAFETY CHECK: Ensure data is an array
+    if (!data || !Array.isArray(data)) {
+      console.error('❌ Data is not an array:', data)
+      return []
+    }
+
+    const headlines = data.map((article) => ({
+      id: article.id,
+      title: article.title,
+      slug: article.slug,
+      section: article.section || article.front,
+      timestamp: article.created_at,
+    }))
 
     console.log(`✅ Headlines success: ${headlines.length} headlines`)
     return headlines
