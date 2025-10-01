@@ -42,6 +42,7 @@ import { fetchLatestHeadlines } from '@/utils/api'
 import { fetchLatestVideos } from '@/lib/youtube/fetchLatestVideos'
 import SidelinesLayout from '@/components/SidelinesLayout'
 import { SkyscraperAd, SidebarRectangleAd } from '@/components/ads/SkyscraperAd'
+import DollarRates from '@/components/DollarRates'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -602,25 +603,7 @@ export default async function Home() {
       <div className="pt-[calc(1.5rem+100px)]">
         {/* Currency rates */}
         <div className="border-b border-gray-200 overflow-x-auto">
-          <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-4 whitespace-nowrap">
-            <span>
-              Dólar oficial <strong>$1095,50</strong>
-            </span>
-            <span>
-              Dólar blue <strong>$1310,00</strong>
-            </span>
-            <span>
-              Dólar tarjeta <strong>$1424,15</strong>
-            </span>
-            <span>
-              Dólar CCL <strong>$1337,00</strong>
-            </span>
-            <span>
-              Dólar MEP <strong>$1335,86</strong>
-            </span>
-            <div className="flex-1"></div>
-
-          </div>
+          <DollarRates />
         </div>
 
         {/* Breaking news ticker */}
@@ -666,7 +649,7 @@ export default async function Home() {
 
         <FarmaciasDeTurno />
 
-{/*         <VolgaTVSection
+        {/*         <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
         /> */}
