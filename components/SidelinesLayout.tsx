@@ -5,6 +5,7 @@ interface SidelinesLayoutProps {
   leftAd?: React.ReactNode
   rightAd?: React.ReactNode
   className?: string
+  sidelineWidth?: number // new prop in px
 }
 
 export default function SidelinesLayout({
@@ -12,8 +13,9 @@ export default function SidelinesLayout({
   leftAd,
   rightAd,
   className = '',
+  sidelineWidth = 200, // default 200px
 }: SidelinesLayoutProps) {
-  const stripeStyle = {
+  const stripeStyle: React.CSSProperties = {
     backgroundImage: `repeating-linear-gradient(
       45deg,
       transparent 0px,
@@ -23,7 +25,7 @@ export default function SidelinesLayout({
     )`,
     backgroundColor: '#f8f8f8',
     minHeight: '100vh',
-    width: '160px',
+    width: `${sidelineWidth}px`,
   }
 
   return (
