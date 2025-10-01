@@ -182,7 +182,7 @@ export default function Header() {
         {/* Center section - Logo - responsive size */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link href="/" className="text-center">
-            <div className="relative h-12 w-40 sm:h-14 sm:w-52 md:h-16 md:w-56 lg:h-20 lg:w-64 xl:h-24 xl:w-72">
+            <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-14 md:w-40 lg:h-12 lg:w-36 xl:h-10 xl:w-32">
               <Image
                 src="/images/logo.svg"
                 alt="Noticias Logo"
