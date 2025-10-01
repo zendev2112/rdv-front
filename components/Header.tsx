@@ -207,7 +207,7 @@ export default function Header() {
       <div
         className={`${
           mobileMenuOpen ? 'max-h-[80vh] py-4' : 'max-h-0 py-0 overflow-hidden'
-        } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg md:hidden`}
+        } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
       >
         <div className="container mx-auto px-4">
           <div className="max-h-[70vh] overflow-y-auto">
