@@ -32,10 +32,10 @@ const menuSections = [
   { label: 'Huanguelén', href: '/huanguelen' },
   { label: 'La Sexta', href: '/la-sexta' },
   { label: 'Política', href: '/politica' },
+  { label: 'Actualidad', href: '/actualidad' },
   {
     label: 'Economía',
     children: [
-      { label: 'Actualidad', href: '/economia/actualidad' },
       { label: 'Dólar', href: '/economia/dolar' },
       { label: 'Propiedades', href: '/economia/propiedades' },
     ],
