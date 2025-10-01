@@ -27,23 +27,29 @@ export default function SidelinesLayout({
   }
 
   return (
-    <div className={`${className}`}>
-      <div className="flex justify-center">
-        {/* Left Sideline */}
-        <div className="hidden xl:block flex-shrink-0" style={stripeStyle}>
-          <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
-        </div>
+    <>
+      {/* Mobile/Tablet: Normal layout without sidelines */}
+      <div className={`xl:hidden ${className}`}>{children}</div>
 
-        {/* Main Content */}
-        <div className="w-[1200px] bg-white shadow-sm min-h-screen">
-          {children}
-        </div>
+      {/* Desktop: Layout with sidelines */}
+      <div className={`hidden xl:block ${className}`}>
+        <div className="flex justify-center">
+          {/* Left Sideline */}
+          <div className="flex-shrink-0" style={stripeStyle}>
+            <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
+          </div>
 
-        {/* Right Sideline */}
-        <div className="hidden xl:block flex-shrink-0" style={stripeStyle}>
-          <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
+          {/* Main Content */}
+          <div className="w-[1200px] bg-white shadow-sm min-h-screen">
+            {children}
+          </div>
+
+          {/* Right Sideline */}
+          <div className="flex-shrink-0" style={stripeStyle}>
+            <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
