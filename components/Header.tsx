@@ -151,8 +151,8 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
       {/* Main header area - INCREASED PADDING */}
       <div className="container mx-auto px-2 py-4 md:py-5 flex justify-between items-center relative">
-        {/* Left section: move only hamburger + SECCIONES further left; keep search icon unmoved */}
-        <div className="flex items-center gap-1.5 pl-0">
+        {/* Left section: only show on desktop */}
+        <div className="hidden md:flex items-center gap-1.5 pl-0">
           <div className="-ml-6 md:-ml-8 flex items-center gap-1.5">
             {/* Mobile menu toggle */}
             <button
@@ -160,7 +160,11 @@ export default function Header() {
               aria-label="Abrir menú"
               onClick={() => setMobileMenuOpen((open) => !open)}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
 
             {/* SECCIONES text */}
@@ -169,16 +173,16 @@ export default function Header() {
             </span>
           </div>
 
-          {/* Keep magnifying icon in normal position (do not move) */}
+          {/* Magnifying glass icon */}
           <button className="text-white p-1 ml-2" aria-label="Buscar">
             <Search className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
-        {/* Center section - Logo - ABSOLUTELY CENTERED */}
+        {/* Center section - Logo - responsive size */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link href="/" className="text-center">
-            <div className="relative h-8 w-32 sm:h-10 sm:w-48 md:h-16 md:w-64">
+            <div className="relative h-10 w-36 sm:h-12 sm:w-44 md:h-14 md:w-40 lg:h-12 lg:w-36 xl:h-10 xl:w-32">
               <Image
                 src="/images/logo.svg"
                 alt="Noticias Logo"
@@ -203,7 +207,7 @@ export default function Header() {
       <div
         className={`${
           mobileMenuOpen ? 'max-h-[80vh] py-4' : 'max-h-0 py-0 overflow-hidden'
-        } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
+        } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg md:hidden`}
       >
         <div className="container mx-auto px-4">
           <div className="max-h-[70vh] overflow-y-auto">
