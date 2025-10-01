@@ -151,28 +151,26 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
       {/* Main header area - INCREASED PADDING */}
       <div className="container mx-auto px-2 py-4 md:py-5 flex justify-between items-center relative">
-        {/* Left section - MOVED MORE TO THE LEFT */}
-        <div className="flex items-center gap-1.5 pl-0 -ml-2 md:-ml-3">
-          {/* Mobile menu toggle */}
-          <button
-            className="text-white p-1"
-            aria-label="Abrir menú"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+        {/* Left section: move only hamburger + SECCIONES further left; keep search icon unmoved */}
+        <div className="flex items-center gap-1.5 pl-0">
+          <div className="-ml-6 md:-ml-8 flex items-center gap-1.5">
+            {/* Mobile menu toggle */}
+            <button
+              className="text-white p-1"
+              aria-label="Abrir menú"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
 
-          {/* SECCIONES text */}
-          <span className="text-white font-bold text-xs md:text-sm uppercase">
-            SECCIONES
-          </span>
+            {/* SECCIONES text */}
+            <span className="text-white font-bold text-xs md:text-sm uppercase">
+              SECCIONES
+            </span>
+          </div>
 
-          {/* Search icon */}
-          <button className="text-white p-1" aria-label="Buscar">
+          {/* Keep magnifying icon in normal position (do not move) */}
+          <button className="text-white p-1 ml-2" aria-label="Buscar">
             <Search className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
