@@ -649,10 +649,10 @@ export default async function Home() {
 
         <FarmaciasDeTurno />
 
-        <VolgaTVSection
+{/*         <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
-        />
+        /> */}
 
         <HuanguelenSection serverData={huanguelenArticles} />
 
