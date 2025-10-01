@@ -18,36 +18,94 @@ const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
 })
 
-// Section configuration
 const sectionConfig: Record<
   string,
-  { id: string; title: string; description?: string }
+  { id: string; title: string; description?: string; children?: string[] }
 > = {
   'radio-del-volga': { id: 'radio-del-volga', title: 'Radio del Volga' },
   'mapa-del-sitio': { id: 'mapa-del-sitio', title: 'Mapa del Sitio' },
   'coronel-suarez': { id: 'coronel-suarez', title: 'Coronel Suárez' },
+
+  // Parent section: Pueblos Alemanes
+  'pueblos-alemanes': {
+    id: 'pueblos-alemanes',
+    title: 'Pueblos Alemanes',
+    description: 'Noticias de los pueblos alemanes de la zona',
+    children: ['santa-trinidad', 'san-jose', 'santa-maria'],
+  },
   'santa-trinidad': { id: 'santa-trinidad', title: 'Santa Trinidad' },
   'san-jose': { id: 'san-jose', title: 'San José' },
   'santa-maria': { id: 'santa-maria', title: 'Santa María' },
+
   huanguelen: { id: 'huanguelen', title: 'Huanguelén' },
   'la-sexta': { id: 'la-sexta', title: 'La Sexta' },
   politica: { id: 'politica', title: 'Política' },
   actualidad: { id: 'actualidad', title: 'Actualidad' },
+
+  // Parent section: Economía
+  economia: {
+    id: 'economia',
+    title: 'Economía',
+    description: 'Todas las noticias de economía',
+    children: ['economia-dolar', 'economia-propiedades'],
+  },
   'economia/dolar': { id: 'economia-dolar', title: 'Dólar' },
   'economia/propiedades': { id: 'economia-propiedades', title: 'Propiedades' },
+
+  // Parent section: Pymes
+  pymes: {
+    id: 'pymes',
+    title: 'Pymes y Emprendimientos',
+    description: 'Noticias para emprendedores y PyMEs',
+    children: ['pymes-inmuebles', 'pymes-campos', 'pymes-construccion-diseno'],
+  },
   'pymes/inmuebles': { id: 'pymes-inmuebles', title: 'Inmuebles' },
   'pymes/campos': { id: 'pymes-campos', title: 'Campos' },
   'pymes/construccion-diseno': {
     id: 'pymes-construccion-diseno',
     title: 'Construcción y Diseño',
   },
+
+  // Parent section: Agro
+  agro: {
+    id: 'agro',
+    title: 'Agro',
+    description: 'Noticias del campo y la agricultura',
+    children: ['agro-agricultura', 'agro-ganaderia', 'agro-tecnologias'],
+  },
   'agro/agricultura': { id: 'agro-agricultura', title: 'Agricultura' },
   'agro/ganaderia': { id: 'agro-ganaderia', title: 'Ganadería' },
   'agro/tecnologias': { id: 'agro-tecnologias', title: 'Tecnologías' },
+
+  // Parent section: Sociedad
+  sociedad: {
+    id: 'sociedad',
+    title: 'Sociedad',
+    description: 'Noticias de sociedad',
+    children: [
+      'sociedad-educacion',
+      'sociedad-policiales',
+      'sociedad-efemerides',
+      'sociedad-ciencia',
+    ],
+  },
   'sociedad/educacion': { id: 'sociedad-educacion', title: 'Educación' },
   'sociedad/policiales': { id: 'sociedad-policiales', title: 'Policiales' },
   'sociedad/efemerides': { id: 'sociedad-efemerides', title: 'Efemérides' },
   'sociedad/ciencia': { id: 'sociedad-ciencia', title: 'Ciencia' },
+
+  // Parent section: Salud
+  salud: {
+    id: 'salud',
+    title: 'Salud',
+    description: 'Consejos y noticias de salud',
+    children: [
+      'salud-vida-en-armonia',
+      'salud-nutricion-energia',
+      'salud-fitness',
+      'salud-salud-mental',
+    ],
+  },
   'salud/vida-en-armonia': {
     id: 'salud-vida-en-armonia',
     title: 'Vida en Armonía',
@@ -58,9 +116,25 @@ const sectionConfig: Record<
   },
   'salud/fitness': { id: 'salud-fitness', title: 'Fitness' },
   'salud/salud-mental': { id: 'salud-salud-mental', title: 'Salud Mental' },
+
   cultura: { id: 'cultura', title: 'Cultura' },
   opinion: { id: 'opinion', title: 'Opinión' },
   deportes: { id: 'deportes', title: 'Deportes' },
+
+  // Parent section: Lifestyle
+  lifestyle: {
+    id: 'lifestyle',
+    title: 'Lifestyle',
+    description: 'Estilo de vida y entretenimiento',
+    children: [
+      'lifestyle-turismo',
+      'lifestyle-horoscopo',
+      'lifestyle-feriados',
+      'lifestyle-loterias-quinielas',
+      'lifestyle-moda-belleza',
+      'lifestyle-mascotas',
+    ],
+  },
   'lifestyle/turismo': { id: 'lifestyle-turismo', title: 'Turismo' },
   'lifestyle/horoscopo': { id: 'lifestyle-horoscopo', title: 'Horóscopo' },
   'lifestyle/feriados': { id: 'lifestyle-feriados', title: 'Feriados' },
@@ -73,6 +147,7 @@ const sectionConfig: Record<
     title: 'Moda y Belleza',
   },
   'lifestyle/mascotas': { id: 'lifestyle-mascotas', title: 'Mascotas' },
+
   'volga-beneficios': { id: 'volga-beneficios', title: 'Volga Beneficios' },
   vinos: { id: 'vinos', title: 'Vinos' },
   'el-recetario': { id: 'el-recetario', title: 'El Recetario' },
@@ -119,8 +194,19 @@ export default async function DynamicPage({ params }: PageProps) {
   // First, check if this is a SECTION page
   const sectionConf = sectionConfig[pathKey]
   if (sectionConf) {
-    // This is a section listing page
-    const articles = (await fetchArticlesBySection(sectionConf.id)) || []
+    // Fetch articles - if parent section with children, fetch from all children
+    let articles: any[] = []
+
+    if (sectionConf.children && sectionConf.children.length > 0) {
+      // Parent section: fetch from all subsections
+      const allArticles = await Promise.all(
+        sectionConf.children.map((childId) => fetchArticlesBySection(childId))
+      )
+      articles = allArticles.flat().filter(Boolean)
+    } else {
+      // Single section: fetch normally
+      articles = (await fetchArticlesBySection(sectionConf.id)) || []
+    }
 
     return (
       <SidelinesLayout>
@@ -136,6 +222,34 @@ export default async function DynamicPage({ params }: PageProps) {
                   {sectionConf.description}
                 </p>
               )}
+
+              {/* Show subsection links if parent has children */}
+              {sectionConf.children && sectionConf.children.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {sectionConf.children.map((childId) => {
+                    // Find the child path in sectionConfig
+                    const childPath = Object.keys(sectionConfig).find(
+                      (key) => sectionConfig[key].id === childId
+                    )
+                    const childConfig = childPath
+                      ? sectionConfig[childPath]
+                      : null
+
+                    if (!childConfig) return null
+
+                    return (
+                      <Link
+                        key={childId}
+                        href={`/${childPath}`}
+                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                      >
+                        {childConfig.title}
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+
               <p className="text-gray-500 text-sm mt-3">
                 {articles.length}{' '}
                 {articles.length === 1 ? 'artículo' : 'artículos'}
