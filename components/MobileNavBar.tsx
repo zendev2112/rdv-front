@@ -4,18 +4,29 @@ import Link from 'next/link'
 import { Home, LayoutGrid, Tv, Search } from 'lucide-react'
 
 const YOUTUBE_CHANNEL_ID = 'UCp-yOJF49Ps2gLJvWZ3nr8A'
-const YOUTUBE_APP_URL = `youtube://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
 const YOUTUBE_WEB_URL = `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
+const YOUTUBE_INTENT_URL = `intent://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}#Intent;package=com.google.android.youtube;scheme=https;end`
 
 export default function MobileNavBar() {
   const handleVolgaTVClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    // Try to open in YouTube app
-    window.location.href = YOUTUBE_APP_URL
-    // Fallback to web after a short delay
-    setTimeout(() => {
-      window.location.href = YOUTUBE_WEB_URL
-    }, 500)
+
+    // Detect if user is on Android
+    const isAndroid = /android/i.test(navigator.userAgent)
+
+    if (isAndroid) {
+      // Try Android intent (opens app or prompts to install)
+      window.location.href = YOUTUBE_INTENT_URL
+    } else {
+      // For iOS/other, try youtube:// scheme
+      const youtubeAppUrl = `youtube://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}`
+      window.location.href = youtubeAppUrl
+
+      // Fallback to web if app doesn't open
+      setTimeout(() => {
+        window.location.href = YOUTUBE_WEB_URL
+      }, 1500)
+    }
   }
 
   return (
@@ -38,8 +49,6 @@ export default function MobileNavBar() {
         href={YOUTUBE_WEB_URL}
         onClick={handleVolgaTVClick}
         className="flex flex-col items-center text-xs text-gray-700 hover:text-primary-red"
-        target="_blank"
-        rel="noopener noreferrer"
       >
         <Tv className="w-5 h-5 mb-0.5" />
         VOLGA TV
