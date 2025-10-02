@@ -619,18 +619,20 @@ export default async function Home() {
         {/* Main content */}
         <PrincipalSection serverData={principalSectionArticles} />
 
-        <NoticiasImportantesSection serverData={noticiasImportantesArticles} />
-
         <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
         />
+
         <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
 
+        <FarmaciasDeTurno />
+        
         {/* Weather section */}
         <ClimaSection />
-        
-        <FarmaciasDeTurno />
+
+
+        <NoticiasImportantesSection serverData={noticiasImportantesArticles} />
 
         <HuanguelenSection serverData={huanguelenArticles} />
 
