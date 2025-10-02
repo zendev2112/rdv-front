@@ -621,17 +621,16 @@ export default async function Home() {
 
         <NoticiasImportantesSection serverData={noticiasImportantesArticles} />
 
-        {/* Weather section */}
-        {/* <ClimaSection /> */}
-
-        <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
-
-        <FarmaciasDeTurno />
-
         <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
-        /> 
+        />
+        <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
+
+        {/* Weather section */}
+        <ClimaSection />
+        
+        <FarmaciasDeTurno />
 
         <HuanguelenSection serverData={huanguelenArticles} />
 
