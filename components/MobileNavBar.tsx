@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { Home, LayoutGrid, Tv, Search } from 'lucide-react'
 
