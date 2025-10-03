@@ -32,9 +32,12 @@ export function formatSectionPath(path: string | null): string {
 }
 
 /**
- * Creates a consistent article URL path
+ * Creates a consistent article URL path, ensuring full section hierarchy is included
  */
 export function getArticleUrl(sectionPath: string | null, slug: string): string {
-  const formattedPath = formatSectionPath(sectionPath);
+  if (!sectionPath) return `/${slug}`;
+  
+  // Convert dots to slashes and underscores to hyphens
+  const formattedPath = sectionPath.replace(/\./g, '/').replace(/_/g, '-');
   return `/${formattedPath}/${slug}`;
 }

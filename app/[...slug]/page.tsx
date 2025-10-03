@@ -16,6 +16,7 @@ import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 import dynamic from 'next/dynamic'
 
+
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
 })
@@ -89,8 +90,7 @@ export default async function DynamicPage({ params }: PageProps) {
     if (childSections && childSections.length > 0) {
       // This is a parent section with children
       articles = await fetchArticlesByParentSection(
-        sectionData.slug,
-        childSections.map((c) => c.slug)
+        sectionData.slug
       )
     } else {
       // Regular section, fetch its articles
@@ -105,19 +105,19 @@ export default async function DynamicPage({ params }: PageProps) {
             <div className="mb-8 border-b-2 border-primary-red pb-4">
               {/* Breadcrumbs */}
               <div className="text-sm text-gray-500 mb-4">
-                <Link href="/" className="hover:text-primary-red">
+                <Link href="/" className="hover:text-primary-red font-medium">
                   Inicio
                 </Link>
                 {sectionData.breadcrumb_slugs.map(
                   (slug: string, index: number) => (
                     <span key={slug}>
-                      <span className="mx-2">/</span>
+                      <span className="mx-2 text-gray-400">›</span>
                       <Link
                         href={`/${sectionData.breadcrumb_slugs.slice(
                           0,
                           index + 1
                         ).join('/')}`}
-                        className="hover:text-primary-red"
+                        className="hover:text-primary-red font-medium capitalize"
                       >
                         {sectionData.breadcrumb_names[index]}
                       </Link>
@@ -161,11 +161,8 @@ export default async function DynamicPage({ params }: PageProps) {
             {articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => {
-                  // Create consistent article URL using the full section path
-                  const articlePath = getArticleUrl(
-                    article.section_path,
-                    article.slug
-                  )
+                  // Replace your existing article URL generation with this:
+                  const articlePath = getArticleUrl(article.section_path, article.slug)
 
                   return (
                     <article
@@ -249,16 +246,17 @@ export default async function DynamicPage({ params }: PageProps) {
       <Header />
       <main className="container mx-auto px-4 py-8 pt-[80px] md:pt-[100px]">
         <article className="max-w-4xl mx-auto">
-          {/* Article Breadcrumbs using section_path */}
+          {/* Article Breadcrumbs - REPLACE THIS SECTION */}
           <nav className="text-sm text-gray-500 mb-4">
-            <Link href="/" className="hover:text-primary-red">
+            <Link href="/" className="hover:text-primary-red font-medium">
               Inicio
             </Link>
             {article.section_path && (
               <>
                 {article.section_path.split('.').map(
                   (part: string, index: number, arr: string[]) => {
-                    // Convert section path parts to slugs for URLs
+                    // Get proper section name from the breadcrumb_names array if available
+                    const sectionName = part.replace(/_/g, ' ')
                     const sectionSlug = part.replace(/_/g, '-')
                     const sectionUrl = `/${arr
                       .slice(0, index + 1)
@@ -267,18 +265,19 @@ export default async function DynamicPage({ params }: PageProps) {
 
                     return (
                       <span key={part}>
-                        <span className="mx-2">/</span>
-                        <Link href={sectionUrl} className="hover:text-primary-red">
-                          {part.replace(/_/g, ' ')}
+                        <span className="mx-2 text-gray-400">›</span>
+                        <Link
+                          href={sectionUrl}
+                          className="hover:text-primary-red font-medium capitalize"
+                        >
+                          {sectionName}
                         </Link>
                       </span>
                     )
                   }
                 )}
-                <span className="mx-2">/</span>
               </>
             )}
-            <span>{article.title}</span>
           </nav>
 
           {article.overline && (
