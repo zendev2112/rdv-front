@@ -5,6 +5,7 @@ import {
   fetchArticlesByParentSection,
   supabase,
 } from '@/lib/supabase'
+import { formatSectionPath, getArticleUrl } from '@/lib/utils'
 import Header from '@/components/Header'
 import SidelinesLayout from '@/components/SidelinesLayout'
 import Image from 'next/image'
@@ -19,141 +20,6 @@ const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
 })
 
-const sectionConfig: Record<
-  string,
-  { id: string; title: string; description?: string; children?: string[] }
-> = {
-  'radio-del-volga': { id: 'radio-del-volga', title: 'Radio del Volga' },
-  'mapa-del-sitio': { id: 'mapa-del-sitio', title: 'Mapa del Sitio' },
-  'coronel-suarez': { id: 'coronel-suarez', title: 'Coronel Suárez' },
-
-  // Parent section: Pueblos Alemanes
-  'pueblos-alemanes': {
-    id: 'pueblos-alemanes',
-    title: 'Pueblos Alemanes',
-    description: 'Noticias de los pueblos alemanes de la zona',
-    children: ['santa-trinidad', 'san-jose', 'santa-maria'],
-  },
-  'santa-trinidad': { id: 'santa-trinidad', title: 'Santa Trinidad' },
-  'san-jose': { id: 'san-jose', title: 'San José' },
-  'santa-maria': { id: 'santa-maria', title: 'Santa María' },
-
-  huanguelen: { id: 'huanguelen', title: 'Huanguelén' },
-  'la-sexta': { id: 'la-sexta', title: 'La Sexta' },
-  politica: { id: 'politica', title: 'Política' },
-  actualidad: { id: 'actualidad', title: 'Actualidad' },
-
-  // Parent section: Economía
-  economia: {
-    id: 'economia',
-    title: 'Economía',
-    description: 'Todas las noticias de economía',
-    children: ['economia-dolar', 'economia-propiedades'],
-  },
-  'economia/dolar': { id: 'economia-dolar', title: 'Dólar' },
-  'economia/propiedades': { id: 'economia-propiedades', title: 'Propiedades' },
-
-  // Parent section: Pymes
-  pymes: {
-    id: 'pymes',
-    title: 'Pymes y Emprendimientos',
-    description: 'Noticias para emprendedores y PyMEs',
-    children: ['pymes-inmuebles', 'pymes-campos', 'pymes-construccion-diseno'],
-  },
-  'pymes/inmuebles': { id: 'pymes-inmuebles', title: 'Inmuebles' },
-  'pymes/campos': { id: 'pymes-campos', title: 'Campos' },
-  'pymes/construccion-diseno': {
-    id: 'pymes-construccion-diseno',
-    title: 'Construcción y Diseño',
-  },
-
-  // Parent section: Agro
-  agro: {
-    id: 'agro',
-    title: 'Agro',
-    description: 'Noticias del campo y la agricultura',
-    children: ['agro-agricultura', 'agro-ganaderia', 'agro-tecnologias'],
-  },
-  'agro/agricultura': { id: 'agro-agricultura', title: 'Agricultura' },
-  'agro/ganaderia': { id: 'agro-ganaderia', title: 'Ganadería' },
-  'agro/tecnologias': { id: 'agro-tecnologias', title: 'Tecnologías' },
-
-  // Parent section: Sociedad
-  sociedad: {
-    id: 'sociedad',
-    title: 'Sociedad',
-    description: 'Noticias de sociedad',
-    children: [
-      'sociedad-educacion',
-      'sociedad-policiales',
-      'sociedad-efemerides',
-      'sociedad-ciencia',
-    ],
-  },
-  'sociedad/educacion': { id: 'sociedad-educacion', title: 'Educación' },
-  'sociedad/policiales': { id: 'sociedad-policiales', title: 'Policiales' },
-  'sociedad/efemerides': { id: 'sociedad-efemerides', title: 'Efemérides' },
-  'sociedad/ciencia': { id: 'sociedad-ciencia', title: 'Ciencia' },
-
-  // Parent section: Salud
-  salud: {
-    id: 'salud',
-    title: 'Salud',
-    description: 'Consejos y noticias de salud',
-    children: [
-      'salud-vida-en-armonia',
-      'salud-nutricion-energia',
-      'salud-fitness',
-      'salud-salud-mental',
-    ],
-  },
-  'salud/vida-en-armonia': {
-    id: 'salud-vida-en-armonia',
-    title: 'Vida en Armonía',
-  },
-  'salud/nutricion-energia': {
-    id: 'salud-nutricion-energia',
-    title: 'Nutrición y Energía',
-  },
-  'salud/fitness': { id: 'salud-fitness', title: 'Fitness' },
-  'salud/salud-mental': { id: 'salud-salud-mental', title: 'Salud Mental' },
-
-  cultura: { id: 'cultura', title: 'Cultura' },
-  opinion: { id: 'opinion', title: 'Opinión' },
-  deportes: { id: 'deportes', title: 'Deportes' },
-
-  // Parent section: Lifestyle
-  lifestyle: {
-    id: 'lifestyle',
-    title: 'Lifestyle',
-    description: 'Estilo de vida y entretenimiento',
-    children: [
-      'lifestyle-turismo',
-      'lifestyle-horoscopo',
-      'lifestyle-feriados',
-      'lifestyle-loterias-quinielas',
-      'lifestyle-moda-belleza',
-      'lifestyle-mascotas',
-    ],
-  },
-  'lifestyle/turismo': { id: 'lifestyle-turismo', title: 'Turismo' },
-  'lifestyle/horoscopo': { id: 'lifestyle-horoscopo', title: 'Horóscopo' },
-  'lifestyle/feriados': { id: 'lifestyle-feriados', title: 'Feriados' },
-  'lifestyle/loterias-quinielas': {
-    id: 'lifestyle-loterias-quinielas',
-    title: 'Loterías y Quinielas',
-  },
-  'lifestyle/moda-belleza': {
-    id: 'lifestyle-moda-belleza',
-    title: 'Moda y Belleza',
-  },
-  'lifestyle/mascotas': { id: 'lifestyle-mascotas', title: 'Mascotas' },
-
-  'volga-beneficios': { id: 'volga-beneficios', title: 'Volga Beneficios' },
-  vinos: { id: 'vinos', title: 'Vinos' },
-  'el-recetario': { id: 'el-recetario', title: 'El Recetario' },
-}
-
 interface PageProps {
   params: {
     slug: string[]
@@ -162,51 +28,73 @@ interface PageProps {
 
 // Generate metadata
 export async function generateMetadata({ params }: PageProps) {
-  const pathKey = params.slug.join('/')
-  const articleSlug = params.slug[params.slug.length - 1]
+  const pathSlug = params.slug[params.slug.length - 1]
 
   // Check if it's a section page
-  const config = sectionConfig[pathKey]
-  if (config) {
+  const sectionData = await getSectionData(pathSlug)
+  if (sectionData) {
     return {
-      title: `${config.title} | Radio del Volga`,
-      description:
-        config.description || `Todas las noticias de ${config.title}`,
+      title: `${sectionData.name} | Radio del Volga`,
+      description: `Todas las noticias de ${sectionData.name}`,
     }
   }
 
   // Otherwise, fetch article metadata
-  const article = await fetchArticleBySlug(articleSlug)
+  const article = await fetchArticleBySlug(pathSlug)
   if (article) {
     return {
       title: `${article.title} - Radio del Volga`,
-      description:
-        article.excerpt || `Read ${article.title} on Radio del Volga`,
+      description: article.excerpt || `Lee ${article.title} en Radio del Volga`,
     }
   }
 
   return { title: 'Radio del Volga' }
 }
 
+// Remove the hard-coded sectionConfig and fetch sections from DB instead
+async function getSectionData(slug: string) {
+  const { data } = await supabase
+    .from('section_hierarchy')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  return data
+}
+
+async function getChildSections(parentId: string) {
+  const { data } = await supabase
+    .from('section_hierarchy')
+    .select('*')
+    .eq('parent_id', parentId)
+    .order('position', { ascending: true })
+
+  return data || []
+}
+
 export default async function DynamicPage({ params }: PageProps) {
-  const pathKey = params.slug.join('/')
-  const articleSlug = params.slug[params.slug.length - 1]
+  // Check if we're looking at a section or article
+  // Last part of the path might be an article slug or a section slug
+  const pathSlug = params.slug[params.slug.length - 1]
+  const fullPath = params.slug.join('/')
 
-  // First, check if this is a SECTION page
-  const sectionConf = sectionConfig[pathKey]
-  if (sectionConf) {
-    // Fetch articles
+  // Try to find this as a section first
+  const sectionData = await getSectionData(pathSlug)
+
+  if (sectionData) {
+    // This is a section page
     let articles: any[] = []
+    const childSections = await getChildSections(sectionData.id)
 
-    if (sectionConf.children && sectionConf.children.length > 0) {
-      // Parent section: fetch from all subsections using the helper
+    if (childSections && childSections.length > 0) {
+      // This is a parent section with children
       articles = await fetchArticlesByParentSection(
-        sectionConf.id,
-        sectionConf.children
+        sectionData.slug,
+        childSections.map((c) => c.slug)
       )
     } else {
-      // Single section: fetch normally
-      articles = await fetchArticlesBySection(sectionConf.id)
+      // Regular section, fetch its articles
+      articles = await fetchArticlesBySection(sectionData.slug)
     }
 
     return (
@@ -215,35 +103,49 @@ export default async function DynamicPage({ params }: PageProps) {
         <div className="pt-[80px] md:pt-[100px]">
           <div className="container mx-auto px-4 py-8">
             <div className="mb-8 border-b-2 border-primary-red pb-4">
+              {/* Breadcrumbs */}
+              <div className="text-sm text-gray-500 mb-4">
+                <Link href="/" className="hover:text-primary-red">
+                  Inicio
+                </Link>
+                {sectionData.breadcrumb_slugs.map(
+                  (slug: string, index: number) => (
+                    <span key={slug}>
+                      <span className="mx-2">/</span>
+                      <Link
+                        href={`/${sectionData.breadcrumb_slugs.slice(
+                          0,
+                          index + 1
+                        ).join('/')}`}
+                        className="hover:text-primary-red"
+                      >
+                        {sectionData.breadcrumb_names[index]}
+                      </Link>
+                    </span>
+                  )
+                )}
+              </div>
+
               <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-2">
-                {sectionConf.title}
+                {sectionData.name}
               </h1>
-              {sectionConf.description && (
-                <p className="text-gray-600 text-lg mt-2">
-                  {sectionConf.description}
-                </p>
-              )}
 
               {/* Show subsection links if parent has children */}
-              {sectionConf.children && sectionConf.children.length > 0 && (
+              {childSections && childSections.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {sectionConf.children.map((childId) => {
-                    const childPath = Object.keys(sectionConfig).find(
-                      (key) => sectionConfig[key].id === childId
-                    )
-                    const childConfig = childPath
-                      ? sectionConfig[childPath]
-                      : null
-
-                    if (!childConfig) return null
+                  {childSections.map((child) => {
+                    // Create proper hierarchical URL for child sections
+                    const childPath = sectionData.breadcrumb_slugs
+                      .concat(child.slug)
+                      .join('/')
 
                     return (
                       <Link
-                        key={childId}
+                        key={child.id}
                         href={`/${childPath}`}
                         className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
                       >
-                        {childConfig.title}
+                        {child.name}
                       </Link>
                     )
                   })}
@@ -259,24 +161,11 @@ export default async function DynamicPage({ params }: PageProps) {
             {articles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => {
-                  // Debug: log the article to see available fields
-                  console.log('Article fields:', {
-                    section_path: article.section_path,
-                    section_slug: article.section_slug,
-                    slug: article.slug,
-                  })
-
-                  // Convert ltree path to URL path
-                  let articlePath = `/${article.section_slug}/${article.slug}` // default fallback
-
-                  if (article.section_path) {
-                    // Convert ltree (dots) to URL path (slashes)
-                    const urlPath = String(article.section_path).replace(
-                      /\./g,
-                      '/'
-                    )
-                    articlePath = `/${urlPath}/${article.slug}`
-                  }
+                  // Create consistent article URL using the full section path
+                  const articlePath = getArticleUrl(
+                    article.section_path,
+                    article.slug
+                  )
 
                   return (
                     <article
@@ -306,9 +195,12 @@ export default async function DynamicPage({ params }: PageProps) {
                         )}
                         <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-200">
                           <span>
-                            {new Date(article.published_at).toLocaleDateString(
-                              'es-AR'
-                            )}
+                            {article.published_at &&
+                            article.published_at !== '1970-01-01T00:00:00Z'
+                              ? new Date(article.published_at).toLocaleDateString(
+                                  'es-AR'
+                                )
+                              : 'Fecha no disponible'}
                           </span>
                         </div>
                       </div>
@@ -329,17 +221,19 @@ export default async function DynamicPage({ params }: PageProps) {
     )
   }
 
-  // Not a section page, so try to fetch as an ARTICLE
-  const article = await fetchArticleBySlug(articleSlug)
+  // Not a section page, try to fetch as an article
+  const article = await fetchArticleBySlug(pathSlug)
 
   if (!article) {
     notFound()
   }
 
-  // Render article detail page (your existing article code)
-  const publishDate = article.published_at
-    ? new Date(article.published_at)
-    : null
+  // Render article detail page with proper breadcrumbs
+  const publishDate =
+    article.published_at && article.published_at !== '1970-01-01T00:00:00Z'
+      ? new Date(article.published_at)
+      : null
+
   const formattedDate = publishDate
     ? new Intl.DateTimeFormat('es-AR', {
         year: 'numeric',
@@ -348,13 +242,45 @@ export default async function DynamicPage({ params }: PageProps) {
         hour: '2-digit',
         minute: '2-digit',
       }).format(publishDate)
-    : null
+    : 'Fecha no disponible'
 
   return (
     <SidelinesLayout>
       <Header />
       <main className="container mx-auto px-4 py-8 pt-[80px] md:pt-[100px]">
         <article className="max-w-4xl mx-auto">
+          {/* Article Breadcrumbs using section_path */}
+          <nav className="text-sm text-gray-500 mb-4">
+            <Link href="/" className="hover:text-primary-red">
+              Inicio
+            </Link>
+            {article.section_path && (
+              <>
+                {article.section_path.split('.').map(
+                  (part: string, index: number, arr: string[]) => {
+                    // Convert section path parts to slugs for URLs
+                    const sectionSlug = part.replace(/_/g, '-')
+                    const sectionUrl = `/${arr
+                      .slice(0, index + 1)
+                      .map((p) => p.replace(/_/g, '-'))
+                      .join('/')}`
+
+                    return (
+                      <span key={part}>
+                        <span className="mx-2">/</span>
+                        <Link href={sectionUrl} className="hover:text-primary-red">
+                          {part.replace(/_/g, ' ')}
+                        </Link>
+                      </span>
+                    )
+                  }
+                )}
+                <span className="mx-2">/</span>
+              </>
+            )}
+            <span>{article.title}</span>
+          </nav>
+
           {article.overline && (
             <div className="text-primary-red font-medium mb-2">
               {article.overline}
@@ -371,7 +297,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
           <div className="flex items-center text-sm text-gray-600 mb-6">
             {article.source && <span className="mr-4">{article.source}</span>}
-            {formattedDate && <time>{formattedDate}</time>}
+            <time>{formattedDate}</time>
           </div>
 
           {article.imgUrl && (

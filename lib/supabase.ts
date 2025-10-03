@@ -5,17 +5,26 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
+/**
+ * Fetch articles by section, ensuring proper hierarchy
+ */
 export async function fetchArticlesBySection(sectionSlug: string) {
-  // Query with path conversion: replace dots with slashes
+  // First get the section to know its path
+  const { data: section } = await supabase
+    .from('section_hierarchy')
+    .select('*')
+    .eq('slug', sectionSlug)
+    .single()
+
+  if (!section) {
+    return []
+  }
+
+  // Use section path to query articles
   const { data, error } = await supabase
     .from('article_with_sections')
-    .select(
-      `
-      *,
-      section_path_url:section_path
-    `
-    )
-    .eq('section_slug', sectionSlug)
+    .select('*')
+    .eq('section_id', section.id)
     .eq('status', 'published')
     .order('published_at', { ascending: false })
 
@@ -24,15 +33,12 @@ export async function fetchArticlesBySection(sectionSlug: string) {
     return []
   }
 
-  // Convert ltree path (dots) to URL path (slashes)
-  return (data || []).map((article) => ({
-    ...article,
-    section_path_url: article.section_path
-      ? String(article.section_path).replace(/\./g, '/')
-      : null,
-  }))
+  return data || []
 }
 
+/**
+ * Fetch article by slug
+ */
 export async function fetchArticleBySlug(slug: string) {
   const { data, error } = await supabase
     .from('article_with_sections')
@@ -47,22 +53,32 @@ export async function fetchArticleBySlug(slug: string) {
     return null
   }
 
-  // Convert ltree path to URL path
-  if (data && data.section_path) {
-    data.section_path_url = String(data.section_path).replace(/\./g, '/')
-  }
-
   return data
 }
 
+/**
+ * Fetch articles for a parent section including all child sections
+ */
 export async function fetchArticlesByParentSection(
   parentSlug: string,
   childSlugs: string[]
 ) {
+  // First get the parent section to know its path
+  const { data: section } = await supabase
+    .from('section_hierarchy')
+    .select('*')
+    .eq('slug', parentSlug)
+    .single()
+
+  if (!section) {
+    return []
+  }
+
+  // Use path to get all articles under this section hierarchy
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
-    .in('section_slug', childSlugs)
+    .like('section_path', `${section.path}%`) // This matches articles in this section and all subsections
     .eq('status', 'published')
     .order('published_at', { ascending: false })
 
@@ -71,11 +87,5 @@ export async function fetchArticlesByParentSection(
     return []
   }
 
-  // Convert ltree paths to URL paths
-  return (data || []).map((article) => ({
-    ...article,
-    section_path_url: article.section_path
-      ? String(article.section_path).replace(/\./g, '/')
-      : null,
-  }))
+  return data || []
 }
