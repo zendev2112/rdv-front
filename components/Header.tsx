@@ -181,38 +181,25 @@ const renderMenu = (sections: typeof menuSections) => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
-      {/* Main header area - INCREASED PADDING */}
-      <div className="container mx-auto px-4 py-3 md:py-5 flex justify-between items-center relative">
-        {/* Left section: only show on desktop */}
-        <div className="hidden md:flex items-center gap-1.5 pl-0">
-          <div className="flex items-center gap-1.5">
-            {/* Mobile menu toggle */}
-            <button
-              className="text-white p-1"
-              aria-label="Abrir menú"
-              onClick={() => setMobileMenuOpen((open) => !open)}
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-
-            {/* SECCIONES text */}
-            <span className="text-white font-bold text-xs md:text-sm uppercase">
-              SECCIONES
-            </span>
-          </div>
-
-          {/* Magnifying glass icon */}
+      {/* Main header area - use a 3-column grid so left/center/right align to the container */}
+      <div className="container mx-auto px-4 py-3 md:py-5 grid grid-cols-3 items-center">
+        {/* Left: constrained to container left column */}
+        <div className="hidden md:flex items-center gap-3 justify-start">
+          <button
+            className="text-white p-1"
+            aria-label="Abrir menú"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+          <span className="text-white font-bold text-xs md:text-sm uppercase">SECCIONES</span>
           <button className="text-white p-1 ml-2" aria-label="Buscar">
             <Search className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
-        {/* Center section - Logo - responsive size */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
+        {/* Center: logo centered within the container (column 2) */}
+        <div className="flex justify-center">
           <Link href="/" className="text-center">
             <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-14 md:w-40 lg:h-12 lg:w-36 xl:h-10 xl:w-32">
               <Image
@@ -227,8 +214,8 @@ const renderMenu = (sections: typeof menuSections) => {
           </Link>
         </div>
 
-        {/* Right section - Bell icon */}
-        <div className="flex items-center">
+        {/* Right: notifications aligned to container right column */}
+        <div className="flex justify-end items-center">
           <button className="text-white p-1" aria-label="Notifications">
             <Bell className="w-5 h-5 md:w-6 md:h-6" />
           </button>
