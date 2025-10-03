@@ -181,44 +181,68 @@ const renderMenu = (sections: typeof menuSections) => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
-      {/* Main header area - full width on mobile, constrained on desktop */}
-      <div className="mx-auto md:max-w-screen-lg px-4 py-3 md:py-5 grid grid-cols-3 items-center">
-        {/* Left: constrained to container left column - hidden on mobile */}
-        <div className="hidden md:flex items-center gap-3 justify-start">
-          <button
-            className="text-white p-1"
-            aria-label="Abrir menú"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-          <span className="text-white font-bold text-xs md:text-sm uppercase">SECCIONES</span>
-          <button className="text-white p-1 ml-2" aria-label="Buscar">
-            <Search className="w-5 h-5 md:w-6 md:h-6" />
-          </button>
+      {/* Main header area */}
+      <div className="w-full px-4 py-3 md:py-5 flex items-center">
+        {/* Desktop: constrained inner flex, centered, with left/center/right */}
+        <div className="hidden md:flex w-full mx-auto max-w-screen-lg items-center">
+          {/* Left: nav */}
+          <div className="flex items-center gap-3 flex-1">
+            <button
+              className="text-white p-1"
+              aria-label="Abrir menú"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+            <span className="text-white font-bold text-xs md:text-sm uppercase">SECCIONES</span>
+            <button className="text-white p-1 ml-2" aria-label="Buscar">
+              <Search className="w-5 h-5 md:w-6 md:h-6" />
+            </button>
+          </div>
+          {/* Center: logo */}
+          <div className="flex justify-center flex-1">
+            <Link href="/" className="text-center">
+              <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-14 md:w-40 lg:h-12 lg:w-36 xl:h-10 xl:w-32">
+                <Image
+                  src="/images/logo.svg"
+                  alt="Noticias Logo"
+                  fill
+                  priority
+                  style={{ objectFit: 'contain' }}
+                  className="brightness-0 invert"
+                />
+              </div>
+            </Link>
+          </div>
+          {/* Right: bell */}
+          <div className="flex justify-end flex-1">
+            <button className="text-white p-1" aria-label="Notifications">
+              <Bell className="w-5 h-5 md:w-6 md:h-6" />
+            </button>
+          </div>
         </div>
-
-        {/* Center: logo centered within the container (column 2) */}
-        <div className="flex justify-center">
-          <Link href="/" className="text-center">
-            <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-14 md:w-40 lg:h-12 lg:w-36 xl:h-10 xl:w-32">
-              <Image
-                src="/images/logo.svg"
-                alt="Noticias Logo"
-                fill
-                priority
-                style={{ objectFit: 'contain' }}
-                className="brightness-0 invert"
-              />
-            </div>
-          </Link>
-        </div>
-
-        {/* Right: notifications aligned to container right column */}
-        <div className="flex justify-end items-center">
-          <button className="text-white p-1" aria-label="Notifications">
-            <Bell className="w-5 h-5 md:w-6 md:h-6" />
-          </button>
+        {/* Mobile: only logo (center) and bell (right) */}
+        <div className="flex w-full items-center justify-between md:hidden">
+          <div className="flex-1" /> {/* empty left */}
+          <div className="flex justify-center flex-1">
+            <Link href="/" className="text-center">
+              <div className="relative h-12 w-40">
+                <Image
+                  src="/images/logo.svg"
+                  alt="Noticias Logo"
+                  fill
+                  priority
+                  style={{ objectFit: 'contain' }}
+                  className="brightness-0 invert"
+                />
+              </div>
+            </Link>
+          </div>
+          <div className="flex justify-end flex-1">
+            <button className="text-white p-1" aria-label="Notifications">
+              <Bell className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
 
