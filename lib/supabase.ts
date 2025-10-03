@@ -14,34 +14,37 @@ export async function fetchArticlesBySection(sectionSlug: string, page = 1, page
     .from('section_hierarchy')
     .select('*')
     .eq('slug', sectionSlug)
-    .single()
-
+    .single();
+  
   if (!section) {
-    return []
+    return { articles: [], count: 0 };
   }
+  
+  // Get total count for pagination
+  const { count, error: countError } = await supabase
+    .from('article_with_sections')
+    .select('*', { count: 'exact', head: true })
+    .eq('section_id', section.id)
+    .eq('status', 'published');
 
-  // Use section path to query articles
+  // Fetch articles with pagination
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
     .eq('section_id', section.id)
     .eq('status', 'published')
     .order('published_at', { ascending: false })
-    .range((page - 1) * pageSize, page * pageSize - 1)
+    .range((page - 1) * pageSize, page * pageSize - 1);
 
   if (error) {
-    console.error('Error fetching articles:', error)
-    return []
+    console.error('Error fetching articles:', error);
+    return { articles: [], count: 0 };
   }
 
-  // Normalize the published_at field
-  return (data || []).map(article => ({
-    ...article,
-    // Ensure published_at is a valid date or null
-    published_at: article.published_at && article.published_at !== '1970-01-01T00:00:00Z' && article.published_at !== '1970-01-01T00:00:00.000Z'
-      ? article.published_at
-      : null
-  }))
+  return { 
+    articles: data || [], 
+    count: count || 0 
+  };
 }
 
 /**
@@ -53,22 +56,22 @@ export async function fetchArticleBySlug(slug: string) {
     .select('*')
     .eq('slug', slug)
     .eq('status', 'published')
-    .eq('is_primary', true)
-    .single()
+    .order('is_primary', { ascending: false }) // Prioritize primary section
+    .limit(1);
 
-  if (error) {
-    console.error('Error fetching article:', error)
-    return null
+  if (error || !data || data.length === 0) {
+    console.error('Error fetching article:', error);
+    return null;
   }
 
-  return data
+  return data[0];
 }
 
 /**
  * Fetch articles for a parent section including all child sections
  */
-export async function fetchArticlesByParentSection(parentSlug: string) {
-  // First get the parent section to know its path
+export async function fetchArticlesByParentSection(parentSlug: string, page = 1, pageSize = 12) {
+  // First get the parent section
   const { data: section } = await supabase
     .from('section_hierarchy')
     .select('*')
@@ -76,27 +79,32 @@ export async function fetchArticlesByParentSection(parentSlug: string) {
     .single();
   
   if (!section) {
-    return [];
+    return { articles: [], count: 0 };
   }
   
-  // Use section.path (which is an ltree) to fetch articles from this section and all its children
+  // Get count for pagination
+  const { count, error: countError } = await supabase
+    .from('article_with_sections')
+    .select('*', { count: 'exact', head: true })
+    .like('section_path', `${section.path}%`) // This gets the parent + all child sections
+    .eq('status', 'published');
+  
+  // Query for parent section + all child section articles
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
-    .filter('section_path', 'like', `${section.path}%`)  // This gets parent and all child sections
+    .like('section_path', `${section.path}%`) // This gets parent + children
     .eq('status', 'published')
     .order('published_at', { ascending: false })
-    .limit(20)
+    .range((page - 1) * pageSize, page * pageSize - 1);
 
   if (error) {
     console.error('Error fetching parent section articles:', error);
-    return [];
+    return { articles: [], count: 0 };
   }
 
-  return (data || []).map(article => ({
-    ...article,
-    published_at: article.published_at && article.published_at !== '1970-01-01T00:00:00Z'
-      ? article.published_at
-      : null
-  }));
+  return {
+    articles: data || [],
+    count: count || 0
+  };
 }

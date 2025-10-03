@@ -73,29 +73,35 @@ async function getChildSections(parentId: string) {
   return data || []
 }
 
-export default async function DynamicPage({ params }: PageProps) {
+export default async function DynamicPage({ params, searchParams }: {
+  params: { slug: string[] },
+  searchParams: { page?: string }
+}) {
+  // Add pagination support
+  const page = parseInt(searchParams.page || '1', 10);
+  const pageSize = 12;
+  
   // Check if we're looking at a section or article
   // Last part of the path might be an article slug or a section slug
-  const pathSlug = params.slug[params.slug.length - 1]
-  const fullPath = params.slug.join('/')
-
-  // Try to find this as a section first
-  const sectionData = await getSectionData(pathSlug)
+  const pathSlug = params.slug[params.slug.length - 1];
+  const fullPath = params.slug.join('/');
+  const sectionData = await getSectionData(pathSlug);
 
   if (sectionData) {
     // This is a section page
-    let articles: any[] = []
-    const childSections = await getChildSections(sectionData.id)
+    let articlesResult: { articles: any[], count: number };
+    const childSections = await getChildSections(sectionData.id);
 
     if (childSections && childSections.length > 0) {
       // This is a parent section with children
-      articles = await fetchArticlesByParentSection(
-        sectionData.slug
-      )
+      articlesResult = await fetchArticlesByParentSection(sectionData.slug, page, pageSize);
     } else {
       // Regular section, fetch its articles
-      articles = await fetchArticlesBySection(sectionData.slug)
+      articlesResult = await fetchArticlesBySection(sectionData.slug, page, pageSize);
     }
+    
+    const { articles, count } = articlesResult;
+    const totalPages = Math.ceil(count / pageSize);
 
     return (
       <SidelinesLayout>
@@ -159,55 +165,76 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             {articles.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {articles.map((article) => {
-                  // Replace your existing article URL generation with this:
-                  const articlePath = getArticleUrl(article.section_path, article.slug)
-
-                  return (
-                    <article
-                      key={article.id}
-                      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-                    >
-                      {article.imgUrl && (
-                        <Link href={articlePath}>
-                          <div className="relative h-48 w-full overflow-hidden">
-                            <Image
-                              src={article.imgUrl}
-                              alt={article.title}
-                              fill
-                              className="object-cover hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                        </Link>
-                      )}
-                      <div className="p-5">
-                        <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-primary-red transition-colors">
-                          <Link href={articlePath}>{article.title}</Link>
-                        </h2>
-                        {article.excerpt && (
-                          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                            {article.excerpt}
-                          </p>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {articles.map((article) => {
+                    // This ensures consistent article URLs across the site
+                    const articlePath = getArticleUrl(article.section_path, article.slug);
+                    
+                    return (
+                      <article key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                        {article.imgUrl && (
+                          <Link href={articlePath}>
+                            <div className="relative h-48 w-full overflow-hidden">
+                              <Image
+                                src={article.imgUrl}
+                                alt={article.title}
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          </Link>
                         )}
-                        <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-200">
-                          <span>
-                            {article.published_at &&
-                            article.published_at !== '1970-01-01T00:00:00Z'
-                              ? new Date(article.published_at).toLocaleDateString(
-                                  'es-AR'
-                                )
-                              : 'Fecha no disponible'}
-                          </span>
+                        <div className="p-5">
+                          <h2 className="text-xl font-bold text-gray-900 mb-3">
+                            <Link href={articlePath}>{article.title}</Link>
+                          </h2>
+                          {article.excerpt && (
+                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                              {article.excerpt}
+                            </p>
+                          )}
+                          <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
+                            <span>
+                              {article.published_at 
+                                ? new Date(article.published_at).toLocaleDateString('es-AR')
+                                : 'Fecha no disponible'}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </article>
-                  )
-                })}
-              </div>
+                      </article>
+                    );
+                  })}
+                </div>
+                
+                {/* Pagination UI */}
+                {totalPages > 1 && (
+                  <div className="mt-8 flex justify-center gap-2">
+                    {page > 1 && (
+                      <Link
+                        href={`/${fullPath}?page=${page - 1}`}
+                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                      >
+                        Anterior
+                      </Link>
+                    )}
+                    <span className="px-4 py-2">
+                      Página {page} de {totalPages}
+                    </span>
+                    {page < totalPages && (
+                      <Link
+                        href={`/${fullPath}?page=${page + 1}`}
+                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                      >
+                        Siguiente
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-20 bg-gray-50 rounded-lg">
-                <p className="text-gray-600 text-lg mb-2">
+                <p className="text-gray-600 text-lg">
                   No hay artículos disponibles en esta sección.
                 </p>
               </div>
@@ -215,7 +242,7 @@ export default async function DynamicPage({ params }: PageProps) {
           </div>
         </div>
       </SidelinesLayout>
-    )
+    );
   }
 
   // Not a section page, try to fetch as an article
