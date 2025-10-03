@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useArticles } from '../hooks/useArticles' 
 import OptimizedImage from './OptimizedImage' // Import the new component
+import { getArticleUrl } from '@/lib/utils';
 
 
 interface Article {
@@ -422,11 +423,10 @@ const processedArticles = useMemo(() => {
         {/* Main article (40% width) */}
         <div className="md:w-2/5 h-full relative group">
           <Link
-            href={`/${
-              mainArticle.section
-                ? getSectionPath(mainArticle.section)
-                : 'sin-categoria'
-            }/${mainArticle.slug}`}
+            href={getArticleUrl(
+              mainArticle.section_path || mainArticle.section,
+              mainArticle.slug
+            )}
             className="block h-full flex flex-col"
           >
             {/* FIX: Add explicit height and ensure relative positioning */}
@@ -471,11 +471,10 @@ const processedArticles = useMemo(() => {
             {upperRowArticles.map((article, index) => (
               <div key={article.id} className="relative h-full group">
                 <Link
-                  href={`/${
-                    article.section
-                      ? getSectionPath(article.section)
-                      : 'sin-categoria'
-                  }/${article.slug}`}
+                  href={getArticleUrl(
+                    mainArticle.section_path || mainArticle.section,
+                    mainArticle.slug
+                  )}
                   className="block h-full flex flex-col"
                 >
                   {/* FIX: Add explicit height for mobile */}
@@ -521,11 +520,10 @@ const processedArticles = useMemo(() => {
             {lowerRowArticles.map((article, index) => (
               <div key={article.id} className="relative h-full group">
                 <Link
-                  href={`/${
-                    article.section
-                      ? getSectionPath(article.section)
-                      : 'sin-categoria'
-                  }/${article.slug}`}
+                  href={getArticleUrl(
+                    mainArticle.section_path || mainArticle.section,
+                    mainArticle.slug
+                  )}
                   className="block h-full flex flex-col"
                 >
                   {/* Keep existing mobile height */}

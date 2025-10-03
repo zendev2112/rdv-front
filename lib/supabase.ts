@@ -9,7 +9,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
  * Fetch articles by section, ensuring proper hierarchy
  */
 export async function fetchArticlesBySection(sectionSlug: string, page = 1, pageSize = 12) {
-  // First get the section to know its path
+  console.log(`Fetching articles for section: ${sectionSlug}, page ${page}`);
+  
+  // Get the section first
   const { data: section } = await supabase
     .from('section_hierarchy')
     .select('*')
@@ -17,17 +19,18 @@ export async function fetchArticlesBySection(sectionSlug: string, page = 1, page
     .single();
   
   if (!section) {
+    console.error(`Section not found: ${sectionSlug}`);
     return { articles: [], count: 0 };
   }
   
   // Get total count for pagination
-  const { count, error: countError } = await supabase
+  const { count } = await supabase
     .from('article_with_sections')
     .select('*', { count: 'exact', head: true })
     .eq('section_id', section.id)
     .eq('status', 'published');
-
-  // Fetch articles with pagination
+  
+  // Query with proper date ordering
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
@@ -35,12 +38,13 @@ export async function fetchArticlesBySection(sectionSlug: string, page = 1, page
     .eq('status', 'published')
     .order('published_at', { ascending: false })
     .range((page - 1) * pageSize, page * pageSize - 1);
-
+  
   if (error) {
     console.error('Error fetching articles:', error);
     return { articles: [], count: 0 };
   }
-
+  
+  console.log(`Found ${data?.length || 0} articles for section ${sectionSlug}`);
   return { 
     articles: data || [], 
     count: count || 0 
@@ -51,19 +55,23 @@ export async function fetchArticlesBySection(sectionSlug: string, page = 1, page
  * Fetch article by slug
  */
 export async function fetchArticleBySlug(slug: string) {
+  console.log(`Fetching article with slug: ${slug}`);
+  
+  // First try to find the article with primary section
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
     .eq('slug', slug)
     .eq('status', 'published')
-    .order('is_primary', { ascending: false }) // Prioritize primary section
+    .order('is_primary', { ascending: false })
     .limit(1);
-
+  
   if (error || !data || data.length === 0) {
-    console.error('Error fetching article:', error);
+    console.error(`Article not found: ${slug}`, error);
     return null;
   }
-
+  
+  console.log(`Found article: ${data[0].title} with section path: ${data[0].section_path}`);
   return data[0];
 }
 
@@ -71,7 +79,9 @@ export async function fetchArticleBySlug(slug: string) {
  * Fetch articles for a parent section including all child sections
  */
 export async function fetchArticlesByParentSection(parentSlug: string, page = 1, pageSize = 12) {
-  // First get the parent section
+  console.log(`Fetching parent section articles for: ${parentSlug}, page ${page}`);
+  
+  // Get the parent section
   const { data: section } = await supabase
     .from('section_hierarchy')
     .select('*')
@@ -79,32 +89,36 @@ export async function fetchArticlesByParentSection(parentSlug: string, page = 1,
     .single();
   
   if (!section) {
+    console.error(`Parent section not found: ${parentSlug}`);
     return { articles: [], count: 0 };
   }
   
-  // Get count for pagination
-  const { count, error: countError } = await supabase
+  console.log(`Using path pattern: ${section.path}%`);
+  
+  // Get count of all articles in this path tree
+  const { count } = await supabase
     .from('article_with_sections')
     .select('*', { count: 'exact', head: true })
-    .like('section_path', `${section.path}%`) // This gets the parent + all child sections
+    .like('section_path', `${section.path}%`)
     .eq('status', 'published');
   
-  // Query for parent section + all child section articles
+  // Query for ALL articles under this parent (including children)
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
-    .like('section_path', `${section.path}%`) // This gets parent + children
+    .like('section_path', `${section.path}%`)
     .eq('status', 'published')
     .order('published_at', { ascending: false })
     .range((page - 1) * pageSize, page * pageSize - 1);
-
+  
   if (error) {
     console.error('Error fetching parent section articles:', error);
     return { articles: [], count: 0 };
   }
-
-  return {
-    articles: data || [],
-    count: count || 0
+  
+  console.log(`Found ${data?.length || 0} articles in section tree ${parentSlug}`);
+  return { 
+    articles: data || [], 
+    count: count || 0 
   };
 }

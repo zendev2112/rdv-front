@@ -21,18 +21,18 @@ export function slugify(text: string): string {
 
 /**
  * Converts database section path to URL-friendly path
- * Examples:
+ * Examples: 
  * - 'pueblos_alemanes.santa_trinidad' → 'pueblos-alemanes/santa-trinidad'
  * - 'economia.pymes_emprendimientos.campos' → 'economia/pymes-emprendimientos/campos'
  */
 export function formatSectionPath(path: string | null): string {
-  if (!path) return "";
+  if (!path) return '';
   // Convert dots to slashes and underscores to hyphens
-  return path.replace(/\./g, "/").replace(/_/g, "-");
+  return path.replace(/\./g, '/').replace(/_/g, '-');
 }
 
 /**
- * Creates a consistent article URL path with complete hierarchy
+ * Creates a consistent article URL path with full hierarchy
  */
 export function getArticleUrl(sectionPath: string | null, slug: string): string {
   if (!sectionPath) return `/${slug}`;
