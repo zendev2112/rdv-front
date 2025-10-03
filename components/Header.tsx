@@ -183,7 +183,7 @@ const renderMenu = (sections: typeof menuSections) => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
       {/* Main header area - constrained to match main content width */}
       <div className="mx-auto max-w-screen-lg px-4 py-3 md:py-5 grid grid-cols-3 items-center">
-        {/* Left: constrained to container left column */}
+        {/* Left: constrained to container left column - hidden on mobile */}
         <div className="hidden md:flex items-center gap-3 justify-start">
           <button
             className="text-white p-1"
