@@ -18,6 +18,7 @@ interface Article {
   order?: string
   created_at?: string
   section?: string
+  section_path?: string
 }
 
 interface PrincipalSectionProps {
@@ -472,8 +473,8 @@ const processedArticles = useMemo(() => {
               <div key={article.id} className="relative h-full group">
                 <Link
                   href={getArticleUrl(
-                    mainArticle.section_path || mainArticle.section,
-                    mainArticle.slug
+                    article.section_path || article.section,
+                    article.slug
                   )}
                   className="block h-full flex flex-col"
                 >
@@ -521,8 +522,8 @@ const processedArticles = useMemo(() => {
               <div key={article.id} className="relative h-full group">
                 <Link
                   href={getArticleUrl(
-                    mainArticle.section_path || mainArticle.section,
-                    mainArticle.slug
+                    article.section_path || article.section,
+                    article.slug
                   )}
                   className="block h-full flex flex-col"
                 >
