@@ -186,7 +186,7 @@ const renderMenu = (sections: typeof menuSections) => {
         {/* Desktop: constrained inner flex, centered, with left/center/right */}
         <div className="hidden md:flex w-full mx-auto max-w-screen-lg items-center">
           {/* Left: nav */}
-          <div className="flex items-center gap-3 flex-1 -ml-2">
+          <div className="flex items-center gap-3 flex-1 -ml-3">
             <button
               className="text-white p-1"
               aria-label="Abrir menú"
@@ -215,7 +215,7 @@ const renderMenu = (sections: typeof menuSections) => {
             </Link>
           </div>
           {/* Right: bell */}
-          <div className="flex justify-end flex-1 -mr-2">
+          <div className="flex justify-end flex-1 -mr-3">
             <button className="text-white p-1" aria-label="Notifications">
               <Bell className="w-5 h-5 md:w-6 md:h-6" />
             </button>
