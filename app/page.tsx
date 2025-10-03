@@ -619,10 +619,10 @@ export default async function Home() {
         {/* Main content */}
         <PrincipalSection serverData={principalSectionArticles} />
 
-        <VolgaTVSection
+{/*         <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
-        />
+        /> */}
 
         <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
 

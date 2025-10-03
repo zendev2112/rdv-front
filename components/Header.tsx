@@ -182,10 +182,10 @@ const renderMenu = (sections: typeof menuSections) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
       {/* Main header area - INCREASED PADDING */}
-      <div className="container mx-auto px-2 py-4 md:py-5 flex justify-between items-center relative">
+      <div className="container mx-auto px-4 py-3 md:py-5 flex justify-between items-center relative">
         {/* Left section: only show on desktop */}
         <div className="hidden md:flex items-center gap-1.5 pl-0">
-          <div className="-ml-6 md:-ml-8 flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5">
             {/* Mobile menu toggle */}
             <button
               className="text-white p-1"
