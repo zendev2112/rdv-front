@@ -39,7 +39,8 @@ function parseYouTubeRSS(xmlText: string): YouTubeVideo[] {
   const entryRegex = /<entry>([\s\S]*?)<\/entry>/g
   const entries = xmlText.match(entryRegex) || []
 
-  entries.forEach((entry) => {
+  // FIX: Explicitly type the entry parameter as string
+  entries.forEach((entry: string) => {
     // Extract video ID from: <yt:videoId>VIDEO_ID</yt:videoId>
     const videoIdMatch = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/)
     const videoId = videoIdMatch ? videoIdMatch[1] : ''
