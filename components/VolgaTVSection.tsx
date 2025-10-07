@@ -8,8 +8,7 @@ interface VideoItem {
   title: string
   thumbnailUrl: string
   publishedAt: string
-  viewCount?: string
-  duration?: string
+
 }
 
 interface VolgaTVSectionProps {
@@ -101,24 +100,12 @@ export default function VolgaTVSection({ featuredVideo, recentVideos }: VolgaTVS
                       <Play className="h-8 w-8 text-white" fill="white" />
                     </div>
                   </div>
-                  {featuredVideo.duration && (
-                    <div className="absolute bottom-3 right-3 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                      {featuredVideo.duration}
-                    </div>
-                  )}
+                 
                 </div>
                 <h3 className="text-xl font-bold text-[#292929] mb-2 line-clamp-2 group-hover:text-[#ff0808] transition-colors">
                   {featuredVideo.title}
                 </h3>
-                <div className="flex items-center text-sm text-[#292929]/70">
-                  <span>{featuredVideo.publishedAt}</span>
-                  {featuredVideo.viewCount && (
-                    <>
-                      <span className="mx-2">•</span>
-                      <span>{featuredVideo.viewCount} visualizaciones</span>
-                    </>
-                  )}
-                </div>
+
               </a>
             )}
           </div>
@@ -163,11 +150,7 @@ export default function VolgaTVSection({ featuredVideo, recentVideos }: VolgaTVS
                             <Play className="h-4 w-4 text-white" fill="white" />
                           </div>
                         </div>
-                        {video.duration && (
-                          <div className="absolute bottom-1 right-1 bg-black bg-opacity-70 text-white text-[10px] px-1 rounded">
-                            {video.duration}
-                          </div>
-                        )}
+
                       </div>
 
                       {/* Video info */}
@@ -175,15 +158,7 @@ export default function VolgaTVSection({ featuredVideo, recentVideos }: VolgaTVS
                         <h4 className="text-sm font-medium text-[#292929] line-clamp-2 group-hover:text-[#ff0808] transition-colors">
                           {video.title}
                         </h4>
-                        <div className="flex items-center text-xs text-[#292929]/70 mt-1">
-                          <span>{video.publishedAt}</span>
-                          {video.viewCount && (
-                            <>
-                              <span className="mx-1">•</span>
-                              <span>{video.viewCount}</span>
-                            </>
-                          )}
-                        </div>
+
                       </div>
                     </a>
                   )}

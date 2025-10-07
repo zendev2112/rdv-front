@@ -44,6 +44,8 @@ import SidelinesLayout from '@/components/SidelinesLayout'
 import { SkyscraperAd, SidebarRectangleAd } from '@/components/ads/SkyscraperAd'
 import DollarRates from '@/components/DollarRates'
 import NewsTicker from '@/components/NewsTicker'
+import { fetchYouTubeRSS } from '@/lib/youtube/fetchYouTubeRSS'
+
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -67,9 +69,9 @@ export default async function Home() {
   const huanguelenArticles = await fetchSectionArticles('HuanguelenSection')
   const laSextaArticles = await fetchSectionArticles('LaSextaSection')
 
-  const videos = await fetchLatestVideos(5)
-  const featuredVideo = videos[0]
-  const recentVideos = videos.slice(1)
+  const youtubeVideos = await fetchYouTubeRSS('UCxuEBaAF78T9zwSE3-JDddQ')
+  const featuredVideo = youtubeVideos[0] || null
+  const recentVideos = youtubeVideos.slice(1, 4)
 
   const actualidadArticles = await fetchSectionArticles('ActualidadSection')
   const latestHeadlines = await fetchLatestHeadlines()
@@ -619,10 +621,10 @@ export default async function Home() {
         {/* Main content */}
         <PrincipalSection serverData={principalSectionArticles} />
 
-{/*         <VolgaTVSection
+{featuredVideo && (<VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
-        /> */}
+        /> )}
 
         <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
 
