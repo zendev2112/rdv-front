@@ -12,19 +12,21 @@ export async function fetchYouTubeRSS(
   try {
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`
 
+    console.log(`🔍 Fetching YouTube RSS for channel: ${channelId}`)
+
     const response = await fetch(rssUrl, {
       next: { revalidate: 3600 * 6 }, // Cache for 6 hours
     })
 
     if (!response.ok) {
-      throw new Error(`RSS fetch failed: ${response.status}`)
+      console.error(`❌ RSS fetch failed: ${response.status}`)
+      return []
     }
 
     const xmlText = await response.text()
-
-    // Parse XML to extract video data
     const videos = parseYouTubeRSS(xmlText)
 
+    console.log(`✅ Fetched ${videos.length} videos from YouTube RSS`)
     return videos
   } catch (error) {
     console.error('Error fetching YouTube RSS:', error)

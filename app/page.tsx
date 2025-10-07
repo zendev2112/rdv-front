@@ -69,7 +69,7 @@ export default async function Home() {
   const huanguelenArticles = await fetchSectionArticles('HuanguelenSection')
   const laSextaArticles = await fetchSectionArticles('LaSextaSection')
 
-  const youtubeVideos = await fetchYouTubeRSS('UCxuEBaAF78T9zwSE3-JDddQ')
+  const youtubeVideos = await fetchYouTubeRSS(process.env.CHANNEL_ID!)
   const featuredVideo = youtubeVideos[0] || null
   const recentVideos = youtubeVideos.slice(1, 4)
 
