@@ -80,6 +80,7 @@ export default async function DynamicPage({ params, searchParams }: {
   // Add pagination support
   const page = parseInt(searchParams.page || '1', 10);
   const pageSize = 12;
+   const sidelineWidth = 200
   
   // Check if we're looking at a section or article
   // Last part of the path might be an article slug or a section slug
@@ -91,7 +92,7 @@ export default async function DynamicPage({ params, searchParams }: {
     // This is a section page
     let articlesResult: { articles: any[], count: number };
     const childSections = await getChildSections(sectionData.id);
-
+ 
     if (childSections && childSections.length > 0) {
       // This is a parent section with children
       articlesResult = await fetchArticlesByParentSection(sectionData.slug, page, pageSize);
@@ -104,7 +105,7 @@ export default async function DynamicPage({ params, searchParams }: {
     const totalPages = Math.ceil(count / pageSize);
 
     return (
-      <SidelinesLayout>
+      <SidelinesLayout sidelineWidth={sidelineWidth}>
         <Header />
         <div className="pt-[80px] md:pt-[100px]">
           <div className="container mx-auto px-4 py-8">
@@ -119,10 +120,9 @@ export default async function DynamicPage({ params, searchParams }: {
                     <span key={slug}>
                       <span className="mx-2 text-gray-400">›</span>
                       <Link
-                        href={`/${sectionData.breadcrumb_slugs.slice(
-                          0,
-                          index + 1
-                        ).join('/')}`}
+                        href={`/${sectionData.breadcrumb_slugs
+                          .slice(0, index + 1)
+                          .join('/')}`}
                         className="hover:text-primary-red font-medium capitalize"
                       >
                         {sectionData.breadcrumb_names[index]}
@@ -169,10 +169,16 @@ export default async function DynamicPage({ params, searchParams }: {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {articles.map((article) => {
                     // This ensures consistent article URLs across the site
-                    const articlePath = getArticleUrl(article.section_path, article.slug);
-                    
+                    const articlePath = getArticleUrl(
+                      article.section_path,
+                      article.slug
+                    )
+
                     return (
-                      <article key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                      <article
+                        key={article.id}
+                        className="bg-white rounded-lg shadow-md overflow-hidden"
+                      >
                         {article.imgUrl && (
                           <Link href={articlePath}>
                             <div className="relative h-48 w-full overflow-hidden">
@@ -196,17 +202,19 @@ export default async function DynamicPage({ params, searchParams }: {
                           )}
                           <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
                             <span>
-                              {article.published_at 
-                                ? new Date(article.published_at).toLocaleDateString('es-AR')
+                              {article.published_at
+                                ? new Date(
+                                    article.published_at
+                                  ).toLocaleDateString('es-AR')
                                 : 'Fecha no disponible'}
                             </span>
                           </div>
                         </div>
                       </article>
-                    );
+                    )
                   })}
                 </div>
-                
+
                 {/* Pagination UI */}
                 {totalPages > 1 && (
                   <div className="mt-8 flex justify-center gap-2">
@@ -242,7 +250,7 @@ export default async function DynamicPage({ params, searchParams }: {
           </div>
         </div>
       </SidelinesLayout>
-    );
+    )
   }
 
   // Not a section page, try to fetch as an article
