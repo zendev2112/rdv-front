@@ -599,12 +599,16 @@ export default async function Home() {
   )
 
   return (
-    <SidelinesLayout leftAd={leftSideAds} rightAd={rightSideAds} sidelineWidth={sidelineWidth}>
+    <SidelinesLayout
+      leftAd={leftSideAds}
+      rightAd={rightSideAds}
+      sidelineWidth={sidelineWidth}
+    >
       {/* Header moved below top bar */}
       <Header />
 
       {/* Content with padding - updated value to accommodate both top bar and header */}
-      <div className="pt-[calc(1rem+70px)]">
+      <div className="pt-[calc(1rem+30px)] md:pt-[calc(1rem+70px)]">
         {/* Currency rates */}
         <div className="border-b border-gray-200 overflow-x-auto">
           <DollarRates />
@@ -622,18 +626,17 @@ export default async function Home() {
         {/* Main content */}
         <PrincipalSection serverData={principalSectionArticles} />
 
-<VolgaTVSection
+        <VolgaTVSection
           featuredVideo={featuredVideo}
           recentVideos={recentVideos}
-        /> 
+        />
 
         <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
 
         <FarmaciasDeTurno />
-        
+
         {/* Weather section */}
         <ClimaSection />
-
 
         <NoticiasImportantesSection serverData={noticiasImportantesArticles} />
 
