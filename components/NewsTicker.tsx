@@ -47,6 +47,7 @@ export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
     <div className="border-b border-light-gray bg-white">
       <div
         className="container mx-auto px-4 py-2 overflow-hidden"
+        tabIndex={0}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
         onFocus={onFocus}
@@ -62,9 +63,10 @@ export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
               <div
                 key={headline.id}
                 aria-hidden={!active}
-                className={`absolute inset-0 flex items-center text-sm transition-opacity duration-[${TRANSITION_MS}ms] ease-in-out ${
+                className={`absolute inset-0 flex items-center text-sm transition-opacity ease-in-out ${
                   active ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
+                style={{ transitionDuration: `${TRANSITION_MS}ms` }}
                 role="article"
               >
                 <Link
