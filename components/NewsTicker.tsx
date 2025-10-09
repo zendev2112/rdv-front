@@ -56,7 +56,7 @@ export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
         onTouchStart={onEnter}
         onTouchEnd={onLeave}
       >
-        <div className="relative h-6 md:h-7">
+        <div className="relative h-8 md:h-7"> {/* a bit taller to avoid vertical clipping */}
           {headlines.map((headline, i) => {
             const active = i === index
             return (
@@ -71,7 +71,7 @@ export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
               >
                 <Link
                   href={`/${headline.section || 'noticias'}/${headline.slug}`}
-                  className="font-bold hover:text-primary-red transition-colors"
+                  className="block w-full whitespace-nowrap font-bold hover:text-primary-red transition-colors"
                 >
                   {headline.title}
                 </Link>
