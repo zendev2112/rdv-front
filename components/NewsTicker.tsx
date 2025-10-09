@@ -65,15 +65,19 @@ export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
                 aria-hidden={!active}
                 className={`absolute inset-0 flex items-center text-sm transition-opacity ease-in-out ${
                   active ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                }`}
-                style={{ transitionDuration: `${TRANSITION_MS}ms` }}
+                } z-10`}
+                // ensure it spans full row and is on top; transition duration via inline style
+                style={{ transitionDuration: `${TRANSITION_MS}ms`, left: 0, right: 0 }}
                 role="article"
               >
+                {/* DEBUG: remove bg-red-50 when verified */}
                 <Link
                   href={`/${headline.section || 'noticias'}/${headline.slug}`}
-                  className="block w-full whitespace-nowrap font-bold hover:text-primary-red transition-colors"
+                  className="block w-full font-bold hover:text-primary-red transition-colors"
+                  style={{ whiteSpace: 'normal' }} // allow wrap while testing; change to 'nowrap' if desired
                 >
-                  {headline.title}
+                  {/* add small left padding so text isn't under any overlay */}
+                  <span className="inline-block pl-1">{headline.title}</span>
                 </Link>
                 <span className="ml-2 text-neutral-gray hidden md:inline">•</span>
               </div>
