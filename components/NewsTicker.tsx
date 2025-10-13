@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 type Headline = {
   id: string
@@ -13,29 +12,19 @@ type Headline = {
 export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
   if (!headlines?.length) return null
 
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const DISPLAY_MS = 4500 // Time each headline is visible
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % headlines.length)
-    }, DISPLAY_MS)
-
-    return () => clearInterval(interval)
-  }, [headlines.length])
-
   return (
-    <div className="border-b border-light-gray bg-white">
+    <div className="bg-white">
       <div className="container mx-auto px-4 py-2 overflow-hidden">
-        <div className="text-sm font-bold transition-opacity duration-500 ease-in-out">
-          <Link
-            href={`/${headlines[currentIndex]?.section || 'noticias'}/${
-              headlines[currentIndex]?.slug
-            }`}
-            className="hover:text-primary-red transition-colors"
-          >
-            {headlines[currentIndex]?.title}
-          </Link>
+        <div className="text-sm font-bold">
+          {headlines.map((headline) => (
+            <Link
+              key={headline.id}
+              href={`/${headline.section || 'noticias'}/${headline.slug}`}
+              className="hover:text-primary-red transition-colors mx-4"
+            >
+              {headline.title}
+            </Link>
+          ))}
         </div>
       </div>
     </div>
