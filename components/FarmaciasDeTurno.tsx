@@ -318,118 +318,67 @@ export default function FarmaciasDeTurno() {
 
   const mapsUrl = getGoogleMapsUrl(pharmacy.address)
 
-  return (
-    <section className="container mx-auto px-4 py-6 border-t border-light-gray">
-      {/* Header */}
-      <div className="flex items-center mb-6">
-        <div className="h-5 w-1 bg-primary-red mr-3"></div>
-        <h2 className="text-xl font-bold uppercase">FARMACIA DE TURNO</h2>
-      </div>
+   return (
+     <section className="container mx-auto px-4 py-6 flex items-center justify-center h-screen">
+       {/* Pharmacy Card */}
+       <Card className="border-0 shadow-sm bg-cream w-full max-w-lg">
+         <CardContent className="p-6">
+           <div className="flex justify-between items-center mb-4">
+             <h3 className="text-xl font-bold">{pharmacy.name}</h3>
+             <span className="bg-green-100 text-green-800 text-sm px-2 py-0.5 rounded-full">
+               DE TURNO HOY
+             </span>
+           </div>
 
-      {/* Top Row: Pharmacy Info + Map */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* LEFT: Pharmacy Information */}
-        <div>
-          <Card className="border-0 shadow-sm bg-cream h-full">
-            <CardContent className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">{pharmacy.name}</h3>
-                <span className="bg-green-100 text-green-800 text-sm px-2 py-0.5 rounded-full">
-                  DE TURNO HOY
-                </span>
-              </div>
+           <div className="flex items-start mb-4">
+             <MapPin className="w-5 h-5 text-primary-red mt-0.5 mr-2 flex-shrink-0" />
+             <div>
+               <p className="font-medium">{pharmacy.address}</p>
+             </div>
+           </div>
 
-              <div className="flex items-start mb-4">
-                <MapPin className="w-5 h-5 text-primary-red mt-0.5 mr-2 flex-shrink-0" />
-                <div>
-                  <p className="font-medium">{pharmacy.address}</p>
-                </div>
-              </div>
+           <div className="flex items-center mb-4">
+             <Phone className="w-5 h-5 text-primary-red mr-2 flex-shrink-0" />
+             <span className="font-medium">{pharmacy.phone}</span>
+           </div>
 
-              <div className="flex items-center mb-4">
-                <Phone className="w-5 h-5 text-primary-red mr-2 flex-shrink-0" />
-                <span className="font-medium">{pharmacy.phone}</span>
-              </div>
+           <div className="flex items-center mb-6">
+             <Clock className="w-5 h-5 text-primary-red mr-2 flex-shrink-0" />
+             <span className="font-medium">Atención las 24 horas</span>
+           </div>
 
-              <div className="flex items-center mb-6">
-                <Clock className="w-5 h-5 text-primary-red mr-2 flex-shrink-0" />
-                <span className="font-medium">Atención las 24 horas</span>
-              </div>
+           {/* Pharmacy Image */}
+           <div className="mb-6">
+             <img
+               src={pharmacy.image || defaultImage}
+               alt={`Farmacia ${pharmacy.name}`}
+               className="w-full h-48 object-cover rounded-lg shadow-sm"
+               onError={(e) => {
+                 e.currentTarget.src = defaultImage
+               }}
+             />
+           </div>
 
-              {/* Pharmacy Image */}
-              <div className="mb-6">
-                <img
-                  src={pharmacy.image || defaultImage}
-                  alt={`Farmacia ${pharmacy.name}`}
-                  className="w-full h-48 object-cover rounded-lg shadow-sm"
-                  onError={(e) => {
-                    e.currentTarget.src = defaultImage
-                  }}
-                />
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-light-gray flex justify-between">
-                <Link
-                  href="#"
-                  className="text-primary-red font-medium flex items-center hover:underline"
-                >
-                  Ver otras farmacias cercanas
-                  <ChevronRight className="w-4 h-4 ml-1" />
-                </Link>
-                <Link
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-dark-gray text-sm hover:text-primary-red flex items-center"
-                >
-                  Cómo llegar
-                  <ExternalLink className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* RIGHT: Google Maps */}
-        <div>
-          <Card className="border-0 shadow-sm h-full">
-            <CardContent className="p-0 h-full">
-              <div className="relative h-full min-h-[500px] bg-[#e8ecef] rounded-lg overflow-hidden">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0, minHeight: '500px' }}
-                  loading="lazy"
-                  allowFullScreen
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(
-                    pharmacy.address
-                  )}&output=embed`}
-                />
-                <div className="absolute top-4 right-4">
-                  <a
-                    href={mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-white py-2 px-3 rounded shadow-sm text-sm flex items-center hover:bg-gray-50 font-medium"
-                  >
-                    Abrir en Google Maps
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
-                </div>
-
-                {/* Pharmacy Info Overlay on Map */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="bg-white/95 backdrop-blur-sm p-4 rounded-lg shadow-lg border border-white/20">
-                    <h4 className="font-bold text-gray-900">{pharmacy.name}</h4>
-                    <p className="text-sm text-gray-700">{pharmacy.address}</p>
-                    <p className="text-sm text-gray-600">{pharmacy.phone}</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </section>
-  )
+           <div className="mt-6 pt-6 border-t border-light-gray flex justify-between">
+             <Link
+               href="#"
+               className="text-primary-red font-medium flex items-center hover:underline"
+             >
+               Ver otras farmacias cercanas
+               <ChevronRight className="w-4 h-4 ml-1" />
+             </Link>
+             <Link
+               href={mapsUrl}
+               target="_blank"
+               rel="noopener noreferrer"
+               className="text-dark-gray text-sm hover:text-primary-red flex items-center"
+             >
+               Cómo llegar
+               <ExternalLink className="w-4 h-4 ml-1" />
+             </Link>
+           </div>
+         </CardContent>
+       </Card>
+     </section>
+   )
 }
