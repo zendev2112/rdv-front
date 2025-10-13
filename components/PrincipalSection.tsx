@@ -457,8 +457,8 @@ const processedArticles = useMemo(() => {
               </h1>
             </div>
           </Link>
-          {/* Vertical divider line after main article */}
-          <div className="absolute top-0 -right-2 w-[2px] h-full bg-gray-300 opacity-30"></div>
+          {/* Dimmed vertical divider line after main article */}
+          <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
         </div>
 
         {/* Secondary articles (60% width) */}
@@ -500,16 +500,16 @@ const processedArticles = useMemo(() => {
                     </h2>
                   </div>
                 </Link>
-                {/* Vertical divider between top row articles */}
+                {/* Dimmed vertical divider between top row articles */}
                 {index === 0 && upperRowArticles.length > 1 && (
-                  <div className="absolute top-0 -right-2 w-[2px] h-full bg-gray-300 opacity-30"></div>
+                  <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
                 )}
               </div>
             ))}
           </div>
 
-          {/* Horizontal divider between top and bottom rows */}
-          <div className="w-full h-[1px] bg-gray-300 opacity-30 my-2 flex-shrink-0"></div>
+          {/* Dimmed horizontal divider between top and bottom rows */}
+          <div className="w-full h-[1px] bg-gray-400 opacity-50 my-2 flex-shrink-0"></div>
 
           {/* Bottom row - three articles */}
           <div
@@ -548,15 +548,15 @@ const processedArticles = useMemo(() => {
                     </h2>
                   </div>
                 </Link>
-                {/* Vertical dividers between bottom row articles */}
+                {/* Dimmed vertical dividers between bottom row articles */}
                 {index < lowerRowArticles.length - 1 && (
-                  <div className="absolute top-0 -right-2 w-[2px] h-full bg-gray-300 opacity-30"></div>
+                  <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
                 )}
               </div>
             ))}
           </div>
         </div>
       </div>
-    </main>
+     </main> 
   )
 }
