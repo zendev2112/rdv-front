@@ -419,16 +419,16 @@ const processedArticles = useMemo(() => {
   }
 
   return (
-       <main className="container mx-auto px-4 py-6">
+    <main className="container mx-auto px-4 py-6">
       <div className="flex flex-col md:flex-row gap-4 md:h-[650px]">
         {/* Main article (40% width) */}
-        <div className="md:w-2/5 h-full relative group">
+        <div className="md:w-2/5 h-full relative">
           <Link
             href={getArticleUrl(
               mainArticle.section_path || mainArticle.section,
               mainArticle.slug
             )}
-            className="block h-full flex flex-col"
+            className="block h-full flex flex-col group"
           >
             <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-48 md:h-[70%]">
               <div className="relative w-full h-full overflow-hidden">
@@ -444,12 +444,12 @@ const processedArticles = useMemo(() => {
               </div>
             </div>
             <div
-              className="bg-white flex-shrink-0 p-4 pt-2 transition-opacity duration-300 group-hover:opacity-70"
+              className="bg-white flex-shrink-0 p-4 pt-2 transition-all duration-300 group-hover:opacity-70 group-hover:[&_*]:text-gray-500"
               style={{ height: '30%' }}
             >
-              <h1 className="text-2xl font-bold mb-1 leading-tight group-hover:text-gray-500 transition-colors duration-300">
+              <h1 className="text-2xl font-bold mb-1 leading-tight transition-colors duration-300">
                 {mainArticle.overline && (
-                  <span className="text-primary-red group-hover:text-gray-500 transition-colors duration-300">
+                  <span className="text-primary-red transition-colors duration-300">
                     {mainArticle.overline}.{' '}
                   </span>
                 )}
@@ -469,13 +469,13 @@ const processedArticles = useMemo(() => {
             style={{ height: '45%' }}
           >
             {upperRowArticles.map((article, index) => (
-              <div key={article.id} className="relative h-full group">
+              <div key={article.id} className="relative h-full">
                 <Link
                   href={getArticleUrl(
                     article.section_path || article.section,
                     article.slug
                   )}
-                  className="block h-full flex flex-col"
+                  className="block h-full flex flex-col group"
                 >
                   <div className="relative w-full p-2 md:p-4 h-48 md:h-[65%]">
                     <div className="relative w-full h-full overflow-hidden">
@@ -489,10 +489,10 @@ const processedArticles = useMemo(() => {
                       />
                     </div>
                   </div>
-                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-opacity duration-300 group-hover:opacity-70">
-                    <h2 className="text-lg font-bold leading-tight group-hover:text-gray-500 transition-colors duration-300">
+                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-all duration-300 group-hover:opacity-70 group-hover:[&_*]:text-gray-500">
+                    <h2 className="text-lg font-bold leading-tight transition-colors duration-300">
                       {article.overline && (
-                        <span className="text-primary-red group-hover:text-gray-500 transition-colors duration-300">
+                        <span className="text-primary-red transition-colors duration-300">
                           {article.overline}.{' '}
                         </span>
                       )}
@@ -517,13 +517,13 @@ const processedArticles = useMemo(() => {
             style={{ height: '48%' }}
           >
             {lowerRowArticles.map((article, index) => (
-              <div key={article.id} className="relative h-full group">
+              <div key={article.id} className="relative h-full">
                 <Link
                   href={getArticleUrl(
                     article.section_path || article.section,
                     article.slug
                   )}
-                  className="block h-full flex flex-col"
+                  className="block h-full flex flex-col group"
                 >
                   <div className="relative w-full p-2 md:p-4 pb-1 md:pb-1">
                     <div className="relative w-full h-48 sm:h-32 overflow-hidden">
@@ -537,10 +537,10 @@ const processedArticles = useMemo(() => {
                       />
                     </div>
                   </div>
-                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-opacity duration-300 group-hover:opacity-70">
-                    <h2 className="text-lg font-bold leading-tight group-hover:text-gray-500 transition-colors duration-300">
+                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-all duration-300 group-hover:opacity-70 group-hover:[&_*]:text-gray-500">
+                    <h2 className="text-lg font-bold leading-tight transition-colors duration-300">
                       {article.overline && (
-                        <span className="text-primary-red group-hover:text-gray-500 transition-colors duration-300">
+                        <span className="text-primary-red transition-colors duration-300">
                           {article.overline}.{' '}
                         </span>
                       )}
