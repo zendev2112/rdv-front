@@ -444,12 +444,12 @@ const processedArticles = useMemo(() => {
               </div>
             </div>
             <div
-              className="bg-white flex-shrink-0 p-4 pt-2 transition-opacity duration-300 group-hover:opacity-90"
+              className="bg-white flex-shrink-0 p-4 pt-2 transition-opacity duration-300 group-hover:opacity-70"
               style={{ height: '30%' }}
             >
-              <h1 className="text-2xl font-bold mb-1 leading-tight">
+              <h1 className="text-2xl font-bold mb-1 leading-tight group-hover:text-gray-500 transition-colors duration-300">
                 {mainArticle.overline && (
-                  <span className="text-primary-red">
+                  <span className="text-primary-red group-hover:text-gray-400 transition-colors duration-300">
                     {mainArticle.overline}.{' '}
                   </span>
                 )}
@@ -489,10 +489,10 @@ const processedArticles = useMemo(() => {
                       />
                     </div>
                   </div>
-                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-opacity duration-300 group-hover:opacity-90">
-                    <h2 className="text-lg font-bold leading-tight">
+                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-opacity duration-300 group-hover:opacity-70">
+                    <h2 className="text-lg font-bold leading-tight group-hover:text-gray-500 transition-colors duration-300">
                       {article.overline && (
-                        <span className="text-primary-red">
+                        <span className="text-primary-red group-hover:text-gray-400 transition-colors duration-300">
                           {article.overline}.{' '}
                         </span>
                       )}
@@ -537,10 +537,10 @@ const processedArticles = useMemo(() => {
                       />
                     </div>
                   </div>
-                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-opacity duration-300 group-hover:opacity-90">
-                    <h2 className="text-lg font-bold leading-tight">
+                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-opacity duration-300 group-hover:opacity-70">
+                    <h2 className="text-lg font-bold leading-tight group-hover:text-gray-500 transition-colors duration-300">
                       {article.overline && (
-                        <span className="text-primary-red">
+                        <span className="text-primary-red group-hover:text-gray-400 transition-colors duration-300">
                           {article.overline}.{' '}
                         </span>
                       )}
@@ -557,6 +557,6 @@ const processedArticles = useMemo(() => {
           </div>
         </div>
       </div>
-     </main> 
+    </main>
   )
 }
