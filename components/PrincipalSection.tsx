@@ -430,15 +430,14 @@ const processedArticles = useMemo(() => {
             )}
             className="block h-full flex flex-col"
           >
-            {/* FIX: Add explicit height and ensure relative positioning */}
             <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-48 md:h-[70%]">
-              <div className="relative w-full h-full overflow-hidden rounded">
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
+              <div className="relative w-full h-full overflow-hidden">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
                   src={mainArticle.imgUrl}
                   alt={mainArticle.title}
                   fill
-                  className="object-cover rounded transition-opacity duration-300 group-hover:opacity-90"
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                   priority
                   sizes="(max-width: 768px) 100vw, 40vw"
                 />
@@ -459,7 +458,7 @@ const processedArticles = useMemo(() => {
             </div>
           </Link>
           {/* Vertical divider line after main article */}
-          <div className="absolute top-0 -right-2 w-px h-full bg-gray-100 opacity-50"></div>
+          <div className="absolute top-0 -right-2 w-[2px] h-full bg-gray-300 opacity-100"></div>
         </div>
 
         {/* Secondary articles (60% width) */}
@@ -478,15 +477,14 @@ const processedArticles = useMemo(() => {
                   )}
                   className="block h-full flex flex-col"
                 >
-                  {/* FIX: Add explicit height for mobile */}
                   <div className="relative w-full p-2 md:p-4 h-48 md:h-[65%]">
-                    <div className="relative w-full h-full overflow-hidden rounded">
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                       <OptimizedImage
                         src={article.imgUrl}
                         alt={article.title}
                         fill
-                        className="object-cover rounded transition-opacity duration-300 group-hover:opacity-90"
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                         sizes="(max-width: 768px) 100vw, 30vw"
                       />
                     </div>
@@ -504,14 +502,14 @@ const processedArticles = useMemo(() => {
                 </Link>
                 {/* Vertical divider between top row articles */}
                 {index === 0 && upperRowArticles.length > 1 && (
-                  <div className="absolute top-0 -right-2 w-px h-full bg-gray-100 opacity-50"></div>
+                  <div className="absolute top-0 -right-2 w-[2px] h-full bg-gray-300 opacity-100"></div>
                 )}
               </div>
             ))}
           </div>
 
           {/* Horizontal divider between top and bottom rows */}
-          <div className="w-full h-px bg-gray-100 opacity-50 my-2 flex-shrink-0"></div>
+          <div className="w-full h-[2px] bg-gray-300 opacity-100 my-2 flex-shrink-0"></div>
 
           {/* Bottom row - three articles */}
           <div
@@ -527,15 +525,14 @@ const processedArticles = useMemo(() => {
                   )}
                   className="block h-full flex flex-col"
                 >
-                  {/* Keep existing mobile height */}
                   <div className="relative w-full p-2 md:p-4 pb-1 md:pb-1">
-                    <div className="relative w-full h-48 sm:h-32 overflow-hidden rounded">
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10 rounded"></div>
+                    <div className="relative w-full h-48 sm:h-32 overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                       <OptimizedImage
                         src={article.imgUrl}
                         alt={article.title}
                         fill
-                        className="object-cover rounded transition-opacity duration-300 group-hover:opacity-90"
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                         sizes="(max-width: 768px) 100vw, 20vw"
                       />
                     </div>
@@ -553,7 +550,7 @@ const processedArticles = useMemo(() => {
                 </Link>
                 {/* Vertical dividers between bottom row articles */}
                 {index < lowerRowArticles.length - 1 && (
-                  <div className="absolute top-0 -right-2 w-px h-full bg-gray-100 opacity-50"></div>
+                  <div className="absolute top-0 -right-2 w-[2px] h-full bg-gray-300 opacity-100"></div>
                 )}
               </div>
             ))}
