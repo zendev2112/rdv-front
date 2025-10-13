@@ -14,8 +14,8 @@ export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
 
   return (
     <div className="bg-white">
-      <div className="container mx-auto px-4 py-2 overflow-hidden">
-        <div className="text-sm font-bold">
+      <div className="container mx-auto px-4 py-2">
+        <div className="flex flex-wrap text-sm font-bold">
           {headlines.map((headline) => (
             <Link
               key={headline.id}
