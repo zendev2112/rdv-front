@@ -419,7 +419,7 @@ const processedArticles = useMemo(() => {
   }
 
   return (
-    <main className="container mx-auto px-4 py-6">
+       <main className="container mx-auto px-4 py-6">
       <div className="flex flex-col md:flex-row gap-4 md:h-[650px]">
         {/* Main article (40% width) */}
         <div className="md:w-2/5 h-full relative group">
