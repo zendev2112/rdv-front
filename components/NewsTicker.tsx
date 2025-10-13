@@ -1,93 +1,41 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 type Headline = {
   id: string
   title: string
   slug: string
   section?: string
-  timestamp?: string
 }
 
 export default function NewsTicker({ headlines }: { headlines: Headline[] }) {
   if (!headlines?.length) return null
 
-  const [index, setIndex] = useState(0)
-  const [paused, setPaused] = useState(false)
-  const intervalRef = useRef<number | null>(null)
-
-  const DISPLAY_MS = 4500 // time each headline is visible
-  const TRANSITION_MS = 600 // must match CSS duration
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const DISPLAY_MS = 4500 // Time each headline is visible
 
   useEffect(() => {
-    if (paused || headlines.length <= 1) return
-
-    intervalRef.current = window.setInterval(() => {
-      setIndex((i) => (i + 1) % headlines.length)
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % headlines.length)
     }, DISPLAY_MS)
 
-    return () => {
-      if (intervalRef.current) window.clearInterval(intervalRef.current)
-    }
-  }, [paused, headlines.length])
-
-  useEffect(() => {
-    // when headlines change, reset index safely
-    setIndex(0)
-  }, [headlines])
-
-  const onEnter = () => setPaused(true)
-  const onLeave = () => setPaused(false)
-  const onFocus = () => setPaused(true)
-  const onBlur = () => setPaused(false)
+    return () => clearInterval(interval)
+  }, [headlines.length])
 
   return (
     <div className="border-b border-light-gray bg-white">
-      <div
-        className="container mx-auto px-4 py-2 overflow-hidden"
-        tabIndex={0}
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        // small region for touch to pause
-        onTouchStart={onEnter}
-        onTouchEnd={onLeave}
-      >
-        <div className="relative h-8 md:h-7"> {/* a bit taller to avoid vertical clipping */}
-          {headlines.map((headline, i) => {
-            const active = i === index
-            return (
-              <div
-                key={headline.id}
-                aria-hidden={!active}
-                className={`absolute inset-0 flex items-center text-sm transition-opacity ease-in-out ${
-                  active ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                } z-10`}
-                // ensure it spans full row and is on top; transition duration via inline style
-                style={{ transitionDuration: `${TRANSITION_MS}ms`, left: 0, right: 0 }}
-                role="article"
-              >
-                {/* DEBUG: remove bg-red-50 when verified */}
-                <Link
-                  href={`/${headline.section || 'noticias'}/${headline.slug}`}
-                  className="block w-full font-bold hover:text-primary-red transition-colors"
-                  style={{ whiteSpace: 'normal' }} // allow wrap while testing; change to 'nowrap' if desired
-                >
-                  {/* add small left padding so text isn't under any overlay */}
-                  <span className="inline-block pl-1">{headline.title}</span>
-                </Link>
-                <span className="ml-2 text-neutral-gray hidden md:inline">•</span>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* visually-hidden live region for screen readers */}
-        <div className="sr-only" aria-live="polite">
-          {headlines[index]?.title}
+      <div className="container mx-auto px-4 py-2 overflow-hidden">
+        <div className="text-sm font-bold transition-opacity duration-500 ease-in-out">
+          <Link
+            href={`/${headlines[currentIndex]?.section || 'noticias'}/${
+              headlines[currentIndex]?.slug
+            }`}
+            className="hover:text-primary-red transition-colors"
+          >
+            {headlines[currentIndex]?.title}
+          </Link>
         </div>
       </div>
     </div>
