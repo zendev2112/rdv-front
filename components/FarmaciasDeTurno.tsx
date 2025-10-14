@@ -320,9 +320,18 @@ export default function FarmaciasDeTurno() {
   return (
     <section className="container mx-auto px-4 py-6">
       {/* Title */}
-      <h2 className="text-4xl font-bold text-gray-800 text-center mb-8">
-        Farmacias de turno
-      </h2>
+      <div className="mb-6 border-b border-light-gray pb-2 flex items-center">
+        <div className="h-5 w-1 bg-primary-red mr-3"></div>
+        <h2 className="text-xl font-bold uppercase">Farmacias de turno</h2>
+      </div>
+
+      {/* Link to Monthly Pharmacies */}
+      <a
+        href="#"
+        className="text-primary-red font-medium text-base mb-6 block hover:underline"
+      >
+        Farmacias de Turno en {currentMonth}
+      </a>
 
       {/* Pharmacy Card */}
       <Card className="border border-gray-200 shadow-md bg-white w-full flex flex-col md:flex-row items-stretch rounded-lg overflow-hidden">
@@ -339,7 +348,7 @@ export default function FarmaciasDeTurno() {
         </div>
 
         {/* Pharmacy Information on the Right */}
-        <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-between">
+        <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-center">
           <div>
             <h3 className="text-2xl font-semibold text-primary-red mb-4">
               {pharmacy.name}
@@ -359,14 +368,6 @@ export default function FarmaciasDeTurno() {
               </span>
             </div>
           </div>
-
-          {/* Link to Monthly Pharmacies */}
-          <a
-            href="#"
-            className="text-primary-red font-medium text-base mt-6 hover:underline"
-          >
-            Farmacias de turno del mes de {currentMonth}
-          </a>
         </CardContent>
       </Card>
     </section>
