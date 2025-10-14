@@ -1,3 +1,5 @@
+'use client'
+
 import  {pharmacies} from '@/components/FarmaciasDeTurno'
 
 export default function FarmaciasDeTurnoPage() {
