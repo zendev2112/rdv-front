@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useScrollDirection } from './hooks/useScrollDirection'
 import {
   Search,
   Bell,
@@ -102,6 +103,7 @@ const menuSections = [
 ]
 
 export default function Header() {
+  const scrollDirection = useScrollDirection();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openSections, setOpenSections] = useState<Set<string>>(new Set())
 
@@ -180,7 +182,11 @@ const renderMenu = (sections: typeof menuSections) => {
 }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200  ${
+        scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
+      }`}
+    >
       {/* Main header area */}
       <div className="w-full px-4 py-3 md:py-5 flex items-center">
         {/* Desktop: constrained inner flex, centered, with left/center/right */}
@@ -192,9 +198,15 @@ const renderMenu = (sections: typeof menuSections) => {
               aria-label="Abrir menú"
               onClick={() => setMobileMenuOpen((open) => !open)}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
-            <span className="text-white font-bold text-xs md:text-sm uppercase">SECCIONES</span>
+            <span className="text-white font-bold text-xs md:text-sm uppercase">
+              SECCIONES
+            </span>
             <button className="text-white p-1 ml-2" aria-label="Buscar">
               <Search className="w-5 h-5 md:w-6 md:h-6" />
             </button>

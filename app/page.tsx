@@ -608,6 +608,8 @@ export default async function Home() {
       {/* Header moved below top bar */}
       <Header />
 
+      <MobileSectionNav />
+
       {/* Content with padding - updated value to accommodate both top bar and header */}
       <div className="pt-[calc(1rem+60px)] md:pt-[calc(1rem+70px)]">
         {/* Currency rates */}
@@ -615,7 +617,7 @@ export default async function Home() {
           <DollarRates />
         </div>
 
-        <MobileSectionNav />
+        <div className="pt-12 md:pt-0"></div>
 
         {/* Breaking news ticker */}
         <div className="hidden md:block border-b border-light-gray overflow-x-auto">

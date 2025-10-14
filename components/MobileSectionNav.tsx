@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useScrollDirection } from './hooks/useScrollDirection'
 
 const sections = [
   { name: 'Inicio', href: '/' },
@@ -15,9 +16,14 @@ const sections = [
 
 export default function MobileSectionNav() {
   const pathname = usePathname()
+  const scrollDirection = useScrollDirection()
 
   return (
-    <nav className="md:hidden bg-cream border-b border-gray-200 overflow-x-auto scrollbar-hide">
+    <nav
+      className={`md:hidden fixed top-[60px] left-0 right-0 z-[90] bg-cream border-b border-gray-200 overflow-x-auto scrollbar-hide transition-transform duration-300 ${
+        scrollDirection === 'down' ? '-translate-y-[120px]' : 'translate-y-0'
+      }`}
+    >
       <div className="flex items-center px-4 py-3 space-x-6 whitespace-nowrap">
         {sections.map((section) => {
           const isActive = pathname === section.href
