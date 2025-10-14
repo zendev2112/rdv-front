@@ -45,6 +45,7 @@ import { SkyscraperAd, SidebarRectangleAd } from '@/components/ads/SkyscraperAd'
 import DollarRates from '@/components/DollarRates'
 import NewsTicker from '@/components/NewsTicker'
 import { fetchYouTubeRSS } from '@/lib/youtube/fetchYouTubeRSS'
+import MobileSectionNav from '@/components/MobileSectionNav'
 
 
 export const dynamic = 'force-dynamic'
@@ -613,6 +614,8 @@ export default async function Home() {
         <div className="border-b border-gray-200 overflow-x-auto">
           <DollarRates />
         </div>
+
+        <MobileSectionNav />
 
         {/* Breaking news ticker */}
         <div className="border-b border-light-gray overflow-x-auto">
