@@ -306,6 +306,7 @@ const pharmacies = [
 export default function FarmaciasDeTurno() {
   const today = new Date()
   const todayDay = today.getDate()
+  const currentMonth = today.toLocaleString('es-ES', { month: 'long' }) // Get current month in Spanish
   const pharmacy = pharmacies.find((p) => p.day === todayDay)
 
   if (!pharmacy) {
@@ -333,30 +334,32 @@ export default function FarmaciasDeTurno() {
         </div>
 
         {/* Pharmacy Information on the Right */}
-        <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-center">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-2xl font-bold">{pharmacy.name}</h3>
-            <span className="bg-green-100 text-green-800 text-sm px-2 py-0.5 rounded-full">
-              DE TURNO HOY
-            </span>
-          </div>
-
-          <div className="flex items-start mb-4">
-            <MapPin className="w-5 h-5 text-primary-red mt-0.5 mr-2 flex-shrink-0" />
-            <div>
-              <p className="font-medium">{pharmacy.address}</p>
+        <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-between">
+          <div>
+            <h3 className="text-3xl font-bold text-primary-red mb-4">
+              {pharmacy.name}
+            </h3>
+            <div className="flex items-start mb-4">
+              <MapPin className="w-6 h-6 text-primary-red mt-0.5 mr-3 flex-shrink-0" />
+              <p className="text-lg font-medium">{pharmacy.address}</p>
+            </div>
+            <div className="flex items-center mb-4">
+              <Phone className="w-6 h-6 text-primary-red mr-3 flex-shrink-0" />
+              <span className="text-lg font-medium">{pharmacy.phone}</span>
+            </div>
+            <div className="flex items-center">
+              <Clock className="w-6 h-6 text-primary-red mr-3 flex-shrink-0" />
+              <span className="text-lg font-medium">Atención las 24 horas</span>
             </div>
           </div>
 
-          <div className="flex items-center mb-4">
-            <Phone className="w-5 h-5 text-primary-red mr-2 flex-shrink-0" />
-            <span className="font-medium">{pharmacy.phone}</span>
-          </div>
-
-          <div className="flex items-center">
-            <Clock className="w-5 h-5 text-primary-red mr-2 flex-shrink-0" />
-            <span className="font-medium">Atención las 24 horas</span>
-          </div>
+          {/* Link to Monthly Pharmacies */}
+          <a
+            href="#"
+            className="text-primary-red font-medium text-lg mt-6 hover:underline"
+          >
+            Farmacias de turno del mes de {currentMonth}
+          </a>
         </CardContent>
       </Card>
     </section>
