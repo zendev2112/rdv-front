@@ -611,14 +611,14 @@ export default async function Home() {
       {/* Content with padding - updated value to accommodate both top bar and header */}
       <div className="pt-[calc(1rem+60px)] md:pt-[calc(1rem+70px)]">
         {/* Currency rates */}
-        <div className="border-b border-gray-200 overflow-x-auto">
+        <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
           <DollarRates />
         </div>
 
         <MobileSectionNav />
 
         {/* Breaking news ticker */}
-        <div className="border-b border-light-gray overflow-x-auto">
+        <div className="hidden md:block border-b border-light-gray overflow-x-auto">
           <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
             <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
               EN VIVO

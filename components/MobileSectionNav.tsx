@@ -17,17 +17,17 @@ export default function MobileSectionNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="md:hidden border-b border-gray-200 bg-white overflow-x-auto">
-      <div className="flex items-center px-4 py-2 space-x-4 whitespace-nowrap">
+    <nav className="md:hidden bg-cream border-b border-gray-200 overflow-x-auto scrollbar-hide">
+      <div className="flex items-center px-4 py-3 space-x-6 whitespace-nowrap">
         {sections.map((section) => {
           const isActive = pathname === section.href
           return (
             <Link
               key={section.href}
               href={section.href}
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? 'text-primary-red border-b-2 border-primary-red pb-1'
+                  ? 'text-primary-red bg-white/50 px-3 py-1.5 rounded-md'
                   : 'text-gray-700 hover:text-primary-red'
               }`}
             >
