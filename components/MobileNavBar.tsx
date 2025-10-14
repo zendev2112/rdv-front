@@ -30,34 +30,34 @@ export default function MobileNavBar() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg flex justify-around items-center h-14 lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-primary-red text-white border-t border-light-gray shadow-lg flex justify-around items-center h-14 lg:hidden">
       <Link
         href="/"
-        className="flex flex-col items-center text-xs text-gray-700 hover:text-primary-red"
+        className="flex flex-col items-center text-xs text-white/95 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
       >
-        <Home className="w-5 h-5 mb-0.5" />
+        <Home className="w-5 h-5 mb-0.5 text-current" />
         Inicio
       </Link>
       <Link
         href="/secciones"
-        className="flex flex-col items-center text-xs text-gray-700 hover:text-primary-red"
+        className="flex flex-col items-center text-xs text-white/95 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
       >
-        <LayoutGrid className="w-5 h-5 mb-0.5" />
+        <LayoutGrid className="w-5 h-5 mb-0.5 text-current" />
         Secciones
       </Link>
       <a
         href={YOUTUBE_WEB_URL}
         onClick={handleVolgaTVClick}
-        className="flex flex-col items-center text-xs text-gray-700 hover:text-primary-red"
+        className="flex flex-col items-center text-xs text-white/95 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
       >
-        <Tv className="w-5 h-5 mb-0.5" />
+        <Tv className="w-5 h-5 mb-0.5 text-current" />
         VOLGA TV
       </a>
       <Link
         href="/buscar"
-        className="flex flex-col items-center text-xs text-gray-700 hover:text-primary-red"
+        className="flex flex-col items-center text-xs text-white/95 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
       >
-        <Search className="w-5 h-5 mb-0.5" />
+        <Search className="w-5 h-5 mb-0.5 text-current" />
         Buscar
       </Link>
     </nav>

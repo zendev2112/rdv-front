@@ -20,7 +20,7 @@ export default function MobileSectionNav() {
 
   return (
     <nav
-      className={`md:hidden fixed top-[64px] left-0 right-0 z-[90] bg-cream border-b border-gray-200 overflow-x-auto scrollbar-hide transition-all duration-500 ease-in-out ${
+      className={`md:hidden fixed top-[64px] left-0 right-0 z-[90] bg-primary-red text-white border-b border-light-gray overflow-x-auto scrollbar-hide transition-all duration-500 ease-in-out ${
         scrollDirection === 'down' ? '-translate-y-[128px]' : 'translate-y-0'
       }`}
     >
@@ -31,11 +31,12 @@ export default function MobileSectionNav() {
             <Link
               key={section.href}
               href={section.href}
-              className={`text-sm font-medium transition-all duration-200 ${
+              className={`text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 ${
                 isActive
-                  ? 'text-primary-red bg-white/50 px-3 py-1.5 rounded-md'
-                  : 'text-gray-700 hover:text-primary-red'
+                  ? 'text-white bg-white/10 px-3 py-1.5 rounded-md'
+                  : 'text-white/90 hover:text-white'
               }`}
+              aria-current={isActive ? 'page' : undefined}
             >
               {section.name}
             </Link>
