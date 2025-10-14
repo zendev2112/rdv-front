@@ -319,14 +319,19 @@ export default function FarmaciasDeTurno() {
 
   return (
     <section className="container mx-auto px-4 py-6">
+      {/* Title */}
+      <h2 className="text-4xl font-bold text-gray-800 text-center mb-8">
+        Farmacias de turno
+      </h2>
+
       {/* Pharmacy Card */}
-      <Card className="border-0 shadow-sm bg-cream w-full flex flex-col md:flex-row items-stretch">
+      <Card className="border border-gray-200 shadow-md bg-white w-full flex flex-col md:flex-row items-stretch rounded-lg overflow-hidden">
         {/* Pharmacy Image on the Left */}
         <div className="w-full md:w-1/2">
           <img
             src={pharmacy.image || defaultImage}
             alt={`Farmacia ${pharmacy.name}`}
-            className="w-full h-full object-cover rounded-l-lg"
+            className="w-full h-full object-cover"
             onError={(e) => {
               e.currentTarget.src = defaultImage
             }}
@@ -336,27 +341,29 @@ export default function FarmaciasDeTurno() {
         {/* Pharmacy Information on the Right */}
         <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-between">
           <div>
-            <h3 className="text-3xl font-bold text-primary-red mb-4">
+            <h3 className="text-2xl font-semibold text-primary-red mb-4">
               {pharmacy.name}
             </h3>
             <div className="flex items-start mb-4">
-              <MapPin className="w-6 h-6 text-primary-red mt-0.5 mr-3 flex-shrink-0" />
-              <p className="text-lg font-medium">{pharmacy.address}</p>
+              <MapPin className="w-5 h-5 text-primary-red mt-0.5 mr-3 flex-shrink-0" />
+              <p className="text-base text-gray-700">{pharmacy.address}</p>
             </div>
             <div className="flex items-center mb-4">
-              <Phone className="w-6 h-6 text-primary-red mr-3 flex-shrink-0" />
-              <span className="text-lg font-medium">{pharmacy.phone}</span>
+              <Phone className="w-5 h-5 text-primary-red mr-3 flex-shrink-0" />
+              <span className="text-base text-gray-700">{pharmacy.phone}</span>
             </div>
             <div className="flex items-center">
-              <Clock className="w-6 h-6 text-primary-red mr-3 flex-shrink-0" />
-              <span className="text-lg font-medium">Atención las 24 horas</span>
+              <Clock className="w-5 h-5 text-primary-red mr-3 flex-shrink-0" />
+              <span className="text-base text-gray-700">
+                Atención las 24 horas
+              </span>
             </div>
           </div>
 
           {/* Link to Monthly Pharmacies */}
           <a
             href="#"
-            className="text-primary-red font-medium text-lg mt-6 hover:underline"
+            className="text-primary-red font-medium text-base mt-6 hover:underline"
           >
             Farmacias de turno del mes de {currentMonth}
           </a>
