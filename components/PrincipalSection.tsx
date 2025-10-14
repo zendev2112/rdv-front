@@ -418,145 +418,145 @@ const processedArticles = useMemo(() => {
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
-  return (
-    <main className="container mx-auto px-4 py-6">
-      <div className="flex flex-col md:flex-row gap-4 md:h-[650px]">
-        {/* Main article (40% width) */}
-        <div className="md:w-2/5 h-full relative">
-          <Link
-            href={getArticleUrl(
-              mainArticle.section_path || mainArticle.section,
-              mainArticle.slug
-            )}
-            className="block h-full flex flex-col group"
+return (
+  <main className="container mx-auto px-4 py-6">
+    <div className="flex flex-col md:flex-row gap-4 md:h-[650px]">
+      {/* Main article (40% width) */}
+      <div className="md:w-2/5 h-full relative">
+        <Link
+          href={getArticleUrl(
+            mainArticle.section_path || mainArticle.section,
+            mainArticle.slug
+          )}
+          className="block h-full flex flex-col group"
+        >
+          <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-48 md:h-[70%]">
+            <div className="relative w-full h-full overflow-hidden">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+              <OptimizedImage
+                src={mainArticle.imgUrl}
+                alt={mainArticle.title}
+                fill
+                className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                priority
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+            </div>
+          </div>
+          <div
+            className="bg-white flex-shrink-0 p-4 pt-2"
+            style={{ height: '30%' }}
           >
-            <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-48 md:h-[70%]">
-              <div className="relative w-full h-full overflow-hidden">
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                <OptimizedImage
-                  src={mainArticle.imgUrl}
-                  alt={mainArticle.title}
-                  fill
-                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                />
-              </div>
-            </div>
-            <div
-              className="bg-white flex-shrink-0 p-4 pt-2 transition-all duration-300 group-hover:opacity-70 group-hover:[&_*]:text-gray-500"
-              style={{ height: '30%' }}
-            >
-              <h1 className="text-2xl font-bold mb-1 leading-tight transition-colors duration-300">
-                {mainArticle.overline && (
-                  <span className="text-primary-red group-hover:!text-gray-500 transition-colors duration-300">
-                    {mainArticle.overline}.{' '}
-                  </span>
+            <h1 className="text-2xl font-bold mb-1 leading-tight">
+              {mainArticle.overline && (
+                <span className="text-primary-red">
+                  {mainArticle.overline}.{' '}
+                </span>
+              )}
+              {mainArticle.title}
+            </h1>
+          </div>
+        </Link>
+        {/* Dimmed vertical divider line after main article */}
+        <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
+      </div>
+
+      {/* Secondary articles (60% width) */}
+      <div className="md:w-3/5 h-full flex flex-col relative overflow-visible">
+        {/* Top row - two articles */}
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative"
+          style={{ height: '45%' }}
+        >
+          {upperRowArticles.map((article, index) => (
+            <div key={article.id} className="relative h-full">
+              <Link
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug
                 )}
-                {mainArticle.title}
-              </h1>
+                className="block h-full flex flex-col group"
+              >
+                <div className="relative w-full p-2 md:p-4 h-48 md:h-[65%]">
+                  <div className="relative w-full h-full overflow-hidden">
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 30vw"
+                    />
+                  </div>
+                </div>
+                <div className="p-4 pt-2 flex-1 flex flex-col justify-start">
+                  <h2 className="text-lg font-bold leading-tight">
+                    {article.overline && (
+                      <span className="text-primary-red">
+                        {article.overline}.{' '}
+                      </span>
+                    )}
+                    {article.title}
+                  </h2>
+                </div>
+              </Link>
+              {/* Dimmed vertical divider between top row articles */}
+              {index === 0 && upperRowArticles.length > 1 && (
+                <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
+              )}
             </div>
-          </Link>
-          {/* Dimmed vertical divider line after main article */}
-          <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
+          ))}
         </div>
 
-        {/* Secondary articles (60% width) */}
-        <div className="md:w-3/5 h-full flex flex-col relative overflow-visible">
-          {/* Top row - two articles */}
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative"
-            style={{ height: '45%' }}
-          >
-            {upperRowArticles.map((article, index) => (
-              <div key={article.id} className="relative h-full">
-                <Link
-                  href={getArticleUrl(
-                    article.section_path || article.section,
-                    article.slug
-                  )}
-                  className="block h-full flex flex-col group"
-                >
-                  <div className="relative w-full p-2 md:p-4 h-48 md:h-[65%]">
-                    <div className="relative w-full h-full overflow-hidden">
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                      <OptimizedImage
-                        src={article.imgUrl}
-                        alt={article.title}
-                        fill
-                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                        sizes="(max-width: 768px) 100vw, 30vw"
-                      />
-                    </div>
-                  </div>
-                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-all duration-300 group-hover:opacity-70 group-hover:[&_*]:text-gray-500">
-                    <h2 className="text-lg font-bold leading-tight transition-colors duration-300">
-                      {article.overline && (
-                        <span className="text-primary-red group-hover:!text-gray-500 transition-colors duration-300">
-                          {article.overline}.{' '}
-                        </span>
-                      )}
-                      {article.title}
-                    </h2>
-                  </div>
-                </Link>
-                {/* Dimmed vertical divider between top row articles */}
-                {index === 0 && upperRowArticles.length > 1 && (
-                  <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
-                )}
-              </div>
-            ))}
-          </div>
+        {/* Dimmed horizontal divider between top and bottom rows */}
+        <div className="w-full h-[1px] bg-gray-400 opacity-50 my-2 flex-shrink-0"></div>
 
-          {/* Dimmed horizontal divider between top and bottom rows */}
-          <div className="w-full h-[1px] bg-gray-400 opacity-50 my-2 flex-shrink-0"></div>
-
-          {/* Bottom row - three articles */}
-          <div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative"
-            style={{ height: '48%' }}
-          >
-            {lowerRowArticles.map((article, index) => (
-              <div key={article.id} className="relative h-full">
-                <Link
-                  href={getArticleUrl(
-                    article.section_path || article.section,
-                    article.slug
-                  )}
-                  className="block h-full flex flex-col group"
-                >
-                  <div className="relative w-full p-2 md:p-4 pb-1 md:pb-1">
-                    <div className="relative w-full h-48 sm:h-32 overflow-hidden">
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                      <OptimizedImage
-                        src={article.imgUrl}
-                        alt={article.title}
-                        fill
-                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                        sizes="(max-width: 768px) 100vw, 20vw"
-                      />
-                    </div>
-                  </div>
-                  <div className="p-4 pt-2 flex-1 flex flex-col justify-start transition-all duration-300 group-hover:opacity-70 group-hover:[&_*]:text-gray-500">
-                    <h2 className="text-lg font-bold leading-tight transition-colors duration-300">
-                      {article.overline && (
-                        <span className="text-primary-red group-hover:!text-gray-500 transition-colors duration-300">
-                          {article.overline}.{' '}
-                        </span>
-                      )}
-                      {article.title}
-                    </h2>
-                  </div>
-                </Link>
-                {/* Dimmed vertical dividers between bottom row articles */}
-                {index < lowerRowArticles.length - 1 && (
-                  <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
+        {/* Bottom row - three articles */}
+        <div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative"
+          style={{ height: '48%' }}
+        >
+          {lowerRowArticles.map((article, index) => (
+            <div key={article.id} className="relative h-full">
+              <Link
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug
                 )}
-              </div>
-            ))}
-          </div>
+                className="block h-full flex flex-col group"
+              >
+                <div className="relative w-full p-2 md:p-4 pb-1 md:pb-1">
+                  <div className="relative w-full h-48 sm:h-32 overflow-hidden">
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 20vw"
+                    />
+                  </div>
+                </div>
+                <div className="p-4 pt-2 flex-1 flex flex-col justify-start">
+                  <h2 className="text-lg font-bold leading-tight">
+                    {article.overline && (
+                      <span className="text-primary-red">
+                        {article.overline}.{' '}
+                      </span>
+                    )}
+                    {article.title}
+                  </h2>
+                </div>
+              </Link>
+              {/* Dimmed vertical dividers between bottom row articles */}
+              {index < lowerRowArticles.length - 1 && (
+                <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
-    </main>
-  )
+    </div>
+  </main>
+)
 }
