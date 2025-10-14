@@ -611,7 +611,7 @@ export default async function Home() {
       <MobileSectionNav />
 
       {/* Content with padding - updated value to accommodate both top bar and header */}
-      <div className="pt-[calc(1rem+60px)] md:pt-[calc(1rem+70px)]">
+      <div className="pt-[calc(1rem+120px)] md:pt-[calc(1rem+70px)]">
         {/* Currency rates */}
         <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
           <DollarRates />
