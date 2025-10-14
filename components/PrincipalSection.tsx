@@ -458,7 +458,7 @@ return (
           </div>
         </Link>
         {/* Dimmed vertical divider line after main article */}
-        <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
+        <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
       </div>
 
       {/* Secondary articles (60% width) */}
