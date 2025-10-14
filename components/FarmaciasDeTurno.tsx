@@ -362,12 +362,12 @@ export default function FarmaciasDeTurno() {
           </div>
 
           {/* Link to Monthly Pharmacies */}
-          <a
-            href="#"
+          <Link
+            href="/farmacias-de-turno"
             className="text-primary-red font-medium text-base mt-4 hover:underline self-start"
           >
             Farmacias de Turno en {currentMonth}
-          </a>
+          </Link>
         </CardContent>
       </Card>
     </section>
