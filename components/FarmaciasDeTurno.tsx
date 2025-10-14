@@ -325,14 +325,6 @@ export default function FarmaciasDeTurno() {
         <h2 className="text-xl font-bold uppercase">Farmacias de turno</h2>
       </div>
 
-      {/* Link to Monthly Pharmacies */}
-      <a
-        href="#"
-        className="text-primary-red font-medium text-base mb-6 block hover:underline"
-      >
-        Farmacias de Turno en {currentMonth}
-      </a>
-
       {/* Pharmacy Card */}
       <Card className="border border-gray-200 shadow-md bg-white w-full flex flex-col md:flex-row items-stretch rounded-lg overflow-hidden">
         {/* Pharmacy Image on the Left */}
@@ -348,7 +340,7 @@ export default function FarmaciasDeTurno() {
         </div>
 
         {/* Pharmacy Information on the Right */}
-        <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-center">
+        <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-between">
           <div>
             <h3 className="text-2xl font-semibold text-primary-red mb-4">
               {pharmacy.name}
@@ -368,6 +360,14 @@ export default function FarmaciasDeTurno() {
               </span>
             </div>
           </div>
+
+          {/* Link to Monthly Pharmacies */}
+          <a
+            href="#"
+            className="text-primary-red font-medium text-base mt-4 hover:underline self-start"
+          >
+            Farmacias de Turno en {currentMonth}
+          </a>
         </CardContent>
       </Card>
     </section>
