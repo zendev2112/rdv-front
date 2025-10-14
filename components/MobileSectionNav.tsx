@@ -20,8 +20,8 @@ export default function MobileSectionNav() {
 
   return (
     <nav
-      className={`md:hidden fixed top-[60px] left-0 right-0 z-[90] bg-cream border-b border-gray-200 overflow-x-auto scrollbar-hide transition-all duration-500 ease-in-out ${
-        scrollDirection === 'down' ? '-translate-y-[120px]' : 'translate-y-0'
+      className={`md:hidden fixed top-[64px] left-0 right-0 z-[90] bg-cream border-b border-gray-200 overflow-x-auto scrollbar-hide transition-all duration-500 ease-in-out ${
+        scrollDirection === 'down' ? '-translate-y-[128px]' : 'translate-y-0'
       }`}
     >
       <div className="flex items-center px-4 py-3 space-x-6 whitespace-nowrap">
