@@ -52,7 +52,7 @@ const defaultProducts = [
   },
 ]
 
-const pharmacies = [
+export const pharmacies = [
   {
     day: 1,
     name: 'JAIME',
