@@ -430,7 +430,7 @@ return (
           )}
           className="block h-full flex flex-col group"
         >
-          {/* Main image: 4:3 aspect ratio - 520px × 390px */}
+          {/* Main image: 4:3 aspect ratio */}
           <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 aspect-[4/3] md:aspect-auto md:h-[60%]">
             <div className="relative w-full h-full overflow-hidden">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
@@ -460,7 +460,7 @@ return (
 
       {/* Secondary articles (52% width) */}
       <div className="md:w-[52%] h-full flex flex-col relative overflow-visible">
-        {/* Top row - two articles - 4:3 aspect ratio same as main */}
+        {/* Top row - two articles - 4:3 aspect ratio */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative h-auto md:h-[48%]">
           {upperRowArticles.map((article, index) => (
             <div key={article.id} className="relative h-full">
@@ -471,7 +471,7 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Top row images: 4:3 aspect ratio - 310px × 233px */}
+                {/* Top row images: 4:3 aspect ratio */}
                 <div className="relative w-full p-2 md:p-3 aspect-[4/3] md:aspect-auto md:h-[60%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
@@ -505,7 +505,7 @@ return (
         {/* Horizontal divider */}
         <div className="w-full h-[1px] bg-gray-400 opacity-50 my-4 md:my-3 flex-shrink-0"></div>
 
-        {/* Bottom row - three articles - 16:9 aspect ratio */}
+        {/* Bottom row - three articles - 4:3 aspect ratio SAME AS ALL OTHER IMAGES */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative h-auto md:h-[44%]">
           {lowerRowArticles.map((article, index) => (
             <div key={article.id} className="relative h-full">
@@ -516,8 +516,8 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Bottom row images: 16:9 aspect ratio - 235px × 132px */}
-                <div className="relative w-full p-2 md:p-2 aspect-[16/9] md:aspect-auto md:h-[56%]">
+                {/* Bottom row images: 4:3 aspect ratio - SAME AS ALL OTHER IMAGES */}
+                <div className="relative w-full p-2 md:p-2 aspect-[4/3] md:aspect-auto md:h-[60%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
