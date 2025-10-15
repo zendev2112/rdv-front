@@ -424,8 +424,8 @@ export default function PrincipalSection({
   return (
     <main className="container mx-auto px-4 py-6">
       {/* Main container with CSS Grid - 12 columns */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:auto-rows-auto">
-        {/* LEFT COLUMN - Main article (5 columns) */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        {/* LEFT COLUMN - Main article (5 columns, spans 2 rows) */}
         <div className="md:col-span-5 md:row-span-2">
           <Link
             href={getArticleUrl(
@@ -462,87 +462,124 @@ export default function PrincipalSection({
           </Link>
         </div>
 
-        {/* RIGHT COLUMN - TOP ROW (2 articles, 7 columns total) */}
-        {upperRowArticles.map((article, index) => (
-          <div key={article.id} className="md:col-span-3.5 relative">
-            <Link
-              href={getArticleUrl(
-                article.section_path || article.section,
-                article.slug
-              )}
-              className="block h-full flex flex-col group"
-            >
-              {/* Top row images - landscape 16:9 */}
-              <div className="relative w-full aspect-[16/9]">
-                <div className="relative w-full h-full overflow-hidden">
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                  <OptimizedImage
-                    src={article.imgUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                    sizes="(max-width: 768px) 100vw, 29vw"
-                  />
-                </div>
-              </div>
-              {/* Title area */}
-              <div className="p-3 pt-2 flex-1">
-                <h2 className="text-sm md:text-base font-bold leading-tight">
-                  {article.overline && (
-                    <span className="text-primary-red">
-                      {article.overline}.{' '}
-                    </span>
-                  )}
-                  {article.title}
-                </h2>
-              </div>
-            </Link>
-            {index === 0 && (
-              <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-30 hidden md:block"></div>
+        {/* RIGHT COLUMN - TOP ROW - First article (3 columns) */}
+        <div className="md:col-span-3 relative">
+          <Link
+            href={getArticleUrl(
+              upperRowArticles[0].section_path || upperRowArticles[0].section,
+              upperRowArticles[0].slug
             )}
-          </div>
-        ))}
+            className="block h-full flex flex-col group"
+          >
+            {/* Top row first image - landscape 16:9 */}
+            <div className="relative w-full aspect-[16/9]">
+              <div className="relative w-full h-full overflow-hidden">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                <OptimizedImage
+                  src={upperRowArticles[0].imgUrl}
+                  alt={upperRowArticles[0].title}
+                  fill
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                />
+              </div>
+            </div>
+            {/* Title area */}
+            <div className="p-3 pt-2 flex-1">
+              <h2 className="text-sm md:text-base font-bold leading-tight">
+                {upperRowArticles[0].overline && (
+                  <span className="text-primary-red">
+                    {upperRowArticles[0].overline}.{' '}
+                  </span>
+                )}
+                {upperRowArticles[0].title}
+              </h2>
+            </div>
+          </Link>
+          <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-30 hidden md:block"></div>
+        </div>
 
-        {/* RIGHT COLUMN - BOTTOM ROW (3 articles, 7 columns total, split evenly) */}
-        {lowerRowArticles.map((article, index) => (
-          <div key={article.id} className="md:col-span-2.33 relative">
-            <Link
-              href={getArticleUrl(
-                article.section_path || article.section,
-                article.slug
-              )}
-              className="block h-full flex flex-col group"
-            >
-              {/* Bottom row images - landscape 16:9 */}
-              <div className="relative w-full aspect-[16/9]">
-                <div className="relative w-full h-full overflow-hidden">
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                  <OptimizedImage
-                    src={article.imgUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                    sizes="(max-width: 768px) 100vw, 19vw"
-                  />
-                </div>
-              </div>
-              {/* Title area */}
-              <div className="p-2 pt-2 flex-1">
-                <h2 className="text-xs md:text-sm font-bold leading-tight">
-                  {article.overline && (
-                    <span className="text-primary-red">
-                      {article.overline}.{' '}
-                    </span>
-                  )}
-                  {article.title}
-                </h2>
-              </div>
-            </Link>
-            {index < lowerRowArticles.length - 1 && (
-              <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-30 hidden md:block"></div>
+        {/* RIGHT COLUMN - TOP ROW - Second article (4 columns) */}
+        <div className="md:col-span-4 relative">
+          <Link
+            href={getArticleUrl(
+              upperRowArticles[1].section_path || upperRowArticles[1].section,
+              upperRowArticles[1].slug
             )}
-          </div>
-        ))}
+            className="block h-full flex flex-col group"
+          >
+            {/* Top row second image - landscape 16:9 */}
+            <div className="relative w-full aspect-[16/9]">
+              <div className="relative w-full h-full overflow-hidden">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                <OptimizedImage
+                  src={upperRowArticles[1].imgUrl}
+                  alt={upperRowArticles[1].title}
+                  fill
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+            </div>
+            {/* Title area */}
+            <div className="p-3 pt-2 flex-1">
+              <h2 className="text-sm md:text-base font-bold leading-tight">
+                {upperRowArticles[1].overline && (
+                  <span className="text-primary-red">
+                    {upperRowArticles[1].overline}.{' '}
+                  </span>
+                )}
+                {upperRowArticles[1].title}
+              </h2>
+            </div>
+          </Link>
+        </div>
+
+        {/* RIGHT COLUMN - BOTTOM ROW (3 articles - 2 cols, 2 cols, 3 cols) */}
+        {lowerRowArticles.map((article, index) => {
+          // First article: 2 columns, Second: 2 columns, Third: 3 columns
+          const colSpan = index === 2 ? 'md:col-span-3' : 'md:col-span-2'
+
+          return (
+            <div key={article.id} className={`${colSpan} relative`}>
+              <Link
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug
+                )}
+                className="block h-full flex flex-col group"
+              >
+                {/* Bottom row images - landscape 16:9 */}
+                <div className="relative w-full aspect-[16/9]">
+                  <div className="relative w-full h-full overflow-hidden">
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 20vw"
+                    />
+                  </div>
+                </div>
+                {/* Title area */}
+                <div className="p-2 pt-2 flex-1">
+                  <h2 className="text-xs md:text-sm font-bold leading-tight">
+                    {article.overline && (
+                      <span className="text-primary-red">
+                        {article.overline}.{' '}
+                      </span>
+                    )}
+                    {article.title}
+                  </h2>
+                </div>
+              </Link>
+              {index < lowerRowArticles.length - 1 && (
+                <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-30 hidden md:block"></div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </main>
   )
