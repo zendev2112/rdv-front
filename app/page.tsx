@@ -585,7 +585,7 @@ export default async function Home() {
   }
 
   // Define custom ads for sidelines (optional)
-  const sidelineWidth = 200
+  const sidelineWidth = 150
   const leftSideAds = (
     <div className="space-y-4">
       <SkyscraperAd position="left" />
