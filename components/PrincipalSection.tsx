@@ -419,11 +419,9 @@ export default function PrincipalSection({
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
-  // ...existing code...
-
   return (
     <main className="py-6">
-      {/* Main container with CSS Grid - 12 columns */}
+      {/* Main container with CSS Grid - INCREASED gap to 8 */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* LEFT COLUMN - Main article (6 columns) */}
         <div className="md:col-span-6 relative">
@@ -460,14 +458,14 @@ export default function PrincipalSection({
               </h1>
             </div>
           </Link>
-          {/* Vertical divider line between left and right columns */}
-          <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+          {/* Vertical divider - ADJUSTED position for larger gap */}
+          <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
         </div>
 
         {/* RIGHT COLUMN - Contains upper and lower rows (6 columns) */}
         <div className="md:col-span-6 flex flex-col gap-0">
-          {/* UPPER ROW - 2 articles side by side */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-0">
+          {/* UPPER ROW - INCREASED gap to 6 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-0">
             {/* First article */}
             <div className="relative">
               <Link
@@ -503,7 +501,7 @@ export default function PrincipalSection({
                   </h2>
                 </div>
               </Link>
-              <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
+              <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
             </div>
 
             {/* Second article */}
@@ -544,11 +542,11 @@ export default function PrincipalSection({
             </div>
           </div>
 
-          {/* Horizontal divider */}
-          <div className="w-full h-[1px] bg-gray-400 opacity-50 my-4 hidden md:block"></div>
+          {/* Horizontal divider - INCREASED margin */}
+          <div className="w-full h-[1px] bg-gray-400 opacity-50 my-6 hidden md:block"></div>
 
-          {/* LOWER ROW - 3 articles side by side */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* LOWER ROW - INCREASED gap to 6 */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {lowerRowArticles.map((article, index) => {
               return (
                 <div key={article.id} className="relative">
@@ -585,7 +583,7 @@ export default function PrincipalSection({
                     </div>
                   </Link>
                   {index < lowerRowArticles.length - 1 && (
-                    <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
+                    <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
                   )}
                 </div>
               )
@@ -595,6 +593,4 @@ export default function PrincipalSection({
       </div>
     </main>
   )
-
-  // ...existing code...
 }
