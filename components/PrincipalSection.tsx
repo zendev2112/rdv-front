@@ -420,9 +420,9 @@ const processedArticles = useMemo(() => {
 
 return (
   <main className="container mx-auto px-4 py-6">
-    <div className="flex flex-col md:flex-row gap-4 md:h-[680px]">
-      {/* Main article (48% width) - 4:3 aspect ratio */}
-      <div className="md:w-[48%] h-full relative">
+    <div className="flex flex-col md:flex-row gap-4 md:h-[700px]">
+      {/* Main article (38% width - reduced from 48%) */}
+      <div className="md:w-[38%] h-full relative">
         <Link
           href={getArticleUrl(
             mainArticle.section_path || mainArticle.section,
@@ -431,7 +431,7 @@ return (
           className="block h-full flex flex-col group"
         >
           {/* Main image: 4:3 aspect ratio */}
-          <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 aspect-[4/3] md:aspect-auto md:h-[60%]">
+          <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-64 md:h-[65%]">
             <div className="relative w-full h-full overflow-hidden">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
               <OptimizedImage
@@ -440,7 +440,7 @@ return (
                 fill
                 className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                 priority
-                sizes="(max-width: 768px) 100vw, 48vw"
+                sizes="(max-width: 768px) 100vw, 38vw"
               />
             </div>
           </div>
@@ -458,10 +458,10 @@ return (
         <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
       </div>
 
-      {/* Secondary articles (52% width) */}
-      <div className="md:w-[52%] h-full flex flex-col relative overflow-visible">
-        {/* Top row - two articles - 4:3 aspect ratio */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative h-auto md:h-[48%]">
+      {/* Secondary articles (62% width - increased from 52%) */}
+      <div className="md:w-[62%] h-full flex flex-col relative overflow-visible">
+        {/* Top row - two articles */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative md:h-[50%]">
           {upperRowArticles.map((article, index) => (
             <div key={article.id} className="relative h-full">
               <Link
@@ -471,8 +471,8 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Top row images: 4:3 aspect ratio */}
-                <div className="relative w-full p-2 md:p-3 aspect-[4/3] md:aspect-auto md:h-[60%]">
+                {/* Top row images: larger */}
+                <div className="relative w-full p-2 md:p-3 h-48 md:h-[65%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
@@ -480,7 +480,7 @@ return (
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 25vw"
+                      sizes="(max-width: 768px) 100vw, 30vw"
                     />
                   </div>
                 </div>
@@ -503,21 +503,21 @@ return (
         </div>
 
         {/* Horizontal divider */}
-        <div className="w-full h-[1px] bg-gray-400 opacity-50 my-4 md:my-3 flex-shrink-0"></div>
+        <div className="w-full h-[1px] bg-gray-400 opacity-50 my-3 flex-shrink-0"></div>
 
-        {/* Bottom row - three articles - 4:3 aspect ratio SAME AS ALL OTHER IMAGES */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative h-auto md:h-[44%]">
+        {/* Bottom row - three articles - SAME HEIGHT AS TOP ROW */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative md:h-[44%]">
           {lowerRowArticles.map((article, index) => (
-            <div key={article.id} className="relative h-full">
+            <div key={article.id} className="relative h-full w-full">
               <Link
                 href={getArticleUrl(
                   article.section_path || article.section,
                   article.slug
                 )}
-                className="block h-full flex flex-col group"
+                className="block h-full w-full flex flex-col group"
               >
-                {/* Bottom row images: 4:3 aspect ratio - SAME HEIGHT PERCENTAGE AS TOP ROW */}
-                <div className="relative w-full p-2 md:p-3 aspect-[4/3] md:aspect-auto md:h-[60%]">
+                {/* Bottom row images: EXACT SAME HEIGHT AS TOP ROW */}
+                <div className="relative w-full p-2 md:p-3 h-40 md:h-[65%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
@@ -525,7 +525,7 @@ return (
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 16vw"
+                      sizes="(max-width: 768px) 100vw, 20vw"
                     />
                   </div>
                 </div>
