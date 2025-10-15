@@ -421,8 +421,8 @@ const processedArticles = useMemo(() => {
 return (
   <main className="container mx-auto px-4 py-6">
     <div className="flex flex-col md:flex-row gap-4 md:h-[650px]">
-      {/* Main article (40% width) */}
-      <div className="md:w-2/5 h-full relative">
+      {/* Main article (45% width - increased from 40%) */}
+      <div className="md:w-[45%] h-full relative">
         <Link
           href={getArticleUrl(
             mainArticle.section_path || mainArticle.section,
@@ -439,7 +439,7 @@ return (
                 fill
                 className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                 priority
-                sizes="(max-width: 768px) 100vw, 40vw"
+                sizes="(max-width: 768px) 100vw, 45vw"
               />
             </div>
           </div>
@@ -461,8 +461,8 @@ return (
         <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
       </div>
 
-      {/* Secondary articles (60% width) */}
-      <div className="md:w-3/5 h-full flex flex-col relative overflow-visible">
+      {/* Secondary articles (55% width - decreased from 60%) */}
+      <div className="md:w-[55%] h-full flex flex-col relative overflow-visible">
         {/* Top row - two articles */}
         <div
           className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative"
@@ -477,7 +477,7 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                <div className="relative w-full p-2 md:p-4 h-48 md:h-[65%]">
+                <div className="relative w-full p-2 md:p-4 h-48 md:h-[60%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
@@ -485,7 +485,7 @@ return (
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 30vw"
+                      sizes="(max-width: 768px) 100vw, 27vw"
                     />
                   </div>
                 </div>
@@ -533,7 +533,7 @@ return (
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 20vw"
+                      sizes="(max-width: 768px) 100vw, 18vw"
                     />
                   </div>
                 </div>
