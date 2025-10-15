@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useScrollDirection } from './hooks/useScrollDirection'
+import { usePathname } from 'next/navigation'
 import {
   Search,
   Bell,
@@ -102,8 +103,19 @@ const menuSections = [
   { label: 'El Recetario', href: '/el-recetario' },
 ]
 
+const sections = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Coronel Suárez', href: '/coronel-suarez' },
+  { name: 'Pueblos Alemanes', href: '/pueblos-alemanes' },
+  { name: 'Huanguelén', href: '/huanguelen' },
+  { name: 'La Sexta', href: '/la-sexta' },
+  { name: 'Agro', href: '/agro' },
+  { name: 'Lifestyle', href: '/lifestyle' },
+]
+
 export default function Header() {
-  const scrollDirection = useScrollDirection();
+  const scrollDirection = useScrollDirection()
+  const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openSections, setOpenSections] = useState<Set<string>>(new Set())
 
@@ -118,77 +130,77 @@ export default function Header() {
   }
 
   // --- Render menu with collapsible subsections ---
-const renderMenu = (sections: typeof menuSections) => {
-  return sections.map((section) => {
-    const hasChildren = section.children && section.children.length > 0
-    const isExpanded = openSections.has(section.label)
+  const renderMenu = (sections: typeof menuSections) => {
+    return sections.map((section) => {
+      const hasChildren = section.children && section.children.length > 0
+      const isExpanded = openSections.has(section.label)
 
-  if (hasChildren) {
-    return (
-      <div key={section.label} className="border-b border-gray-200">
-        {/* Parent section - clickable link with expand button */}
-        <div className="flex items-center justify-between">
-          <Link
-            href={section.href!}
-            className="flex-1 py-3 px-4 hover:bg-gray-50 font-medium"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            {section.label}
-          </Link>
-          <button
-            onClick={() => toggleSection(section.label)}
-            className="px-4 py-3 hover:bg-gray-50"
-            aria-label={`Toggle ${section.label} subsections`}
-          >
-            {isExpanded ? (
-              <ChevronUp className="w-5 h-5 text-gray-500" />
-            ) : (
-              <ChevronDown className="w-5 h-5 text-gray-500" />
-            )}
-          </button>
-        </div>
-
-        {/* Subsections - shown when expanded */}
-        {isExpanded && (
-          <div className="bg-gray-50 pl-6">
-            {section.children!.map((child) => (
+      if (hasChildren) {
+        return (
+          <div key={section.label} className="border-b border-gray-200">
+            {/* Parent section - clickable link with expand button */}
+            <div className="flex items-center justify-between">
               <Link
-                key={child.href}
-                href={child.href}
-                className="block py-2 px-4 text-sm hover:text-primary-red hover:bg-gray-100"
+                href={section.href!}
+                className="flex-1 py-3 px-4 hover:bg-gray-50 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {child.label}
+                {section.label}
               </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    )
-  }
+              <button
+                onClick={() => toggleSection(section.label)}
+                className="px-4 py-3 hover:bg-gray-50"
+                aria-label={`Toggle ${section.label} subsections`}
+              >
+                {isExpanded ? (
+                  <ChevronUp className="w-5 h-5 text-gray-500" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-gray-500" />
+                )}
+              </button>
+            </div>
 
-    // No children - direct link
-    return (
-      <Link
-        key={section.href}
-        href={section.href!}
-        className="block py-3 px-4 border-b border-gray-200 hover:bg-gray-50 font-medium"
-        onClick={() => setMobileMenuOpen(false)}
-      >
-        {section.label}
-      </Link>
-    )
-  })
-}
+            {/* Subsections - shown when expanded */}
+            {isExpanded && (
+              <div className="bg-gray-50 pl-6">
+                {section.children!.map((child) => (
+                  <Link
+                    key={child.href}
+                    href={child.href}
+                    className="block py-2 px-4 text-sm hover:text-primary-red hover:bg-gray-100"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {child.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        )
+      }
+
+      // No children - direct link
+      return (
+        <Link
+          key={section.href}
+          href={section.href!}
+          className="block py-3 px-4 border-b border-gray-200 hover:bg-gray-50 font-medium"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          {section.label}
+        </Link>
+      )
+    })
+  }
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-transform duration-300 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-primary-red text-white w-full shadow-md transition-transform duration-300 ease-out ${
         scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
       }`}
     >
       {/* Main header area */}
-      <div className="w-full px-4 py-3 md:py-4 flex items-center">
+      <div className="w-full px-4 py-3 md:py-4 flex items-center border-b border-white/10 md:border-b-0">
         {/* Desktop: constrained inner flex, centered, with left/center/right */}
         <div className="hidden md:flex w-full mx-auto max-w-screen-lg items-center">
           {/* Left: nav */}
@@ -257,6 +269,29 @@ const renderMenu = (sections: typeof menuSections) => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Section Navigation - INTEGRATED INSIDE HEADER */}
+      <nav className="md:hidden w-full overflow-x-auto scrollbar-hide">
+        <div className="flex items-center px-4 py-2 space-x-6 whitespace-nowrap">
+          {sections.map((section) => {
+            const isActive = pathname === section.href
+            return (
+              <Link
+                key={section.href}
+                href={section.href}
+                className={`text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 ${
+                  isActive
+                    ? 'text-white bg-white/10 px-3 py-1.5 rounded-md'
+                    : 'text-white/90 hover:text-white'
+                }`}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {section.name}
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
 
       {/* Mobile and Desktop menu - slides down when menu is open */}
       <div

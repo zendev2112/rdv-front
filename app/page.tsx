@@ -608,7 +608,7 @@ export default async function Home() {
       {/* Header moved below top bar */}
       <Header />
 
-      <MobileSectionNav />
+      {/* <MobileSectionNav /> */}
 
       {/* Content with padding - updated value to accommodate both top bar and header */}
       <div className="pt-[104px] md:pt-[calc(1rem+70px)]">
