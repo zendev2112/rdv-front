@@ -422,7 +422,7 @@ export default function PrincipalSection({
   // ...existing code...
 
   return (
-    <main className="container mx-auto px-4 py-6">
+    <main className="py-6">
       {/* Main container with CSS Grid - 12 columns */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* LEFT COLUMN - Main article (6 columns) */}

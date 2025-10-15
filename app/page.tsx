@@ -278,7 +278,7 @@ export default async function Home() {
       {
         imageUrl: '/placeholder.svg?height=200&width=300',
         highlightedText: 'Debate.',
-        regularText: '¿Es correcto publicar fotos de tus hijos en redes?',
+        regularText: '',
       },
       {
         imageUrl: '/placeholder.svg?height=200&width=300',
@@ -612,7 +612,7 @@ export default async function Home() {
 
       {/* Content with padding - updated value to accommodate both top bar and header */}
       <div className="pt-[calc(1rem+120px)] md:pt-[calc(1rem+70px)]">
-        <div className="container mx-auto max-w-[1400px]">
+        <div className="container mx-auto max-w-[1400px] px-4">
           {/* Currency rates */}
           <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
             <DollarRates />
@@ -622,7 +622,7 @@ export default async function Home() {
 
           {/* Breaking news ticker */}
           <div className="hidden md:block border-b border-light-gray overflow-x-auto">
-            <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
+            <div className="py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
               <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
                 EN VIVO
               </span>
@@ -653,7 +653,7 @@ export default async function Home() {
           <LaSextaSection serverData={laSextaArticles} />
 
           {/* Advertisement banner */}
-          <div className="container mx-auto px-4 py-6">
+          <div className="py-6">
             <div className="bg-gray-100 p-4 text-center">
               <p className="text-xs text-gray-500 mb-2">AD</p>
               <div className="h-16 flex items-center justify-center">
@@ -662,7 +662,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-8">
+          <div className="py-6 flex flex-col md:flex-row gap-8">
             <div className="flex-1 min-w-0">
               <ActualidadSection serverData={actualidadArticles} />
             </div>
@@ -726,7 +726,7 @@ export default async function Home() {
           <AdPlaceholder />
 
           {/* Agro Four Column Grid Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <section className="py-6 border-t border-gray-200">
             <AgroSection
               categories={[
                 { name: 'REGIONALES', href: '#' },
@@ -785,7 +785,7 @@ export default async function Home() {
 
           {/* Add Radio Player Showcase */}
           {/* Radio Player Showcase - Full Width */}
-          <div className="container mx-auto px-4 py-6">
+          <div className="py-6">
             <RadioPlayerShowcase
               frequency="99.5"
               stationName="Radio del Volga"
@@ -973,11 +973,11 @@ export default async function Home() {
           /> */}
 
           {/* Tech Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <section className="py-6 border-t border-gray-200">
             <TechSection articles={techSectionData.articles} />
           </section>
 
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <section className="py-6 border-t border-gray-200">
             <CienciaYSaludSection
               sectionTitle="CIENCIA Y SALUD"
               logo={{
@@ -990,7 +990,7 @@ export default async function Home() {
           </section>
 
           {/* Hashtag Section */}
-          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="py-6 border-t border-gray-200">
             <TendenciasSection
               hashtagName={hashtagSectionData.hashtagName}
               featuredItem={hashtagSectionData.featuredItem}
@@ -999,7 +999,7 @@ export default async function Home() {
           </section> */}
 
           {/* Top Reads Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <section className="py-6 border-t border-gray-200">
             <TopReads articles={topReadsData.articles} />
           </section>
 
@@ -1068,7 +1068,7 @@ export default async function Home() {
           /> */}
 
           {/* Entertainment Main Feature Section */}
-          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="py-6 border-t border-gray-200">
             <EspectaculosSection
               mainFeature={entertainmentMainFeatureData.mainFeature}
               secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
@@ -1076,7 +1076,7 @@ export default async function Home() {
           </section> */}
 
           {/* Lifestyle Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          <section className="py-6 border-t border-gray-200">
             <LifestyleSection
               sectionTitle="SALUD"
               categories={[
@@ -1145,7 +1145,7 @@ export default async function Home() {
           </section>
 
           {/* Cultura Section */}
-          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="py-6 border-t border-gray-200">
             <CulturaSection
               mainArticle={{
                 id: 'cultura-main',
@@ -1204,7 +1204,7 @@ export default async function Home() {
           </section> */}
 
           {/* Real Estate Four Column Grid Section */}
-          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="py-6 border-t border-gray-200">
             <PropiedadesSection
               categories={[
                 { name: 'INMUEBLES COMERCIALES', href: '#' },
