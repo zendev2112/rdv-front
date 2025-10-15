@@ -62,8 +62,9 @@ export async function fetchSectionArticles(section: string) {
     const timestamp = new Date().toISOString()
     console.log(`🔍 [${timestamp}] Fetching ${section}`)
 
+    // Use article_with_sections view to get section_path
     const { data, error } = await supabase
-      .from('articles')
+      .from('article_with_sections')
       .select('*')
       .eq('front', section)
       .eq('status', 'published')
@@ -73,10 +74,11 @@ export async function fetchSectionArticles(section: string) {
     if (error) {
       console.error('❌ Primary query failed:', error)
 
+      // Fallback also uses the view
       const { data: fallbackData, error: fallbackError } = await supabase
-        .from('articles')
+        .from('article_with_sections')
         .select('*')
-        .eq('section', section)
+        .eq('section_id', section)
         .eq('status', 'published')
         .order('created_at', { ascending: false })
         .limit(10)
@@ -100,9 +102,10 @@ export async function fetchLatestHeadlines() {
   try {
     console.log('🔍 Fetching headlines with SERVICE key...')
 
+    // Use article_with_sections view to get section_path
     const { data, error } = await supabase
-      .from('articles')
-      .select('id, title, slug, section, created_at, front')
+      .from('article_with_sections')
+      .select('id, title, slug, section_id, section_path, created_at, front')
       .eq('status', 'published')
       .order('created_at', { ascending: false })
       .limit(10)
@@ -122,7 +125,8 @@ export async function fetchLatestHeadlines() {
       id: article.id,
       title: article.title,
       slug: article.slug,
-      section: article.section || article.front,
+      section: article.section_id || article.front,
+      section_path: article.section_path, // Include section_path
       timestamp: article.created_at,
     }))
 
