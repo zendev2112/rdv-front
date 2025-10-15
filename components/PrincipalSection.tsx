@@ -420,9 +420,9 @@ const processedArticles = useMemo(() => {
 
 return (
   <main className="container mx-auto px-4 py-6">
-    <div className="flex flex-col md:flex-row gap-4 md:h-[650px]">
-      {/* Main article (45% width) - Aspect ratio ~4:3 */}
-      <div className="md:w-[45%] h-full relative">
+    <div className="flex flex-col md:flex-row gap-4 md:h-[680px]">
+      {/* Main article (48% width) - 4:3 aspect ratio */}
+      <div className="md:w-[48%] h-full relative">
         <Link
           href={getArticleUrl(
             mainArticle.section_path || mainArticle.section,
@@ -430,8 +430,8 @@ return (
           )}
           className="block h-full flex flex-col group"
         >
-          {/* Main image: ~500px × 380px → 4:3 aspect ratio */}
-          <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-56 md:h-[62%]">
+          {/* Main image: 4:3 aspect ratio - 520px × 390px */}
+          <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 aspect-[4/3] md:aspect-auto md:h-[60%]">
             <div className="relative w-full h-full overflow-hidden">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
               <OptimizedImage
@@ -440,15 +440,12 @@ return (
                 fill
                 className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                 priority
-                sizes="(max-width: 768px) 100vw, 45vw"
+                sizes="(max-width: 768px) 100vw, 48vw"
               />
             </div>
           </div>
-          <div
-            className="bg-white flex-shrink-0 p-4 pt-2"
-            style={{ height: '38%' }}
-          >
-            <h1 className="text-xl md:text-2xl font-bold mb-1 leading-tight">
+          <div className="bg-white flex-1 p-4 pt-3">
+            <h1 className="text-xl md:text-2xl font-bold leading-tight">
               {mainArticle.overline && (
                 <span className="text-primary-red">
                   {mainArticle.overline}.{' '}
@@ -458,17 +455,13 @@ return (
             </h1>
           </div>
         </Link>
-        {/* Dimmed vertical divider line after main article */}
         <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
       </div>
 
-      {/* Secondary articles (55% width) */}
-      <div className="md:w-[55%] h-full flex flex-col relative overflow-visible">
-        {/* Top row - two articles (~60% of hero width, 4:3 aspect) */}
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative"
-          style={{ height: '48%' }}
-        >
+      {/* Secondary articles (52% width) */}
+      <div className="md:w-[52%] h-full flex flex-col relative overflow-visible">
+        {/* Top row - two articles - 4:3 aspect ratio same as main */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative h-auto md:h-[48%]">
           {upperRowArticles.map((article, index) => (
             <div key={article.id} className="relative h-full">
               <Link
@@ -478,8 +471,8 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Top row images: ~300px × 225px → 4:3 aspect ratio */}
-                <div className="relative w-full p-2 md:p-4 h-48 md:h-[58%]">
+                {/* Top row images: 4:3 aspect ratio - 310px × 233px */}
+                <div className="relative w-full p-2 md:p-3 aspect-[4/3] md:aspect-auto md:h-[60%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
@@ -487,14 +480,14 @@ return (
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 27vw"
+                      sizes="(max-width: 768px) 100vw, 25vw"
                     />
                   </div>
                 </div>
-                <div className="p-3 md:p-4 pt-2 flex-1 flex flex-col justify-start">
+                <div className="p-3 pt-2 flex-1 flex flex-col justify-start">
                   <h2 className="text-sm md:text-base font-bold leading-tight">
                     {article.overline && (
-                      <span className="text-primary-red">
+                      <span className="text-primary-red text-xs md:text-sm">
                         {article.overline}.{' '}
                       </span>
                     )}
@@ -502,7 +495,6 @@ return (
                   </h2>
                 </div>
               </Link>
-              {/* Dimmed vertical divider between top row articles */}
               {index === 0 && upperRowArticles.length > 1 && (
                 <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
               )}
@@ -510,14 +502,11 @@ return (
           ))}
         </div>
 
-        {/* Dimmed horizontal divider - ~25-35px spacing */}
-        <div className="w-full h-[1px] bg-gray-400 opacity-50 my-4 flex-shrink-0"></div>
+        {/* Horizontal divider */}
+        <div className="w-full h-[1px] bg-gray-400 opacity-50 my-4 md:my-3 flex-shrink-0"></div>
 
-        {/* Bottom row - three articles (~45% of hero width, 16:9 aspect) */}
-        <div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative"
-          style={{ height: '44%' }}
-        >
+        {/* Bottom row - three articles - 16:9 aspect ratio */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative h-auto md:h-[44%]">
           {lowerRowArticles.map((article, index) => (
             <div key={article.id} className="relative h-full">
               <Link
@@ -527,23 +516,23 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Bottom row images: ~230px × 130px → 16:9 aspect ratio */}
-                <div className="relative w-full p-2 md:p-3 pb-1 md:pb-1">
-                  <div className="relative w-full h-32 sm:h-24 md:h-28 overflow-hidden">
+                {/* Bottom row images: 16:9 aspect ratio - 235px × 132px */}
+                <div className="relative w-full p-2 md:p-2 aspect-[16/9] md:aspect-auto md:h-[56%]">
+                  <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
                       src={article.imgUrl}
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 18vw"
+                      sizes="(max-width: 768px) 100vw, 16vw"
                     />
                   </div>
                 </div>
-                <div className="p-3 md:p-3 pt-1.5 flex-1 flex flex-col justify-start">
+                <div className="p-2 md:p-2 pt-1.5 flex-1 flex flex-col justify-start">
                   <h2 className="text-xs md:text-sm font-bold leading-tight">
                     {article.overline && (
-                      <span className="text-primary-red text-[0.7rem] md:text-xs">
+                      <span className="text-primary-red text-[0.65rem] md:text-xs">
                         {article.overline}.{' '}
                       </span>
                     )}
@@ -551,7 +540,6 @@ return (
                   </h2>
                 </div>
               </Link>
-              {/* Dimmed vertical dividers between bottom row articles */}
               {index < lowerRowArticles.length - 1 && (
                 <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50"></div>
               )}
