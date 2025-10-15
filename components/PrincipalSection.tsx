@@ -538,12 +538,13 @@ export default function PrincipalSection({
         </div>
 
         {/* Horizontal divider between top and bottom rows - spans all 6 right columns */}
-        <div className="md:col-span-6 md:col-start-7 h-[1px] bg-gray-400 opacity-50 my-2 hidden md:block"></div>
+        <div className="md:col-span-6 md:col-start-7 h-[1px] bg-gray-400 opacity-50 mb-2 hidden md:block"></div>
 
+        {/* RIGHT COLUMN - BOTTOM ROW (3 articles - 2 cols each) */}
         {/* RIGHT COLUMN - BOTTOM ROW (3 articles - 2 cols each) */}
         {lowerRowArticles.map((article, index) => {
           return (
-            <div key={article.id} className="md:col-span-2 relative mt-2">
+            <div key={article.id} className="md:col-span-2 relative">
               <Link
                 href={getArticleUrl(
                   article.section_path || article.section,
