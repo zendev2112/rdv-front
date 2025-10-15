@@ -245,17 +245,15 @@ export default async function DynamicPage({
     )
   }
 
-  // Article detail page logic remains the same...
+  // Article detail page logic
   const article = await fetchArticleBySlug(pathSlug)
 
   if (!article) {
     notFound()
   }
 
-  const publishDate =
-    article.published_at && article.published_at !== '1970-01-01T00:00:00Z'
-      ? new Date(article.published_at)
-      : null
+  // Use created_at for the date/time display
+  const publishDate = article.created_at ? new Date(article.created_at) : null
 
   const formattedDate = publishDate
     ? new Intl.DateTimeFormat('es-AR', {
