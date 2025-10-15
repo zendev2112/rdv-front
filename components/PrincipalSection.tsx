@@ -424,7 +424,7 @@ export default function PrincipalSection({
   return (
     <main className="py-6">
       {/* Main container with CSS Grid - 12 columns */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* LEFT COLUMN - Main article (6 columns) */}
         <div className="md:col-span-6 relative">
           <Link
