@@ -226,7 +226,7 @@ export default function Header() {
           {/* Center: logo */}
           <div className="flex justify-center flex-1">
             <Link href="/" className="text-center">
-              <div className="relative h-16 w-52 sm:h-18 sm:w-56 md:h-16 md:w-52 lg:h-14 lg:w-48 xl:h-12 xl:w-44">
+              <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-18 md:w-60 lg:h-18 lg:w-60 xl:h-18 xl:w-60">
                 <Image
                   src="/images/logo.svg"
                   alt="Noticias Logo"
