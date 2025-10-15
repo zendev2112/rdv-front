@@ -466,7 +466,7 @@ return (
         {/* Top row - two articles */}
         <div
           className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative"
-          style={{ height: '45%' }}
+          style={{ height: '48%' }}
         >
           {upperRowArticles.map((article, index) => (
             <div key={article.id} className="relative h-full">
@@ -477,7 +477,7 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                <div className="relative w-full p-2 md:p-4 h-48 md:h-[60%]">
+                <div className="relative w-full p-2 md:p-4 h-48 md:h-[55%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
@@ -490,7 +490,7 @@ return (
                   </div>
                 </div>
                 <div className="p-4 pt-2 flex-1 flex flex-col justify-start">
-                  <h2 className="text-base font-bold leading-tight">
+                  <h2 className="text-sm md:text-base font-bold leading-tight">
                     {article.overline && (
                       <span className="text-primary-red">
                         {article.overline}.{' '}
@@ -514,7 +514,7 @@ return (
         {/* Bottom row - three articles */}
         <div
           className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative"
-          style={{ height: '48%' }}
+          style={{ height: '45%' }}
         >
           {lowerRowArticles.map((article, index) => (
             <div key={article.id} className="relative h-full">
@@ -526,7 +526,7 @@ return (
                 className="block h-full flex flex-col group"
               >
                 <div className="relative w-full p-2 md:p-4 pb-1 md:pb-1">
-                  <div className="relative w-full h-48 sm:h-32 overflow-hidden">
+                  <div className="relative w-full h-40 sm:h-28 md:h-32 overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
                       src={article.imgUrl}
@@ -538,7 +538,7 @@ return (
                   </div>
                 </div>
                 <div className="p-4 pt-2 flex-1 flex flex-col justify-start">
-                  <h2 className="text-base font-bold leading-tight">
+                  <h2 className="text-xs md:text-sm font-bold leading-tight">
                     {article.overline && (
                       <span className="text-primary-red">
                         {article.overline}.{' '}
