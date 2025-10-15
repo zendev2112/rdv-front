@@ -433,8 +433,8 @@ export default function PrincipalSection({
             )}
             className="block h-full flex flex-col group"
           >
-            {/* Main image: MUCH MORE LANDSCAPE - 75% height */}
-            <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-64 md:h-[75%]">
+            {/* Main image: MORE LANDSCAPE - increased to 78% */}
+            <div className="relative w-screen -mx-4 p-0 md:w-full md:mx-0 md:p-4 h-64 md:h-[78%]">
               <div className="relative w-full h-full overflow-hidden">
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
@@ -474,30 +474,27 @@ export default function PrincipalSection({
                   )}
                   className="block h-full w-full flex flex-col group"
                 >
-                  {/* Top row images - FIXED HEIGHT */}
-                  <div className="relative w-full h-full flex flex-col">
-                    <div className="relative w-full h-[65%] p-2 md:p-3">
-                      <div className="relative w-full h-full overflow-hidden">
-                        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                        <OptimizedImage
-                          src={article.imgUrl}
-                          alt={article.title}
-                          fill
-                          className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                          sizes="(max-width: 768px) 100vw, 28vw"
-                        />
-                      </div>
+                  <div className="relative w-full p-2 md:p-3 md:h-[65%]">
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                      <OptimizedImage
+                        src={article.imgUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 28vw"
+                      />
                     </div>
-                    <div className="p-3 pt-2 flex-1 flex flex-col justify-start">
-                      <h2 className="text-sm md:text-base font-bold leading-tight">
-                        {article.overline && (
-                          <span className="text-primary-red">
-                            {article.overline}.{' '}
-                          </span>
-                        )}
-                        {article.title}
-                      </h2>
-                    </div>
+                  </div>
+                  <div className="p-3 pt-2 flex-1 flex flex-col justify-start">
+                    <h2 className="text-sm md:text-base font-bold leading-tight">
+                      {article.overline && (
+                        <span className="text-primary-red">
+                          {article.overline}.{' '}
+                        </span>
+                      )}
+                      {article.title}
+                    </h2>
                   </div>
                 </Link>
                 {index === 0 && upperRowArticles.length > 1 && (
@@ -510,7 +507,7 @@ export default function PrincipalSection({
           {/* Horizontal divider */}
           <div className="w-full h-[1px] bg-gray-400 opacity-50 my-3 flex-shrink-0"></div>
 
-          {/* Bottom row - three articles - ALL EXACT SAME HEIGHT */}
+          {/* Bottom row - three articles - FIXED PIXEL HEIGHT */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative md:h-[44%]">
             {lowerRowArticles.map((article, index) => (
               <div key={article.id} className="relative h-full w-full">
@@ -521,30 +518,28 @@ export default function PrincipalSection({
                   )}
                   className="block h-full w-full flex flex-col group"
                 >
-                  {/* Bottom row images - FORCED SAME HEIGHT */}
-                  <div className="relative w-full h-full flex flex-col">
-                    <div className="relative w-full h-[65%] p-2 md:p-3">
-                      <div className="relative w-full h-full overflow-hidden">
-                        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                        <OptimizedImage
-                          src={article.imgUrl}
-                          alt={article.title}
-                          fill
-                          className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                          sizes="(max-width: 768px) 100vw, 18vw"
-                        />
-                      </div>
+                  {/* Bottom row: ABSOLUTE FIXED HEIGHT */}
+                  <div className="relative w-full p-2 md:p-3 md:h-[200px]">
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                      <OptimizedImage
+                        src={article.imgUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 18vw"
+                      />
                     </div>
-                    <div className="p-3 pt-2 flex-1 flex flex-col justify-start">
-                      <h2 className="text-sm md:text-base font-bold leading-tight">
-                        {article.overline && (
-                          <span className="text-primary-red">
-                            {article.overline}.{' '}
-                          </span>
-                        )}
-                        {article.title}
-                      </h2>
-                    </div>
+                  </div>
+                  <div className="p-3 pt-2 flex-1 flex flex-col justify-start">
+                    <h2 className="text-sm md:text-base font-bold leading-tight">
+                      {article.overline && (
+                        <span className="text-primary-red">
+                          {article.overline}.{' '}
+                        </span>
+                      )}
+                      {article.title}
+                    </h2>
                   </div>
                 </Link>
                 {index < lowerRowArticles.length - 1 && (
