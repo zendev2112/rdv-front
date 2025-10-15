@@ -187,8 +187,8 @@ const renderMenu = (sections: typeof menuSections) => {
         scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
       }`}
     >
-      {/* Main header area - REDUCED PADDING */}
-      <div className="w-full px-4 py-1.5 md:py-4 flex items-center">
+      {/* Main header area */}
+      <div className="w-full px-4 py-3 md:py-4 flex items-center">
         {/* Desktop: constrained inner flex, centered, with left/center/right */}
         <div className="hidden md:flex w-full mx-auto max-w-screen-lg items-center">
           {/* Left: nav */}
