@@ -93,20 +93,33 @@ export async function fetchArticlesByParentSection(parentSlug: string, page = 1,
     return { articles: [], count: 0 };
   }
   
-  console.log(`Using path pattern: ${section.path}%`);
+  // Get all child section IDs
+  const { data: childSections } = await supabase
+    .from('section_hierarchy')
+    .select('id')
+    .like('path', `${section.path}%`);
   
-  // Get count of all articles in this path tree
+  const sectionIds = childSections?.map(s => s.id) || [];
+  console.log(`Found ${sectionIds.length} sections in hierarchy (including parent)`);
+  
+  if (sectionIds.length === 0) {
+    return { articles: [], count: 0 };
+  }
+  
+  // Get count of all articles in these sections
   const { count } = await supabase
     .from('article_with_sections')
     .select('*', { count: 'exact', head: true })
-    .like('section_path', `${section.path}%`)
+    .in('section_id', sectionIds)
     .eq('status', 'published');
+  
+  console.log(`Total articles found: ${count}`);
   
   // Query for ALL articles under this parent (including children)
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
-    .like('section_path', `${section.path}%`)
+    .in('section_id', sectionIds)
     .eq('status', 'published')
     .order('published_at', { ascending: false })
     .range((page - 1) * pageSize, page * pageSize - 1);
