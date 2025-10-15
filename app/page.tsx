@@ -612,7 +612,7 @@ export default async function Home() {
 
       {/* Content with padding - updated value to accommodate both top bar and header */}
       <div className="pt-[calc(1rem+120px)] md:pt-[calc(1rem+70px)]">
-        <div className="container mx-auto max-w-[1400px] px-4">
+        <div className="container mx-auto max-w-[1600px] px-4">
           {/* Currency rates */}
           <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
             <DollarRates />
