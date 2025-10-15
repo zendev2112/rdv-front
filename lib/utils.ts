@@ -34,10 +34,17 @@ export function formatSectionPath(path: string | null): string {
 /**
  * Creates a consistent article URL path with full hierarchy
  */
-export function getArticleUrl(sectionPath: string | null, slug: string): string {
-  if (!sectionPath) return `/${slug}`;
+export function getArticleUrl(sectionPath: string, articleSlug: string): string {
+  if (!sectionPath) {
+    return `/${articleSlug}`
+  }
   
-  // Convert dots to slashes and underscores to hyphens for URL format
-  const formattedPath = sectionPath.replace(/\./g, '/').replace(/_/g, '-');
-  return `/${formattedPath}/${slug}`;
+  // Convert section_path from "pueblos_alemanes.santa_trinidad" 
+  // to URL format "pueblos-alemanes/santa-trinidad"
+  const urlPath = sectionPath
+    .split('.')           // Split by dots: ["pueblos_alemanes", "santa_trinidad"]
+    .map(part => part.replace(/_/g, '-'))  // Replace underscores with hyphens
+    .join('/')            // Join with slashes: "pueblos-alemanes/santa-trinidad"
+  
+  return `/${urlPath}/${articleSlug}`
 }
