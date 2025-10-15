@@ -183,7 +183,7 @@ const renderMenu = (sections: typeof menuSections) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-all duration-200  ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-primary-red text-white border-b border-light-gray w-full shadow-md transition-transform duration-300 ease-out  ${
         scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
       }`}
     >

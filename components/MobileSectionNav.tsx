@@ -20,11 +20,11 @@ export default function MobileSectionNav() {
 
   return (
     <nav
-      className={`md:hidden fixed top-[64px] left-0 right-0 z-[90] bg-primary-red text-white border-b border-light-gray overflow-x-auto scrollbar-hide transition-all duration-500 ease-in-out ${
-        scrollDirection === 'down' ? '-translate-y-[128px]' : 'translate-y-0'
+      className={`md:hidden fixed top-[56px] left-0 right-0 z-[90] bg-primary-red text-white border-b border-light-gray overflow-x-auto scrollbar-hide transition-transform duration-300 ease-out ${
+        scrollDirection === 'down' ? '-translate-y-[112px]' : 'translate-y-0'
       }`}
     >
-      <div className="flex items-center px-4 py-3 space-x-6 whitespace-nowrap">
+      <div className="flex items-center px-4 py-2 space-x-6 whitespace-nowrap">
         {sections.map((section) => {
           const isActive = pathname === section.href
           return (
