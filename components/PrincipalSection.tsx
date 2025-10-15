@@ -426,7 +426,7 @@ export default function PrincipalSection({
       {/* Main container with CSS Grid - 12 columns */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* LEFT COLUMN - Main article (6 columns, spans 2 rows) */}
-        <div className="md:col-span-6 md:row-span-2">
+        <div className="md:col-span-6 md:row-span-2 relative">
           <Link
             href={getArticleUrl(
               mainArticle.section_path || mainArticle.section,
@@ -460,6 +460,8 @@ export default function PrincipalSection({
               </h1>
             </div>
           </Link>
+          {/* Vertical divider line between left and right columns */}
+          <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
         </div>
 
         {/* RIGHT COLUMN - TOP ROW - First article (3 columns) */}
@@ -535,10 +537,13 @@ export default function PrincipalSection({
           </Link>
         </div>
 
+        {/* Horizontal divider between top and bottom rows - spans all 6 right columns */}
+        <div className="md:col-span-6 md:col-start-7 h-[1px] bg-gray-400 opacity-50 my-2 hidden md:block"></div>
+
         {/* RIGHT COLUMN - BOTTOM ROW (3 articles - 2 cols each) */}
         {lowerRowArticles.map((article, index) => {
           return (
-            <div key={article.id} className="md:col-span-2 relative">
+            <div key={article.id} className="md:col-span-2 relative mt-2">
               <Link
                 href={getArticleUrl(
                   article.section_path || article.section,
@@ -559,9 +564,9 @@ export default function PrincipalSection({
                     />
                   </div>
                 </div>
-                {/* Title area */}
+                {/* Title area - matched font size with upper row */}
                 <div className="p-2 pt-2 flex-1">
-                  <h2 className="text-xs md:text-sm font-bold leading-tight">
+                  <h2 className="text-sm md:text-base font-bold leading-tight">
                     {article.overline && (
                       <span className="text-primary-red">
                         {article.overline}.{' '}
@@ -581,5 +586,5 @@ export default function PrincipalSection({
     </main>
   )
 
-  // ...existing code...
+ 
 }
