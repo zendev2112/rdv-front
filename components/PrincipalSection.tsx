@@ -435,7 +435,7 @@ export default function PrincipalSection({
             className="block h-full flex flex-col group"
           >
             {/* Main image - takes most of the space */}
-            <div className="relative w-full aspect-[4/3] md:aspect-[5/3]">
+            <div className="relative w-full aspect-[4/3] md:aspect-[3/2]">
               <div className="relative w-full h-full overflow-hidden">
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
