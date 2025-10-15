@@ -487,7 +487,7 @@ return (
                 <div className="p-3 pt-2 flex-1 flex flex-col justify-start">
                   <h2 className="text-sm md:text-base font-bold leading-tight">
                     {article.overline && (
-                      <span className="text-primary-red text-xs md:text-sm">
+                      <span className="text-primary-red">
                         {article.overline}.{' '}
                       </span>
                     )}
@@ -516,8 +516,8 @@ return (
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Bottom row images: 4:3 aspect ratio - SAME AS ALL OTHER IMAGES */}
-                <div className="relative w-full p-2 md:p-2 aspect-[4/3] md:aspect-auto md:h-[70%]">
+                {/* Bottom row images: 4:3 aspect ratio - SAME HEIGHT PERCENTAGE AS TOP ROW */}
+                <div className="relative w-full p-2 md:p-3 aspect-[4/3] md:aspect-auto md:h-[60%]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
@@ -529,10 +529,10 @@ return (
                     />
                   </div>
                 </div>
-                <div className="p-2 md:p-2 pt-1.5 flex-1 flex flex-col justify-start">
-                  <h2 className="text-xs md:text-sm font-bold leading-tight">
+                <div className="p-3 pt-2 flex-1 flex flex-col justify-start">
+                  <h2 className="text-sm md:text-base font-bold leading-tight">
                     {article.overline && (
-                      <span className="text-primary-red text-[0.65rem] md:text-xs">
+                      <span className="text-primary-red">
                         {article.overline}.{' '}
                       </span>
                     )}
