@@ -34,13 +34,12 @@ export async function fetchArticlesBySection(sectionSlug: string, page = 1, page
   
   console.log(`Count for section ${sectionSlug}:`, count);
   
-  // Query with proper date ordering
+  // Query with proper date ordering using created_at
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
     .eq('section_id', section.id)
     .eq('status', 'published')
-    .order('published_at', { ascending: false })
     .order('created_at', { ascending: false })
     .range((page - 1) * pageSize, page * pageSize - 1);
   
@@ -148,13 +147,12 @@ async function fetchArticlesBySectionIds(sectionIds: string[], page: number, pag
   
   console.log(`Total articles found in hierarchy: ${count}`);
   
-  // Query for ALL articles under these sections
+  // Query for ALL articles under these sections, ordered by created_at
   const { data, error } = await supabase
     .from('article_with_sections')
     .select('*')
     .in('section_id', sectionIds)
     .eq('status', 'published')
-    .order('published_at', { ascending: false })
     .order('created_at', { ascending: false })
     .range((page - 1) * pageSize, page * pageSize - 1);
   

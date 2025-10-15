@@ -196,10 +196,8 @@ export default async function DynamicPage({
                           )}
                           <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
                             <span>
-                              {article.published_at
-                                ? new Date(
-                                    article.published_at
-                                  ).toLocaleDateString('es-AR')
+                              {article.created_at
+                                ? new Date(article.created_at).toLocaleDateString('es-AR')
                                 : 'Fecha no disponible'}
                             </span>
                           </div>
