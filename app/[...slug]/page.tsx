@@ -16,7 +16,6 @@ import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 import dynamic from 'next/dynamic'
 
-
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
 })
@@ -52,7 +51,6 @@ export async function generateMetadata({ params }: PageProps) {
   return { title: 'Radio del Volga' }
 }
 
-// Remove the hard-coded sectionConfig and fetch sections from DB instead
 async function getSectionData(slug: string) {
   const { data } = await supabase
     .from('section_hierarchy')
@@ -73,36 +71,35 @@ async function getChildSections(parentId: string) {
   return data || []
 }
 
-export default async function DynamicPage({ params, searchParams }: {
-  params: { slug: string[] },
+export default async function DynamicPage({
+  params,
+  searchParams,
+}: {
+  params: { slug: string[] }
   searchParams: { page?: string }
 }) {
-  // Add pagination support
-  const page = parseInt(searchParams.page || '1', 10);
-  const pageSize = 12;
-   const sidelineWidth = 200
-  
-  // Check if we're looking at a section or article
-  // Last part of the path might be an article slug or a section slug
-  const pathSlug = params.slug[params.slug.length - 1];
-  const fullPath = params.slug.join('/');
-  const sectionData = await getSectionData(pathSlug);
+  const page = parseInt(searchParams.page || '1', 10)
+  const pageSize = 12
+  const sidelineWidth = 200
+
+  const pathSlug = params.slug[params.slug.length - 1]
+  const fullPath = params.slug.join('/')
+  const sectionData = await getSectionData(pathSlug)
 
   if (sectionData) {
     // This is a section page
-    let articlesResult: { articles: any[], count: number };
-    const childSections = await getChildSections(sectionData.id);
- 
-    if (childSections && childSections.length > 0) {
-      // This is a parent section with children
-      articlesResult = await fetchArticlesByParentSection(sectionData.slug, page, pageSize);
-    } else {
-      // Regular section, fetch its articles
-      articlesResult = await fetchArticlesBySection(sectionData.slug, page, pageSize);
-    }
-    
-    const { articles, count } = articlesResult;
-    const totalPages = Math.ceil(count / pageSize);
+    let articlesResult: { articles: any[]; count: number }
+    const childSections = await getChildSections(sectionData.id)
+
+    // ALWAYS fetch parent section articles
+    articlesResult = await fetchArticlesByParentSection(
+      sectionData.slug,
+      page,
+      pageSize
+    )
+
+    const { articles, count } = articlesResult
+    const totalPages = Math.ceil(count / pageSize)
 
     return (
       <SidelinesLayout sidelineWidth={sidelineWidth}>
@@ -140,7 +137,6 @@ export default async function DynamicPage({ params, searchParams }: {
               {childSections && childSections.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {childSections.map((child) => {
-                    // Create proper hierarchical URL for child sections
                     const childPath = sectionData.breadcrumb_slugs
                       .concat(child.slug)
                       .join('/')
@@ -159,8 +155,7 @@ export default async function DynamicPage({ params, searchParams }: {
               )}
 
               <p className="text-gray-500 text-sm mt-3">
-                {articles.length}{' '}
-                {articles.length === 1 ? 'artículo' : 'artículos'}
+                {count} {count === 1 ? 'artículo' : 'artículos'}
               </p>
             </div>
 
@@ -168,7 +163,6 @@ export default async function DynamicPage({ params, searchParams }: {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {articles.map((article) => {
-                    // This ensures consistent article URLs across the site
                     const articlePath = getArticleUrl(
                       article.section_path,
                       article.slug
@@ -215,7 +209,7 @@ export default async function DynamicPage({ params, searchParams }: {
                   })}
                 </div>
 
-                {/* Pagination UI */}
+                {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="mt-8 flex justify-center gap-2">
                     {page > 1 && (
@@ -253,14 +247,13 @@ export default async function DynamicPage({ params, searchParams }: {
     )
   }
 
-  // Not a section page, try to fetch as an article
+  // Article detail page logic remains the same...
   const article = await fetchArticleBySlug(pathSlug)
 
   if (!article) {
     notFound()
   }
 
-  // Render article detail page with proper breadcrumbs
   const publishDate =
     article.published_at && article.published_at !== '1970-01-01T00:00:00Z'
       ? new Date(article.published_at)
@@ -281,7 +274,6 @@ export default async function DynamicPage({ params, searchParams }: {
       <Header />
       <main className="container mx-auto px-4 py-8 pt-[80px] md:pt-[100px]">
         <article className="max-w-4xl mx-auto">
-          {/* Article Breadcrumbs - REPLACE THIS SECTION */}
           <nav className="text-sm text-gray-500 mb-4">
             <Link href="/" className="hover:text-primary-red font-medium">
               Inicio
@@ -290,9 +282,7 @@ export default async function DynamicPage({ params, searchParams }: {
               <>
                 {article.section_path.split('.').map(
                   (part: string, index: number, arr: string[]) => {
-                    // Get proper section name from the breadcrumb_names array if available
                     const sectionName = part.replace(/_/g, ' ')
-                    const sectionSlug = part.replace(/_/g, '-')
                     const sectionUrl = `/${arr
                       .slice(0, index + 1)
                       .map((p) => p.replace(/_/g, '-'))
