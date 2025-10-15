@@ -843,7 +843,7 @@ export default async function Home() {
           />
 
           {/* Stories and Characters Section with shadcn */}
-          <HistoriasYRelatosSection
+{/*           <HistoriasYRelatosSection
             mainArticle={{
               title: (
                 <>
@@ -891,10 +891,10 @@ export default async function Home() {
                 imageUrl: '/placeholder.svg?height=150&width=200',
               },
             ]}
-          />
+          /> */}
 
           {/* Foodit Section */}
-          <RecetasSection
+{/*           <RecetasSection
             logoSrc="/placeholder.svg?height=80&width=150"
             categories={[
               { name: 'MENU', href: '#' },
@@ -910,17 +910,17 @@ export default async function Home() {
               imageUrl: '/placeholder.svg?height=300&width=400',
               imageAlt: 'Tarta invertida con pistachos',
             }}
-          />
+          /> */}
 
-          <QuinielaSection />
+          {/* <QuinielaSection /> */}
 
           {/* Opinion Section */}
-          <OpinionSection
+          {/*           <OpinionSection
             opinionCards={opinionSectionData.opinionCards}
             featuredOpinion={opinionSectionData.featuredOpinion}
             editorials={opinionSectionData.editorials}
             smallOpinionCard={opinionSectionData.smallOpinionCard}
-          />
+          /> */}
 
           {/* Wellness Section */}
           <BienestarSection
@@ -929,12 +929,12 @@ export default async function Home() {
           />
 
           {/* World Section (formerly Farming Section) */}
-          <MundoSection
+{/*           <MundoSection
             mainArticle={farmingSectionData.mainArticle}
             sideArticles={farmingSectionData.sideArticles}
-          />
+          /> */}
 
-          <IActualidad
+          {/*           <IActualidad
             logo={{
               src: '/images/iactualidad-logo.png',
               alt: 'iActualidad Logo',
@@ -970,7 +970,7 @@ export default async function Home() {
                 imageUrl: '/placeholder.svg?height=150&width=150',
               },
             ]}
-          />
+          /> */}
 
           {/* Tech Section */}
           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
@@ -990,13 +990,13 @@ export default async function Home() {
           </section>
 
           {/* Hashtag Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
             <TendenciasSection
               hashtagName={hashtagSectionData.hashtagName}
               featuredItem={hashtagSectionData.featuredItem}
               contentCards={hashtagSectionData.contentCards}
             />
-          </section>
+          </section> */}
 
           {/* Top Reads Section */}
           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
@@ -1004,7 +1004,7 @@ export default async function Home() {
           </section>
 
           {/* Business Main Feature Section */}
-          <NegociosSection
+          {/*           <NegociosSection
             logo={{
               src: '/images/business-logo.png',
               alt: 'Business Section Logo',
@@ -1065,15 +1065,15 @@ export default async function Home() {
                 hasVideo: false,
               },
             ]}
-          />
+          /> */}
 
           {/* Entertainment Main Feature Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
             <EspectaculosSection
               mainFeature={entertainmentMainFeatureData.mainFeature}
               secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
             />
-          </section>
+          </section> */}
 
           {/* Lifestyle Section */}
           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
@@ -1145,7 +1145,7 @@ export default async function Home() {
           </section>
 
           {/* Cultura Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
             <CulturaSection
               mainArticle={{
                 id: 'cultura-main',
@@ -1201,10 +1201,10 @@ export default async function Home() {
                 },
               ]}
             />
-          </section>
+          </section> */}
 
           {/* Real Estate Four Column Grid Section */}
-          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+          {/*           <section className="container mx-auto px-4 py-6 border-t border-gray-200">
             <PropiedadesSection
               categories={[
                 { name: 'INMUEBLES COMERCIALES', href: '#' },
@@ -1259,10 +1259,10 @@ export default async function Home() {
                 },
               ]}
             />
-          </section>
+          </section> */}
 
           {/* You May Be Interested In Section */}
-          <YouMayBeInterestedSection
+          {/*           <YouMayBeInterestedSection
             articles={[
               {
                 title:
@@ -1305,6 +1305,7 @@ export default async function Home() {
               },
             ]}
           />
+         */}
         </div>
         <MobileNavBar />
       </div>
