@@ -585,7 +585,7 @@ export default async function Home() {
   }
 
   // Define custom ads for sidelines (optional)
-  const sidelineWidth = 150
+  const sidelineWidth = 200
   const leftSideAds = (
     <div className="space-y-4">
       <SkyscraperAd position="left" />
@@ -612,696 +612,700 @@ export default async function Home() {
 
       {/* Content with padding - updated value to accommodate both top bar and header */}
       <div className="pt-[calc(1rem+120px)] md:pt-[calc(1rem+70px)]">
-        {/* Currency rates */}
-        <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
-          <DollarRates />
-        </div>
-
-        <div className="pt-12 md:pt-0"></div>
-
-        {/* Breaking news ticker */}
-        <div className="hidden md:block border-b border-light-gray overflow-x-auto">
-          <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
-            <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
-              EN VIVO
-            </span>
-            <NewsTicker headlines={latestHeadlines} />
+        <div className="container mx-auto max-w-[1400px]">
+          {/* Currency rates */}
+          <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
+            <DollarRates />
           </div>
-        </div>
-        {/* Main content */}
-        <PrincipalSection serverData={principalSectionArticles} />
 
-        <VolgaTVSection
-          featuredVideo={featuredVideo}
-          recentVideos={recentVideos}
-        />
+          <div className="pt-12 md:pt-0"></div>
 
-        <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
-
-        <FarmaciasDeTurno />
-
-        {/* Weather section */}
-        <ClimaSection />
-
-        <NoticiasImportantesSection serverData={noticiasImportantesArticles} />
-
-        <HuanguelenSection serverData={huanguelenArticles} />
-
-        <LaSextaSection serverData={laSextaArticles} />
-
-        {/* Advertisement banner */}
-        <div className="container mx-auto px-4 py-6">
-          <div className="bg-gray-100 p-4 text-center">
-            <p className="text-xs text-gray-500 mb-2">AD</p>
-            <div className="h-16 flex items-center justify-center">
-              <p className="text-gray-400">Advertisement Banner</p>
+          {/* Breaking news ticker */}
+          <div className="hidden md:block border-b border-light-gray overflow-x-auto">
+            <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
+              <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
+                EN VIVO
+              </span>
+              <NewsTicker headlines={latestHeadlines} />
             </div>
           </div>
-        </div>
+          {/* Main content */}
+          <PrincipalSection serverData={principalSectionArticles} />
 
-        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-8">
-          <div className="flex-1 min-w-0">
-            <ActualidadSection serverData={actualidadArticles} />
+          <VolgaTVSection
+            featuredVideo={featuredVideo}
+            recentVideos={recentVideos}
+          />
+
+          <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
+
+          <FarmaciasDeTurno />
+
+          {/* Weather section */}
+          <ClimaSection />
+
+          <NoticiasImportantesSection
+            serverData={noticiasImportantesArticles}
+          />
+
+          <HuanguelenSection serverData={huanguelenArticles} />
+
+          <LaSextaSection serverData={laSextaArticles} />
+
+          {/* Advertisement banner */}
+          <div className="container mx-auto px-4 py-6">
+            <div className="bg-gray-100 p-4 text-center">
+              <p className="text-xs text-gray-500 mb-2">AD</p>
+              <div className="h-16 flex items-center justify-center">
+                <p className="text-gray-400">Advertisement Banner</p>
+              </div>
+            </div>
           </div>
-          <div className="w-full md:w-80 flex-shrink-0">
-            <UltimasNoticiasSection headlines={latestHeadlines} />
+
+          <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-8">
+            <div className="flex-1 min-w-0">
+              <ActualidadSection serverData={actualidadArticles} />
+            </div>
+            <div className="w-full md:w-80 flex-shrink-0">
+              <UltimasNoticiasSection headlines={latestHeadlines} />
+            </div>
           </div>
-        </div>
 
-        {/* Politics and Economy Section */}
-        <PoliticaYEconomiaSection
-          mainArticle={{
-            id: 'politics-main-1',
-            title: {
-              highlight: 'Debate previsional',
-              regular:
-                'Números claves que difieren según el lugar del país y que impactan con fuerza',
-            },
-            summary:
-              'El debate sobre el sistema previsional continúa generando controversia mientras los distintos sectores intentan llegar a un acuerdo.',
-            author: 'Jorge Fontevecchia',
-            imageUrl: '/placeholder.svg?height=400&width=600',
-            hasVideo: false,
-          }}
-          sideArticles={[
-            {
-              id: 'politics-side-1',
+          {/* Politics and Economy Section */}
+          <PoliticaYEconomiaSection
+            mainArticle={{
+              id: 'politics-main-1',
               title: {
-                highlight: 'Fondo monetario',
+                highlight: 'Debate previsional',
                 regular:
-                  'La Argentina logró consolidar el respaldo del FMI para las próximas etapas del acuerdo',
+                  'Números claves que difieren según el lugar del país y que impactan con fuerza',
               },
-              author: 'Manuel Adorni',
-              imageUrl: '/placeholder.svg?height=200&width=300',
+              summary:
+                'El debate sobre el sistema previsional continúa generando controversia mientras los distintos sectores intentan llegar a un acuerdo.',
+              author: 'Jorge Fontevecchia',
+              imageUrl: '/placeholder.svg?height=400&width=600',
               hasVideo: false,
-            },
-            {
-              id: 'politics-side-2',
-              title: {
-                highlight: 'Los desafíos',
-                regular:
-                  'Inflación y salarios: la compleja ecuación que el gobierno intenta resolver',
-              },
-              author: 'Cecilia Boufflet',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              hasVideo: false,
-            },
-            {
-              id: 'politics-side-3',
-              title: {
-                highlight: 'Análisis',
-                regular:
-                  'Las cinco claves para entender el panorama político de cara a las elecciones',
-              },
-              author: 'Carlos Pagni',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              hasVideo: true,
-            },
-          ]}
-        />
-
-        <AdPlaceholder />
-
-        {/* Agro Four Column Grid Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <AgroSection
-            categories={[
-              { name: 'REGIONALES', href: '#' },
-              { name: 'TECNOLOGÍAS', href: '#' },
-              { name: 'GANADERÍA', href: '#' },
-              { name: 'AGRICULTURA', href: '#' },
-              { name: 'REMATES', href: '#' },
-            ]}
-            articles={[
+            }}
+            sideArticles={[
               {
-                id: 'agro-1',
+                id: 'politics-side-1',
                 title: {
-                  highlight: 'Clima',
+                  highlight: 'Fondo monetario',
                   regular:
-                    'Las zonas afectadas por las lluvias excesivas y cómo impacta en la cosecha de maíz y soja',
+                    'La Argentina logró consolidar el respaldo del FMI para las próximas etapas del acuerdo',
                 },
-                author: 'Fernando Bertello',
+                author: 'Manuel Adorni',
                 imageUrl: '/placeholder.svg?height=200&width=300',
+                hasVideo: false,
               },
               {
-                id: 'agro-2',
+                id: 'politics-side-2',
                 title: {
-                  highlight: 'Exportaciones',
+                  highlight: 'Los desafíos',
                   regular:
-                    'El agro generó US$33.000 millones en 2024 y se convirtió en el principal sector exportador del país',
+                    'Inflación y salarios: la compleja ecuación que el gobierno intenta resolver',
                 },
-                author: 'Belkis Martínez',
+                author: 'Cecilia Boufflet',
                 imageUrl: '/placeholder.svg?height=200&width=300',
-                summary:
-                  'Las ventas al exterior de productos agropecuarios superaron las expectativas del gobierno y del sector privado',
+                hasVideo: false,
               },
               {
-                id: 'agro-3',
+                id: 'politics-side-3',
                 title: {
-                  highlight: 'Innovación',
+                  highlight: 'Análisis',
                   regular:
-                    'La tecnología que reduce un 30% el uso de agua en cultivos y revoluciona el riego por goteo',
+                    'Las cinco claves para entender el panorama político de cara a las elecciones',
                 },
-                author: 'José Luis Brea',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-              },
-              {
-                id: 'agro-4',
-                title: {
-                  highlight: 'Ganadería',
-                  regular:
-                    'Presentaron nueva técnica para mejorar la eficiencia reproductiva en rodeos bovinos',
-                },
-                author: 'Gabriela Origlia',
+                author: 'Carlos Pagni',
                 imageUrl: '/placeholder.svg?height=200&width=300',
                 hasVideo: true,
               },
             ]}
           />
-        </section>
 
-        {/* Add Radio Player Showcase */}
-        {/* Radio Player Showcase - Full Width */}
-        <div className="container mx-auto px-4 py-6">
-          <RadioPlayerShowcase
-            frequency="99.5"
-            stationName="Radio del Volga"
-            radioLink="https://app.radiodelvolga.com.ar/"
-          />
-        </div>
+          <AdPlaceholder />
 
-        <AdPlaceholder />
-
-        {/* Sports News Section */}
-        <DeportesSection
-          mainArticle={{
-            title: (
-              <>
-                <span className="font-bold">De la mano de "Maravilla".</span>{' '}
-                Con un triplete de Martínez, Racing activó el 'modo copero' y se
-                acercó a los puestos de clasificación
-              </>
-            ),
-            content:
-              'El delantero fue la indiscutida figura en el triunfo por 4-1, convirtiendo un triplete tras un año sin marcar de a tres. El equipo de Gustavo Costas volvió a mostrar su mejor versión y se reencuentra con la victoria tras dos partidos sin conseguirla.',
-            author: 'Franco Tossi',
-            imageUrl: '/placeholder.svg?height=400&width=500',
-          }}
-          sideArticles={[
-            {
-              title: (
-                <>
-                  <span className="font-bold">Insólito.</span> En la Liga de
-                  España, dos compañeros casi terminan a las trompadas en el
-                  banco de suplentes
-                </>
-              ),
-              content:
-                'Durante el partido entre Villarreal y Atlético de Madrid, las cámaras captaron un fuerte cruce entre dos futbolistas del equipo colchonero que estaban en el banco.',
-              author: 'Redacción Deportes',
-              imageUrl: '/placeholder.svg?height=200&width=250',
-              hasVideo: true,
-            },
-            {
-              title: (
-                <>
-                  <span className="font-bold">Argentinos, de lujo.</span> Media
-                  hora a toda orquesta, taco, sombrero, golazos... y un
-                  agradecimiento a "Chiqui" Tapia
-                </>
-              ),
-              content:
-                'El equipo de La Paternal desplegó un fútbol de alto nivel durante el primer tiempo y se impuso con autoridad frente a Barracas Central por 3-0, consolidándose en los primeros puestos del torneo.',
-              author: 'Germán Wille',
-              imageUrl: '/placeholder.svg?height=200&width=250',
-              hasVideo: true,
-            },
-          ]}
-        />
-
-        {/* Stories and Characters Section with shadcn */}
-        <HistoriasYRelatosSection
-          mainArticle={{
-            title: (
-              <>
-                <span className="font-bold">"Hola mi vida".</span> Tini Stoessel
-                tuvo un gesto inesperado con un fan que se volvió viral en redes
-              </>
-            ),
-            author: 'Martín Fernández Cruz',
-            imageUrl: '/placeholder.svg?height=400&width=400',
-          }}
-          sideArticles={[
-            {
-              title: (
-                <>
-                  <span className="font-bold">Historias.</span> Es argentino y
-                  se animó con un proyecto de US$4 millones a pasos de la cancha
-                  de polo
-                </>
-              ),
-              author: 'Ariel Goldfarb',
-              imageUrl: '/placeholder.svg?height=150&width=200',
-            },
-            {
-              title: (
-                <>
-                  <span className="font-bold">
-                    Prometió volver con un Rosario bendecido en Calcuta.
-                  </span>{' '}
-                  Vivía lejos y supo que su madre tenía cáncer "Es una locura"
-                </>
-              ),
-              author: 'Carina Durn',
-              imageUrl: '/placeholder.svg?height=150&width=200',
-            },
-            {
-              title: (
-                <>
-                  <span className="font-bold">Relatos inspiradores.</span> La
-                  historia del joven que dejó la ciudad para convertirse en guía
-                  de montaña
-                </>
-              ),
-              author: 'Federico Wiemeyer',
-              imageUrl: '/placeholder.svg?height=150&width=200',
-            },
-          ]}
-        />
-
-        {/* Foodit Section */}
-        <RecetasSection
-          logoSrc="/placeholder.svg?height=80&width=150"
-          categories={[
-            { name: 'MENU', href: '#' },
-            { name: 'TIPS Y SECRETOS DE COCINA', href: '#' },
-            { name: 'RECETAS FACILES', href: '#' },
-          ]}
-          mainArticle={{
-            titleBold: 'Dulce y crocante.',
-            titleRegular:
-              'Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso',
-            content:
-              'La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor',
-            imageUrl: '/placeholder.svg?height=300&width=400',
-            imageAlt: 'Tarta invertida con pistachos',
-          }}
-        />
-
-        <QuinielaSection />
-
-        {/* Opinion Section */}
-        <OpinionSection
-          opinionCards={opinionSectionData.opinionCards}
-          featuredOpinion={opinionSectionData.featuredOpinion}
-          editorials={opinionSectionData.editorials}
-          smallOpinionCard={opinionSectionData.smallOpinionCard}
-        />
-
-        {/* Wellness Section */}
-        <BienestarSection
-          featuredArticle={wellnessSectionData.featuredArticle}
-          smallArticles={wellnessSectionData.smallArticles}
-        />
-
-        {/* World Section (formerly Farming Section) */}
-        <MundoSection
-          mainArticle={farmingSectionData.mainArticle}
-          sideArticles={farmingSectionData.sideArticles}
-        />
-
-        <IActualidad
-          logo={{
-            src: '/images/iactualidad-logo.png',
-            alt: 'iActualidad Logo',
-          }}
-          categories={[
-            { name: 'INTELIGENCIA ARTIFICIAL', href: '#' },
-            { name: 'BITCOIN', href: '#' },
-            { name: 'CRIPTOMONEDAS', href: '#' },
-            { name: 'ROBOTICA', href: '#' },
-          ]}
-          mainArticle={{
-            title:
-              'Bitcoin alcanza nuevo máximo histórico superando los 80.000 dólares',
-            content:
-              'La criptomoneda más popular del mundo continúa su tendencia alcista impulsada por la creciente adopción institucional y la reciente aprobación de ETFs por la SEC.',
-            author: 'Carlos Rodríguez',
-            imageUrl: '/placeholder.svg?height=400&width=600',
-          }}
-          sideArticles={[
-            {
-              title: 'La inflación de abril fue del 8,8%, según el INDEC',
-              subtitle:
-                'Es el dato mensual más bajo desde febrero del año pasado. Igualmente, el acumulado de los últimos 12 meses alcanza el 289,4%.',
-              author: 'María López',
-              imageUrl: '/placeholder.svg?height=150&width=150',
-            },
-            {
-              title:
-                'Presentan un proyecto de ley para modernizar el sistema financiero',
-              subtitle:
-                'La iniciativa busca impulsar la inversión y facilitar el acceso al crédito para pequeñas y medianas empresas.',
-              author: 'Juan Pérez',
-              imageUrl: '/placeholder.svg?height=150&width=150',
-            },
-          ]}
-        />
-
-        {/* Tech Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <TechSection articles={techSectionData.articles} />
-        </section>
-
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <CienciaYSaludSection
-            sectionTitle="CIENCIA Y SALUD"
-            logo={{
-              src: '/images/ciencia-salud-logo.png',
-              alt: 'Ciencia y Salud',
-            }}
-            mainArticle={lifestyleFeatureData.mainArticle}
-            smallArticles={lifestyleFeatureData.smallArticles}
-          />
-        </section>
-
-        {/* Hashtag Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <TendenciasSection
-            hashtagName={hashtagSectionData.hashtagName}
-            featuredItem={hashtagSectionData.featuredItem}
-            contentCards={hashtagSectionData.contentCards}
-          />
-        </section>
-
-        {/* Top Reads Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <TopReads articles={topReadsData.articles} />
-        </section>
-
-        {/* Business Main Feature Section */}
-        <NegociosSection
-          logo={{
-            src: '/images/business-logo.png',
-            alt: 'Business Section Logo',
-          }}
-          categories={[
-            { name: 'PROPIEDADES', href: '#' },
-            { name: 'EMPRENDEDORES', href: '#' },
-            { name: 'PYMES', href: '#' },
-            { name: 'CAMPO', href: '#' },
-            { name: 'INDICES', href: '#' },
-            { name: 'DOLAR HOY', href: '#' },
-          ]}
-          mainArticle={{
-            id: 'business-main-1',
-            title: {
-              highlight: 'Inversiones',
-              regular:
-                'Las acciones argentinas registran su mejor semana del año con subas de hasta 15%',
-            },
-            summary:
-              'El mercado financiero local mostró un fuerte repunte impulsado por el anuncio de nuevas medidas económicas y la mejora en las perspectivas de inversión extranjera.',
-            author: 'Carlos Martínez',
-            imageUrl: '/placeholder.svg?height=400&width=600',
-            hasVideo: false,
-          }}
-          sideArticles={[
-            {
-              id: 'business-side-1',
-              title: {
-                highlight: 'Tecnología',
-                regular:
-                  'La startup argentina que revoluciona el sector fintech recibió inversión millonaria',
-              },
-              author: 'Laura González',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              hasVideo: false,
-            },
-            {
-              id: 'business-side-2',
-              title: {
-                highlight: 'Comercio exterior',
-                regular:
-                  'Crecen las exportaciones de servicios basados en conocimiento',
-              },
-              author: 'Martín Rodríguez',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              hasVideo: true,
-            },
-            {
-              id: 'business-side-3',
-              title: {
-                highlight: 'Análisis',
-                regular:
-                  'Los sectores que más empleo generaron en el último trimestre',
-              },
-              author: 'Julia Fernández',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              hasVideo: false,
-            },
-          ]}
-        />
-
-        {/* Entertainment Main Feature Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <EspectaculosSection
-            mainFeature={entertainmentMainFeatureData.mainFeature}
-            secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
-          />
-        </section>
-
-        {/* Lifestyle Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <LifestyleSection
-            sectionTitle="SALUD"
-            categories={[
-              { name: 'VIAJES', href: '#' },
-              { name: 'DESCANSO', href: '#' },
-              { name: 'MENTE', href: '#' },
-              { name: 'FITNESS', href: '#' },
-              { name: 'NUTRICION', href: '#' },
-              { name: 'VIDA SANA', href: '#' },
-            ]}
-            articles={[
-              {
-                id: 'lifestyle-1',
-                title: {
-                  highlight: 'Bienestar',
-                  regular:
-                    'Vivir conscientemente: el arte de disfrutar el momento presente',
+          {/* Agro Four Column Grid Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <AgroSection
+              categories={[
+                { name: 'REGIONALES', href: '#' },
+                { name: 'TECNOLOGÍAS', href: '#' },
+                { name: 'GANADERÍA', href: '#' },
+                { name: 'AGRICULTURA', href: '#' },
+                { name: 'REMATES', href: '#' },
+              ]}
+              articles={[
+                {
+                  id: 'agro-1',
+                  title: {
+                    highlight: 'Clima',
+                    regular:
+                      'Las zonas afectadas por las lluvias excesivas y cómo impacta en la cosecha de maíz y soja',
+                  },
+                  author: 'Fernando Bertello',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
                 },
-                summary:
-                  'Frente a un mundo hiperconectado y acelerado, cada vez más personas buscan formas de desacelerar y conectar con su entorno',
-                author: 'Martina Canavesi',
-                imageUrl:
-                  '/placeholder.svg?height=250&width=300&text=Mindfulness',
-              },
-              {
-                id: 'lifestyle-2',
-                title: {
-                  highlight: 'Yoga',
-                  regular:
-                    'Cinco posturas fáciles para incorporar a tu rutina diaria',
+                {
+                  id: 'agro-2',
+                  title: {
+                    highlight: 'Exportaciones',
+                    regular:
+                      'El agro generó US$33.000 millones en 2024 y se convirtió en el principal sector exportador del país',
+                  },
+                  author: 'Belkis Martínez',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
+                  summary:
+                    'Las ventas al exterior de productos agropecuarios superaron las expectativas del gobierno y del sector privado',
                 },
-                summary:
-                  'Estas asanas básicas te ayudarán a ganar flexibilidad y reducir el estrés sin necesidad de experiencia previa',
-                author: 'Laura Giménez',
-                imageUrl: '/placeholder.svg?height=250&width=300&text=Yoga',
-                hasFeaturedBadge: true,
-              },
-              {
-                id: 'lifestyle-3',
-                title: {
-                  highlight: 'Decoración',
-                  regular:
-                    'Cómo lograr espacios armoniosos con menos elementos',
+                {
+                  id: 'agro-3',
+                  title: {
+                    highlight: 'Innovación',
+                    regular:
+                      'La tecnología que reduce un 30% el uso de agua en cultivos y revoluciona el riego por goteo',
+                  },
+                  author: 'José Luis Brea',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
                 },
-                author: 'Carlos Martínez',
-                imageUrl:
-                  '/placeholder.svg?height=250&width=300&text=Minimalismo',
-                summary:
-                  'El minimalismo no se trata solo de tener menos cosas, sino de elegir con propósito cada objeto que habita tu hogar',
-              },
-              {
-                id: 'lifestyle-4',
-                title: {
-                  highlight: 'Alimentación',
-                  regular:
-                    'Por qué los nutricionistas recomiendan escuchar a tu cuerpo',
+                {
+                  id: 'agro-4',
+                  title: {
+                    highlight: 'Ganadería',
+                    regular:
+                      'Presentaron nueva técnica para mejorar la eficiencia reproductiva en rodeos bovinos',
+                  },
+                  author: 'Gabriela Origlia',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
+                  hasVideo: true,
                 },
-                author: 'Federico Sánchez',
-                imageUrl:
-                  '/placeholder.svg?height=250&width=300&text=Nutrición',
-                summary:
-                  'Este enfoque propone dejar de lado las dietas restrictivas y aprender a identificar las señales naturales de hambre y saciedad',
-              },
-            ]}
-          />
-        </section>
+              ]}
+            />
+          </section>
 
-        {/* Cultura Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <CulturaSection
+          {/* Add Radio Player Showcase */}
+          {/* Radio Player Showcase - Full Width */}
+          <div className="container mx-auto px-4 py-6">
+            <RadioPlayerShowcase
+              frequency="99.5"
+              stationName="Radio del Volga"
+              radioLink="https://app.radiodelvolga.com.ar/"
+            />
+          </div>
+
+          <AdPlaceholder />
+
+          {/* Sports News Section */}
+          <DeportesSection
             mainArticle={{
-              id: 'cultura-main',
-              title:
-                'Arte contemporáneo llega al museo municipal con exposición internacional',
-              slug: 'arte-contemporaneo-exposicion-internacional-museo',
-              excerpt:
-                'Con más de 50 obras de artistas locales e internacionales, la muestra explora la relación entre la percepción humana y las nuevas tecnologías digitales, creando experiencias inmersivas.',
-              source: 'Lucía Méndez',
-              imgUrl: '/placeholder.svg?height=400&width=600',
-              section: 'EXPOSICIÓN',
-              overline: 'Arte contemporáneo',
-              published_at: '2025-05-10T14:30:00Z',
+              title: (
+                <>
+                  <span className="font-bold">De la mano de "Maravilla".</span>{' '}
+                  Con un triplete de Martínez, Racing activó el 'modo copero' y
+                  se acercó a los puestos de clasificación
+                </>
+              ),
+              content:
+                'El delantero fue la indiscutida figura en el triunfo por 4-1, convirtiendo un triplete tras un año sin marcar de a tres. El equipo de Gustavo Costas volvió a mostrar su mejor versión y se reencuentra con la victoria tras dos partidos sin conseguirla.',
+              author: 'Franco Tossi',
+              imageUrl: '/placeholder.svg?height=400&width=500',
             }}
             sideArticles={[
               {
-                id: 'cultura-side-1',
-                title:
-                  'Vuelve "Casa de muñecas" con un elenco renovado y una visión contemporánea',
-                slug: 'casa-de-munecas-elenco-renovado-vision-contemporanea',
-                excerpt:
-                  'La obra de Henrik Ibsen sorprende con una reinterpretación que acerca el clásico a las preocupaciones actuales sobre género y autonomía personal.',
-                source: 'Gabriel Torres',
-                imgUrl: '/placeholder.svg?height=200&width=300',
-                section: 'ESCENA',
-                overline: 'Teatro',
-                published_at: '2025-05-11T09:15:00Z',
+                title: (
+                  <>
+                    <span className="font-bold">Insólito.</span> En la Liga de
+                    España, dos compañeros casi terminan a las trompadas en el
+                    banco de suplentes
+                  </>
+                ),
+                content:
+                  'Durante el partido entre Villarreal y Atlético de Madrid, las cámaras captaron un fuerte cruce entre dos futbolistas del equipo colchonero que estaban en el banco.',
+                author: 'Redacción Deportes',
+                imageUrl: '/placeholder.svg?height=200&width=250',
+                hasVideo: true,
               },
               {
-                id: 'cultura-side-2',
-                title:
-                  'El escritor local presentó su nuevo libro en una sala colmada',
-                slug: 'escritor-local-presento-nuevo-libro',
-                source: 'Marina Peralta',
-                imgUrl: '/placeholder.svg?height=200&width=300',
-                section: 'LETRAS',
-                overline: 'Literatura',
-                'yt - video': 'https://youtube.com/watch?v=abcdefg12345',
-                published_at: '2025-05-09T18:45:00Z',
-              },
-              {
-                id: 'cultura-side-3',
-                title:
-                  'Jazz en el parque: el ciclo musical que revitaliza los espacios públicos',
-                slug: 'jazz-parque-ciclo-musical-espacios-publicos',
-                excerpt:
-                  'Cada fin de semana, músicos locales ofrecen conciertos gratuitos en diferentes plazas de la ciudad, atrayendo a un público diverso.',
-                source: 'Diego Martínez',
-                imgUrl: '/placeholder.svg?height=200&width=300',
-                section: 'MÚSICA',
-                overline: 'Ciclo cultural',
-                published_at: '2025-05-08T16:20:00Z',
+                title: (
+                  <>
+                    <span className="font-bold">Argentinos, de lujo.</span>{' '}
+                    Media hora a toda orquesta, taco, sombrero, golazos... y un
+                    agradecimiento a "Chiqui" Tapia
+                  </>
+                ),
+                content:
+                  'El equipo de La Paternal desplegó un fútbol de alto nivel durante el primer tiempo y se impuso con autoridad frente a Barracas Central por 3-0, consolidándose en los primeros puestos del torneo.',
+                author: 'Germán Wille',
+                imageUrl: '/placeholder.svg?height=200&width=250',
+                hasVideo: true,
               },
             ]}
           />
-        </section>
 
-        {/* Real Estate Four Column Grid Section */}
-        <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-          <PropiedadesSection
+          {/* Stories and Characters Section with shadcn */}
+          <HistoriasYRelatosSection
+            mainArticle={{
+              title: (
+                <>
+                  <span className="font-bold">"Hola mi vida".</span> Tini
+                  Stoessel tuvo un gesto inesperado con un fan que se volvió
+                  viral en redes
+                </>
+              ),
+              author: 'Martín Fernández Cruz',
+              imageUrl: '/placeholder.svg?height=400&width=400',
+            }}
+            sideArticles={[
+              {
+                title: (
+                  <>
+                    <span className="font-bold">Historias.</span> Es argentino y
+                    se animó con un proyecto de US$4 millones a pasos de la
+                    cancha de polo
+                  </>
+                ),
+                author: 'Ariel Goldfarb',
+                imageUrl: '/placeholder.svg?height=150&width=200',
+              },
+              {
+                title: (
+                  <>
+                    <span className="font-bold">
+                      Prometió volver con un Rosario bendecido en Calcuta.
+                    </span>{' '}
+                    Vivía lejos y supo que su madre tenía cáncer "Es una locura"
+                  </>
+                ),
+                author: 'Carina Durn',
+                imageUrl: '/placeholder.svg?height=150&width=200',
+              },
+              {
+                title: (
+                  <>
+                    <span className="font-bold">Relatos inspiradores.</span> La
+                    historia del joven que dejó la ciudad para convertirse en
+                    guía de montaña
+                  </>
+                ),
+                author: 'Federico Wiemeyer',
+                imageUrl: '/placeholder.svg?height=150&width=200',
+              },
+            ]}
+          />
+
+          {/* Foodit Section */}
+          <RecetasSection
+            logoSrc="/placeholder.svg?height=80&width=150"
             categories={[
-              { name: 'INMUEBLES COMERCIALES', href: '#' },
-              { name: 'CONSTRUCCION Y DISEÑO', href: '#' },
-              { name: 'CASAS Y DEPARTAMENTOS', href: '#' },
-              { name: 'INVERSIONES', href: '#' },
+              { name: 'MENU', href: '#' },
+              { name: 'TIPS Y SECRETOS DE COCINA', href: '#' },
+              { name: 'RECETAS FACILES', href: '#' },
             ]}
-            properties={[
+            mainArticle={{
+              titleBold: 'Dulce y crocante.',
+              titleRegular:
+                'Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso',
+              content:
+                'La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor',
+              imageUrl: '/placeholder.svg?height=300&width=400',
+              imageAlt: 'Tarta invertida con pistachos',
+            }}
+          />
+
+          <QuinielaSection />
+
+          {/* Opinion Section */}
+          <OpinionSection
+            opinionCards={opinionSectionData.opinionCards}
+            featuredOpinion={opinionSectionData.featuredOpinion}
+            editorials={opinionSectionData.editorials}
+            smallOpinionCard={opinionSectionData.smallOpinionCard}
+          />
+
+          {/* Wellness Section */}
+          <BienestarSection
+            featuredArticle={wellnessSectionData.featuredArticle}
+            smallArticles={wellnessSectionData.smallArticles}
+          />
+
+          {/* World Section (formerly Farming Section) */}
+          <MundoSection
+            mainArticle={farmingSectionData.mainArticle}
+            sideArticles={farmingSectionData.sideArticles}
+          />
+
+          <IActualidad
+            logo={{
+              src: '/images/iactualidad-logo.png',
+              alt: 'iActualidad Logo',
+            }}
+            categories={[
+              { name: 'INTELIGENCIA ARTIFICIAL', href: '#' },
+              { name: 'BITCOIN', href: '#' },
+              { name: 'CRIPTOMONEDAS', href: '#' },
+              { name: 'ROBOTICA', href: '#' },
+            ]}
+            mainArticle={{
+              title:
+                'Bitcoin alcanza nuevo máximo histórico superando los 80.000 dólares',
+              content:
+                'La criptomoneda más popular del mundo continúa su tendencia alcista impulsada por la creciente adopción institucional y la reciente aprobación de ETFs por la SEC.',
+              author: 'Carlos Rodríguez',
+              imageUrl: '/placeholder.svg?height=400&width=600',
+            }}
+            sideArticles={[
               {
-                id: 'property-1',
-                title: {
-                  highlight: 'Mercado inmobiliario',
-                  regular:
-                    'Cuáles son los barrios de Buenos Aires donde más subieron los precios de los alquileres',
-                },
-                author: 'Mauricio Giambartolomei',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-                badgeText: 'FOTOS Y VIDEO',
+                title: 'La inflación de abril fue del 8,8%, según el INDEC',
+                subtitle:
+                  'Es el dato mensual más bajo desde febrero del año pasado. Igualmente, el acumulado de los últimos 12 meses alcanza el 289,4%.',
+                author: 'María López',
+                imageUrl: '/placeholder.svg?height=150&width=150',
               },
               {
-                id: 'property-2',
-                title: {
-                  highlight: 'Arquitectura',
-                  regular:
-                    'Una casa de 100 años totalmente renovada: la transformación que respeta el estilo original',
-                },
-                author: 'Fabián López',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-                badgeText: 'FOTOS',
-              },
-              {
-                id: 'property-3',
-                title: {
-                  highlight: 'Tendencia',
-                  regular:
-                    'Aumenta la demanda de propiedades en barrios cerrados: los factores que explican el fenómeno',
-                },
-                author: 'María Julieta Rumi',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-              },
-              {
-                id: 'property-4',
-                title: {
-                  highlight: 'Inversiones',
-                  regular:
-                    'Las zonas con mayor potencial de valorización para comprar propiedades este año',
-                },
-                author: 'Carlos Martínez',
-                imageUrl: '/placeholder.svg?height=200&width=300',
-                summary:
-                  'Un análisis de las áreas emergentes que ofrecen las mejores oportunidades para inversores inmobiliarios',
+                title:
+                  'Presentan un proyecto de ley para modernizar el sistema financiero',
+                subtitle:
+                  'La iniciativa busca impulsar la inversión y facilitar el acceso al crédito para pequeñas y medianas empresas.',
+                author: 'Juan Pérez',
+                imageUrl: '/placeholder.svg?height=150&width=150',
               },
             ]}
           />
-        </section>
 
-        {/* You May Be Interested In Section */}
-        <YouMayBeInterestedSection
-          articles={[
-            {
-              title:
-                '¿Qué importante cambio rige para obtener la ciudadanía italiana?',
-              titleHighlight: 'Trivia',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              author: 'Cintia Perazo',
-              badge: {
-                text: 'TEST DE INTERÉS GENERAL',
-                position: 'bottom-left',
-              },
-            },
-            {
-              title:
-                'Las mejores piscinas naturales del nordeste de Brasil, para nadar entre peces de colores',
-              titleHighlight: 'Imperdible',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              author: 'Silvina Pini',
-            },
-            {
-              title:
-                'Buscaba un lugar para casarse y encontró un parador en la playa que lo convirtió en cocinero',
-              titleHighlight: 'Cambio de vida',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              author: 'Ana van Gelderen',
-              badge: {
-                text: 'CAMBIO DE VIDA',
-                position: 'bottom-left',
-              },
-            },
-            {
-              title:
-                'Te llevamos a ver Dua Lipa, Oasis y Coldplay alrededor del mundo',
-              titleHighlight: 'LA NACION World Tour 2025',
-              imageUrl: '/placeholder.svg?height=200&width=300',
-              badge: {
-                text: 'VIDEO',
-                position: 'bottom-left',
-              },
-            },
-          ]}
-        />
+          {/* Tech Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <TechSection articles={techSectionData.articles} />
+          </section>
 
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <CienciaYSaludSection
+              sectionTitle="CIENCIA Y SALUD"
+              logo={{
+                src: '/images/ciencia-salud-logo.png',
+                alt: 'Ciencia y Salud',
+              }}
+              mainArticle={lifestyleFeatureData.mainArticle}
+              smallArticles={lifestyleFeatureData.smallArticles}
+            />
+          </section>
+
+          {/* Hashtag Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <TendenciasSection
+              hashtagName={hashtagSectionData.hashtagName}
+              featuredItem={hashtagSectionData.featuredItem}
+              contentCards={hashtagSectionData.contentCards}
+            />
+          </section>
+
+          {/* Top Reads Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <TopReads articles={topReadsData.articles} />
+          </section>
+
+          {/* Business Main Feature Section */}
+          <NegociosSection
+            logo={{
+              src: '/images/business-logo.png',
+              alt: 'Business Section Logo',
+            }}
+            categories={[
+              { name: 'PROPIEDADES', href: '#' },
+              { name: 'EMPRENDEDORES', href: '#' },
+              { name: 'PYMES', href: '#' },
+              { name: 'CAMPO', href: '#' },
+              { name: 'INDICES', href: '#' },
+              { name: 'DOLAR HOY', href: '#' },
+            ]}
+            mainArticle={{
+              id: 'business-main-1',
+              title: {
+                highlight: 'Inversiones',
+                regular:
+                  'Las acciones argentinas registran su mejor semana del año con subas de hasta 15%',
+              },
+              summary:
+                'El mercado financiero local mostró un fuerte repunte impulsado por el anuncio de nuevas medidas económicas y la mejora en las perspectivas de inversión extranjera.',
+              author: 'Carlos Martínez',
+              imageUrl: '/placeholder.svg?height=400&width=600',
+              hasVideo: false,
+            }}
+            sideArticles={[
+              {
+                id: 'business-side-1',
+                title: {
+                  highlight: 'Tecnología',
+                  regular:
+                    'La startup argentina que revoluciona el sector fintech recibió inversión millonaria',
+                },
+                author: 'Laura González',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                hasVideo: false,
+              },
+              {
+                id: 'business-side-2',
+                title: {
+                  highlight: 'Comercio exterior',
+                  regular:
+                    'Crecen las exportaciones de servicios basados en conocimiento',
+                },
+                author: 'Martín Rodríguez',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                hasVideo: true,
+              },
+              {
+                id: 'business-side-3',
+                title: {
+                  highlight: 'Análisis',
+                  regular:
+                    'Los sectores que más empleo generaron en el último trimestre',
+                },
+                author: 'Julia Fernández',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                hasVideo: false,
+              },
+            ]}
+          />
+
+          {/* Entertainment Main Feature Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <EspectaculosSection
+              mainFeature={entertainmentMainFeatureData.mainFeature}
+              secondaryFeatures={entertainmentMainFeatureData.secondaryFeatures}
+            />
+          </section>
+
+          {/* Lifestyle Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <LifestyleSection
+              sectionTitle="SALUD"
+              categories={[
+                { name: 'VIAJES', href: '#' },
+                { name: 'DESCANSO', href: '#' },
+                { name: 'MENTE', href: '#' },
+                { name: 'FITNESS', href: '#' },
+                { name: 'NUTRICION', href: '#' },
+                { name: 'VIDA SANA', href: '#' },
+              ]}
+              articles={[
+                {
+                  id: 'lifestyle-1',
+                  title: {
+                    highlight: 'Bienestar',
+                    regular:
+                      'Vivir conscientemente: el arte de disfrutar el momento presente',
+                  },
+                  summary:
+                    'Frente a un mundo hiperconectado y acelerado, cada vez más personas buscan formas de desacelerar y conectar con su entorno',
+                  author: 'Martina Canavesi',
+                  imageUrl:
+                    '/placeholder.svg?height=250&width=300&text=Mindfulness',
+                },
+                {
+                  id: 'lifestyle-2',
+                  title: {
+                    highlight: 'Yoga',
+                    regular:
+                      'Cinco posturas fáciles para incorporar a tu rutina diaria',
+                  },
+                  summary:
+                    'Estas asanas básicas te ayudarán a ganar flexibilidad y reducir el estrés sin necesidad de experiencia previa',
+                  author: 'Laura Giménez',
+                  imageUrl: '/placeholder.svg?height=250&width=300&text=Yoga',
+                  hasFeaturedBadge: true,
+                },
+                {
+                  id: 'lifestyle-3',
+                  title: {
+                    highlight: 'Decoración',
+                    regular:
+                      'Cómo lograr espacios armoniosos con menos elementos',
+                  },
+                  author: 'Carlos Martínez',
+                  imageUrl:
+                    '/placeholder.svg?height=250&width=300&text=Minimalismo',
+                  summary:
+                    'El minimalismo no se trata solo de tener menos cosas, sino de elegir con propósito cada objeto que habita tu hogar',
+                },
+                {
+                  id: 'lifestyle-4',
+                  title: {
+                    highlight: 'Alimentación',
+                    regular:
+                      'Por qué los nutricionistas recomiendan escuchar a tu cuerpo',
+                  },
+                  author: 'Federico Sánchez',
+                  imageUrl:
+                    '/placeholder.svg?height=250&width=300&text=Nutrición',
+                  summary:
+                    'Este enfoque propone dejar de lado las dietas restrictivas y aprender a identificar las señales naturales de hambre y saciedad',
+                },
+              ]}
+            />
+          </section>
+
+          {/* Cultura Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <CulturaSection
+              mainArticle={{
+                id: 'cultura-main',
+                title:
+                  'Arte contemporáneo llega al museo municipal con exposición internacional',
+                slug: 'arte-contemporaneo-exposicion-internacional-museo',
+                excerpt:
+                  'Con más de 50 obras de artistas locales e internacionales, la muestra explora la relación entre la percepción humana y las nuevas tecnologías digitales, creando experiencias inmersivas.',
+                source: 'Lucía Méndez',
+                imgUrl: '/placeholder.svg?height=400&width=600',
+                section: 'EXPOSICIÓN',
+                overline: 'Arte contemporáneo',
+                published_at: '2025-05-10T14:30:00Z',
+              }}
+              sideArticles={[
+                {
+                  id: 'cultura-side-1',
+                  title:
+                    'Vuelve "Casa de muñecas" con un elenco renovado y una visión contemporánea',
+                  slug: 'casa-de-munecas-elenco-renovado-vision-contemporanea',
+                  excerpt:
+                    'La obra de Henrik Ibsen sorprende con una reinterpretación que acerca el clásico a las preocupaciones actuales sobre género y autonomía personal.',
+                  source: 'Gabriel Torres',
+                  imgUrl: '/placeholder.svg?height=200&width=300',
+                  section: 'ESCENA',
+                  overline: 'Teatro',
+                  published_at: '2025-05-11T09:15:00Z',
+                },
+                {
+                  id: 'cultura-side-2',
+                  title:
+                    'El escritor local presentó su nuevo libro en una sala colmada',
+                  slug: 'escritor-local-presento-nuevo-libro',
+                  source: 'Marina Peralta',
+                  imgUrl: '/placeholder.svg?height=200&width=300',
+                  section: 'LETRAS',
+                  overline: 'Literatura',
+                  'yt - video': 'https://youtube.com/watch?v=abcdefg12345',
+                  published_at: '2025-05-09T18:45:00Z',
+                },
+                {
+                  id: 'cultura-side-3',
+                  title:
+                    'Jazz en el parque: el ciclo musical que revitaliza los espacios públicos',
+                  slug: 'jazz-parque-ciclo-musical-espacios-publicos',
+                  excerpt:
+                    'Cada fin de semana, músicos locales ofrecen conciertos gratuitos en diferentes plazas de la ciudad, atrayendo a un público diverso.',
+                  source: 'Diego Martínez',
+                  imgUrl: '/placeholder.svg?height=200&width=300',
+                  section: 'MÚSICA',
+                  overline: 'Ciclo cultural',
+                  published_at: '2025-05-08T16:20:00Z',
+                },
+              ]}
+            />
+          </section>
+
+          {/* Real Estate Four Column Grid Section */}
+          <section className="container mx-auto px-4 py-6 border-t border-gray-200">
+            <PropiedadesSection
+              categories={[
+                { name: 'INMUEBLES COMERCIALES', href: '#' },
+                { name: 'CONSTRUCCION Y DISEÑO', href: '#' },
+                { name: 'CASAS Y DEPARTAMENTOS', href: '#' },
+                { name: 'INVERSIONES', href: '#' },
+              ]}
+              properties={[
+                {
+                  id: 'property-1',
+                  title: {
+                    highlight: 'Mercado inmobiliario',
+                    regular:
+                      'Cuáles son los barrios de Buenos Aires donde más subieron los precios de los alquileres',
+                  },
+                  author: 'Mauricio Giambartolomei',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
+                  badgeText: 'FOTOS Y VIDEO',
+                },
+                {
+                  id: 'property-2',
+                  title: {
+                    highlight: 'Arquitectura',
+                    regular:
+                      'Una casa de 100 años totalmente renovada: la transformación que respeta el estilo original',
+                  },
+                  author: 'Fabián López',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
+                  badgeText: 'FOTOS',
+                },
+                {
+                  id: 'property-3',
+                  title: {
+                    highlight: 'Tendencia',
+                    regular:
+                      'Aumenta la demanda de propiedades en barrios cerrados: los factores que explican el fenómeno',
+                  },
+                  author: 'María Julieta Rumi',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
+                },
+                {
+                  id: 'property-4',
+                  title: {
+                    highlight: 'Inversiones',
+                    regular:
+                      'Las zonas con mayor potencial de valorización para comprar propiedades este año',
+                  },
+                  author: 'Carlos Martínez',
+                  imageUrl: '/placeholder.svg?height=200&width=300',
+                  summary:
+                    'Un análisis de las áreas emergentes que ofrecen las mejores oportunidades para inversores inmobiliarios',
+                },
+              ]}
+            />
+          </section>
+
+          {/* You May Be Interested In Section */}
+          <YouMayBeInterestedSection
+            articles={[
+              {
+                title:
+                  '¿Qué importante cambio rige para obtener la ciudadanía italiana?',
+                titleHighlight: 'Trivia',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                author: 'Cintia Perazo',
+                badge: {
+                  text: 'TEST DE INTERÉS GENERAL',
+                  position: 'bottom-left',
+                },
+              },
+              {
+                title:
+                  'Las mejores piscinas naturales del nordeste de Brasil, para nadar entre peces de colores',
+                titleHighlight: 'Imperdible',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                author: 'Silvina Pini',
+              },
+              {
+                title:
+                  'Buscaba un lugar para casarse y encontró un parador en la playa que lo convirtió en cocinero',
+                titleHighlight: 'Cambio de vida',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                author: 'Ana van Gelderen',
+                badge: {
+                  text: 'CAMBIO DE VIDA',
+                  position: 'bottom-left',
+                },
+              },
+              {
+                title:
+                  'Te llevamos a ver Dua Lipa, Oasis y Coldplay alrededor del mundo',
+                titleHighlight: 'LA NACION World Tour 2025',
+                imageUrl: '/placeholder.svg?height=200&width=300',
+                badge: {
+                  text: 'VIDEO',
+                  position: 'bottom-left',
+                },
+              },
+            ]}
+          />
+        </div>
         <MobileNavBar />
       </div>
     </SidelinesLayout>
