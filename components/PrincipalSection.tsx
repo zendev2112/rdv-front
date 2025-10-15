@@ -425,8 +425,8 @@ export default function PrincipalSection({
     <main className="container mx-auto px-4 py-6">
       {/* Main container with CSS Grid - 12 columns */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        {/* LEFT COLUMN - Main article (5 columns, spans 2 rows) */}
-        <div className="md:col-span-5 md:row-span-2">
+        {/* LEFT COLUMN - Main article (6 columns, spans 2 rows) */}
+        <div className="md:col-span-6 md:row-span-2">
           <Link
             href={getArticleUrl(
               mainArticle.section_path || mainArticle.section,
@@ -444,7 +444,7 @@ export default function PrincipalSection({
                   fill
                   className="object-cover transition-opacity duration-300 group-hover:opacity-90"
                   priority
-                  sizes="(max-width: 768px) 100vw, 42vw"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             </div>
@@ -499,8 +499,8 @@ export default function PrincipalSection({
           <div className="absolute top-0 -right-2 w-[1px] h-full bg-gray-400 opacity-30 hidden md:block"></div>
         </div>
 
-        {/* RIGHT COLUMN - TOP ROW - Second article (4 columns) */}
-        <div className="md:col-span-4 relative">
+        {/* RIGHT COLUMN - TOP ROW - Second article (3 columns) */}
+        <div className="md:col-span-3 relative">
           <Link
             href={getArticleUrl(
               upperRowArticles[1].section_path || upperRowArticles[1].section,
@@ -517,7 +517,7 @@ export default function PrincipalSection({
                   alt={upperRowArticles[1].title}
                   fill
                   className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 25vw"
                 />
               </div>
             </div>
@@ -535,13 +535,10 @@ export default function PrincipalSection({
           </Link>
         </div>
 
-        {/* RIGHT COLUMN - BOTTOM ROW (3 articles - 2 cols, 2 cols, 3 cols) */}
+        {/* RIGHT COLUMN - BOTTOM ROW (3 articles - 2 cols each) */}
         {lowerRowArticles.map((article, index) => {
-          // First article: 2 columns, Second: 2 columns, Third: 3 columns
-          const colSpan = index === 2 ? 'md:col-span-3' : 'md:col-span-2'
-
           return (
-            <div key={article.id} className={`${colSpan} relative`}>
+            <div key={article.id} className="md:col-span-2 relative">
               <Link
                 href={getArticleUrl(
                   article.section_path || article.section,
@@ -558,7 +555,7 @@ export default function PrincipalSection({
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 20vw"
+                      sizes="(max-width: 768px) 100vw, 16vw"
                     />
                   </div>
                 </div>
