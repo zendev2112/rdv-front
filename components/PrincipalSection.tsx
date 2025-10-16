@@ -446,8 +446,8 @@ export default function PrincipalSection({
                 />
               </div>
             </div>
-            {/* Main title and excerpt area - BIGGER TEXT ON MOBILE */}
-            <div className="bg-white pt-3 pb-4 md:pb-0">
+            {/* Main title and excerpt area - CONSISTENT SPACING */}
+            <div className="bg-white pt-3 pb-6 md:pb-0">
               <h1 className="text-lg md:text-2xl font-bold leading-tight">
                 {mainArticle.overline && (
                   <span className="text-primary-red">
@@ -494,8 +494,8 @@ export default function PrincipalSection({
                     />
                   </div>
                 </div>
-                {/* Title area - INCREASED font size */}
-                <div className="pt-2 pb-4 md:pb-0 flex-1">
+                {/* Title area - CONSISTENT SPACING */}
+                <div className="pt-2 pb-6 md:pb-0 flex-1">
                   <h2 className="text-base md:text-base font-bold leading-tight">
                     {upperRowArticles[0].overline && (
                       <span className="text-primary-red">
@@ -534,8 +534,8 @@ export default function PrincipalSection({
                     />
                   </div>
                 </div>
-                {/* Title area - INCREASED font size */}
-                <div className="pt-2 pb-4 md:pb-0 flex-1">
+                {/* Title area - CONSISTENT SPACING */}
+                <div className="pt-2 pb-6 md:pb-0 flex-1">
                   <h2 className="text-base md:text-base font-bold leading-tight">
                     {upperRowArticles[1].overline && (
                       <span className="text-primary-red">
@@ -579,8 +579,8 @@ export default function PrincipalSection({
                         />
                       </div>
                     </div>
-                    {/* Title area - INCREASED font size */}
-                    <div className="pt-2 pb-4 md:pb-0 flex-1">
+                    {/* Title area - CONSISTENT SPACING */}
+                    <div className="pt-2 pb-6 md:pb-0 flex-1">
                       <h2 className="text-base md:text-base font-bold leading-tight">
                         {article.overline && (
                           <span className="text-primary-red">
@@ -607,5 +607,3 @@ export default function PrincipalSection({
 
   
 }
-
-// ...existing code...
