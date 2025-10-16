@@ -456,11 +456,9 @@ export default function PrincipalSection({
                 )}
                 {mainArticle.title}
               </h1>
-              {mainArticle.excerpt && (
-                <p className="text-sm md:text-base text-gray-600 mt-2 leading-relaxed">
-                  {mainArticle.excerpt}
-                </p>
-              )}
+              <p className="text-sm md:text-base text-gray-600 mt-2 leading-relaxed">
+                {mainArticle.excerpt || 'No excerpt available'}
+              </p>
             </div>
           </Link>
           {/* Vertical divider - ADJUSTED position for larger gap */}
