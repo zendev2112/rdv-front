@@ -419,6 +419,8 @@ export default function PrincipalSection({
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
+// ...existing code...
+
   return (
     <main className="py-6">
       {/* Main container with CSS Grid - 12 columns with increased gap */}
@@ -447,7 +449,7 @@ export default function PrincipalSection({
               </div>
             </div>
             {/* Main title and excerpt area - BIGGER TEXT ON MOBILE */}
-            <div className="bg-white pt-3">
+            <div className="bg-white pt-3 pb-4 md:pb-0">
               <h1 className="text-lg md:text-2xl font-bold leading-tight">
                 {mainArticle.overline && (
                   <span className="text-primary-red">
@@ -464,7 +466,7 @@ export default function PrincipalSection({
           {/* Vertical divider */}
           <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
           {/* Mobile divisory line */}
-          <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300 mt-4"></div>
+          <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300"></div>
         </div>
 
         {/* RIGHT COLUMN - Contains upper and lower rows (6 columns) */}
@@ -495,7 +497,7 @@ export default function PrincipalSection({
                   </div>
                 </div>
                 {/* Title area - INCREASED font size */}
-                <div className="pt-2 flex-1">
+                <div className="pt-2 pb-4 md:pb-0 flex-1">
                   <h2 className="text-base md:text-base font-bold leading-tight">
                     {upperRowArticles[0].overline && (
                       <span className="text-primary-red">
@@ -508,7 +510,7 @@ export default function PrincipalSection({
               </Link>
               <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
               {/* Mobile divisory line */}
-              <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
             </div>
 
             {/* Second article */}
@@ -535,7 +537,7 @@ export default function PrincipalSection({
                   </div>
                 </div>
                 {/* Title area - INCREASED font size */}
-                <div className="pt-2 flex-1">
+                <div className="pt-2 pb-4 md:pb-0 flex-1">
                   <h2 className="text-base md:text-base font-bold leading-tight">
                     {upperRowArticles[1].overline && (
                       <span className="text-primary-red">
@@ -547,7 +549,7 @@ export default function PrincipalSection({
                 </div>
               </Link>
               {/* Mobile divisory line */}
-              <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
             </div>
           </div>
 
@@ -580,7 +582,7 @@ export default function PrincipalSection({
                       </div>
                     </div>
                     {/* Title area - INCREASED font size */}
-                    <div className="pt-2 flex-1">
+                    <div className="pt-2 pb-4 md:pb-0 flex-1">
                       <h2 className="text-base md:text-base font-bold leading-tight">
                         {article.overline && (
                           <span className="text-primary-red">
@@ -594,8 +596,10 @@ export default function PrincipalSection({
                   {index < lowerRowArticles.length - 1 && (
                     <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
                   )}
-                  {/* Mobile divisory line */}
-                  <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
+                  {/* Mobile divisory line - SHOW FOR ALL LOWER ROW ARTICLES */}
+                  {index < lowerRowArticles.length - 1 && (
+                    <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+                  )}
                 </div>
               )
             })}
@@ -605,3 +609,5 @@ export default function PrincipalSection({
     </main>
   )
 }
+
+// ...existing code...
