@@ -3,11 +3,9 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useArticles } from '../hooks/useArticles' // Import our new hook
-import OptimizedImage from './OptimizedImage' // Import the new component
-
-
-
+import { useArticles } from '../hooks/useArticles'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
 
 interface Article {
   id: string
@@ -19,33 +17,17 @@ interface Article {
   order?: string
   created_at?: string
   section?: string
+  section_path?: string
   author?: string
   isVideo?: boolean
   hasVideo?: boolean
 }
 
-
-
-// Same getSectionPath function from PrincipalSection
-function getSectionPath(section: string | undefined): string {
-  if (!section) {
-    return 'sin-categoria'
-  }
-
-  if (section.includes('.')) {
-    return section.split('.').join('/')
-  }
-
-  return section
-}
-
 interface NoticiasImportantesSectionProps {
-  sectionColor?: 'default' | 'blue' | 'green' | 'orange' | 'purple'
-  serverData?: Article[] // NEW: Add this prop
+  serverData?: Article[]
 }
 
 export default function NoticiasImportantesSection({
-  sectionColor = 'default',
   serverData,
 }: NoticiasImportantesSectionProps) {
   const {
@@ -54,15 +36,11 @@ export default function NoticiasImportantesSection({
     error,
   } = useArticles('NoticiasImportantesSection', 8)
 
-  // Add these three lines right after:
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
   const isLoading = !serverData && loading
   const hasError = !serverData && error
 
-  const previousArticlesRef = useRef<Article[]>([])
-
-  // ...existing code...
   const processedArticles = useMemo(() => {
     // Sort all articles by created_at desc (most recent first)
     const sorted = [...articles].sort((a, b) =>
@@ -83,9 +61,7 @@ export default function NoticiasImportantesSection({
 
     // If we have a "normal" article, place it at position 2
     if (normal) {
-      // Remove it from current position if it exists
       slots = slots.filter((a) => a.id !== normal.id)
-      // Ensure we have at least 3 slots before inserting at position 2
       while (slots.length < 3) {
         const nextArticle = sorted.find(
           (a) => !slots.some((s) => s.id === a.id)
@@ -98,9 +74,7 @@ export default function NoticiasImportantesSection({
 
     // If we have a "secundario" article, place it at position 1
     if (secundario) {
-      // Remove it from current position if it exists
       slots = slots.filter((a) => a.id !== secundario.id)
-      // Ensure we have at least 2 slots before inserting at position 1
       while (slots.length < 2) {
         const nextArticle = sorted.find(
           (a) => !slots.some((s) => s.id === a.id)
@@ -113,9 +87,7 @@ export default function NoticiasImportantesSection({
 
     // If we have a "principal" article, place it at position 0
     if (principal) {
-      // Remove it from current position if it exists
       slots = slots.filter((a) => a.id !== principal.id)
-      // Ensure we have at least 1 slot before inserting at position 0
       while (slots.length < 1) {
         const nextArticle = sorted.find(
           (a) => !slots.some((s) => s.id === a.id)
@@ -135,7 +107,6 @@ export default function NoticiasImportantesSection({
 
     return slots.slice(0, 4)
   }, [articles])
-  // ...existing code...
 
   // Debug logs
   useEffect(() => {
@@ -152,93 +123,80 @@ export default function NoticiasImportantesSection({
   }, [processedArticles])
 
   if (isLoading && articles.length === 0) {
-    return (
-      <div className="container mx-auto p-4">
-        Loading noticias importantes...
-      </div>
-    )
+    return <div className="container mx-auto p-4">Loading...</div>
   }
 
   if (hasError && articles.length === 0) {
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
-  // Color theme mapping
-  const colorClasses = {
-    default: 'border-gray-200',
-    red: 'border-red-200 bg-red-50',
-    blue: 'border-blue-200 bg-blue-50',
-    green: 'border-green-200 bg-green-50',
+  if (!processedArticles || processedArticles.length === 0) {
+    return <div className="container mx-auto p-4">No articles available</div>
   }
 
-  // ...existing code...
   return (
-    <section
-      className={`container mx-auto px-4 py-6 border-t ${colorClasses[sectionColor]}`}
-    >
-      <div className="relative grid grid-cols-1 md:grid-cols-4 gap-6">
-        {processedArticles.slice(0, 4).map((article, index) => (
-          <div
-            key={article.id}
-            className="group relative h-full flex flex-col bg-white rounded-md overflow-visible"
-          >
+    <main className="py-0 md:py-6">
+      {/* Single row with 4 articles, 3 columns each (12-column grid) */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {processedArticles.map((article, index) => (
+          <div key={article.id} className="md:col-span-3 relative">
             <Link
-              href={`/${
-                article.section
-                  ? getSectionPath(article.section)
-                  : 'sin-categoria'
-              }/${article.slug}`}
-              className="block h-full flex flex-col"
+              href={getArticleUrl(
+                article.section_path || article.section,
+                article.slug
+              )}
+              className="block h-full flex flex-col group"
             >
-              {/* REPLACE SafeImage with OptimizedImage */}
-              <div className="relative w-full h-40 md:h-48 overflow-hidden">
-                {article.hasVideo && (
-                  <div className="absolute inset-0 flex items-center justify-center z-20">
-                    <div className="bg-primary-red rounded-full p-1">
-                      <svg
-                        className="h-3 w-3 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                      </svg>
+              {/* Image - ALL use aspect-[16/9] */}
+              <div className="relative w-full aspect-[16/9]">
+                <div className="relative w-full h-full overflow-hidden">
+                  {article.hasVideo && (
+                    <div className="absolute inset-0 flex items-center justify-center z-20">
+                      <div className="bg-primary-red rounded-full p-1">
+                        <svg
+                          className="h-3 w-3 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                <OptimizedImage
-                  src={article.imgUrl}
-                  alt={article.title}
-                  fill
-                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                  priority={index === 0}
-                  sizes="(max-width: 768px) 100vw, 25vw"
-                />
+                  )}
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                  <OptimizedImage
+                    src={article.imgUrl}
+                    alt={article.title}
+                    fill
+                    className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                  />
+                </div>
               </div>
-              {/* Text below */}
-              <div className="flex-1 flex flex-col justify-between p-4">
-                <h3 className="text-base font-bold leading-tight text-[#292929] mb-1">
+
+              {/* Title area - CONSISTENT SPACING */}
+              <div className="pt-2 pb-6 md:pb-0 flex-1">
+                <h2 className="text-base md:text-base font-bold leading-tight">
                   {article.overline && (
-                    <span className="text-primary-red font-bold">
+                    <span className="text-primary-red">
                       {article.overline}.{' '}
                     </span>
                   )}
                   {article.title}
-                </h3>
-                {article.author && (
-                  <p className="text-xs text-dark-gray mb-2">
-                    Por {article.author}
-                  </p>
-                )}
+                </h2>
               </div>
             </Link>
-            {/* Vertical divider between articles, except last */}
-            {index < 3 && (
-              <div className="hidden md:block absolute top-0 right-[-12px] h-full w-px bg-gray-300 opacity-80 z-20 pointer-events-none"></div>
+
+            {/* Vertical divider between articles (desktop) */}
+            {index < processedArticles.length - 1 && (
+              <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
             )}
+
+            {/* Mobile divisory line */}
+            <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
           </div>
         ))}
       </div>
-    </section>
+    </main>
   )
 }
