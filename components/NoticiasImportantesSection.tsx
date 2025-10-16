@@ -136,6 +136,7 @@ export default function NoticiasImportantesSection({
 
   return (
     <main className="py-0 md:py-6">
+      <div className="w-full md:w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
       {/* Single row with 4 articles, 3 columns each (12-column grid) */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {processedArticles.map((article, index) => (
