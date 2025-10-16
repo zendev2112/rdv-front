@@ -421,7 +421,7 @@ export default function PrincipalSection({
 
   return (
     <main className="py-6">
-      {/* Main container with CSS Grid - INCREASED gap to 8 */}
+      {/* Main container with CSS Grid - 12 columns with increased gap */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* LEFT COLUMN - Main article (6 columns) */}
         <div className="md:col-span-6 relative">
@@ -432,8 +432,8 @@ export default function PrincipalSection({
             )}
             className="block h-full flex flex-col group"
           >
-            {/* Main image - takes most of the space */}
-            <div className="relative w-full aspect-[4/3] md:aspect-[3/2]">
+            {/* Main image - FULL WIDTH on mobile */}
+            <div className="relative w-screen md:w-full -mx-4 md:mx-0 aspect-[4/3] md:aspect-[3/2]">
               <div className="relative w-full h-full overflow-hidden">
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
@@ -446,9 +446,9 @@ export default function PrincipalSection({
                 />
               </div>
             </div>
-            {/* Main title and excerpt area */}
+            {/* Main title and excerpt area - BIGGER TEXT ON MOBILE */}
             <div className="bg-white pt-3">
-              <h1 className="text-xl md:text-2xl font-bold leading-tight">
+              <h1 className="text-lg md:text-2xl font-bold leading-tight">
                 {mainArticle.overline && (
                   <span className="text-primary-red">
                     {mainArticle.overline}.{' '}
@@ -456,18 +456,20 @@ export default function PrincipalSection({
                 )}
                 {mainArticle.title}
               </h1>
-            <p className="text-xs md:text-sm text-gray-600 mt-2 leading-relaxed">
+              <p className="text-sm md:text-sm text-gray-600 mt-2 leading-relaxed">
                 {mainArticle.excerpt || 'No excerpt available'}
               </p>
             </div>
           </Link>
-          {/* Vertical divider - ADJUSTED position for larger gap */}
+          {/* Vertical divider */}
           <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+          {/* Mobile divisory line */}
+          <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300 mt-4"></div>
         </div>
 
         {/* RIGHT COLUMN - Contains upper and lower rows (6 columns) */}
         <div className="md:col-span-6 flex flex-col gap-0">
-          {/* UPPER ROW - INCREASED gap to 6 */}
+          {/* UPPER ROW */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-0">
             {/* First article */}
             <div className="relative">
@@ -479,7 +481,7 @@ export default function PrincipalSection({
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Top row first image - landscape 16:9 */}
+                {/* Top row first image */}
                 <div className="relative w-full aspect-[16/9]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
@@ -492,9 +494,9 @@ export default function PrincipalSection({
                     />
                   </div>
                 </div>
-                {/* Title area */}
+                {/* Title area - INCREASED font size */}
                 <div className="pt-2 flex-1">
-                  <h2 className="text-sm md:text-base font-bold leading-tight">
+                  <h2 className="text-base md:text-base font-bold leading-tight">
                     {upperRowArticles[0].overline && (
                       <span className="text-primary-red">
                         {upperRowArticles[0].overline}.{' '}
@@ -505,6 +507,8 @@ export default function PrincipalSection({
                 </div>
               </Link>
               <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
+              {/* Mobile divisory line */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
             </div>
 
             {/* Second article */}
@@ -517,7 +521,7 @@ export default function PrincipalSection({
                 )}
                 className="block h-full flex flex-col group"
               >
-                {/* Top row second image - landscape 16:9 */}
+                {/* Top row second image */}
                 <div className="relative w-full aspect-[16/9]">
                   <div className="relative w-full h-full overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
@@ -530,9 +534,9 @@ export default function PrincipalSection({
                     />
                   </div>
                 </div>
-                {/* Title area */}
+                {/* Title area - INCREASED font size */}
                 <div className="pt-2 flex-1">
-                  <h2 className="text-sm md:text-base font-bold leading-tight">
+                  <h2 className="text-base md:text-base font-bold leading-tight">
                     {upperRowArticles[1].overline && (
                       <span className="text-primary-red">
                         {upperRowArticles[1].overline}.{' '}
@@ -542,13 +546,15 @@ export default function PrincipalSection({
                   </h2>
                 </div>
               </Link>
+              {/* Mobile divisory line */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
             </div>
           </div>
 
-          {/* Horizontal divider - INCREASED margin */}
+          {/* Horizontal divider */}
           <div className="w-full h-[1px] bg-gray-400 opacity-50 my-6 hidden md:block"></div>
 
-          {/* LOWER ROW - INCREASED gap to 6 */}
+          {/* LOWER ROW */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {lowerRowArticles.map((article, index) => {
               return (
@@ -560,7 +566,7 @@ export default function PrincipalSection({
                     )}
                     className="block h-full flex flex-col group"
                   >
-                    {/* Bottom row images - landscape 16:9 */}
+                    {/* Bottom row images */}
                     <div className="relative w-full aspect-[16/9]">
                       <div className="relative w-full h-full overflow-hidden">
                         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
@@ -573,9 +579,9 @@ export default function PrincipalSection({
                         />
                       </div>
                     </div>
-                    {/* Title area - matched font size with upper row */}
+                    {/* Title area - INCREASED font size */}
                     <div className="pt-2 flex-1">
-                      <h2 className="text-sm md:text-base font-bold leading-tight">
+                      <h2 className="text-base md:text-base font-bold leading-tight">
                         {article.overline && (
                           <span className="text-primary-red">
                             {article.overline}.{' '}
@@ -588,6 +594,8 @@ export default function PrincipalSection({
                   {index < lowerRowArticles.length - 1 && (
                     <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
                   )}
+                  {/* Mobile divisory line */}
+                  <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
                 </div>
               )
             })}
