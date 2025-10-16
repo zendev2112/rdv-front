@@ -419,8 +419,6 @@ export default function PrincipalSection({
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
-// ...existing code...
-
   return (
     <main className="py-6">
       {/* Main container with CSS Grid - 12 columns with increased gap */}
@@ -458,14 +456,14 @@ export default function PrincipalSection({
                 )}
                 {mainArticle.title}
               </h1>
-              <p className="text-sm md:text-sm text-gray-600 mt-2 leading-relaxed">
+              <p className="text-xs md:text-sm text-gray-600 mt-2 leading-relaxed">
                 {mainArticle.excerpt || 'No excerpt available'}
               </p>
             </div>
           </Link>
           {/* Vertical divider */}
           <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
-          {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
+          {/* Mobile divisory line - FULL WIDTH to match full-width image */}
           <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300"></div>
         </div>
 
@@ -596,7 +594,7 @@ export default function PrincipalSection({
                   {index < lowerRowArticles.length - 1 && (
                     <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
                   )}
-                  {/* Mobile divisory line - MATCHES IMAGE WIDTH - SHOW FOR ALL */}
+                  {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
                   <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
                 </div>
               )
@@ -606,6 +604,8 @@ export default function PrincipalSection({
       </div>
     </main>
   )
+
+  
 }
 
 // ...existing code...
