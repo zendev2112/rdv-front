@@ -89,10 +89,10 @@ export default function VolgaTVSection({
           <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
         </div>
 
-        {/* RIGHT COLUMN - Recent videos (6 columns) */}
+        {/* RIGHT COLUMN - Recent videos (6 columns) - HORIZONTAL LAYOUT */}
         <div className="md:col-span-6">
-          <div className="grid grid-cols-1 gap-6">
-            {recentVideos.map((video, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {recentVideos.map((video, idx) => (
               <div key={video.id} className="relative">
                 {playingVideoId === video.id ? (
                   <div className="relative w-full aspect-[16/9]">
@@ -121,7 +121,7 @@ export default function VolgaTVSection({
                           alt={video.title}
                           fill
                           className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                          sizes="(max-width: 768px) 100vw, 50vw"
+                          sizes="(max-width: 768px) 100vw, 16vw"
                         />
                         {/* Play button overlay */}
                         <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -139,6 +139,11 @@ export default function VolgaTVSection({
                       </h2>
                     </div>
                   </a>
+                )}
+
+                {/* Vertical divider between videos (desktop) */}
+                {idx < recentVideos.length - 1 && (
+                  <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
                 )}
 
                 {/* Mobile divisory line */}
