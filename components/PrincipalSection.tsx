@@ -465,9 +465,7 @@ export default function PrincipalSection({
           </Link>
           {/* Vertical divider */}
           <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
-// ...existing code...
-
-          {/* Mobile divisory line */}
+          {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
           <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300"></div>
         </div>
 
@@ -511,8 +509,8 @@ export default function PrincipalSection({
                 </div>
               </Link>
               <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
-              {/* Mobile divisory line - FULL WIDTH */}
-              <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300"></div>
+              {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
             </div>
 
             {/* Second article */}
@@ -550,8 +548,8 @@ export default function PrincipalSection({
                   </h2>
                 </div>
               </Link>
-              {/* Mobile divisory line - FULL WIDTH */}
-              <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300"></div>
+              {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
             </div>
           </div>
 
@@ -598,10 +596,8 @@ export default function PrincipalSection({
                   {index < lowerRowArticles.length - 1 && (
                     <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
                   )}
-                  {/* Mobile divisory line - FULL WIDTH for ALL articles */}
-                  {index < lowerRowArticles.length - 1 && (
-                    <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300"></div>
-                  )}
+                  {/* Mobile divisory line - MATCHES IMAGE WIDTH - SHOW FOR ALL */}
+                  <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
                 </div>
               )
             })}
