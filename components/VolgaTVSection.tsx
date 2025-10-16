@@ -32,6 +32,14 @@ export default function VolgaTVSection({
       {/* Horizontal divider to separate from section above */}
       <div className="w-full md:w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
 
+      {/* Section Title - Top Right */}
+      <div className="flex justify-end mb-4">
+        <div className="text-right">
+          <div className="w-16 h-1 bg-primary-red ml-auto mb-2"></div>
+          <h2 className="text-2xl font-bold">Volga TV</h2>
+        </div>
+      </div>
+
       {/* 12-column grid layout */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* LEFT COLUMN - Featured video (9 columns) */}
@@ -75,13 +83,25 @@ export default function VolgaTVSection({
               </div>
 
               {/* Title area - CONSISTENT SPACING */}
-              <div className="bg-white pt-3 pb-6 md:pb-0">
+              <div className="bg-white pt-3 pb-2">
                 <h1 className="text-lg md:text-2xl font-bold leading-tight">
                   {featuredVideo.title}
                 </h1>
               </div>
             </a>
           )}
+
+          {/* YouTube Channel Link */}
+          <div className="pb-6 md:pb-0">
+            <a
+              href="https://www.youtube.com/@VolgaTV"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-primary-red hover:underline font-semibold"
+            >
+              Más Videos de Volga TV en Youtube
+            </a>
+          </div>
 
           {/* Vertical divider */}
           <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
