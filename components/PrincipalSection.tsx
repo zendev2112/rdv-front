@@ -446,8 +446,8 @@ export default function PrincipalSection({
                 />
               </div>
             </div>
-            {/* Main title area */}
-            <div className="bg-white p-4 pt-3">
+            {/* Main title and excerpt area */}
+            <div className="bg-white pt-3">
               <h1 className="text-xl md:text-2xl font-bold leading-tight">
                 {mainArticle.overline && (
                   <span className="text-primary-red">
@@ -456,6 +456,11 @@ export default function PrincipalSection({
                 )}
                 {mainArticle.title}
               </h1>
+              {mainArticle.excerpt && (
+                <p className="text-sm md:text-base text-gray-600 mt-2 leading-relaxed">
+                  {mainArticle.excerpt}
+                </p>
+              )}
             </div>
           </Link>
           {/* Vertical divider - ADJUSTED position for larger gap */}
@@ -490,7 +495,7 @@ export default function PrincipalSection({
                   </div>
                 </div>
                 {/* Title area */}
-                <div className="p-3 pt-2 flex-1">
+                <div className="pt-2 flex-1">
                   <h2 className="text-sm md:text-base font-bold leading-tight">
                     {upperRowArticles[0].overline && (
                       <span className="text-primary-red">
@@ -528,7 +533,7 @@ export default function PrincipalSection({
                   </div>
                 </div>
                 {/* Title area */}
-                <div className="p-3 pt-2 flex-1">
+                <div className="pt-2 flex-1">
                   <h2 className="text-sm md:text-base font-bold leading-tight">
                     {upperRowArticles[1].overline && (
                       <span className="text-primary-red">
@@ -571,7 +576,7 @@ export default function PrincipalSection({
                       </div>
                     </div>
                     {/* Title area - matched font size with upper row */}
-                    <div className="p-2 pt-2 flex-1">
+                    <div className="pt-2 flex-1">
                       <h2 className="text-sm md:text-base font-bold leading-tight">
                         {article.overline && (
                           <span className="text-primary-red">

@@ -632,6 +632,10 @@ export default async function Home() {
           {/* Main content */}
           <PrincipalSection serverData={principalSectionArticles} />
 
+          <NoticiasImportantesSection
+            serverData={noticiasImportantesArticles}
+          />
+          
           <VolgaTVSection
             featuredVideo={featuredVideo}
             recentVideos={recentVideos}
@@ -644,9 +648,6 @@ export default async function Home() {
           {/* Weather section */}
           <ClimaSection />
 
-          <NoticiasImportantesSection
-            serverData={noticiasImportantesArticles}
-          />
 
           <HuanguelenSection serverData={huanguelenArticles} />
 
