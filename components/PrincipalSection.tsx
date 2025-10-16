@@ -552,7 +552,7 @@ export default function PrincipalSection({
           </div>
 
           {/* Horizontal divider */}
-          <div className="w-full h-[1px] bg-gray-400 opacity-50 my-6 hidden md:block"></div>
+          <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 my-6 md:opacity-50"></div>
 
           {/* LOWER ROW */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
