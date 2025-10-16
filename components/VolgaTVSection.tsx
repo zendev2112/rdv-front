@@ -91,7 +91,7 @@ export default function VolgaTVSection({
 
         {/* RIGHT COLUMN - Recent videos (6 columns) - HORIZONTAL LAYOUT */}
         <div className="md:col-span-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="flex flex-col gap-6">
             {recentVideos.map((video, idx) => (
               <div key={video.id} className="relative">
                 {playingVideoId === video.id ? (
@@ -109,11 +109,10 @@ export default function VolgaTVSection({
                     href={`https://www.youtube.com/watch?v=${video.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block h-full flex flex-col group"
+                    className="block h-full flex flex-row group gap-4"
                     onClick={(e) => handlePlayVideo(video.id, e)}
                   >
-                    {/* Video thumbnail - aspect-[16/9] */}
-                    <div className="relative w-full aspect-[16/9]">
+                    <div className="relative w-1/2 aspect-[16/9] flex-shrink-0">
                       <div className="relative w-full h-full overflow-hidden">
                         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                         <OptimizedImage
@@ -121,7 +120,7 @@ export default function VolgaTVSection({
                           alt={video.title}
                           fill
                           className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                          sizes="(max-width: 768px) 100vw, 16vw"
+                          sizes="(max-width: 768px) 100vw, 25vw"
                         />
                         {/* Play button overlay */}
                         <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -133,7 +132,7 @@ export default function VolgaTVSection({
                     </div>
 
                     {/* Title area - CONSISTENT SPACING */}
-                    <div className="pt-2 pb-6 md:pb-0 flex-1">
+                    <div className="pt-0 pb-0 md:pb-0 flex-1">
                       <h2 className="text-base md:text-base font-bold leading-tight">
                         {video.title}
                       </h2>
