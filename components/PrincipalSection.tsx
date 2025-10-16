@@ -463,8 +463,8 @@ export default function PrincipalSection({
           </Link>
           {/* Vertical divider */}
           <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
-          {/* Mobile divisory line - FULL WIDTH to match full-width image */}
-          <div className="md:hidden w-screen -mx-4 h-[1px] bg-gray-300"></div>
+          {/* Mobile divisory line - MATCHES NEXT ARTICLE WIDTH */}
+          <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
         </div>
 
         {/* RIGHT COLUMN - Contains upper and lower rows (6 columns) */}
@@ -594,7 +594,7 @@ export default function PrincipalSection({
                   {index < lowerRowArticles.length - 1 && (
                     <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
                   )}
-                  {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
+                  {/* Mobile divisory line - MATCHES IMAGE WIDTH - ALWAYS SHOW */}
                   <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
                 </div>
               )
