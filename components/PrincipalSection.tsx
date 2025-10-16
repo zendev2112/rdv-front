@@ -547,7 +547,7 @@ export default function PrincipalSection({
                 </div>
               </Link>
               {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
-              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+              
             </div>
           </div>
 
