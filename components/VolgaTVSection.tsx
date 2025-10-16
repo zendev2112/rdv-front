@@ -34,8 +34,8 @@ export default function VolgaTVSection({
 
       {/* 12-column grid layout */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* LEFT COLUMN - Featured video (6 columns) */}
-        <div className="md:col-span-6 relative">
+        {/* LEFT COLUMN - Featured video (9 columns) */}
+        <div className="md:col-span-9 relative">
           {playingVideoId === featuredVideo.id ? (
             <div className="relative w-full aspect-[16/9]">
               <iframe
@@ -63,7 +63,7 @@ export default function VolgaTVSection({
                     alt={featuredVideo.title}
                     fill
                     className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 768px) 100vw, 75vw"
                   />
                   {/* Play button overlay */}
                   <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -89,67 +89,60 @@ export default function VolgaTVSection({
           <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
         </div>
 
-        {/* RIGHT COLUMN - Recent videos (6 columns) - HORIZONTAL LAYOUT */}
-        <div className="md:col-span-6">
-          <div className="flex flex-col gap-6">
-            {recentVideos.map((video, idx) => (
-              <div key={video.id} className="relative">
-                {playingVideoId === video.id ? (
+        {/* RIGHT COLUMN - Recent videos (3 columns) */}
+        <div className="md:col-span-3 flex flex-col gap-6">
+          {recentVideos.map((video, idx) => (
+            <div key={video.id} className="relative">
+              {playingVideoId === video.id ? (
+                <div className="relative w-full aspect-[16/9]">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
+                    title={video.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute top-0 left-0 w-full h-full"
+                  ></iframe>
+                </div>
+              ) : (
+                <a
+                  href={`https://www.youtube.com/watch?v=${video.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block h-full flex flex-col group"
+                  onClick={(e) => handlePlayVideo(video.id, e)}
+                >
                   <div className="relative w-full aspect-[16/9]">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
-                      title={video.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="absolute top-0 left-0 w-full h-full"
-                    ></iframe>
-                  </div>
-                ) : (
-                  <a
-                    href={`https://www.youtube.com/watch?v=${video.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block h-full flex flex-row group gap-4"
-                    onClick={(e) => handlePlayVideo(video.id, e)}
-                  >
-                    <div className="relative w-1/2 aspect-[16/9] flex-shrink-0">
-                      <div className="relative w-full h-full overflow-hidden">
-                        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                        <OptimizedImage
-                          src={video.thumbnailUrl}
-                          alt={video.title}
-                          fill
-                          className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                          sizes="(max-width: 768px) 100vw, 25vw"
-                        />
-                        {/* Play button overlay */}
-                        <div className="absolute inset-0 flex items-center justify-center z-20">
-                          <div className="bg-primary-red rounded-full p-3 transform group-hover:scale-110 transition-transform">
-                            <Play className="h-6 w-6 text-white" fill="white" />
-                          </div>
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                      <OptimizedImage
+                        src={video.thumbnailUrl}
+                        alt={video.title}
+                        fill
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                      />
+                      {/* Play button overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center z-20">
+                        <div className="bg-primary-red rounded-full p-3 transform group-hover:scale-110 transition-transform">
+                          <Play className="h-6 w-6 text-white" fill="white" />
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Title area - CONSISTENT SPACING */}
-                    <div className="pt-0 pb-0 md:pb-0 flex-1">
-                      <h2 className="text-base md:text-base font-bold leading-tight">
-                        {video.title}
-                      </h2>
-                    </div>
-                  </a>
-                )}
+                  {/* Title area - CONSISTENT SPACING */}
+                  <div className="pt-2 pb-6 md:pb-0 flex-1">
+                    <h2 className="text-base md:text-base font-bold leading-tight">
+                      {video.title}
+                    </h2>
+                  </div>
+                </a>
+              )}
 
-                {/* Vertical divider between videos (desktop) */}
-                {idx < recentVideos.length - 1 && (
-                  <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
-                )}
-
-                {/* Mobile divisory line */}
-                <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
-              </div>
-            ))}
-          </div>
+              {/* Mobile divisory line */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+            </div>
+          ))}
         </div>
       </div>
     </main>
