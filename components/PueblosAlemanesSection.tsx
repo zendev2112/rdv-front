@@ -167,7 +167,7 @@ export default function PueblosAlemanesSection({
             {/* Vertical divider */}
             <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
             {/* Mobile divisory line */}
-            <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
+            <div className="md:hidden w-full h-[1px] bg-gray-300 mb-6"></div>
           </div>
         )}
 
