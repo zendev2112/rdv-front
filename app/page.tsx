@@ -732,60 +732,7 @@ export default async function Home() {
 
           {/* Agro Four Column Grid Section */}
           <section className="py-6 border-t border-gray-200">
-            <AgroSection
-              categories={[
-                { name: 'REGIONALES', href: '#' },
-                { name: 'TECNOLOGÍAS', href: '#' },
-                { name: 'GANADERÍA', href: '#' },
-                { name: 'AGRICULTURA', href: '#' },
-                { name: 'REMATES', href: '#' },
-              ]}
-              articles={[
-                {
-                  id: 'agro-1',
-                  title: {
-                    highlight: 'Clima',
-                    regular:
-                      'Las zonas afectadas por las lluvias excesivas y cómo impacta en la cosecha de maíz y soja',
-                  },
-                  author: 'Fernando Bertello',
-                  imageUrl: '/placeholder.svg?height=200&width=300',
-                },
-                {
-                  id: 'agro-2',
-                  title: {
-                    highlight: 'Exportaciones',
-                    regular:
-                      'El agro generó US$33.000 millones en 2024 y se convirtió en el principal sector exportador del país',
-                  },
-                  author: 'Belkis Martínez',
-                  imageUrl: '/placeholder.svg?height=200&width=300',
-                  summary:
-                    'Las ventas al exterior de productos agropecuarios superaron las expectativas del gobierno y del sector privado',
-                },
-                {
-                  id: 'agro-3',
-                  title: {
-                    highlight: 'Innovación',
-                    regular:
-                      'La tecnología que reduce un 30% el uso de agua en cultivos y revoluciona el riego por goteo',
-                  },
-                  author: 'José Luis Brea',
-                  imageUrl: '/placeholder.svg?height=200&width=300',
-                },
-                {
-                  id: 'agro-4',
-                  title: {
-                    highlight: 'Ganadería',
-                    regular:
-                      'Presentaron nueva técnica para mejorar la eficiencia reproductiva en rodeos bovinos',
-                  },
-                  author: 'Gabriela Origlia',
-                  imageUrl: '/placeholder.svg?height=200&width=300',
-                  hasVideo: true,
-                },
-              ]}
-            />
+            <AgroSection/>
           </section>
 
           {/* Add Radio Player Showcase */}
