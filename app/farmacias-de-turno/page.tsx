@@ -6,6 +6,12 @@ import Header from '@/components/Header'
 import SidelinesLayout from '@/components/SidelinesLayout'
 import { MapPin, Phone, Clock } from 'lucide-react'
 
+function getGoogleMapsUrl(address: string) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    address
+  )}`
+}
+
 export default function FarmaciasDeTurnoPage() {
   const currentMonth = new Date().toLocaleString('es-ES', {
     month: 'long',
@@ -39,69 +45,75 @@ export default function FarmaciasDeTurnoPage() {
 
           {/* Pharmacies Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => {
-              const pharmacy = pharmacies.find((p) => p.day === day)
+            {pharmacies.map((pharmacy) => (
+              <article
+                key={pharmacy.day}
+                className="bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 p-6"
+              >
+                {/* Day Badge */}
+                <div className="flex justify-between items-start mb-4">
+                  <h2 className="text-xl font-bold text-primary-red">
+                    {pharmacy.name}
+                  </h2>
+                  <span className="bg-primary-red text-white px-3 py-1 text-sm font-semibold">
+                    Día {pharmacy.day}
+                  </span>
+                </div>
 
-              if (!pharmacy) return null
-
-              return (
-                <article
-                  key={day}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-                >
-                  {/* Pharmacy Image */}
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <img
-                      src={pharmacy.image}
-                      alt={`Farmacia ${pharmacy.name}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                    {/* Day Badge */}
-                    <div className="absolute top-4 left-4 bg-primary-red text-white px-3 py-1 rounded-full font-bold text-sm">
-                      Día {day}
+                {/* Pharmacy Information */}
+                <div className="space-y-3 mb-4">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-600">Dirección</p>
+                      <a
+                        href={getGoogleMapsUrl(pharmacy.address)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"
+                      >
+                        {pharmacy.address}
+                      </a>
                     </div>
                   </div>
 
-                  {/* Pharmacy Information */}
-                  <div className="p-5">
-                    <h2 className="text-xl font-bold text-gray-900 mb-3">
-                      Farmacia {pharmacy.name}
-                    </h2>
-
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-start text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 text-primary-red mt-0.5 mr-2 flex-shrink-0" />
-                        <span>{pharmacy.address}</span>
-                      </div>
-
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Phone className="w-4 h-4 text-primary-red mr-2 flex-shrink-0" />
-                        <span>{pharmacy.phone}</span>
-                      </div>
-
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Clock className="w-4 h-4 text-primary-red mr-2 flex-shrink-0" />
-                        <span>Atención las 24 horas</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
-                      <span className="font-medium text-primary-red">
-                        DE TURNO
-                      </span>
-                      <span>
-                        {day} de{' '}
-                        {new Date().toLocaleString('es-ES', { month: 'long' })}
-                      </span>
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-600">Teléfono</p>
+                      <a
+                        href={`tel:${pharmacy.phone}`}
+                        className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"
+                      >
+                        {pharmacy.phone}
+                      </a>
                     </div>
                   </div>
-                </article>
-              )
-            })}
+
+                  <div className="flex items-start gap-3">
+                    <Clock className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-600">Horario</p>
+                      <p className="text-base font-semibold text-gray-800">
+                        Atención las 24 horas
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
+                  <span className="font-medium text-primary-red">DE TURNO</span>
+                  <span>
+                    {pharmacy.day} de{' '}
+                    {new Date().toLocaleString('es-ES', { month: 'long' })}
+                  </span>
+                </div>
+              </article>
+            ))}
           </div>
 
           {/* Info Box */}
-          <div className="mt-12 bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <div className="mt-12 bg-gray-50 p-6 border border-gray-200">
             <h3 className="text-lg font-bold text-gray-900 mb-3">
               Información importante
             </h3>
