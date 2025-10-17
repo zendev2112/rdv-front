@@ -198,7 +198,7 @@ export default function PueblosAlemanesSection({
                   </div>
 
                   {/* Text - Below image on mobile, left side on desktop */}
-                  <div className="pt-2 md:pt-0 pb-6 md:pb-0 md:order-1 flex-1">
+                  <div className="pt-2 md:pt-0 pb-0 md:pb-0 md:order-1 flex-1">
                     <h2 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
                       {article.overline && (
                         <span className="text-primary-red">
@@ -209,10 +209,10 @@ export default function PueblosAlemanesSection({
                     </h2>
                   </div>
                 </Link>
-
-                {/* Mobile divisory line */}
-                <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
               </div>
+
+              {/* Mobile divisory line - After article content */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
 
               {/* Desktop horizontal divider - Between articles */}
               {idx < sideArticles.length - 1 && (
