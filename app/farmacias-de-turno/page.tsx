@@ -4,12 +4,26 @@ import { pharmacies } from '@/components/FarmaciasDeTurno'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import SidelinesLayout from '@/components/SidelinesLayout'
-import { MapPin, Phone, Clock } from 'lucide-react'
+import { MapPin, Phone } from 'lucide-react'
 
 function getGoogleMapsUrl(address: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     address
   )}`
+}
+
+function formatDateBadge(day: number): string {
+  const date = new Date()
+  const currentYear = date.getFullYear()
+  const currentMonth = date.getMonth()
+
+  const pharmacyDate = new Date(currentYear, currentMonth, day)
+
+  return pharmacyDate.toLocaleString('es-ES', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  })
 }
 
 export default function FarmaciasDeTurnoPage() {
@@ -50,13 +64,13 @@ export default function FarmaciasDeTurnoPage() {
                 key={pharmacy.day}
                 className="bg-white border border-gray-200 hover:shadow-lg transition-shadow duration-300 p-6"
               >
-                {/* Day Badge */}
+                {/* Day Badge with Date */}
                 <div className="flex justify-between items-start mb-4">
                   <h2 className="text-xl font-bold text-primary-red">
                     {pharmacy.name}
                   </h2>
-                  <span className="bg-primary-red text-white px-3 py-1 text-sm font-semibold">
-                    Día {pharmacy.day}
+                  <span className="bg-primary-red text-white px-3 py-1 text-sm font-semibold uppercase">
+                    {formatDateBadge(pharmacy.day)}
                   </span>
                 </div>
 
@@ -89,24 +103,6 @@ export default function FarmaciasDeTurnoPage() {
                       </a>
                     </div>
                   </div>
-
-                  <div className="flex items-start gap-3">
-                    <Clock className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-600">Horario</p>
-                      <p className="text-base font-semibold text-gray-800">
-                        Atención las 24 horas
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
-                  <span className="font-medium text-primary-red">DE TURNO</span>
-                  <span>
-                    {pharmacy.day} de{' '}
-                    {new Date().toLocaleString('es-ES', { month: 'long' })}
-                  </span>
                 </div>
               </article>
             ))}
