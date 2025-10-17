@@ -9,7 +9,6 @@ import {
   Wind,
   Droplets,
   Eye,
-  Zap,
   Umbrella,
 } from 'lucide-react'
 
@@ -24,9 +23,10 @@ interface WeatherData {
   uvIndex: number
   visibility: number
   precipitationProbability: number
-  hourlyForecast: {
-    time: string
-    temp: number
+  dailyForecast: {
+    day: string
+    highTemp: number
+    lowTemp: number
     weatherCode: number
     precipitationProbability: number
   }[]
@@ -74,10 +74,7 @@ export default function ClimaSection() {
     ?.intervals?.[0]
   const dailyWeather = timelines
     .find((t: any) => t.timestep === '1d')
-    ?.intervals?.slice(0, 1)
-  const hourlyWeather = timelines
-    .find((t: any) => t.timestep === '1h')
-    ?.intervals?.slice(0, 12)
+    ?.intervals?.slice(0, 6)
 
   const weatherData: WeatherData = {
     location: 'Coronel Suárez',
@@ -91,15 +88,17 @@ export default function ClimaSection() {
     visibility: Math.round(currentWeather?.values.visibility || 0),
     precipitationProbability:
       currentWeather?.values.precipitationProbability || 0,
-    hourlyForecast:
-      hourlyWeather?.map((h: any) => ({
-        time: new Date(h.startTime).toLocaleTimeString('es-AR', {
-          hour: '2-digit',
-          minute: '2-digit',
+    dailyForecast:
+      dailyWeather?.map((d: any) => ({
+        day: new Date(d.startTime).toLocaleDateString('es-AR', {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
         }),
-        temp: Math.round(h.values.temperature),
-        weatherCode: h.values.weatherCode,
-        precipitationProbability: h.values.precipitationProbability,
+        highTemp: Math.round(d.values.temperatureMax),
+        lowTemp: Math.round(d.values.temperatureMin),
+        weatherCode: d.values.weatherCodeMax || d.values.weatherCode,
+        precipitationProbability: d.values.precipitationProbabilityAvg || 0,
       })) || [],
   }
 
@@ -141,7 +140,6 @@ export default function ClimaSection() {
       return <Cloud className={`${size} text-gray-500`} />
     if ([4000, 4001, 4200, 4201].includes(code))
       return <CloudRain className={`${size} text-blue-500`} />
-    if (code === 8000) return <Zap className={`${size} text-purple-500`} />
     return <Cloud className={`${size} text-gray-400`} />
   }
 
@@ -160,7 +158,7 @@ export default function ClimaSection() {
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* Current weather - 5 columns */}
-        <div className="md:col-span-5">
+        <div className="md:col-span-5 relative">
           <div className="border border-gray-200 bg-white p-6">
             <div className="flex justify-between items-start mb-4">
               <div>
@@ -233,24 +231,32 @@ export default function ClimaSection() {
           <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
         </div>
 
-        {/* Hourly forecast - 7 columns */}
+        {/* Daily forecast - 7 columns */}
         <div className="md:col-span-7">
           <div className="border border-gray-200 bg-white p-6">
-            <h3 className="text-lg font-bold mb-4">Próximas 12 horas</h3>
-            <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
-              {weatherData.hourlyForecast.map((hour, index) => (
+            <h3 className="text-lg font-bold mb-4">
+              Pronóstico para los próximos días
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {weatherData.dailyForecast.map((day, index) => (
                 <div
                   key={index}
-                  className="text-center bg-gray-50 border border-gray-200 p-3"
+                  className="text-center bg-gray-50 border border-gray-200 p-4"
                 >
-                  <p className="text-xs text-gray-600 mb-1">{hour.time}</p>
-                  <div className="flex justify-center mb-2">
-                    {getWeatherIcon(hour.weatherCode, 'w-5 h-5')}
-                  </div>
-                  <p className="font-bold text-sm">{hour.temp}°</p>
-                  <p className="text-xs text-blue-500">
-                    {hour.precipitationProbability}%
+                  <p className="text-sm font-semibold text-gray-700 mb-2 uppercase">
+                    {day.day}
                   </p>
+                  <div className="flex justify-center mb-3">
+                    {getWeatherIcon(day.weatherCode, 'w-8 h-8')}
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-lg font-bold text-gray-900">
+                      {day.highTemp}° / {day.lowTemp}°
+                    </p>
+                    <p className="text-xs text-blue-500">
+                      {day.precipitationProbability}% lluvia
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
