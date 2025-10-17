@@ -181,10 +181,24 @@ export default function PueblosAlemanesSection({
                     article.section_path || article.section,
                     article.slug
                   )}
-                  className="block h-full flex flex-row group gap-4"
+                  className="block h-full flex flex-col md:flex-row group gap-4"
                 >
-                  {/* Text on left */}
-                  <div className="pt-0 pb-0 md:pb-0 flex-1">
+                  {/* Image - Full width on mobile, right side on desktop */}
+                  <div className="relative w-full md:w-1/2 aspect-[16/9] md:order-2 flex-shrink-0">
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                      <OptimizedImage
+                        src={article.imgUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Text - Below image on mobile, left side on desktop */}
+                  <div className="pt-2 md:pt-0 pb-6 md:pb-0 md:order-1 flex-1">
                     <h2 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
                       {article.overline && (
                         <span className="text-primary-red">
@@ -194,24 +208,10 @@ export default function PueblosAlemanesSection({
                       {article.title}
                     </h2>
                   </div>
-
-                  {/* Image on right */}
-                  <div className="relative w-1/2 aspect-[16/9] flex-shrink-0">
-                    <div className="relative w-full h-full overflow-hidden">
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                      <OptimizedImage
-                        src={article.imgUrl}
-                        alt={article.title}
-                        fill
-                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                        sizes="(max-width: 768px) 50vw, 25vw"
-                      />
-                    </div>
-                  </div>
                 </Link>
 
                 {/* Mobile divisory line */}
-                <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
+                <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
               </div>
 
               {/* Desktop horizontal divider - Between articles */}
