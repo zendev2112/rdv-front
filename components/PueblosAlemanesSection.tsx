@@ -183,7 +183,7 @@ export default function PueblosAlemanesSection({
                 className="block h-full flex flex-row group gap-4"
               >
                 {/* Text on left */}
-                <div className="pt-0 pb-0 md:pb-0 flex-1">
+                <div className="pt-0 pb-6 md:pb-0 flex-1">
                   <h2 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
                     {article.overline && (
                       <span className="text-primary-red">
@@ -209,10 +209,13 @@ export default function PueblosAlemanesSection({
                 </div>
               </Link>
 
-              {/* Mobile divisory line */}
+              {/* Horizontal divider - Desktop between articles */}
               {idx < sideArticles.length - 1 && (
-                <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
+                <div className="hidden md:block w-full h-[1px] bg-gray-400 opacity-50 mt-6"></div>
               )}
+
+              {/* Mobile divisory line */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
             </div>
           ))}
         </div>
