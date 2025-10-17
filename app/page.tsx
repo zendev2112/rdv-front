@@ -632,6 +632,10 @@ export default async function Home() {
           {/* Main content */}
           <PrincipalSection serverData={principalSectionArticles} />
 
+          <div className="md:hidden mb-8">
+            <DollarRates />
+          </div>
+
           <NoticiasImportantesSection
             serverData={noticiasImportantesArticles}
           />
@@ -647,7 +651,6 @@ export default async function Home() {
 
           {/* Weather section */}
           <ClimaSection />
-
 
           <HuanguelenSection serverData={huanguelenArticles} />
 
@@ -844,7 +847,7 @@ export default async function Home() {
           />
 
           {/* Stories and Characters Section with shadcn */}
-{/*           <HistoriasYRelatosSection
+          {/*           <HistoriasYRelatosSection
             mainArticle={{
               title: (
                 <>
@@ -895,7 +898,7 @@ export default async function Home() {
           /> */}
 
           {/* Foodit Section */}
-{/*           <RecetasSection
+          {/*           <RecetasSection
             logoSrc="/placeholder.svg?height=80&width=150"
             categories={[
               { name: 'MENU', href: '#' },
@@ -930,7 +933,7 @@ export default async function Home() {
           />
 
           {/* World Section (formerly Farming Section) */}
-{/*           <MundoSection
+          {/*           <MundoSection
             mainArticle={farmingSectionData.mainArticle}
             sideArticles={farmingSectionData.sideArticles}
           /> */}
