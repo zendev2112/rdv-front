@@ -667,17 +667,17 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="py-6 flex flex-col md:flex-row gap-8">
+{/*           <div className="py-6 flex flex-col md:flex-row gap-8">
             <div className="flex-1 min-w-0">
               <ActualidadSection serverData={actualidadArticles} />
             </div>
             <div className="w-full md:w-80 flex-shrink-0">
               <UltimasNoticiasSection headlines={latestHeadlines} />
             </div>
-          </div>
+          </div> */}
 
           {/* Politics and Economy Section */}
-          <PoliticaYEconomiaSection
+{/*           <PoliticaYEconomiaSection
             mainArticle={{
               id: 'politics-main-1',
               title: {
@@ -726,7 +726,7 @@ export default async function Home() {
                 hasVideo: true,
               },
             ]}
-          />
+          /> */}
 
           <AdPlaceholder />
 
@@ -801,7 +801,7 @@ export default async function Home() {
           <AdPlaceholder />
 
           {/* Sports News Section */}
-          <DeportesSection
+{/*           <DeportesSection
             mainArticle={{
               title: (
                 <>
@@ -845,7 +845,7 @@ export default async function Home() {
                 hasVideo: true,
               },
             ]}
-          />
+          /> */}
 
           {/* Stories and Characters Section with shadcn */}
           {/*           <HistoriasYRelatosSection
@@ -978,11 +978,11 @@ export default async function Home() {
           /> */}
 
           {/* Tech Section */}
-          <section className="py-6 border-t border-gray-200">
+{/*           <section className="py-6 border-t border-gray-200">
             <TechSection articles={techSectionData.articles} />
-          </section>
+          </section> */}
 
-          <section className="py-6 border-t border-gray-200">
+{/*           <section className="py-6 border-t border-gray-200">
             <CienciaYSaludSection
               sectionTitle="CIENCIA Y SALUD"
               logo={{
@@ -992,7 +992,7 @@ export default async function Home() {
               mainArticle={lifestyleFeatureData.mainArticle}
               smallArticles={lifestyleFeatureData.smallArticles}
             />
-          </section>
+          </section> */}
 
           {/* Hashtag Section */}
           {/*           <section className="py-6 border-t border-gray-200">
@@ -1004,9 +1004,9 @@ export default async function Home() {
           </section> */}
 
           {/* Top Reads Section */}
-          <section className="py-6 border-t border-gray-200">
+{/*           <section className="py-6 border-t border-gray-200">
             <TopReads articles={topReadsData.articles} />
-          </section>
+          </section> */}
 
           {/* Business Main Feature Section */}
           {/*           <NegociosSection
