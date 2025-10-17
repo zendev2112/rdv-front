@@ -46,6 +46,7 @@ import DollarRates from '@/components/DollarRates'
 import NewsTicker from '@/components/NewsTicker'
 import { fetchYouTubeRSS } from '@/lib/youtube/fetchYouTubeRSS'
 import MobileSectionNav from '@/components/MobileSectionNav'
+import MobileDollarRates from '@/components/MobileDollarRates'
 
 
 export const dynamic = 'force-dynamic'
@@ -632,8 +633,8 @@ export default async function Home() {
           {/* Main content */}
           <PrincipalSection serverData={principalSectionArticles} />
 
-          <div className="md:hidden mb-8">
-            <DollarRates />
+          <div className="md:hidden">
+            <MobileDollarRates />
           </div>
 
           <NoticiasImportantesSection
