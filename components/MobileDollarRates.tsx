@@ -38,12 +38,12 @@ export default function MobileDollarRates() {
   }
 
   return (
-    <main className="py-0 md:py-6">
+    <main className="py-0 md:py-6 mb-6 md:mb-0">
       {/* Horizontal divider to separate from section above */}
-      <div className="w-full md:w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-4 md:mb-6 md:opacity-50"></div>
 
       {/* Header with Title */}
-      <div className="flex justify-start mb-6">
+      <div className="flex justify-start mb-4">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
           <h2 className="text-2xl font-bold uppercase">Cotizaciones</h2>
@@ -51,25 +51,23 @@ export default function MobileDollarRates() {
       </div>
 
       {/* Exchange Rates Grid - 12 columns */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         {SHOW_RATES.map((rateKey) => {
           const rate = rates.find((r) => r.nombre.toLowerCase() === rateKey)
           return rate ? (
-            <div key={rateKey} className="md:col-span-4 relative">
+            <div key={rateKey} className="md:col-span-4">
               <Link
                 href="/exchange-rates"
                 className="block h-full flex flex-col group"
               >
                 {/* Rate Card */}
-                <div className="bg-white border border-gray-200 p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
-                      Dólar {RATE_LABELS[rateKey]}
-                    </h3>
-                  </div>
+                <div className="bg-white border border-gray-200 p-3">
+                  <h3 className="text-sm md:text-base font-bold leading-tight mb-2">
+                    Dólar {RATE_LABELS[rateKey]}
+                  </h3>
 
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-xs">
                       <span className="text-gray-600">Compra:</span>
                       <span className="font-semibold">
                         $
@@ -78,7 +76,7 @@ export default function MobileDollarRates() {
                         })}
                       </span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className="flex justify-between text-xs">
                       <span className="text-gray-600">Venta:</span>
                       <span className="font-semibold">
                         $
@@ -90,9 +88,6 @@ export default function MobileDollarRates() {
                   </div>
                 </div>
               </Link>
-
-              {/* Mobile divisory line */}
-              <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
             </div>
           ) : null
         })}
