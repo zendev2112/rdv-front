@@ -1,9 +1,6 @@
 'use client'
 
 import { Play } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 interface RadioPlayerShowcaseProps {
   frequency?: string
@@ -17,60 +14,71 @@ export default function RadioPlayerShowcase({
   radioLink = 'https://app.radiodelvolga.com.ar/',
 }: RadioPlayerShowcaseProps) {
   return (
-    <Card className="w-full overflow-hidden border-gray-200 shadow-sm">
-      {/* Radio player header */}
-      <CardHeader className="bg-[#ff0808] text-white p-3 flex flex-row items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-full bg-white text-[#ff0808] flex items-center justify-center font-bold text-xs">
-            FM
-          </div>
-          <div>
-            <h3 className="font-bold">{stationName}</h3>
-            <p className="text-sm">FM {frequency}</p>
-          </div>
-        </div>
-        <Badge className="bg-white text-[#ff0808] hover:bg-white hover:text-[#ff0808] px-2 py-1 font-bold">
-          EN VIVO
-        </Badge>
-      </CardHeader>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider to separate from section above */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
 
-      {/* Player controls */}
-      <CardContent className="p-4 flex items-center justify-between">
-        <Button
-          asChild
-          size="icon"
-          className="h-12 w-12 rounded-full bg-[#ff0808] hover:bg-[#e00000]"
-          aria-label="Reproducir radio"
-        >
-          <a href={radioLink} target="_blank" rel="noopener noreferrer">
-            <Play className="h-5 w-5 ml-1" />
+      {/* Header with Title */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="text-2xl font-bold uppercase">RADIO EN VIVO</h2>
+        </div>
+      </div>
+
+      {/* Radio Player Card */}
+      <div className="w-full border border-gray-200 bg-white">
+        {/* Radio player header */}
+        <div className="bg-primary-red text-white p-4 flex flex-row items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-white text-primary-red flex items-center justify-center font-bold text-sm">
+              FM
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">{stationName}</h3>
+              <p className="text-sm">FM {frequency}</p>
+            </div>
+          </div>
+          <span className="bg-white text-primary-red px-3 py-1 font-bold text-sm">
+            EN VIVO
+          </span>
+        </div>
+
+        {/* Player controls */}
+        <div className="p-6 flex items-center justify-between">
+          <a
+            href={radioLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="h-16 w-16 bg-primary-red hover:bg-[#cc0000] flex items-center justify-center transition-colors"
+            aria-label="Reproducir radio"
+          >
+            <Play className="h-8 w-8 text-white ml-1" />
           </a>
-        </Button>
 
-        <div className="flex items-center">
-          <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center space-x-1">
-            <div className="h-2 w-1 bg-[#ff0808] animate-pulse"></div>
-            <div className="h-3 w-1 bg-[#ff0808] animate-pulse delay-75"></div>
-            <div className="h-2 w-1 bg-[#ff0808] animate-pulse delay-100"></div>
-            <div className="h-4 w-1 bg-[#ff0808] animate-pulse delay-150"></div>
-            <div className="h-2 w-1 bg-[#ff0808] animate-pulse delay-200"></div>
+          <div className="flex items-center">
+            <div className="bg-gray-100 px-4 py-2 flex items-center space-x-1">
+              <div className="h-3 w-1 bg-primary-red animate-pulse"></div>
+              <div className="h-4 w-1 bg-primary-red animate-pulse delay-75"></div>
+              <div className="h-3 w-1 bg-primary-red animate-pulse delay-100"></div>
+              <div className="h-5 w-1 bg-primary-red animate-pulse delay-150"></div>
+              <div className="h-3 w-1 bg-primary-red animate-pulse delay-200"></div>
+            </div>
           </div>
         </div>
-      </CardContent>
 
-      {/* Now playing */}
-      <CardFooter className="px-4 pb-4 pt-0 block">
-        <div className="bg-gray-50 p-2 rounded text-sm">
-          <p className="text-xs text-gray-500 uppercase font-medium">
-            ESCUCHA EN VIVO:
-          </p>
-          <div className="flex items-center justify-between">
-            <p className="text-gray-800 font-medium truncate">
+        {/* Now playing */}
+        <div className="px-6 pb-6">
+          <div className="bg-gray-50 p-4 border border-gray-200">
+            <p className="text-xs text-gray-600 uppercase font-semibold mb-1">
+              ESCUCHÁ EN VIVO:
+            </p>
+            <p className="text-base font-bold text-gray-900">
               FM {frequency} - {stationName}
             </p>
           </div>
         </div>
-      </CardFooter>
-    </Card>
+      </div>
+    </main>
   )
 }

@@ -1030,11 +1030,11 @@ export default async function Home() {
           </section> */}
 
           {/* Lifestyle Section */}
-          <section className="py-6 border-t border-gray-200">
+{/*           <section className="py-6 border-t border-gray-200">
             <LifestyleSection serverData={lifestyleArticles}
 
             />
-          </section>
+          </section> */}
 
           {/* Cultura Section */}
           {/*           <section className="py-6 border-t border-gray-200">
