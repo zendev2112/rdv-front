@@ -456,7 +456,7 @@ export default function PrincipalSection({
                 )}
                 {mainArticle.title}
               </h1>
-              <p className="text-sm md:text-sm text-gray-600 mt-2 leading-6 md:leading-relaxed">
+              <p className="text-sm md:text-sm text-gray-600 mt-2 leading-6 md:leading-tight">
                 {mainArticle.excerpt || 'No excerpt available'}
               </p>
             </div>
