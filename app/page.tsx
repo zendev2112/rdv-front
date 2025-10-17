@@ -78,6 +78,7 @@ export default async function Home() {
   const actualidadArticles = await fetchSectionArticles('ActualidadSection')
   const latestHeadlines = await fetchLatestHeadlines()
   const agroArticles = await fetchSectionArticles('AgroSection')
+  const lifestyleArticles = await fetchSectionArticles('LifestyleSection')
 
   // Other section data...
 
@@ -876,10 +877,10 @@ export default async function Home() {
           /> */}
 
           {/* Wellness Section */}
-          <BienestarSection
+{/*           <BienestarSection
             featuredArticle={wellnessSectionData.featuredArticle}
             smallArticles={wellnessSectionData.smallArticles}
-          />
+          /> */}
 
           {/* World Section (formerly Farming Section) */}
           {/*           <MundoSection
@@ -1030,70 +1031,8 @@ export default async function Home() {
 
           {/* Lifestyle Section */}
           <section className="py-6 border-t border-gray-200">
-            <LifestyleSection
-              sectionTitle="SALUD"
-              categories={[
-                { name: 'VIAJES', href: '#' },
-                { name: 'DESCANSO', href: '#' },
-                { name: 'MENTE', href: '#' },
-                { name: 'FITNESS', href: '#' },
-                { name: 'NUTRICION', href: '#' },
-                { name: 'VIDA SANA', href: '#' },
-              ]}
-              articles={[
-                {
-                  id: 'lifestyle-1',
-                  title: {
-                    highlight: 'Bienestar',
-                    regular:
-                      'Vivir conscientemente: el arte de disfrutar el momento presente',
-                  },
-                  summary:
-                    'Frente a un mundo hiperconectado y acelerado, cada vez más personas buscan formas de desacelerar y conectar con su entorno',
-                  author: 'Martina Canavesi',
-                  imageUrl:
-                    '/placeholder.svg?height=250&width=300&text=Mindfulness',
-                },
-                {
-                  id: 'lifestyle-2',
-                  title: {
-                    highlight: 'Yoga',
-                    regular:
-                      'Cinco posturas fáciles para incorporar a tu rutina diaria',
-                  },
-                  summary:
-                    'Estas asanas básicas te ayudarán a ganar flexibilidad y reducir el estrés sin necesidad de experiencia previa',
-                  author: 'Laura Giménez',
-                  imageUrl: '/placeholder.svg?height=250&width=300&text=Yoga',
-                  hasFeaturedBadge: true,
-                },
-                {
-                  id: 'lifestyle-3',
-                  title: {
-                    highlight: 'Decoración',
-                    regular:
-                      'Cómo lograr espacios armoniosos con menos elementos',
-                  },
-                  author: 'Carlos Martínez',
-                  imageUrl:
-                    '/placeholder.svg?height=250&width=300&text=Minimalismo',
-                  summary:
-                    'El minimalismo no se trata solo de tener menos cosas, sino de elegir con propósito cada objeto que habita tu hogar',
-                },
-                {
-                  id: 'lifestyle-4',
-                  title: {
-                    highlight: 'Alimentación',
-                    regular:
-                      'Por qué los nutricionistas recomiendan escuchar a tu cuerpo',
-                  },
-                  author: 'Federico Sánchez',
-                  imageUrl:
-                    '/placeholder.svg?height=250&width=300&text=Nutrición',
-                  summary:
-                    'Este enfoque propone dejar de lado las dietas restrictivas y aprender a identificar las señales naturales de hambre y saciedad',
-                },
-              ]}
+            <LifestyleSection serverData={lifestyleArticles}
+
             />
           </section>
 
