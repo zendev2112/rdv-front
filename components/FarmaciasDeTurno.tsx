@@ -10,6 +10,14 @@ function getGoogleMapsUrl(address: string) {
   )}`
 }
 
+function formatDate(date: Date): string {
+  return date.toLocaleString('es-ES', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  })
+}
+
 export const pharmacies = [
   {
     day: 1,
@@ -209,6 +217,9 @@ export default function FarmaciasDeTurno() {
   const currentPharmacy = pharmacies.find((p) => p.day === todayDay)
   const nextPharmacy = pharmacies.find((p) => p.day === tomorrowDay)
 
+  const todayFormatted = formatDate(today)
+  const tomorrowFormatted = formatDate(tomorrow)
+
   if (!currentPharmacy) {
     return (
       <div className="container mx-auto p-4 text-red-500">
@@ -236,7 +247,7 @@ export default function FarmaciasDeTurno() {
         <div className="md:col-span-6 relative">
           <div className="bg-white border-l-4 border-l-primary-red p-6">
             <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">
-              Hoy
+              {todayFormatted}
             </h3>
             <h1 className="text-2xl md:text-3xl font-bold text-primary-red mb-4">
               {currentPharmacy.name}
@@ -271,14 +282,6 @@ export default function FarmaciasDeTurno() {
                 </div>
               </div>
             </div>
-
-            <Link
-              href="/farmacias-de-turno"
-              className="inline-flex items-center gap-2 text-primary-red font-semibold hover:underline"
-            >
-              Ver calendario completo
-              <ChevronRight className="w-4 h-4" />
-            </Link>
           </div>
 
           {/* Vertical divider */}
@@ -292,7 +295,7 @@ export default function FarmaciasDeTurno() {
           <div className="md:col-span-6">
             <div className="bg-white border-l-4 border-l-gray-400 p-6">
               <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">
-                Mañana
+                {tomorrowFormatted}
               </h3>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                 {nextPharmacy.name}
@@ -330,7 +333,7 @@ export default function FarmaciasDeTurno() {
 
               <Link
                 href="/farmacias-de-turno"
-                className="inline-flex items-center gap-2 text-gray-600 font-semibold hover:text-primary-red transition-colors"
+                className="inline-flex items-center gap-2 text-primary-red font-semibold hover:underline"
               >
                 Ver calendario completo
                 <ChevronRight className="w-4 h-4" />
