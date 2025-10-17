@@ -448,7 +448,7 @@ export default function PrincipalSection({
             </div>
             {/* Main title and excerpt area - CONSISTENT SPACING */}
             <div className="bg-white pt-3 pb-6 md:pb-0">
-              <h1 className="text-lg md:text-2xl font-bold leading-tight">
+              <h1 className="text-xl md:text-2xl font-bold leading-tight">
                 {mainArticle.overline && (
                   <span className="text-primary-red">
                     {mainArticle.overline}.{' '}
@@ -456,7 +456,7 @@ export default function PrincipalSection({
                 )}
                 {mainArticle.title}
               </h1>
-              <p className="text-xs md:text-sm text-gray-600 mt-2 leading-relaxed">
+              <p className="text-sm md:text-sm text-gray-600 mt-2 leading-relaxed">
                 {mainArticle.excerpt || 'No excerpt available'}
               </p>
             </div>
