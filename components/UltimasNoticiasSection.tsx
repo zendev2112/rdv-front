@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Clock } from 'lucide-react'
+import { getArticleUrl } from '@/lib/utils'
 
 interface HeadlineItem {
   id: string
@@ -10,12 +11,7 @@ interface HeadlineItem {
   timestamp?: string
   slug?: string
   section?: string
-}
-
-function getSectionPath(section: string | undefined): string {
-  if (!section) return 'sin-categoria'
-  if (section.includes('.')) return section.split('.').join('/')
-  return section
+  section_path?: string
 }
 
 function getRelativeTime(dateString?: string) {
@@ -33,7 +29,6 @@ function getRelativeTime(dateString?: string) {
   return `Hace ${diffHours} hora${diffHours === 1 ? '' : 's'}`
 }
 
-// Client-only timestamp component
 function ClientTimestamp({ timestamp }: { timestamp?: string }) {
   const [mounted, setMounted] = useState(false)
 
@@ -42,13 +37,13 @@ function ClientTimestamp({ timestamp }: { timestamp?: string }) {
   }, [])
 
   if (!mounted) {
-    return <span className="text-xs text-dark-gray">Cargando...</span>
+    return <span className="text-xs text-gray-600">Cargando...</span>
   }
 
   return (
     <div className="flex items-center mt-2">
-      <Clock className="h-3 w-3 text-dark-gray mr-1" />
-      <p className="text-xs text-dark-gray">{getRelativeTime(timestamp)}</p>
+      <Clock className="h-3 w-3 text-gray-600 mr-1" />
+      <p className="text-xs text-gray-600">{getRelativeTime(timestamp)}</p>
     </div>
   )
 }
@@ -61,79 +56,76 @@ export default function UltimasNoticiasSection({
   headlines,
 }: UltimasNoticiasSectionProps) {
   return (
-    <section className="py-8">
-      <div className="container mx-auto px-4">
-        {/* Section header with red accent */}
-        <div className="flex items-center mb-6 pb-2 border-b border-[#292929]/20">
-          <h2 className="text-2xl font-bold text-[#292929]">
-            ÚLTIMAS NOTICIAS
-          </h2>
-          <div className="ml-auto h-1 w-24 bg-primary-red"></div>
-        </div>
-
-        {/* Vertical headlines only */}
-        <div className="max-w-xl mx-auto">
-          <div className="bg-white border border-gray-100 rounded-md overflow-hidden">
-            <ul className="space-y-0">
-              {headlines.map((headline, index) => (
-                <li
-                  key={headline.id}
-                  className="relative pl-8 pr-4 py-3 border-t border-gray-100 first:border-t-0"
-                >
-                  {/* Dot and line styling */}
-                  <div className="absolute left-4 top-0 bottom-0 flex flex-col items-center">
-                    <div className="w-2 h-2 rounded-full bg-primary-red mt-4"></div>
-                    {index < headlines.length - 1 && (
-                      <div className="w-0.5 bg-gray-200 flex-grow"></div>
-                    )}
-                  </div>
-
-                  <Link
-                    href={
-                      headline.slug
-                        ? `/${getSectionPath(headline.section)}/${
-                            headline.slug
-                          }`
-                        : '#'
-                    }
-                    className="text-base font-medium leading-tight text-[#292929] hover:text-primary-red transition-colors block"
-                  >
-                    {headline.title}
-                  </Link>
-
-                  {/* Client-only timestamp */}
-                  {headline.timestamp && (
-                    <ClientTimestamp timestamp={headline.timestamp} />
-                  )}
-                </li>
-              ))}
-            </ul>
-
-            <div className="p-4 text-right border-t border-gray-100">
-              <Link
-                href="/noticias"
-                className="text-xs font-medium text-primary-red hover:underline inline-flex items-center"
-              >
-                Ver todas las noticias
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="ml-1"
-                >
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </Link>
-            </div>
-          </div>
+    <div className="md:col-span-3">
+      {/* Header with Title */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="text-2xl font-bold uppercase">ÚLTIMAS NOTICIAS</h2>
         </div>
       </div>
-    </section>
+
+      {/* Headlines list */}
+      <div className="bg-white border border-gray-200">
+        <ul className="space-y-0">
+          {headlines.map((headline, index) => (
+            <li
+              key={headline.id}
+              className="relative pl-8 pr-4 py-4 border-b border-gray-200 last:border-b-0"
+            >
+              {/* Dot and line styling */}
+              <div className="absolute left-4 top-0 bottom-0 flex flex-col items-center">
+                <div className="w-2 h-2 rounded-full bg-primary-red mt-5"></div>
+                {index < headlines.length - 1 && (
+                  <div className="w-0.5 bg-gray-300 flex-grow"></div>
+                )}
+              </div>
+
+              <Link
+                href={
+                  headline.slug
+                    ? getArticleUrl(
+                        headline.section_path || headline.section,
+                        headline.slug
+                      )
+                    : '#'
+                }
+                className="text-sm md:text-sm font-bold leading-6 sm:leading-tight text-gray-900 hover:text-primary-red transition-colors block"
+              >
+                {headline.title}
+              </Link>
+
+              {/* Client-only timestamp */}
+              {headline.timestamp && (
+                <ClientTimestamp timestamp={headline.timestamp} />
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <div className="p-4 text-right border-t border-gray-200">
+          <Link
+            href="/noticias"
+            className="text-sm font-semibold text-primary-red hover:underline inline-flex items-center"
+          >
+            Ver todas las noticias
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="ml-1"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    </div>
   )
 }
