@@ -1,8 +1,8 @@
 'use client'
 
-import { Card, CardContent } from '@/components/ui/card'
-import { MapPin, Clock, Phone, ChevronRight, ExternalLink } from 'lucide-react'
+import React from 'react'
 import Link from 'next/link'
+import { MapPin, Phone, ChevronRight } from 'lucide-react'
 
 function getGoogleMapsUrl(address: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -10,366 +10,335 @@ function getGoogleMapsUrl(address: string) {
   )}`
 }
 
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat('es-AR', {
-    style: 'currency',
-    currency: 'ARS',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price)
-}
-
-const defaultImage = '/images/pharmacies/farmacia.jpg'
-const defaultProducts = [
-
-  {
-    name: 'Perpiel Aqua Crema Gel Hidratante Matificante Facial 80 ml',
-    price: 12185,
-    originalPrice: 20309,
-    discount: 40,
-    image: '/images/pharmacies-products/perpiel.jpeg',
-  },
-  {
-    name: 'Dermaglos Crema Protectora Con Fps30 50 gr',
-    price: 17276,
-    originalPrice: 23035,
-    discount: 25,
-    image: '/images/pharmacies-products/dermaglos.jpeg',
-  },
-  {
-    name: 'Loreal Paris Revitalift Crema Ojos Acido Hialulronico 15 ml',
-    price: 19139,
-    originalPrice: 27342,
-    discount: 30,
-    image: '/images/pharmacies-products/loreal.jpeg',
-  },
-  {
-    name: 'Aveno Crema Hidratante Facial Piel Sensible Seca 50 gr',
-    price: 21871,
-    originalPrice: 31245,
-    discount: 30,
-    image: '/images/pharmacies-products/aveno.jpeg',
-  },
-]
-
 export const pharmacies = [
   {
     day: 1,
     name: 'JAIME',
     address: 'Brandsen y Brown',
     phone: '422254',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 2,
     name: 'MENNA',
     address: 'Av. Sixto Rodríguez y Alem',
     phone: '431467',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 3,
     name: 'PASTEUR',
     address: 'Belgrano y Junín',
     phone: '422156',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 4,
     name: 'PERRIG',
     address: 'Av. Balcarce 459',
     phone: '15408697',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 5,
     name: 'SANTOMAURO',
     address: 'Las Heras 1242',
     phone: '421261',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 6,
     name: 'SCHUVAB',
     address: 'Belgrano y Sarmiento',
     phone: '422045',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 7,
     name: 'SOTELO',
     address: 'Hipólito Irigoyen 855',
     phone: '421739',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 8,
     name: 'MATTA',
     address: 'Lamadrid y Conturbi',
     phone: '15492303',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 9,
     name: 'CORONEL SUÁREZ',
     address: 'Avellaneda y Lavalle',
     phone: '430019',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 10,
     name: 'FETTER',
     address: 'Mitre y San Martín',
     phone: '422778',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 11,
     name: 'DE LA CIUDAD',
     address: 'Las Heras y Garibaldi',
     phone: '431666',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 12,
     name: 'DEL PUEBLO',
     address: 'Mitre y Brandsen',
     phone: '424338',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 13,
     name: 'FONZO',
     address: 'Belgrano 1269',
     phone: '422230',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 14,
     name: 'GÓMEZ',
     address: 'Av. San Martín 218',
     phone: '431713',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
     day: 15,
-    name: 'MENNA',
-    address: 'Av. Sixto Rodríguez y Alem',
-    phone: '431467',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 16,
-    name: 'PASTEUR',
-    address: 'Belgrano y Junín',
-    phone: '422156',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 17,
-    name: 'PERRIG',
-    address: 'Av. Balcarce 459',
-    phone: '15408697',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 18,
-    name: 'SANTOMAURO',
-    address: 'Las Heras 1242',
-    phone: '421261',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 19,
-    name: 'SCHUVAB',
-    address: 'Belgrano y Sarmiento',
-    phone: '422045',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 20,
-    name: 'SOTELO',
-    address: 'Hipólito Irigoyen 855',
-    phone: '421739',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 21,
-    name: 'MATTA',
-    address: 'Lamadrid y Conturbi',
-    phone: '15492303',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 22,
-    name: 'CORONEL SUÁREZ',
-    address: 'Avellaneda y Lavalle',
-    phone: '430019',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 23,
-    name: 'FETTER',
-    address: 'Mitre y San Martín',
-    phone: '422778',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 24,
-    name: 'DE LA CIUDAD',
-    address: 'Las Heras y Garibaldi',
-    phone: '431666',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 25,
-    name: 'DEL PUEBLO',
-    address: 'Mitre y Brandsen',
-    phone: '424338',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 26,
-    name: 'PERRIG',
-    address: 'Av. Balcarce 459',
-    phone: '15408697',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 27,
-    name: 'GÓMEZ',
-    address: 'Av. San Martín 218',
-    phone: '431713',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
-  },
-  {
-    day: 28,
     name: 'JAIME',
     address: 'Brandsen y Brown',
     phone: '422254',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
-    day: 29,
+    day: 16,
+    name: 'MENNA',
+    address: 'Av. Sixto Rodríguez y Alem',
+    phone: '431467',
+  },
+  {
+    day: 17,
     name: 'PASTEUR',
     address: 'Belgrano y Junín',
     phone: '422156',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
-    day: 30,
+    day: 18,
     name: 'PERRIG',
     address: 'Av. Balcarce 459',
     phone: '15408697',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
   },
   {
-    day: 31,
+    day: 19,
     name: 'SANTOMAURO',
     address: 'Las Heras 1242',
     phone: '421261',
-    image: defaultImage,
-    featuredProducts: defaultProducts,
+  },
+  {
+    day: 20,
+    name: 'SCHUVAB',
+    address: 'Belgrano y Sarmiento',
+    phone: '422045',
+  },
+  {
+    day: 21,
+    name: 'SOTELO',
+    address: 'Hipólito Irigoyen 855',
+    phone: '421739',
+  },
+  {
+    day: 22,
+    name: 'MATTA',
+    address: 'Lamadrid y Conturbi',
+    phone: '15492303',
+  },
+  {
+    day: 23,
+    name: 'CORONEL SUÁREZ',
+    address: 'Avellaneda y Lavalle',
+    phone: '430019',
+  },
+  {
+    day: 24,
+    name: 'FETTER',
+    address: 'Mitre y San Martín',
+    phone: '422778',
+  },
+  {
+    day: 25,
+    name: 'DE LA CIUDAD',
+    address: 'Las Heras y Garibaldi',
+    phone: '431666',
+  },
+  {
+    day: 26,
+    name: 'DEL PUEBLO',
+    address: 'Mitre y Brandsen',
+    phone: '424338',
+  },
+  {
+    day: 27,
+    name: 'FONZO',
+    address: 'Belgrano 1269',
+    phone: '422230',
+  },
+  {
+    day: 28,
+    name: 'GÓMEZ',
+    address: 'Av. San Martín 218',
+    phone: '431713',
+  },
+  {
+    day: 29,
+    name: 'JAIME',
+    address: 'Brandsen y Brown',
+    phone: '422254',
+  },
+  {
+    day: 30,
+    name: 'MENNA',
+    address: 'Av. Sixto Rodríguez y Alem',
+    phone: '431467',
+  },
+  {
+    day: 31,
+    name: 'PASTEUR',
+    address: 'Belgrano y Junín',
+    phone: '422156',
   },
 ]
 
 export default function FarmaciasDeTurno() {
   const today = new Date()
   const todayDay = today.getDate()
-  const currentMonth = today.toLocaleString('es-ES', { month: 'long' }) // Get current month in Spanish
-  const pharmacy = pharmacies.find((p) => p.day === todayDay)
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const tomorrowDay = tomorrow.getDate()
 
-  if (!pharmacy) {
+  const currentPharmacy = pharmacies.find((p) => p.day === todayDay)
+  const nextPharmacy = pharmacies.find((p) => p.day === tomorrowDay)
+
+  if (!currentPharmacy) {
     return (
-      <div className="text-center text-red-600">
+      <div className="container mx-auto p-4 text-red-500">
         No hay farmacia de turno para hoy.
       </div>
     )
   }
 
   return (
-    <section className="container mx-auto px-4 py-6">
-      {/* Title */}
-      <div className="mb-6 border-b border-light-gray pb-2 flex items-center">
-        <div className="h-5 w-1 bg-primary-red mr-3"></div>
-        <h2 className="text-xl font-bold uppercase">Farmacias de turno</h2>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider to separate from section above */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
+
+      {/* Header with Title */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="text-2xl font-bold uppercase">FARMACIAS DE TURNO</h2>
+        </div>
       </div>
 
-      {/* Pharmacy Card */}
-      <Card className="border border-gray-200 shadow-md bg-white w-full flex flex-col md:flex-row items-stretch rounded-lg overflow-hidden">
-        {/* Pharmacy Image on the Left */}
-        <div className="w-full md:w-1/2">
-          <img
-            src={pharmacy.image || defaultImage}
-            alt={`Farmacia ${pharmacy.name}`}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              e.currentTarget.src = defaultImage
-            }}
-          />
-        </div>
-
-        {/* Pharmacy Information on the Right */}
-        <CardContent className="p-6 w-full md:w-1/2 flex flex-col justify-between">
-          <div>
-            <h3 className="text-2xl font-semibold text-primary-red mb-4">
-              {pharmacy.name}
+      {/* 12-column grid layout */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {/* TODAY'S PHARMACY - 6 columns */}
+        <div className="md:col-span-6 relative">
+          <div className="bg-white border-l-4 border-l-primary-red p-6">
+            <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">
+              Hoy
             </h3>
-            <div className="flex items-start mb-4">
-              <MapPin className="w-5 h-5 text-primary-red mt-0.5 mr-3 flex-shrink-0" />
-              <p className="text-base text-gray-700">{pharmacy.address}</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-primary-red mb-4">
+              {currentPharmacy.name}
+            </h1>
+
+            <div className="space-y-3 mb-6">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-sm text-gray-600">Dirección</p>
+                  <a
+                    href={getGoogleMapsUrl(currentPharmacy.address)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"
+                  >
+                    {currentPharmacy.address}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Phone className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-sm text-gray-600">Teléfono</p>
+                  <a
+                    href={`tel:${currentPharmacy.phone}`}
+                    className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"
+                  >
+                    {currentPharmacy.phone}
+                  </a>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center mb-4">
-              <Phone className="w-5 h-5 text-primary-red mr-3 flex-shrink-0" />
-              <span className="text-base text-gray-700">{pharmacy.phone}</span>
-            </div>
-            <div className="flex items-center">
-              <Clock className="w-5 h-5 text-primary-red mr-3 flex-shrink-0" />
-              <span className="text-base text-gray-700">
-                Atención las 24 horas
-              </span>
-            </div>
+
+            <Link
+              href="/farmacias-de-turno"
+              className="inline-flex items-center gap-2 text-primary-red font-semibold hover:underline"
+            >
+              Ver calendario completo
+              <ChevronRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          {/* Link to Monthly Pharmacies */}
-          <Link
-            href="/farmacias-de-turno"
-            className="text-primary-red font-medium text-base mt-4 hover:underline self-start"
-          >
-            Farmacias de Turno en {currentMonth}
-          </Link>
-        </CardContent>
-      </Card>
-    </section>
+          {/* Vertical divider */}
+          <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+          {/* Mobile divisory line */}
+          <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
+        </div>
+
+        {/* TOMORROW'S PHARMACY - 6 columns */}
+        {nextPharmacy && (
+          <div className="md:col-span-6">
+            <div className="bg-white border-l-4 border-l-gray-400 p-6">
+              <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">
+                Mañana
+              </h3>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+                {nextPharmacy.name}
+              </h2>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-gray-600">Dirección</p>
+                    <a
+                      href={getGoogleMapsUrl(nextPharmacy.address)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"
+                    >
+                      {nextPharmacy.address}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-gray-600">Teléfono</p>
+                    <a
+                      href={`tel:${nextPharmacy.phone}`}
+                      className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"
+                    >
+                      {nextPharmacy.phone}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/farmacias-de-turno"
+                className="inline-flex items-center gap-2 text-gray-600 font-semibold hover:text-primary-red transition-colors"
+              >
+                Ver calendario completo
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </main>
   )
 }
