@@ -112,7 +112,7 @@ export default function PueblosAlemanesSection({
   return (
     <main className="py-0 md:py-6">
       {/* Horizontal divider to separate from section above */}
-      <div className="w-full md:w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
 
       {/* Header with Title */}
       <div className="flex justify-start mb-6">
@@ -158,13 +158,16 @@ export default function PueblosAlemanesSection({
                   )}
                   {mainArticle.title}
                 </h1>
+                <p className="text-sm md:text-sm text-gray-600 mt-2 leading-6 sm:leading-relaxed">
+                  {mainArticle.excerpt || 'No excerpt available'}
+                </p>
               </div>
             </Link>
 
             {/* Vertical divider */}
             <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
             {/* Mobile divisory line */}
-            <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+            <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
           </div>
         )}
 
@@ -207,7 +210,9 @@ export default function PueblosAlemanesSection({
               </Link>
 
               {/* Mobile divisory line */}
-              <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
+              {idx < sideArticles.length - 1 && (
+                <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
+              )}
             </div>
           ))}
         </div>
