@@ -156,9 +156,9 @@ export default function ClimaSection() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* Current weather - 5 columns */}
-        <div className="md:col-span-5 relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Current weather - 6 columns (half) */}
+        <div className="w-full">
           <div className="border border-gray-200 bg-white p-6">
             <div className="flex justify-between items-start mb-4">
               <div>
@@ -224,13 +224,10 @@ export default function ClimaSection() {
               </div>
             </div>
           </div>
-
-          {/* Vertical divider */}
-          <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
         </div>
 
-        {/* Daily forecast - 7 columns */}
-        <div className="md:col-span-7">
+        {/* Daily forecast - 6 columns (half) */}
+        <div className="w-full">
           <div className="border border-gray-200 bg-white p-6">
             <h3 className="text-lg font-bold mb-4">
               Pronóstico para los próximos días
