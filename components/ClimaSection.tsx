@@ -207,9 +207,7 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Eye className="w-5 h-5 text-purple-500 mr-3" />
                 <div>
-                  <p className="text-xs text-gray-500 uppercase">
-                    Visibilidad
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase">Visibilidad</p>
                   <p className="font-bold text-gray-900">
                     {weatherData.visibility} km
                   </p>
