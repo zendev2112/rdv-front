@@ -77,6 +77,7 @@ export default async function Home() {
 
   const actualidadArticles = await fetchSectionArticles('ActualidadSection')
   const latestHeadlines = await fetchLatestHeadlines()
+  const agroArticles = await fetchSectionArticles('AgroSection')
 
   // Other section data...
 
@@ -732,7 +733,7 @@ export default async function Home() {
 
           {/* Agro Four Column Grid Section */}
           <section className="py-6 border-t border-gray-200">
-            <AgroSection/>
+            <AgroSection serverData={agroArticles}/>
           </section>
 
           {/* Add Radio Player Showcase */}
