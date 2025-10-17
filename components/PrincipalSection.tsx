@@ -496,7 +496,7 @@ export default function PrincipalSection({
                 </div>
                 {/* Title area - CONSISTENT SPACING */}
                 <div className="pt-2 pb-6 md:pb-0 flex-1">
-                  <h2 className="text-sm md:text-base font-bold leading-relaxed">
+                  <h2 className="text-base md:text-base font-bold leading-relaxed">
                     {upperRowArticles[0].overline && (
                       <span className="text-primary-red">
                         {upperRowArticles[0].overline}.{' '}
@@ -536,7 +536,7 @@ export default function PrincipalSection({
                 </div>
                 {/* Title area - CONSISTENT SPACING */}
                 <div className="pt-2 pb-6 md:pb-0 flex-1">
-                  <h2 className="text-sm md:text-base font-bold leading-relaxed">
+                  <h2 className="text-base md:text-base font-bold leading-relaxed">
                     {upperRowArticles[1].overline && (
                       <span className="text-primary-red">
                         {upperRowArticles[1].overline}.{' '}
@@ -581,7 +581,7 @@ export default function PrincipalSection({
                     </div>
                     {/* Title area - CONSISTENT SPACING */}
                     <div className="pt-2 pb-6 md:pb-0 flex-1">
-                      <h2 className="text-sm md:text-base font-bold leading-relaxed">
+                      <h2 className="text-base md:text-base font-bold leading-relaxed">
                         {article.overline && (
                           <span className="text-primary-red">
                             {article.overline}.{' '}
