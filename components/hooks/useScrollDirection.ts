@@ -1,31 +1,34 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export function useScrollDirection() {
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up')
-  const [prevOffset, setPrevOffset] = useState(0)
+  const [scrollThreshold, setScrollThreshold] = useState(0)
 
   useEffect(() => {
-    const threshold = 10 // Minimum scroll amount to trigger
+    let lastScrollY = 0
 
-    const updateScrollDirection = () => {
-      const scrollY = window.pageYOffset
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
 
-      if (Math.abs(scrollY - prevOffset) < threshold) {
-        return
+      // ✅ Delay nav hide until scroll > 200px (increased from immediate)
+      if (currentScrollY > 200) {
+        if (currentScrollY > lastScrollY) {
+          setScrollDirection('down')
+        } else {
+          setScrollDirection('up')
+        }
+      } else {
+        setScrollDirection('up')
       }
 
-      setScrollDirection(scrollY > prevOffset ? 'down' : 'up')
-      setPrevOffset(scrollY)
+      lastScrollY = currentScrollY
     }
 
-    window.addEventListener('scroll', updateScrollDirection)
-
-    return () => {
-      window.removeEventListener('scroll', updateScrollDirection)
-    }
-  }, [prevOffset])
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return scrollDirection
 }

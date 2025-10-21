@@ -104,13 +104,13 @@ export default async function DynamicPage({
     return (
       <SidelinesLayout sidelineWidth={sidelineWidth}>
         <Header />
-        <div className="pt-[80px] md:pt-[100px]">
+        <div className="pt-[184px] md:pt-[100px]">
           <div className="container mx-auto px-4 py-8">
-            <div className="mb-8 border-b-2 border-primary-red pb-4">
+            <div className="mb-8 border-b-2 border-primary-red pb-4 px-8">
               {/* Breadcrumbs */}
               <div className="text-sm text-gray-500 mb-4">
                 <Link href="/" className="hover:text-primary-red font-medium">
-                  Inicio
+                  RADIO DEL VOLGA
                 </Link>
                 {sectionData.breadcrumb_slugs.map(
                   (slug: string, index: number) => (
@@ -268,11 +268,11 @@ export default async function DynamicPage({
   return (
     <SidelinesLayout>
       <Header />
-      <main className="container mx-auto px-4 py-8 pt-[80px] md:pt-[100px]">
-        <article className="max-w-4xl mx-auto">
+      <main className="container mx-auto px-4 py-8 pt-[184px] md:pt-[100px]">
+        <article className="max-w-4xl mx-auto px-8">
           <nav className="text-sm text-gray-500 mb-4">
             <Link href="/" className="hover:text-primary-red font-medium">
-              Inicio
+              RADIO DEL VOLGA
             </Link>
             {article.section_path && (
               <>
@@ -300,12 +300,6 @@ export default async function DynamicPage({
               </>
             )}
           </nav>
-
-          {article.overline && (
-            <div className="text-primary-red font-medium mb-2">
-              {article.overline}
-            </div>
-          )}
 
           <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
             {article.title}
