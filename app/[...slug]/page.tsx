@@ -265,19 +265,23 @@ export default async function DynamicPage({
       }).format(publishDate)
     : 'Fecha no disponible'
 
-  return (
-    <SidelinesLayout>
-      <Header />
-      <main className="container mx-auto px-4 py-8 pt-[184px] md:pt-[100px]">
-        <article className="max-w-4xl mx-auto px-8">
+return (
+  <SidelinesLayout>
+    <Header />
+    <main className="container mx-auto px-4 py-8 pt-[184px] md:pt-[100px]">
+      <article className="max-w-4xl mx-auto">
+        {/* ✅ WRAP BREADCRUMBS & TITLE IN SAME STRUCTURE AS SECTION PAGE */}
+        <div className="mb-8 border-b-2 border-primary-red pb-4 px-8">
+          {/* Breadcrumbs */}
           <nav className="text-sm text-gray-500 mb-4">
             <Link href="/" className="hover:text-primary-red font-medium">
               RADIO DEL VOLGA
             </Link>
             {article.section_path && (
               <>
-                {article.section_path.split('.').map(
-                  (part: string, index: number, arr: string[]) => {
+                {article.section_path
+                  .split('.')
+                  .map((part: string, index: number, arr: string[]) => {
                     const sectionName = part.replace(/_/g, ' ')
                     const sectionUrl = `/${arr
                       .slice(0, index + 1)
@@ -295,52 +299,55 @@ export default async function DynamicPage({
                         </Link>
                       </span>
                     )
-                  }
-                )}
+                  })}
               </>
             )}
           </nav>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 leading-tight">
             {article.title}
           </h1>
+        </div>
 
-          {article.excerpt && (
-            <div className="text-lg text-gray-700 mb-6">{article.excerpt}</div>
-          )}
-
-          <div className="flex items-center text-sm text-gray-600 mb-6">
-            {article.source && <span className="mr-4">{article.source}</span>}
-            <time>{formattedDate}</time>
+        {/* Rest of article content */}
+        {article.excerpt && (
+          <div className="text-lg text-gray-700 mb-6 px-8">
+            {article.excerpt}
           </div>
+        )}
 
-          {article.imgUrl && (
-            <div className="relative h-[40vh] md:h-[60vh] mb-8">
-              <ClientSafeImage
-                src={article.imgUrl}
-                alt={article.title}
-                fill
-                className="object-cover rounded-lg"
-                priority
-              />
-            </div>
-          )}
+        <div className="flex items-center text-sm text-gray-600 mb-6 px-8">
+          {article.source && <span className="mr-4">{article.source}</span>}
+          <time>{formattedDate}</time>
+        </div>
 
-          <div className="prose prose-lg max-w-none">
-            {article.article &&
-              (article.article.startsWith('<') ? (
-                <div dangerouslySetInnerHTML={{ __html: article.article }} />
-              ) : (
-                <ReactMarkdown
-                  rehypePlugins={[rehypeRaw, rehypeSanitize]}
-                  remarkPlugins={[remarkGfm]}
-                >
-                  {article.article}
-                </ReactMarkdown>
-              ))}
+        {article.imgUrl && (
+          <div className="relative h-[40vh] md:h-[60vh] mb-8 px-8">
+            <ClientSafeImage
+              src={article.imgUrl}
+              alt={article.title}
+              fill
+              className="object-cover rounded-lg"
+              priority
+            />
           </div>
-        </article>
-      </main>
-    </SidelinesLayout>
-  )
+        )}
+
+        <div className="prose prose-lg max-w-none px-8">
+          {article.article &&
+            (article.article.startsWith('<') ? (
+              <div dangerouslySetInnerHTML={{ __html: article.article }} />
+            ) : (
+              <ReactMarkdown
+                rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                remarkPlugins={[remarkGfm]}
+              >
+                {article.article}
+              </ReactMarkdown>
+            ))}
+        </div>
+      </article>
+    </main>
+  </SidelinesLayout>
+)
 }
