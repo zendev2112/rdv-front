@@ -269,8 +269,8 @@ return (
   <SidelinesLayout>
     <Header />
     <main className="container mx-auto px-4 py-8 pt-[184px] md:pt-[100px]">
-      <article className="max-w-4xl mx-auto">
-        {/* ✅ WRAP BREADCRUMBS & TITLE IN SAME STRUCTURE AS SECTION PAGE */}
+      {/* ✅ REMOVE max-w-4xl mx-auto - let it flow naturally like section page */}
+      <article>
         <div className="mb-8 border-b-2 border-primary-red pb-4 px-8 py-8">
           {/* Breadcrumbs */}
           <nav className="text-sm text-gray-500 mb-4">
