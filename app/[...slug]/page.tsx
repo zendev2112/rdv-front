@@ -108,7 +108,8 @@ export default async function DynamicPage({
           <div className="container mx-auto px-4 py-8">
             <div className="mb-8 border-b-2 border-primary-red pb-4 px-8">
               {/* Breadcrumbs */}
-              <div className="text-sm text-gray-500 mb-4">
+              <div className="text-sm md:text-xs text-gray-500 mb-4">
+                {/* ✅ ADDED: md:text-xs to match individual article page */}
                 <Link href="/" className="hover:text-primary-red font-medium">
                   RADIO DEL VOLGA
                 </Link>
@@ -129,7 +130,7 @@ export default async function DynamicPage({
                 )}
               </div>
 
-              <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
                 {sectionData.name}
               </h1>
 
@@ -268,12 +269,13 @@ export default async function DynamicPage({
 return (
   <SidelinesLayout>
     <Header />
-    <main className="container mx-auto px-4 py-8 pt-[184px] md:pt-[100px]">
-      {/* ✅ REMOVE max-w-4xl mx-auto - let it flow naturally like section page */}
+    <main className="container mx-auto px-4 py-8 pt-[134px] md:pt-[100px]">
+      {/* ✅ CHANGE: pt-[184px] md:pt-[100px] to pt-[80px] md:pt-[100px] */}
       <article>
-        <div className="mb-8 border-b-2 border-primary-red pb-4 px-8 py-8">
+        <div className="mb-8 pb-4 px-4 md:px-8 py-0 md:py-8">
           {/* Breadcrumbs */}
-          <nav className="text-sm text-gray-500 mb-4">
+          <nav className="text-sm md:text-xs text-gray-500 mb-4">
+            {/* ✅ REDUCED: text-sm to text-sm md:text-xs */}
             <Link href="/" className="hover:text-primary-red font-medium">
               RADIO DEL VOLGA
             </Link>
@@ -304,25 +306,29 @@ return (
             )}
           </nav>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+            {/* ✅ CHANGED: mb-6 to mb-4 to match breadcrumbs-to-title spacing */}
             {article.title}
           </h1>
         </div>
 
         {/* Rest of article content */}
         {article.excerpt && (
-          <div className="text-lg text-gray-700 mb-6 px-8">
+          <div className="text-lg text-gray-700 mb-6 px-4 md:px-8 -mt-12 md:-mt-14">
+            {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
             {article.excerpt}
           </div>
         )}
 
-        <div className="flex items-center text-sm text-gray-600 mb-6 px-8">
+        <div className="flex items-center text-sm text-gray-600 mb-6 px-4 md:px-8">
+          {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
           {article.source && <span className="mr-4">{article.source}</span>}
           <time>{formattedDate}</time>
         </div>
 
         {article.imgUrl && (
-          <div className="relative h-[40vh] md:h-[60vh] mb-8 px-8">
+          <div className="relative h-[40vh] md:h-[60vh] mb-8 px-4 md:px-8">
+            {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
             <ClientSafeImage
               src={article.imgUrl}
               alt={article.title}
@@ -333,7 +339,8 @@ return (
           </div>
         )}
 
-        <div className="prose prose-lg max-w-none px-8">
+        <div className="prose prose-lg max-w-none px-4 md:px-8">
+          {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
           {article.article &&
             (article.article.startsWith('<') ? (
               <div dangerouslySetInnerHTML={{ __html: article.article }} />
