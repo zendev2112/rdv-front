@@ -14,6 +14,7 @@ import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 import dynamic from 'next/dynamic'
+import ArticleShareSidebar from '@/components/ArticleShareSidebar'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -394,10 +395,10 @@ export default async function DynamicPage({
             </h1>
           </div>
 
-          <article className="px-8">
-            {/* Article content */}
+          {/* Article excerpt, date, image - BEFORE sidebar starts */}
+          <div className="px-8">
             {article.excerpt && (
-              <div className="text-lg text-gray-700 mb-6 -mt-12 md:-mt-14">
+              <div className="text-lg text-gray-700 mb-6">
                 {article.excerpt}
               </div>
             )}
@@ -418,19 +419,33 @@ export default async function DynamicPage({
                 />
               </div>
             )}
+          </div>
 
-            <div className="prose prose-lg max-w-none">
-              {article.article &&
-                (article.article.startsWith('<') ? (
-                  <div dangerouslySetInnerHTML={{ __html: article.article }} />
-                ) : (
-                  <ReactMarkdown
-                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
-                    remarkPlugins={[remarkGfm]}
-                  >
-                    {article.article}
-                  </ReactMarkdown>
-                ))}
+          {/* ✅ ARTICLE CONTENT WITH SIDEBAR - Article text level */}
+          <article className="relative flex gap-12 px-8">
+            {/* ✅ STICKY SIDEBAR - LEFT SIDE, ALIGNED WITH IMAGE */}
+            <div className="sticky top-24 h-fit flex-shrink-0 w-20">
+              <ArticleShareSidebar 
+                title={article.title} 
+                url={typeof window !== 'undefined' ? window.location.href : ''} 
+              />
+            </div>
+
+            {/* ✅ ARTICLE TEXT CONTENT - REDUCED MAX-WIDTH, EQUAL PADDING */}
+            <div className="flex-1 pr-32">
+              <div className="prose prose-lg max-w-2xl text-justify">
+                {article.article &&
+                  (article.article.startsWith('<') ? (
+                    <div dangerouslySetInnerHTML={{ __html: article.article }} />
+                  ) : (
+                    <ReactMarkdown
+                      rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                      remarkPlugins={[remarkGfm]}
+                    >
+                      {article.article}
+                    </ReactMarkdown>
+                  ))}
+              </div>
             </div>
           </article>
         </SidelinesLayout>
