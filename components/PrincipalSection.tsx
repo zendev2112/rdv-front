@@ -420,7 +420,7 @@ export default function PrincipalSection({
   }
 
   return (
-    <main className="py-0 md:py-6">
+    <main className="py-0 md:py-6 -mt-16 md:mt-0">
       {/* Main container with CSS Grid - 12 columns with increased gap */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* LEFT COLUMN - Main article (6 columns) */}
@@ -433,7 +433,7 @@ export default function PrincipalSection({
             className="block h-full flex flex-col group"
           >
             {/* Main image - FULL WIDTH on mobile */}
-            <div className="relative w-screen md:w-full -mx-4 md:mx-0 aspect-[4/3] md:aspect-[3/2]">
+            <div className="relative w-screen md:w-full -mx-4 md:mx-0 -mt-8 md:mt-0 aspect-[4/3] md:aspect-[3/2]">
               <div className="relative w-full h-full overflow-hidden">
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
@@ -547,7 +547,6 @@ export default function PrincipalSection({
                 </div>
               </Link>
               {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
-              
             </div>
           </div>
 

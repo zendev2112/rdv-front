@@ -6,7 +6,6 @@ import {
   supabase,
 } from '@/lib/supabase'
 import { formatSectionPath, getArticleUrl } from '@/lib/utils'
-import Header from '@/components/Header'
 import SidelinesLayout from '@/components/SidelinesLayout'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -102,14 +101,12 @@ export default async function DynamicPage({
     const totalPages = Math.ceil(count / pageSize)
 
     return (
-      <SidelinesLayout sidelineWidth={sidelineWidth}>
-        <Header />
-        <div className="pt-[184px] md:pt-[100px]">
-          <div className="container mx-auto px-4 py-8">
-            <div className="mb-8 border-b-2 border-primary-red pb-4 px-8">
+      <>
+        <div className="md:hidden pt-[184px]">
+          <div className="container mx-auto max-w-[1600px] px-4">
+            <div className="mb-8 pb-4 py-0 -mt-8">
               {/* Breadcrumbs */}
               <div className="text-sm md:text-xs text-gray-500 mb-4">
-                {/* ✅ ADDED: md:text-xs to match individual article page */}
                 <Link href="/" className="hover:text-primary-red font-medium">
                   RADIO DEL VOLGA
                 </Link>
@@ -130,6 +127,7 @@ export default async function DynamicPage({
                 )}
               </div>
 
+              {/* ✅ ADD TITLE */}
               <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
                 {sectionData.name}
               </h1>
@@ -198,7 +196,9 @@ export default async function DynamicPage({
                           <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
                             <span>
                               {article.created_at
-                                ? new Date(article.created_at).toLocaleDateString('es-AR')
+                                ? new Date(
+                                    article.created_at
+                                  ).toLocaleDateString('es-AR')
                                 : 'Fecha no disponible'}
                             </span>
                           </div>
@@ -242,7 +242,7 @@ export default async function DynamicPage({
             )}
           </div>
         </div>
-      </SidelinesLayout>
+      </>
     )
   }
 
@@ -266,95 +266,175 @@ export default async function DynamicPage({
       }).format(publishDate)
     : 'Fecha no disponible'
 
-return (
-  <SidelinesLayout>
-    <Header />
-    <main className="container mx-auto px-4 py-8 pt-[134px] md:pt-[100px]">
-      {/* ✅ CHANGE: pt-[184px] md:pt-[100px] to pt-[80px] md:pt-[100px] */}
-      <article>
-        <div className="mb-8 pb-4 px-4 md:px-8 py-0 md:py-8">
-          {/* Breadcrumbs */}
-          <nav className="text-sm md:text-xs text-gray-500 mb-4">
-            {/* ✅ REDUCED: text-sm to text-sm md:text-xs */}
-            <Link href="/" className="hover:text-primary-red font-medium">
-              RADIO DEL VOLGA
-            </Link>
-            {article.section_path && (
-              <>
-                {article.section_path
-                  .split('.')
-                  .map((part: string, index: number, arr: string[]) => {
-                    const sectionName = part.replace(/_/g, ' ')
-                    const sectionUrl = `/${arr
-                      .slice(0, index + 1)
-                      .map((p) => p.replace(/_/g, '-'))
-                      .join('/')}`
+  return (
+    <>
+      
+      <div className="md:hidden pt-[184px]">
+        <div className="container mx-auto max-w-[1600px] px-4">
+          <div className="mb-8 pb-4 py-0 -mt-8">
+            {/* Breadcrumbs */}
+            <nav className="text-sm md:text-xs text-gray-500 mb-4">
+              <Link href="/" className="hover:text-primary-red font-medium">
+                RADIO DEL VOLGA
+              </Link>
+              {article.section_path && (
+                <>
+                  {article.section_path
+                    .split('.')
+                    .map((part: string, index: number, arr: string[]) => {
+                      const sectionName = part.replace(/_/g, ' ')
+                      const sectionUrl = `/${arr
+                        .slice(0, index + 1)
+                        .map((p) => p.replace(/_/g, '-'))
+                        .join('/')}`
 
-                    return (
-                      <span key={part}>
-                        <span className="mx-2 text-gray-400">›</span>
-                        <Link
-                          href={sectionUrl}
-                          className="hover:text-primary-red font-medium capitalize"
-                        >
-                          {sectionName}
-                        </Link>
-                      </span>
-                    )
-                  })}
-              </>
+                      return (
+                        <span key={part}>
+                          <span className="mx-2 text-gray-400">›</span>
+                          <Link
+                            href={sectionUrl}
+                            className="hover:text-primary-red font-medium capitalize"
+                          >
+                            {sectionName}
+                          </Link>
+                        </span>
+                      )
+                    })}
+                </>
+              )}
+            </nav>
+
+            {/* ✅ ADD TITLE */}
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+              {article.title}
+            </h1>
+          </div>
+
+          <article>
+            {/* Article content */}
+            {article.excerpt && (
+              <div className="text-lg text-gray-700 mb-6 -mt-12 md:-mt-14">
+                {article.excerpt}
+              </div>
             )}
-          </nav>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
-            {/* ✅ CHANGED: mb-6 to mb-4 to match breadcrumbs-to-title spacing */}
-            {article.title}
-          </h1>
+            <div className="flex items-center text-sm text-gray-600 mb-6">
+              {article.source && <span className="mr-4">{article.source}</span>}
+              <time>{formattedDate}</time>
+            </div>
+
+            {article.imgUrl && (
+              <div className="relative h-[40vh] md:h-[60vh] mb-8">
+                <ClientSafeImage
+                  src={article.imgUrl}
+                  alt={article.title}
+                  fill
+                  className="object-cover rounded-lg"
+                  priority
+                />
+              </div>
+            )}
+
+            <div className="prose prose-lg max-w-none">
+              {article.article &&
+                (article.article.startsWith('<') ? (
+                  <div dangerouslySetInnerHTML={{ __html: article.article }} />
+                ) : (
+                  <ReactMarkdown
+                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                    remarkPlugins={[remarkGfm]}
+                  >
+                    {article.article}
+                  </ReactMarkdown>
+                ))}
+            </div>
+          </article>
         </div>
+      </div>
 
-        {/* Rest of article content */}
-        {article.excerpt && (
-          <div className="text-lg text-gray-700 mb-6 px-4 md:px-8 -mt-12 md:-mt-14">
-            {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
-            {article.excerpt}
+      <div className="hidden md:block pt-[100px]">
+        {/* Desktop version - WITH SidelinesLayout */}
+        <SidelinesLayout sidelineWidth={sidelineWidth}>
+          <div className="mb-8 pb-4 px-8 py-8">
+            {/* Breadcrumbs */}
+            <nav className="text-sm md:text-xs text-gray-500 mb-4">
+              <Link href="/" className="hover:text-primary-red font-medium">
+                RADIO DEL VOLGA
+              </Link>
+              {article.section_path && (
+                <>
+                  {article.section_path
+                    .split('.')
+                    .map((part: string, index: number, arr: string[]) => {
+                      const sectionName = part.replace(/_/g, ' ')
+                      const sectionUrl = `/${arr
+                        .slice(0, index + 1)
+                        .map((p) => p.replace(/_/g, '-'))
+                        .join('/')}`
+
+                      return (
+                        <span key={part}>
+                          <span className="mx-2 text-gray-400">›</span>
+                          <Link
+                            href={sectionUrl}
+                            className="hover:text-primary-red font-medium capitalize"
+                          >
+                            {sectionName}
+                          </Link>
+                        </span>
+                      )
+                    })}
+                </>
+              )}
+            </nav>
+
+            {/* ✅ ADD TITLE */}
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+              {article.title}
+            </h1>
           </div>
-        )}
 
-        <div className="flex items-center text-sm text-gray-600 mb-6 px-4 md:px-8">
-          {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
-          {article.source && <span className="mr-4">{article.source}</span>}
-          <time>{formattedDate}</time>
-        </div>
+          <article className="px-8">
+            {/* Article content */}
+            {article.excerpt && (
+              <div className="text-lg text-gray-700 mb-6 -mt-12 md:-mt-14">
+                {article.excerpt}
+              </div>
+            )}
 
-        {article.imgUrl && (
-          <div className="relative h-[40vh] md:h-[60vh] mb-8 px-4 md:px-8">
-            {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
-            <ClientSafeImage
-              src={article.imgUrl}
-              alt={article.title}
-              fill
-              className="object-cover rounded-lg"
-              priority
-            />
-          </div>
-        )}
+            <div className="flex items-center text-sm text-gray-600 mb-6">
+              {article.source && <span className="mr-4">{article.source}</span>}
+              <time>{formattedDate}</time>
+            </div>
 
-        <div className="prose prose-lg max-w-none px-4 md:px-8">
-          {/* ✅ CHANGED: px-8 to px-4 md:px-8 for mobile alignment */}
-          {article.article &&
-            (article.article.startsWith('<') ? (
-              <div dangerouslySetInnerHTML={{ __html: article.article }} />
-            ) : (
-              <ReactMarkdown
-                rehypePlugins={[rehypeRaw, rehypeSanitize]}
-                remarkPlugins={[remarkGfm]}
-              >
-                {article.article}
-              </ReactMarkdown>
-            ))}
-        </div>
-      </article>
-    </main>
-  </SidelinesLayout>
-)
+            {article.imgUrl && (
+              <div className="relative h-[40vh] md:h-[60vh] mb-8">
+                <ClientSafeImage
+                  src={article.imgUrl}
+                  alt={article.title}
+                  fill
+                  className="object-cover rounded-lg"
+                  priority
+                />
+              </div>
+            )}
+
+            <div className="prose prose-lg max-w-none">
+              {article.article &&
+                (article.article.startsWith('<') ? (
+                  <div dangerouslySetInnerHTML={{ __html: article.article }} />
+                ) : (
+                  <ReactMarkdown
+                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                    remarkPlugins={[remarkGfm]}
+                  >
+                    {article.article}
+                  </ReactMarkdown>
+                ))}
+            </div>
+          </article>
+        </SidelinesLayout>
+      </div>
+    </>
+  )
 }
