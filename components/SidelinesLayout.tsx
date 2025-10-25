@@ -5,7 +5,7 @@ interface SidelinesLayoutProps {
   leftAd?: React.ReactNode
   rightAd?: React.ReactNode
   className?: string
-  sidelineWidth?: number // new prop in px
+  sidelineWidth?: number // percentage instead of px
 }
 
 export default function SidelinesLayout({
@@ -13,7 +13,7 @@ export default function SidelinesLayout({
   leftAd,
   rightAd,
   className = '',
-  sidelineWidth = 200, // default 200px
+  sidelineWidth = 12, // now represents percentage (12% each side)
 }: SidelinesLayoutProps) {
   const stripeStyle: React.CSSProperties = {
     backgroundImage: `repeating-linear-gradient(
@@ -25,7 +25,7 @@ export default function SidelinesLayout({
     )`,
     backgroundColor: '#f8f8f8',
     minHeight: '100vh',
-    width: `${sidelineWidth}px`,
+    flex: `0 0 ${sidelineWidth}%`, // ✅ Use percentage instead of fixed px
   }
 
   return (
@@ -33,23 +33,21 @@ export default function SidelinesLayout({
       {/* Mobile/Tablet: Normal layout without sidelines */}
       <div className={`xl:hidden ${className}`}>{children}</div>
 
-      {/* Desktop: Layout with sidelines */}
-      <div className={`hidden xl:block ${className}`}>
-        <div className="flex justify-center">
-          {/* Left Sideline */}
-          <div className="flex-shrink-0" style={stripeStyle}>
-            <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
-          </div>
+      {/* Desktop: Layout with responsive sidelines */}
+      <div className={`hidden xl:flex justify-center ${className}`}>
+        {/* Left Sideline - Responsive */}
+        <div style={stripeStyle}>
+          <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
+        </div>
 
-          {/* Main Content */}
-          <div className="w-[1200px] bg-white shadow-sm min-h-screen">
-            {children}
-          </div>
+        {/* Main Content - Responsive */}
+        <div className="flex-1 bg-white shadow-sm min-h-screen max-w-[1200px]">
+          {children}
+        </div>
 
-          {/* Right Sideline */}
-          <div className="flex-shrink-0" style={stripeStyle}>
-            <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
-          </div>
+        {/* Right Sideline - Responsive */}
+        <div style={stripeStyle}>
+          <div className="sticky top-[180px] p-4">{/* Ads hidden */}</div>
         </div>
       </div>
     </>

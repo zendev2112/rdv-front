@@ -15,6 +15,8 @@ import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 import dynamic from 'next/dynamic'
 import ArticleShareSidebar from '@/components/ArticleShareSidebar'
+import RelatedArticlesSidebar from '@/components/RelatedArticlesSidebar'
+import { getProperSpanishName } from '@/lib/spanishGrammar'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -80,7 +82,7 @@ export default async function DynamicPage({
 }) {
   const page = parseInt(searchParams.page || '1', 10)
   const pageSize = 12
-  const sidelineWidth = 200
+  const sidelineWidth = 10
 
   const pathSlug = params.slug[params.slug.length - 1]
   const fullPath = params.slug.join('/')
@@ -119,9 +121,9 @@ export default async function DynamicPage({
                         href={`/${sectionData.breadcrumb_slugs
                           .slice(0, index + 1)
                           .join('/')}`}
-                        className="hover:text-primary-red font-medium capitalize"
+                        className="hover:text-primary-red font-medium"
                       >
-                        {sectionData.breadcrumb_names[index]}
+                        {getProperSpanishName(slug)}
                       </Link>
                     </span>
                   )
@@ -408,7 +410,6 @@ export default async function DynamicPage({
 
   return (
     <>
-      
       <div className="md:hidden pt-[184px]">
         <div className="container mx-auto max-w-[1600px] px-4">
           <div className="mb-8 pb-4 py-0 -mt-8">
@@ -422,7 +423,8 @@ export default async function DynamicPage({
                   {article.section_path
                     .split('.')
                     .map((part: string, index: number, arr: string[]) => {
-                      const sectionName = part.replace(/_/g, ' ')
+                      const sectionSlug = part.replace(/_/g, '-')
+                      const sectionName = getProperSpanishName(sectionSlug)
                       const sectionUrl = `/${arr
                         .slice(0, index + 1)
                         .map((p) => p.replace(/_/g, '-'))
@@ -433,7 +435,7 @@ export default async function DynamicPage({
                           <span className="mx-2 text-gray-400">›</span>
                           <Link
                             href={sectionUrl}
-                            className="hover:text-primary-red font-medium capitalize"
+                            className="hover:text-primary-red font-medium"
                           >
                             {sectionName}
                           </Link>
@@ -443,7 +445,6 @@ export default async function DynamicPage({
                 </>
               )}
             </nav>
-
             {/* ✅ ADD TITLE */}
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
               {article.title}
@@ -506,7 +507,8 @@ export default async function DynamicPage({
                   {article.section_path
                     .split('.')
                     .map((part: string, index: number, arr: string[]) => {
-                      const sectionName = part.replace(/_/g, ' ')
+                      const sectionSlug = part.replace(/_/g, '-')
+                      const sectionName = getProperSpanishName(sectionSlug)
                       const sectionUrl = `/${arr
                         .slice(0, index + 1)
                         .map((p) => p.replace(/_/g, '-'))
@@ -517,7 +519,7 @@ export default async function DynamicPage({
                           <span className="mx-2 text-gray-400">›</span>
                           <Link
                             href={sectionUrl}
-                            className="hover:text-primary-red font-medium capitalize"
+                            className="hover:text-primary-red font-medium"
                           >
                             {sectionName}
                           </Link>
@@ -560,22 +562,27 @@ export default async function DynamicPage({
             )}
           </div>
 
-          {/* ✅ ARTICLE CONTENT WITH SIDEBAR - Article text level */}
-          <article className="relative flex gap-12 px-8">
-            {/* ✅ STICKY SIDEBAR - LEFT SIDE, ALIGNED WITH IMAGE */}
-            <div className="sticky top-24 h-fit flex-shrink-0 w-20">
-              <ArticleShareSidebar 
-                title={article.title} 
-                url={typeof window !== 'undefined' ? window.location.href : ''} 
-              />
+          <div className="relative grid grid-cols-12 gap-4 px-8">
+            {/* ✅ LEFT: 2 columns - STICKY SIDEBAR */}
+            <div className="col-span-1 h-fit">
+              <div className="sticky top-24">
+                <ArticleShareSidebar
+                  title={article.title}
+                  url={
+                    typeof window !== 'undefined' ? window.location.href : ''
+                  }
+                />
+              </div>
             </div>
 
-            {/* ✅ ARTICLE TEXT CONTENT - REDUCED MAX-WIDTH, EQUAL PADDING */}
-            <div className="flex-1 pr-32">
-              <div className="prose prose-lg max-w-2xl text-justify">
+            {/* ✅ MIDDLE: 6 columns - ARTICLE TEXT */}
+            <article className="col-span-7">
+              <div className="prose prose-lg max-w-none text-justify">
                 {article.article &&
                   (article.article.startsWith('<') ? (
-                    <div dangerouslySetInnerHTML={{ __html: article.article }} />
+                    <div
+                      dangerouslySetInnerHTML={{ __html: article.article }}
+                    />
                   ) : (
                     <ReactMarkdown
                       rehypePlugins={[rehypeRaw, rehypeSanitize]}
@@ -585,8 +592,18 @@ export default async function DynamicPage({
                     </ReactMarkdown>
                   ))}
               </div>
+            </article>
+
+            {/* ✅ RIGHT: 3 columns - RELATED ARTICLES */}
+            <div className="col-span-4">
+              <div className="sticky top-24 h-fit">
+                <RelatedArticlesSidebar
+                  currentArticleId={article.id}
+                  sectionPath={article.section_path}
+                />
+              </div>
             </div>
-          </article>
+          </div>
         </SidelinesLayout>
       </div>
     </>
