@@ -243,6 +243,145 @@ export default async function DynamicPage({
             )}
           </div>
         </div>
+
+        <div className="hidden md:block pt-[100px]">
+          {/* Desktop version - WITH SidelinesLayout */}
+          <SidelinesLayout sidelineWidth={sidelineWidth}>
+            <div className="mb-8 pb-4 px-8 py-8">
+              {/* Breadcrumbs */}
+              <div className="text-sm md:text-xs text-gray-500 mb-4">
+                <Link href="/" className="hover:text-primary-red font-medium">
+                  RADIO DEL VOLGA
+                </Link>
+                {sectionData.breadcrumb_slugs.map(
+                  (slug: string, index: number) => (
+                    <span key={slug}>
+                      <span className="mx-2 text-gray-400">›</span>
+                      <Link
+                        href={`/${sectionData.breadcrumb_slugs
+                          .slice(0, index + 1)
+                          .join('/')}`}
+                        className="hover:text-primary-red font-medium capitalize"
+                      >
+                        {sectionData.breadcrumb_names[index]}
+                      </Link>
+                    </span>
+                  )
+                )}
+              </div>
+
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+                {sectionData.name}
+              </h1>
+
+              {childSections && childSections.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {childSections.map((child) => {
+                    const childPath = sectionData.breadcrumb_slugs
+                      .concat(child.slug)
+                      .join('/')
+
+                    return (
+                      <Link
+                        key={child.id}
+                        href={`/${childPath}`}
+                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                      >
+                        {child.name}
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+
+              <p className="text-gray-500 text-sm mt-3">
+                {count} {count === 1 ? 'artículo' : 'artículos'}
+              </p>
+            </div>
+
+            {articles.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8">
+                  {articles.map((article) => {
+                    const articlePath = getArticleUrl(
+                      article.section_path,
+                      article.slug
+                    )
+
+                    return (
+                      <article
+                        key={article.id}
+                        className="bg-white rounded-lg shadow-md overflow-hidden"
+                      >
+                        {article.imgUrl && (
+                          <Link href={articlePath}>
+                            <div className="relative h-48 w-full overflow-hidden">
+                              <Image
+                                src={article.imgUrl}
+                                alt={article.title}
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+                          </Link>
+                        )}
+                        <div className="p-5">
+                          <h2 className="text-xl font-bold text-gray-900 mb-3">
+                            <Link href={articlePath}>{article.title}</Link>
+                          </h2>
+                          {article.excerpt && (
+                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                              {article.excerpt}
+                            </p>
+                          )}
+                          <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
+                            <span>
+                              {article.created_at
+                                ? new Date(
+                                    article.created_at
+                                  ).toLocaleDateString('es-AR')
+                                : 'Fecha no disponible'}
+                            </span>
+                          </div>
+                        </div>
+                      </article>
+                    )
+                  })}
+                </div>
+
+                {totalPages > 1 && (
+                  <div className="mt-8 flex justify-center gap-2 px-8">
+                    {page > 1 && (
+                      <Link
+                        href={`/${fullPath}?page=${page - 1}`}
+                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                      >
+                        Anterior
+                      </Link>
+                    )}
+                    <span className="px-4 py-2">
+                      Página {page} de {totalPages}
+                    </span>
+                    {page < totalPages && (
+                      <Link
+                        href={`/${fullPath}?page=${page + 1}`}
+                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                      >
+                        Siguiente
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-center py-20 bg-gray-50 rounded-lg">
+                <p className="text-gray-600 text-lg">
+                  No hay artículos disponibles en esta sección.
+                </p>
+              </div>
+            )}
+          </SidelinesLayout>
+        </div>
       </>
     )
   }
