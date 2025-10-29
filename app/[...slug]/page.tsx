@@ -17,6 +17,7 @@ import dynamic from 'next/dynamic'
 import ArticleShareSidebar from '@/components/ArticleShareSidebar'
 import RelatedArticlesSidebar from '@/components/RelatedArticlesSidebar'
 import { getProperSpanishName } from '@/lib/spanishGrammar'
+import YouMayBeInterestedSection from '@/components/YouMayBeInterestedSection'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -603,6 +604,12 @@ export default async function DynamicPage({
                 />
               </div>
             </div>
+          </div>
+          <div className="col-span-12 mt-12 px-8">
+            <YouMayBeInterestedSection
+              currentArticleId={article.id}
+              currentSectionPath={article.section_path}
+            />
           </div>
         </SidelinesLayout>
       </div>
