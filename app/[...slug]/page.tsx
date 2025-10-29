@@ -479,18 +479,50 @@ export default async function DynamicPage({
               </div>
             )}
 
+            {/* ✅ MOBILE: INTERCALATED EMBEDS */}
             <div className="prose prose-lg max-w-none">
               {article.article &&
-                (article.article.startsWith('<') ? (
-                  <div dangerouslySetInnerHTML={{ __html: article.article }} />
-                ) : (
-                  <ReactMarkdown
-                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
-                    remarkPlugins={[remarkGfm]}
-                  >
-                    {article.article}
-                  </ReactMarkdown>
-                ))}
+                (() => {
+                  const contentParts = intercalateEmbeds(article.article, {
+                    igPost: article['ig-post'],
+                    fbPost: article['fb-post'],
+                    twPost: article['tw-post'],
+                    ytVideo: article['yt-video'],
+                    articleImages: article['article-images'],
+                  })
+
+                  return contentParts.map((part, index) => {
+                    if (part.type === 'embed') {
+                      return (
+                        <EmbedRenderer
+                          key={`embed-${index}`}
+                          embedType={part.embedType!}
+                          content={part.content}
+                        />
+                      )
+                    }
+
+                    // Render text content
+                    if (article.article.startsWith('<')) {
+                      return (
+                        <div
+                          key={`text-${index}`}
+                          dangerouslySetInnerHTML={{ __html: part.content }}
+                        />
+                      )
+                    }
+
+                    return (
+                      <ReactMarkdown
+                        key={`text-${index}`}
+                        rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                        remarkPlugins={[remarkGfm]}
+                      >
+                        {part.content}
+                      </ReactMarkdown>
+                    )
+                  })
+                })()}
             </div>
           </article>
         </div>
@@ -532,38 +564,6 @@ export default async function DynamicPage({
                 </>
               )}
             </nav>
-
-            {/* ✅ ADD TITLE */}
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
-              {article.title}
-            </h1>
-          </div>
-
-          {/* Article excerpt, date, image - BEFORE sidebar starts */}
-          <div className="px-8">
-            {article.excerpt && (
-              <div className="text-lg text-gray-700 mb-6">
-                {article.excerpt}
-              </div>
-            )}
-
-            <div className="flex items-center text-sm text-gray-600 mb-6">
-              {article.source && <span className="mr-4">{article.source}</span>}
-              <time>{formattedDate}</time>
-            </div>
-
-            {article.imgUrl && (
-              <div className="relative h-[40vh] md:h-[60vh] mb-8">
-                <ClientSafeImage
-                  src={article.imgUrl}
-                  alt={article.title}
-                  fill
-                  className="object-cover rounded-lg"
-                  priority
-                />
-              </div>
-            )}
-
             {/* ✅ DIVISORY LINE - ONLY UNDER IMAGE WIDTH */}
             <div className="border-t border-gray-200"></div>
           </div>
