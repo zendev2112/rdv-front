@@ -42,6 +42,12 @@ export default function RootLayout({
         <Header />
         <GlobalMobileNav />
         {children}
+        <script async src="https://www.instagram.com/embed.js"></script>
+        <script
+          async
+          src="https://platform.twitter.com/widgets.js"
+          charSet="utf-8"
+        ></script>
         <MobileNavBar />
       </body>
     </html>

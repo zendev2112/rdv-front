@@ -17,7 +17,7 @@ export default function RelatedArticlesSidebar({
   const [articles, setArticles] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
-  const sectionSlug = sectionPath.split('.').pop()?.replace(/_/g, '-') || ''
+  const sectionSlug = sectionPath.split('.').pop() || ''
   const sectionName = getProperSpanishName(sectionSlug, { plural: true })
 
   useEffect(() => {

@@ -18,6 +18,8 @@ import ArticleShareSidebar from '@/components/ArticleShareSidebar'
 import RelatedArticlesSidebar from '@/components/RelatedArticlesSidebar'
 import { getProperSpanishName } from '@/lib/spanishGrammar'
 import YouMayBeInterestedSection from '@/components/YouMayBeInterestedSection'
+import { intercalateEmbeds } from '@/lib/articleEmbeds'
+import EmbedRenderer from '@/components/EmbedRenderer'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -580,22 +582,51 @@ export default async function DynamicPage({
               </div>
             </div>
 
-            {/* ✅ MIDDLE: 7 columns - ARTICLE TEXT */}
+            {/* ✅ MIDDLE: 7 columns - ARTICLE TEXT WITH INTERCALATED EMBEDS */}
             <article className="col-span-7">
               <div className="prose prose-lg max-w-none text-justify">
                 {article.article &&
-                  (article.article.startsWith('<') ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: article.article }}
-                    />
-                  ) : (
-                    <ReactMarkdown
-                      rehypePlugins={[rehypeRaw, rehypeSanitize]}
-                      remarkPlugins={[remarkGfm]}
-                    >
-                      {article.article}
-                    </ReactMarkdown>
-                  ))}
+                  (() => {
+                    const contentParts = intercalateEmbeds(article.article, {
+                      igPost: article['ig-post'],
+                      fbPost: article['fb-post'],
+                      twPost: article['tw-post'],
+                      ytVideo: article['yt-video'],
+                      articleImages: article['article-images'],
+                    })
+
+                    return contentParts.map((part, index) => {
+                      if (part.type === 'embed') {
+                        return (
+                          <EmbedRenderer
+                            key={`embed-${index}`}
+                            embedType={part.embedType!}
+                            content={part.content}
+                          />
+                        )
+                      }
+
+                      // Render text content
+                      if (article.article.startsWith('<')) {
+                        return (
+                          <div
+                            key={`text-${index}`}
+                            dangerouslySetInnerHTML={{ __html: part.content }}
+                          />
+                        )
+                      }
+
+                      return (
+                        <ReactMarkdown
+                          key={`text-${index}`}
+                          rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                          remarkPlugins={[remarkGfm]}
+                        >
+                          {part.content}
+                        </ReactMarkdown>
+                      )
+                    })
+                  })()}
               </div>
             </article>
 

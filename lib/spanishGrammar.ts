@@ -1,17 +1,45 @@
 // Dictionary mapping slugs to proper Spanish names with accents
-const SECTION_NAMES: Record<string, { singular: string; plural: string; gender: 'm' | 'f' }> = {
-  'coronel-suarez': { singular: 'Coronel Suárez', plural: 'Coronel Suárez', gender: 'f' },
-  'pueblos-alemanes': { singular: 'Pueblos Alemanes', plural: 'Pueblos Alemanes', gender: 'm' },
-  'huanguelen': { singular: 'Huanguelén', plural: 'Huanguelén', gender: 'm' },
+const SECTION_NAMES: Record<
+  string,
+  { singular: string; plural: string; gender: 'm' | 'f' }
+> = {
+  'coronel-suarez': {
+    singular: 'Coronel Suárez',
+    plural: 'Coronel Suárez',
+    gender: 'f',
+  },
+  'pueblos-alemanes': {
+    singular: 'Pueblos Alemanes',
+    plural: 'Pueblos Alemanes',
+    gender: 'm',
+  },
+  huanguelen: { singular: 'Huanguelén', plural: 'Huanguelén', gender: 'm' },
   'la-sexta': { singular: 'La Sexta', plural: 'La Sexta', gender: 'f' },
-  'agro': { singular: 'Agro', plural: 'Agro', gender: 'm' },
-  'lifestyle': { singular: 'Lifestyle', plural: 'Lifestyle', gender: 'm' },
-  'noticias-importantes': { singular: 'Noticia Importante', plural: 'Noticias Importantes', gender: 'f' },
+  agro: { singular: 'Agro', plural: 'Agro', gender: 'm' },
+  lifestyle: { singular: 'Lifestyle', plural: 'Lifestyle', gender: 'm' },
+  'noticias-importantes': {
+    singular: 'Noticia Importante',
+    plural: 'Noticias Importantes',
+    gender: 'f',
+  },
   'volga-tv': { singular: 'Volga TV', plural: 'Volga TV', gender: 'f' },
-  'farmacias-de-turno': { singular: 'Farmacia de Turno', plural: 'Farmacias de Turno', gender: 'f' },
-  'clima': { singular: 'Clima', plural: 'Clima', gender: 'm' },
-  'santa-maria': { singular: 'Santa María', plural: 'Santa María', gender: 'f' },
+  'farmacias-de-turno': {
+    singular: 'Farmacia de Turno',
+    plural: 'Farmacias de Turno',
+    gender: 'f',
+  },
+  clima: { singular: 'Clima', plural: 'Clima', gender: 'm' },
+  'santa-maria': {
+    singular: 'Santa María',
+    plural: 'Santa María',
+    gender: 'f',
+  },
   'san-jose': { singular: 'San José', plural: 'San José', gender: 'm' },
+  'santa-trinidad': {
+    singular: 'Santa Trinidad',
+    plural: 'Santa Trinidad',
+    gender: 'm',
+  },
 }
 
 export function getProperSpanishName(
