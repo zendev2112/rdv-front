@@ -85,9 +85,9 @@ export default function RelatedArticlesSidebar({
       {/* ✅ FEATURED ITEM (#1) */}
       {articles[0] && (
         <Link
-          href={`/${articles[0].section_path.replace(/\./g, '/')}/${
-            articles[0].slug
-          }`}
+          href={`/${articles[0].section_path
+            .replace(/\./g, '/')
+            .replace(/_/g, '-')}/${articles[0].slug}`}
           className="block border-b border-gray-200 group"
         >
           {/* Full-width image */}
@@ -119,7 +119,9 @@ export default function RelatedArticlesSidebar({
       {articles.slice(1, 4).map((article, index) => (
         <Link
           key={article.id}
-          href={`/${article.section_path.replace(/\./g, '/')}/${article.slug}`}
+          href={`/${article.section_path
+            .replace(/\./g, '/')
+            .replace(/_/g, '-')}/${article.slug}`}
           className="flex gap-3 py-3 pr-0 pl-0 border-b border-gray-200 group last:border-b-0 items-center"
         >
           {/* ✅ COLUMN 1: NUMBER - BLACK */}

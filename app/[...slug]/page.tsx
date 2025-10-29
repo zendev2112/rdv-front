@@ -565,8 +565,8 @@ export default async function DynamicPage({
 
           <div className="relative grid grid-cols-12 gap-4 px-8">
             {/* ✅ LEFT: 2 columns - STICKY SIDEBAR */}
-            <div className="col-span-1 h-fit">
-              <div className="sticky top-24">
+            <div className="col-span-1">
+              <div className="sticky top-0 h-fit">
                 <ArticleShareSidebar
                   title={article.title}
                   url={
