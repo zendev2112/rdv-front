@@ -65,7 +65,7 @@ export default function RelatedArticlesSidebar({
       {/* ✅ HEADER - TITLE + NAVIGATION ICON */}
       <div className="flex items-center justify-between py-3 pr-3 pl-0 border-b border-gray-200 -mt-3">
         <h3 className="text-base font-bold text-gray-900 leading-tight">
-          Más leídas de {sectionName}
+          Más leídas de {getProperSpanishName(sectionSlug, { plural: true })}
         </h3>
         <svg
           className="w-4 h-4 text-primary-red flex-shrink-0"
