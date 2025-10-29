@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { extractYouTubeId } from '@/lib/articleEmbeds'
 
@@ -9,8 +9,15 @@ interface EmbedRendererProps {
   content: string
 }
 
-export default function EmbedRenderer({ embedType, content }: EmbedRendererProps) {
+export default function EmbedRenderer({
+  embedType,
+  content,
+}: EmbedRendererProps) {
+  const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
+    setMounted(true)
+
     // Reload Instagram embeds
     if (embedType === 'instagram' && (window as any).instgrm) {
       ;(window as any).instgrm.Embeds.process()
@@ -20,6 +27,11 @@ export default function EmbedRenderer({ embedType, content }: EmbedRendererProps
       ;(window as any).twttr.widgets.load()
     }
   }, [embedType])
+
+  // Don't render blockquotes on server - only render on client
+  if (!mounted) {
+    return <div className="min-h-64 bg-gray-100 rounded my-8"></div>
+  }
 
   switch (embedType) {
     case 'instagram':

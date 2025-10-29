@@ -564,6 +564,36 @@ export default async function DynamicPage({
                 </>
               )}
             </nav>
+
+            {/* ✅ TITLE */}
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+              {article.title}
+            </h1>
+
+            {/* ✅ EXCERPT */}
+            {article.excerpt && (
+              <p className="text-lg text-gray-700 mb-6">{article.excerpt}</p>
+            )}
+
+            {/* ✅ DATE AND SOURCE */}
+            <div className="flex items-center text-sm text-gray-600 mb-6">
+              {article.source && <span className="mr-4">{article.source}</span>}
+              <time>{formattedDate}</time>
+            </div>
+
+            {/* ✅ MAIN IMAGE */}
+            {article.imgUrl && (
+              <div className="relative h-[40vh] md:h-[60vh] mb-8">
+                <ClientSafeImage
+                  src={article.imgUrl}
+                  alt={article.title}
+                  fill
+                  className="object-cover rounded-lg"
+                  priority
+                />
+              </div>
+            )}
+
             {/* ✅ DIVISORY LINE - ONLY UNDER IMAGE WIDTH */}
             <div className="border-t border-gray-200"></div>
           </div>
