@@ -561,12 +561,16 @@ export default async function DynamicPage({
                 />
               </div>
             )}
+
+            {/* ✅ DIVISORY LINE - ONLY UNDER IMAGE WIDTH */}
+            <div className="border-t border-gray-200"></div>
           </div>
 
-          <div className="relative grid grid-cols-12 gap-4 px-8">
-            {/* ✅ LEFT: 2 columns - STICKY SIDEBAR */}
+          {/* ✅ ALIGNED CONTENT GRID - AFTER IMAGE */}
+          <div className="relative grid grid-cols-12 gap-4 px-8 pt-8">
+            {/* ✅ LEFT: 1 column - STICKY SIDEBAR */}
             <div className="col-span-1">
-              <div className="sticky top-0 h-fit">
+              <div className="sticky top-20 h-fit">
                 <ArticleShareSidebar
                   title={article.title}
                   url={
@@ -576,7 +580,7 @@ export default async function DynamicPage({
               </div>
             </div>
 
-            {/* ✅ MIDDLE: 6 columns - ARTICLE TEXT */}
+            {/* ✅ MIDDLE: 7 columns - ARTICLE TEXT */}
             <article className="col-span-7">
               <div className="prose prose-lg max-w-none text-justify">
                 {article.article &&
@@ -595,9 +599,9 @@ export default async function DynamicPage({
               </div>
             </article>
 
-            {/* ✅ RIGHT: 3 columns - RELATED ARTICLES */}
+            {/* ✅ RIGHT: 4 columns - RELATED ARTICLES - ALIGNED AT TOP */}
             <div className="col-span-4">
-              <div className="sticky top-24 h-fit">
+              <div className="sticky top-20 h-fit">
                 <RelatedArticlesSidebar
                   currentArticleId={article.id}
                   sectionPath={article.section_path}

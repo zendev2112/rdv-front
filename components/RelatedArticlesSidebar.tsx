@@ -61,10 +61,10 @@ export default function RelatedArticlesSidebar({
   }
 
   return (
-    <div className="pl-4">
+    <div className="pl-4 pt-0">
       {/* ✅ HEADER - TITLE + NAVIGATION ICON */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 pl-0">
-        <h3 className="text-base font-bold text-gray-900">
+      <div className="flex items-center justify-between py-3 pr-3 pl-0 border-b border-gray-200 -mt-3">
+        <h3 className="text-base font-bold text-gray-900 leading-tight">
           Más leídas de {sectionName}
         </h3>
         <svg
