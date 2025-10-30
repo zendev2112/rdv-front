@@ -20,6 +20,8 @@ import { getProperSpanishName } from '@/lib/spanishGrammar'
 import YouMayBeInterestedSection from '@/components/YouMayBeInterestedSection'
 import { intercalateEmbeds } from '@/lib/articleEmbeds'
 import EmbedRenderer from '@/components/EmbedRenderer'
+import { applyCloudinaryTransform } from '@/lib/cloudinaryTransforms'
+import { detectImageOrientation } from '@/lib/imageOrientation'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -30,6 +32,8 @@ interface PageProps {
     slug: string[]
   }
 }
+
+
 
 // Generate metadata
 export async function generateMetadata({ params }: PageProps) {
@@ -54,6 +58,12 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   return { title: 'Radio del Volga' }
+}
+
+function calculateReadingTime(text: string): number {
+  const wordsPerMinute = 200
+  const wordCount = text.trim().split(/\s+/).length
+  return Math.ceil(wordCount / wordsPerMinute)
 }
 
 async function getSectionData(slug: string) {
@@ -401,15 +411,25 @@ export default async function DynamicPage({
   // Use created_at for the date/time display
   const publishDate = article.created_at ? new Date(article.created_at) : null
 
-  const formattedDate = publishDate
-    ? new Intl.DateTimeFormat('es-AR', {
+const formattedDate = publishDate
+  ? (() => {
+      const date = new Intl.DateTimeFormat('es-AR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
+      }).format(publishDate)
+
+      const time = new Intl.DateTimeFormat('es-AR', {
         hour: '2-digit',
         minute: '2-digit',
+        hour12: false,
       }).format(publishDate)
-    : 'Fecha no disponible'
+
+      return `${date}  ·  ${time}`
+    })()
+  : 'Fecha no disponible'
+
+    const readingTimeMinutes = calculateReadingTime(article.article || '')
 
   return (
     <>
@@ -462,25 +482,26 @@ export default async function DynamicPage({
               </div>
             )}
 
-            <div className="flex items-center text-sm text-gray-600 mb-6">
-              {article.source && <span className="mr-4">{article.source}</span>}
-              <time>{formattedDate}</time>
+            <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
+              {formattedDate}  ·  {readingTimeMinutes} minutos de lectura
             </div>
 
-            {article.imgUrl && (
-              <div className="relative h-[40vh] md:h-[60vh] mb-8">
-                <ClientSafeImage
-                  src={article.imgUrl}
-                  alt={article.title}
-                  fill
-                  className="object-cover rounded-lg"
-                  priority
-                />
-              </div>
-            )}
+            {article.imgUrl &&
+              (() => {
+                const orientation = detectImageOrientation(article.imgUrl)
+
+                return (
+                  <ClientSafeImage
+                    src={applyCloudinaryTransform(article.imgUrl, 'hq')}
+                    alt={article.title}
+                    priority
+                    orientation={orientation}
+                  />
+                )
+              })()}
 
             {/* ✅ MOBILE: INTERCALATED EMBEDS */}
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-lg max-w-none prose-p:text-left prose-p:leading-[1.8] first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:pr-2 first-letter:leading-[0.8]">
               {article.article &&
                 (() => {
                   const contentParts = intercalateEmbeds(article.article, {
@@ -576,23 +597,24 @@ export default async function DynamicPage({
             )}
 
             {/* ✅ DATE AND SOURCE */}
-            <div className="flex items-center text-sm text-gray-600 mb-6">
-              {article.source && <span className="mr-4">{article.source}</span>}
-              <time>{formattedDate}</time>
+            <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
+              {formattedDate}  ·  {readingTimeMinutes} minutos de lectura
             </div>
 
             {/* ✅ MAIN IMAGE */}
-            {article.imgUrl && (
-              <div className="relative h-[40vh] md:h-[60vh] mb-8">
-                <ClientSafeImage
-                  src={article.imgUrl}
-                  alt={article.title}
-                  fill
-                  className="object-cover rounded-lg"
-                  priority
-                />
-              </div>
-            )}
+            {article.imgUrl &&
+              (() => {
+                const orientation = detectImageOrientation(article.imgUrl)
+
+                return (
+                  <ClientSafeImage
+                    src={applyCloudinaryTransform(article.imgUrl, 'hq')}
+                    alt={article.title}
+                    priority
+                    orientation={orientation}
+                  />
+                )
+              })()}
 
             {/* ✅ DIVISORY LINE - ONLY UNDER IMAGE WIDTH */}
             <div className="border-t border-gray-200"></div>
@@ -614,7 +636,7 @@ export default async function DynamicPage({
 
             {/* ✅ MIDDLE: 7 columns - ARTICLE TEXT WITH INTERCALATED EMBEDS */}
             <article className="col-span-7">
-              <div className="prose prose-lg max-w-none text-justify">
+              <div className="prose prose-lg max-w-none prose-p:leading-[1.8] first:prose-p:first-letter:text-4xl first:prose-p:first-letter:font-serif first:prose-p:first-letter:font-bold first:prose-p:first-letter:float-left first:prose-p:first-letter:pr-2 first:prose-p:first-letter:leading-[0.8]">
                 {article.article &&
                   (() => {
                     const contentParts = intercalateEmbeds(article.article, {

@@ -8,9 +8,11 @@ export default function ClientSafeImage({
   alt, 
   fill = false, 
   className = '', 
-  priority = false 
+  priority = false,
+  orientation = 'landscape' // ✅ ADD: orientation prop
 }) {
   const [imgError, setImgError] = useState(false);
+  const [imageDimensions, setImageDimensions] = useState(null);
   
   // Handle missing source
   if (!src) {
@@ -26,11 +28,10 @@ export default function ClientSafeImage({
   try {
     decodedSrc = decodeURIComponent(src);
   } catch (e) {
-    // If decoding fails, use original
     decodedSrc = src;
   }
   
-  // Use proxy for problematic images like Instagram
+  // Use proxy for problematic images
   const isProblematicImage = decodedSrc.includes('cdninstagram.com') || 
                              decodedSrc.includes('instagram.com') ||
                              decodedSrc.includes('fotos.perfil.com') ||
@@ -38,12 +39,79 @@ export default function ClientSafeImage({
                              decodedSrc.includes('fbcdn.net') ||
                              decodedSrc.length > 300;
   
-  // If there was an error loading the image or it's problematic, use the proxy URL
   const finalSrc = (imgError || isProblematicImage)
     ? `/api/imageproxy?url=${encodeURIComponent(decodedSrc)}`
     : decodedSrc;
   
-  // Always use a standard img tag for problematic URLs
+  // ✅ PORTRAIT IMAGE: Don't use fill, let it be auto width
+  if (orientation === 'portrait' && !fill) {
+    return (
+      <div className="relative w-full flex justify-center mb-8">
+        {imgError || isProblematicImage ? (
+          <img 
+            src={finalSrc}
+            alt={alt || "Article image"}
+            className="h-[70vh] md:h-[80vh] w-auto object-cover rounded-lg"
+            loading={priority ? "eager" : "lazy"}
+            onError={(e) => {
+              console.error("Image failed to load:", finalSrc);
+              e.currentTarget.src = '/placeholder.svg';
+            }}
+          />
+        ) : (
+          <Image
+            src={finalSrc}
+            alt={alt || "Article image"}
+            width={600}
+            height={900}
+            className="h-[70vh] md:h-[80vh] w-auto object-cover rounded-lg"
+            priority={priority}
+            unoptimized={finalSrc.includes('?') || finalSrc.includes('=')}
+            onError={() => {
+              console.error("Next.js Image failed to load:", finalSrc);
+              setImgError(true);
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // ✅ SQUARE IMAGE
+  if (orientation === 'square' && !fill) {
+    return (
+      <div className="relative w-full flex justify-center mb-8">
+        {imgError || isProblematicImage ? (
+          <img 
+            src={finalSrc}
+            alt={alt || "Article image"}
+            className="h-[50vh] md:h-[60vh] w-auto object-cover rounded-lg"
+            loading={priority ? "eager" : "lazy"}
+            onError={(e) => {
+              console.error("Image failed to load:", finalSrc);
+              e.currentTarget.src = '/placeholder.svg';
+            }}
+          />
+        ) : (
+          <Image
+            src={finalSrc}
+            alt={alt || "Article image"}
+            width={800}
+            height={800}
+            className="h-[50vh] md:h-[60vh] w-auto object-cover rounded-lg"
+            priority={priority}
+            unoptimized={finalSrc.includes('?') || finalSrc.includes('=')}
+            onError={() => {
+              console.error("Next.js Image failed to load:", finalSrc);
+              setImgError(true);
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+  
+  // ✅ LANDSCAPE IMAGE (default - existing behavior)
   if (imgError || isProblematicImage) {
     return (
       <div className={`relative w-full h-full ${fill ? 'absolute inset-0' : ''}`} style={{overflow: 'hidden'}}>
@@ -54,7 +122,6 @@ export default function ClientSafeImage({
           loading={priority ? "eager" : "lazy"}
           onError={(e) => {
             console.error("Image failed to load:", finalSrc);
-            // Always set a placeholder on error
             e.currentTarget.src = '/placeholder.svg';
           }}
         />
@@ -62,7 +129,6 @@ export default function ClientSafeImage({
     );
   }
   
-  // For normal URLs, use Next.js Image with error handling wrapper
   return (
     <div className={`relative ${fill ? 'h-full w-full' : ''}`}>
       <Image
