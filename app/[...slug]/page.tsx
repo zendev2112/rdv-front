@@ -95,7 +95,7 @@ export default async function DynamicPage({
 }) {
   const page = parseInt(searchParams.page || '1', 10)
   const pageSize = 12
-  const sidelineWidth = 10
+  const sidelineWidth = 15
 
   const pathSlug = params.slug[params.slug.length - 1]
   const fullPath = params.slug.join('/')
@@ -118,11 +118,12 @@ export default async function DynamicPage({
 
     return (
       <>
-        <div className="md:hidden pt-[184px]">
-          <div className="container mx-auto max-w-[1600px] px-4">
-            <div className="mb-8 pb-4 py-0 -mt-8">
+        <div className="hidden md:block pt-[80px]">
+          {/* Desktop version - WITH SidelinesLayout */}
+          <SidelinesLayout sidelineWidth={sidelineWidth}>
+            <div className="mb-0 pb-4 px-8 py-8">
               {/* Breadcrumbs */}
-              <div className="text-sm md:text-xs text-gray-500 mb-4">
+              <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-4">
                 <Link href="/" className="hover:text-primary-red font-medium">
                   RADIO DEL VOLGA
                 </Link>
@@ -134,21 +135,19 @@ export default async function DynamicPage({
                         href={`/${sectionData.breadcrumb_slugs
                           .slice(0, index + 1)
                           .join('/')}`}
-                        className="hover:text-primary-red font-medium"
+                        className="hover:text-primary-red font-medium capitalize"
                       >
-                        {getProperSpanishName(slug)}
+                        {sectionData.breadcrumb_names[index]}
                       </Link>
                     </span>
                   )
                 )}
-              </div>
+              </nav>
 
-              {/* ✅ ADD TITLE */}
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+              <h1 className="font-serif text-3xl md:text-4xl font-semibold mb-4 leading-tight mt-2 md:mt-4">
                 {sectionData.name}
               </h1>
 
-              {/* Show subsection links if parent has children */}
               {childSections && childSections.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {childSections.map((child) => {
@@ -176,7 +175,7 @@ export default async function DynamicPage({
 
             {articles.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8">
                   {articles.map((article) => {
                     const articlePath = getArticleUrl(
                       article.section_path,
@@ -201,11 +200,11 @@ export default async function DynamicPage({
                           </Link>
                         )}
                         <div className="p-5">
-                          <h2 className="text-xl font-bold text-gray-900 mb-3">
+                          <h2 className="font-serif text-xl font-semibold text-gray-900 mb-3">
                             <Link href={articlePath}>{article.title}</Link>
                           </h2>
                           {article.excerpt && (
-                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                            <p className="font-serif text-gray-600 text-sm mb-4 line-clamp-3">
                               {article.excerpt}
                             </p>
                           )}
@@ -224,9 +223,8 @@ export default async function DynamicPage({
                   })}
                 </div>
 
-                {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="mt-8 flex justify-center gap-2">
+                  <div className="mt-8 flex justify-center gap-2 px-8">
                     {page > 1 && (
                       <Link
                         href={`/${fullPath}?page=${page - 1}`}
@@ -256,13 +254,13 @@ export default async function DynamicPage({
                 </p>
               </div>
             )}
-          </div>
+          </SidelinesLayout>
         </div>
 
-        <div className="hidden md:block pt-[100px]">
+        <div className="hidden md:block pt-[80px]">
           {/* Desktop version - WITH SidelinesLayout */}
           <SidelinesLayout sidelineWidth={sidelineWidth}>
-            <div className="mb-8 pb-4 px-8 py-8">
+            <div className="mb-0 pb-4 px-8 py-8">
               {/* Breadcrumbs */}
               <div className="text-sm md:text-xs text-gray-500 mb-4">
                 <Link href="/" className="hover:text-primary-red font-medium">
@@ -435,9 +433,9 @@ const formattedDate = publishDate
     <>
       <div className="md:hidden pt-[184px]">
         <div className="container mx-auto max-w-[1600px] px-4">
-          <div className="mb-8 pb-4 py-0 -mt-8">
+          <div className="mb-0 pb-4 py-0 -mt-8">
             {/* Breadcrumbs */}
-            <nav className="text-sm md:text-xs text-gray-500 mb-4">
+            <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-4">
               <Link href="/" className="hover:text-primary-red font-medium">
                 RADIO DEL VOLGA
               </Link>
@@ -469,7 +467,7 @@ const formattedDate = publishDate
               )}
             </nav>
             {/* ✅ ADD TITLE */}
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
               {article.title}
             </h1>
           </div>
@@ -477,13 +475,13 @@ const formattedDate = publishDate
           <article>
             {/* Article content */}
             {article.excerpt && (
-              <div className="text-lg text-gray-700 mb-6 -mt-12 md:-mt-14">
+              <div className="font-serif text-lg text-gray-700 mb-6 -mt-12 md:-mt-14">
                 {article.excerpt}
               </div>
             )}
 
             <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
-              {formattedDate}  ·  {readingTimeMinutes} minutos de lectura
+              {formattedDate} · {readingTimeMinutes} minutos de lectura
             </div>
 
             {article.imgUrl &&
@@ -549,12 +547,11 @@ const formattedDate = publishDate
         </div>
       </div>
 
-      <div className="hidden md:block pt-[100px]">
-        {/* Desktop version - WITH SidelinesLayout */}
+      <div className="hidden md:block pt-[80px]">
         <SidelinesLayout sidelineWidth={sidelineWidth}>
-          <div className="mb-8 pb-4 px-8 py-8">
+          <div className="mb-0 pb-4 px-8 py-8">
             {/* Breadcrumbs */}
-            <nav className="text-sm md:text-xs text-gray-500 mb-4">
+            <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-4">
               <Link href="/" className="hover:text-primary-red font-medium">
                 RADIO DEL VOLGA
               </Link>
@@ -586,45 +583,56 @@ const formattedDate = publishDate
               )}
             </nav>
 
-            {/* ✅ TITLE */}
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+            {/* ✅ TITLE - FULL WIDTH */}
+            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-8 leading-tight">
               {article.title}
             </h1>
-
-            {/* ✅ EXCERPT */}
-            {article.excerpt && (
-              <p className="text-lg text-gray-700 mb-6">{article.excerpt}</p>
-            )}
-
-            {/* ✅ DATE AND SOURCE */}
-            <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
-              {formattedDate}  ·  {readingTimeMinutes} minutos de lectura
-            </div>
-
-            {/* ✅ MAIN IMAGE */}
-            {article.imgUrl &&
-              (() => {
-                const orientation = detectImageOrientation(article.imgUrl)
-
-                return (
-                  <ClientSafeImage
-                    src={applyCloudinaryTransform(article.imgUrl, 'hq')}
-                    alt={article.title}
-                    priority
-                    orientation={orientation}
-                  />
-                )
-              })()}
-
-            {/* ✅ DIVISORY LINE - ONLY UNDER IMAGE WIDTH */}
-            <div className="border-t border-gray-200"></div>
           </div>
 
-          {/* ✅ ALIGNED CONTENT GRID - AFTER IMAGE */}
-          <div className="relative grid grid-cols-12 gap-4 px-8 pt-8">
-            {/* ✅ LEFT: 1 column - STICKY SIDEBAR */}
-            <div className="col-span-1">
-              <div className="sticky top-20 h-fit">
+          {/* ✅ NEW 2-COLUMN CONTAINER: EXCERPT + DATE + IMAGE */}
+          <div className="grid grid-cols-12 gap-4 px-8 mb-8">
+            {/* ✅ LEFT: 8 columns - EXCERPT + DATE + IMAGE */}
+            <div className="col-span-8">
+              {/* EXCERPT */}
+              {article.excerpt && (
+                <p className="font-serif text-lg text-gray-700 mb-6">
+                  {article.excerpt}
+                </p>
+              )}
+
+              {/* DATE AND READING TIME */}
+              <div className="text-sm text-gray-600 mb-6">
+                {formattedDate} · {readingTimeMinutes} minutos de lectura
+              </div>
+
+              {/* MAIN IMAGE */}
+              {article.imgUrl &&
+                (() => {
+                  const orientation = detectImageOrientation(article.imgUrl)
+
+                  return (
+                    <ClientSafeImage
+                      src={applyCloudinaryTransform(article.imgUrl, 'hq')}
+                      alt={article.title}
+                      priority
+                      orientation={orientation}
+                    />
+                  )
+                })()}
+
+              {/* ✅ DIVISORY LINE */}
+              <div className="border-t border-gray-300 my-8"></div>
+            </div>
+
+            {/* ✅ RIGHT: 4 columns - EMPTY SPACE */}
+            <div className="col-span-4"></div>
+          </div>
+
+          {/* ✅ 3-COLUMN GRID: SHARE + ARTICLE + RELATED */}
+          <div className="relative grid grid-cols-12 gap-4 px-8 items-start">
+            {/* ✅ LEFT: 1 column - SHARE SIDEBAR */}
+            <div className="col-span-1 -ml-4">
+              <div className="h-fit">
                 <ArticleShareSidebar
                   title={article.title}
                   url={
@@ -634,9 +642,31 @@ const formattedDate = publishDate
               </div>
             </div>
 
-            {/* ✅ MIDDLE: 7 columns - ARTICLE TEXT WITH INTERCALATED EMBEDS */}
+            {/* ✅ MIDDLE: 7 columns - ARTICLE CONTENT */}
             <article className="col-span-7">
-              <div className="prose prose-lg max-w-none prose-p:leading-[1.8] first:prose-p:first-letter:text-4xl first:prose-p:first-letter:font-serif first:prose-p:first-letter:font-bold first:prose-p:first-letter:float-left first:prose-p:first-letter:pr-2 first:prose-p:first-letter:leading-[0.8]">
+              <div className="prose prose-lg max-w-none prose-p:leading-[1.8] pt-0">
+                <style>{`
+  .prose {
+    --tw-prose-body: 16px;
+    max-width: 65ch;
+    font-family: Georgia, Times New Roman, serif;
+  }
+  .prose p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    font-family: Georgia, Times New Roman, serif;
+  }
+  .prose p:first-of-type::first-letter {
+    font-size: 3.43rem;
+    font-family: Georgia, Times New Roman, serif;
+    font-weight: bold;
+    float: left;
+    line-height: 1;
+    padding-right: 0.5rem;
+    margin-top: -0.04rem;
+  }
+`}</style>
                 {article.article &&
                   (() => {
                     const contentParts = intercalateEmbeds(article.article, {
@@ -658,7 +688,6 @@ const formattedDate = publishDate
                         )
                       }
 
-                      // Render text content
                       if (article.article.startsWith('<')) {
                         return (
                           <div
@@ -679,19 +708,24 @@ const formattedDate = publishDate
                       )
                     })
                   })()}
+                {/* SOURCE */}
+                {article.source && (
+                  <div className="text-sm text-gray-600 mb-6">
+                    {article.source}
+                  </div>
+                )}
               </div>
             </article>
 
-            {/* ✅ RIGHT: 4 columns - RELATED ARTICLES - ALIGNED AT TOP */}
+            {/* ✅ RIGHT: 4 columns - RELATED ARTICLES */}
             <div className="col-span-4">
-              <div className="sticky top-20 h-fit">
-                <RelatedArticlesSidebar
-                  currentArticleId={article.id}
-                  sectionPath={article.section_path}
-                />
-              </div>
+              <RelatedArticlesSidebar
+                currentArticleId={article.id}
+                sectionPath={article.section_path}
+              />
             </div>
           </div>
+
           <div className="col-span-12 mt-12 px-8">
             <YouMayBeInterestedSection
               currentArticleId={article.id}

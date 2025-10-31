@@ -64,7 +64,7 @@ export default function RelatedArticlesSidebar({
     <div className="pl-4 pt-0">
       {/* ✅ HEADER - TITLE + NAVIGATION ICON */}
       <div className="flex items-center justify-between py-3 pr-3 pl-0 border-b border-gray-200 -mt-3">
-        <h3 className="text-base font-bold text-gray-900 leading-tight">
+        <h3 className="font-serif text-base font-bold text-gray-900 leading-tight">
           Más leídas de {getProperSpanishName(sectionSlug, { plural: true })}
         </h3>
         <svg
@@ -106,10 +106,10 @@ export default function RelatedArticlesSidebar({
           {/* Content with number and title - PERFECTLY ALIGNED */}
           <div className="py-3 pr-3 pl-0 flex gap-3 items-center">
             <div className="flex-shrink-0">
-              <span className="text-2xl font-black text-gray-900">1</span>
+              <span className="font-serif text-2xl font-black text-gray-900">1</span>
             </div>
             <div className="flex-1">
-              <p className="text-sm text-gray-900">{articles[0].title}</p>
+              <p className="font-serif text-sm text-gray-900">{articles[0].title}</p>
             </div>
           </div>
         </Link>
@@ -126,14 +126,14 @@ export default function RelatedArticlesSidebar({
         >
           {/* ✅ COLUMN 1: NUMBER - BLACK */}
           <div className="flex-shrink-0">
-            <span className="text-2xl font-black text-gray-900">
+            <span className="font-serif text-2xl font-black text-gray-900">
               {index + 2}
             </span>
           </div>
 
           {/* ✅ COLUMN 2: TEXT - COMPLETE, NO BOLD */}
           <div className="flex-1">
-            <p className="text-sm text-gray-900">{article.title}</p>
+            <p className="font-serif text-sm text-gray-900">{article.title}</p>
           </div>
 
           {/* ✅ COLUMN 3: THUMBNAIL - BIGGER, NO ROUNDED CORNERS */}
