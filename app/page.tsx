@@ -685,7 +685,7 @@ export default async function Home() {
       </div>
 
       {/* DESKTOP VERSION - WITH SidelinesLayout */}
-      <div className="hidden xl:block">
+      <div className="hidden md:block">
         <SidelinesLayout
           leftAd={leftSideAds}
           rightAd={rightSideAds}

@@ -144,7 +144,7 @@ export default async function DynamicPage({
                 )}
               </nav>
 
-              <h1 className="font-serif text-3xl md:text-4xl font-semibold mb-4 leading-tight mt-2 md:mt-4">
+              <h1 className="font-serif text-2xl md:text-3xl font-semibold mb-4 leading-tight mt-4 md:mt-6">
                 {sectionData.name}
               </h1>
 
@@ -283,7 +283,7 @@ export default async function DynamicPage({
                 )}
               </div>
 
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+              <h1 className="font-serif text-2xl md:text-3xl font-semibold mb-4 leading-tight mt-4 md:mt-6">
                 {sectionData.name}
               </h1>
 
@@ -423,7 +423,7 @@ const formattedDate = publishDate
         hour12: false,
       }).format(publishDate)
 
-      return `${date}  ·  ${time}`
+      return `${date}   ·   ${time}`
     })()
   : 'Fecha no disponible'
 
@@ -435,7 +435,7 @@ const formattedDate = publishDate
         <div className="container mx-auto max-w-[1600px] px-4">
           <div className="mb-0 pb-4 py-0 -mt-8">
             {/* Breadcrumbs */}
-            <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-4">
+            <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-0">
               <Link href="/" className="hover:text-primary-red font-medium">
                 RADIO DEL VOLGA
               </Link>
@@ -466,8 +466,7 @@ const formattedDate = publishDate
                 </>
               )}
             </nav>
-            {/* ✅ ADD TITLE */}
-            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-4 leading-tight mt-2 md:mt-4">
+            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-2 leading-tight mt-6 md:mt-8">
               {article.title}
             </h1>
           </div>
@@ -475,13 +474,16 @@ const formattedDate = publishDate
           <article>
             {/* Article content */}
             {article.excerpt && (
-              <div className="font-serif text-lg text-gray-700 mb-6 -mt-12 md:-mt-14">
+              <div className="font-serif text-lg text-gray-700 mb-6 mt-0 md:-mt-14">
                 {article.excerpt}
               </div>
             )}
 
             <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
-              {formattedDate} · {readingTimeMinutes} minutos de lectura
+              {formattedDate} · {' '}
+              <span className="inline-flex items-center gap-1">
+                ⏱️ {readingTimeMinutes}'
+              </span>
             </div>
 
             {article.imgUrl &&
@@ -584,7 +586,7 @@ const formattedDate = publishDate
             </nav>
 
             {/* ✅ TITLE - FULL WIDTH */}
-            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-8 leading-tight">
+            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-2 leading-tight mt-6 md:mt-8">
               {article.title}
             </h1>
           </div>
@@ -595,7 +597,7 @@ const formattedDate = publishDate
             <div className="col-span-8">
               {/* EXCERPT */}
               {article.excerpt && (
-                <p className="font-serif text-lg text-gray-700 mb-6">
+                <p className="font-serif text-lg text-gray-700 mb-4">
                   {article.excerpt}
                 </p>
               )}
