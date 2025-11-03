@@ -10,7 +10,7 @@ export default function ArticleShareSidebar({
   url: string
 }) {
   return (
-    <div className="flex flex-col items-center space-y-8">
+    <div className="flex flex-row md:flex-col items-center md:items-start space-x-6 md:space-x-0 md:space-y-8">
       {/* ✅ WHATSAPP */}
       <a
         href={`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`}

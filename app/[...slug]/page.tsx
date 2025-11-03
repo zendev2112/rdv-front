@@ -22,6 +22,8 @@ import { intercalateEmbeds } from '@/lib/articleEmbeds'
 import EmbedRenderer from '@/components/EmbedRenderer'
 import { applyCloudinaryTransform } from '@/lib/cloudinaryTransforms'
 import { detectImageOrientation } from '@/lib/imageOrientation'
+import StickyShareSidebar from '@/components/StickyShareSidebar'
+import AdContainer from '@/components/AdContainer'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -32,8 +34,6 @@ interface PageProps {
     slug: string[]
   }
 }
-
-
 
 // Generate metadata
 export async function generateMetadata({ params }: PageProps) {
@@ -409,25 +409,25 @@ export default async function DynamicPage({
   // Use created_at for the date/time display
   const publishDate = article.created_at ? new Date(article.created_at) : null
 
-const formattedDate = publishDate
-  ? (() => {
-      const date = new Intl.DateTimeFormat('es-AR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }).format(publishDate)
+  const formattedDate = publishDate
+    ? (() => {
+        const date = new Intl.DateTimeFormat('es-AR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }).format(publishDate)
 
-      const time = new Intl.DateTimeFormat('es-AR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      }).format(publishDate)
+        const time = new Intl.DateTimeFormat('es-AR', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        }).format(publishDate)
 
-      return `${date}   ·   ${time}`
-    })()
-  : 'Fecha no disponible'
+        return `${date}   ·   ${time}`
+      })()
+    : 'Fecha no disponible'
 
-    const readingTimeMinutes = calculateReadingTime(article.article || '')
+  const readingTimeMinutes = calculateReadingTime(article.article || '')
 
   return (
     <>
@@ -466,7 +466,7 @@ const formattedDate = publishDate
                 </>
               )}
             </nav>
-            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-2 leading-tight mt-6 md:mt-8">
+            <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2 leading-tight mt-6 md:mt-8">
               {article.title}
             </h1>
           </div>
@@ -474,12 +474,12 @@ const formattedDate = publishDate
           <article>
             {/* Article content */}
             {article.excerpt && (
-              <div className="font-serif text-lg text-gray-700 mb-6 mt-0 md:-mt-14">
+              <div className="font-serif text-xl text-gray-700 mb-6 mt-0 md:-mt-14">
                 {article.excerpt}
               </div>
             )}
 
-            <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
+            <div className="text-base text-gray-600 mb-6 whitespace-pre-wrap">
               {formattedDate}
               {'   '}·{'   '}
               <span className="inline-flex items-center gap-1">
@@ -501,8 +501,20 @@ const formattedDate = publishDate
                 )
               })()}
 
+            <div className="border-t border-gray-300 my-4"></div>
+
+            {/* ✅ SHARE SIDEBAR - HORIZONTAL FOR MOBILE */}
+            <div className="flex justify-start my-6">
+              <ArticleShareSidebar
+                title={article.title}
+                url={typeof window !== 'undefined' ? window.location.href : ''}
+              />
+            </div>
+
+            <div className="border-t border-gray-300 my-4"></div>
+
             {/* ✅ MOBILE: INTERCALATED EMBEDS */}
-            <div className="prose prose-lg max-w-none prose-p:text-left prose-p:leading-[1.8] first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:pr-2 first-letter:leading-[0.8]">
+            <div className="prose prose-2xl max-w-none prose-p:text-left prose-p:text-lg prose-p:leading-[1.8] prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-6 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-bold prose-h3:mt-5 prose-h3:mb-3 prose-h4:text-lg prose-h4:font-bold prose-h4:mt-4 prose-h4:mb-2 prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-5 prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-5 prose-li:text-lg prose-li:mb-2 prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:mb-5 prose-strong:font-bold prose-a:text-primary-red prose-a:underline first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:pr-2 first-letter:leading-[0.8]">
               {article.article &&
                 (() => {
                   const contentParts = intercalateEmbeds(article.article, {
@@ -547,6 +559,13 @@ const formattedDate = publishDate
                 })()}
             </div>
           </article>
+          {/* ✅ YOU MAY BE INTERESTED SECTION - MOBILE */}
+          <div className="mt-12">
+            <YouMayBeInterestedSection
+              currentArticleId={article.id}
+              currentSectionPath={article.section_path}
+            />
+          </div>
         </div>
       </div>
 
@@ -554,7 +573,7 @@ const formattedDate = publishDate
         <SidelinesLayout sidelineWidth={sidelineWidth}>
           <div className="mb-0 pb-4 px-8 py-8">
             {/* Breadcrumbs */}
-            <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-4">
+            <nav className="text-base md:text-sm text-gray-500 mb-4 mt-4">
               <Link href="/" className="hover:text-primary-red font-medium">
                 RADIO DEL VOLGA
               </Link>
@@ -587,7 +606,7 @@ const formattedDate = publishDate
             </nav>
 
             {/* ✅ TITLE - FULL WIDTH */}
-            <h1 className="font-serif text-3xl md:text-4xl font-bold mb-2 leading-tight mt-6 md:mt-8">
+            <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2 leading-tight mt-6 md:mt-8">
               {article.title}
             </h1>
           </div>
@@ -598,17 +617,17 @@ const formattedDate = publishDate
             <div className="col-span-8">
               {/* EXCERPT */}
               {article.excerpt && (
-                <p className="font-serif text-lg text-gray-700 mb-4">
+                <p className="font-serif text-xl text-gray-700 mb-4">
                   {article.excerpt}
                 </p>
               )}
 
               {/* DATE AND READING TIME */}
-              <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
+              <div className="text-base text-gray-600 mb-6 whitespace-pre-wrap">
                 {formattedDate}
                 {'   '}·{'   '}
                 <span className="inline-flex items-center gap-1">
-                  {readingTimeMinutes} minutos de lectura
+                  ⏱️ {readingTimeMinutes} minutos de lectura
                 </span>
               </div>
 
@@ -631,16 +650,21 @@ const formattedDate = publishDate
               <div className="border-t border-gray-300 my-8"></div>
             </div>
 
-            {/* ✅ RIGHT: 4 columns - EMPTY SPACE */}
-            <div className="col-span-4"></div>
+            {/* ✅ RIGHT: 4 columns - AD CONTAINER */}
+            <div className="col-span-4">
+              <AdContainer sticky={true} />
+            </div>
           </div>
 
           {/* ✅ 3-COLUMN GRID: SHARE + ARTICLE + RELATED */}
-          <div className="relative grid grid-cols-12 gap-4 px-8 items-start">
+          <div className="relative grid grid-cols-12 gap-4 px-8">
             {/* ✅ LEFT: 1 column - SHARE SIDEBAR */}
-            <div className="col-span-1 -ml-4">
-              <div className="h-fit">
-                <ArticleShareSidebar
+            <div className="col-span-1 -ml-4 mt-4 ">
+              <div
+                style={{ position: 'sticky', top: '120px' }}
+                className="h-fit flex justify-center"
+              >
+                <StickyShareSidebar
                   title={article.title}
                   url={
                     typeof window !== 'undefined' ? window.location.href : ''
@@ -651,27 +675,85 @@ const formattedDate = publishDate
 
             {/* ✅ MIDDLE: 7 columns - ARTICLE CONTENT */}
             <article className="col-span-7">
-              <div className="prose prose-lg max-w-none prose-p:leading-[1.8] pt-0">
+              <div className="prose prose-xl max-w-none prose-p:leading-[1.8] pt-0">
                 <style>{`
   .prose {
-    --tw-prose-body: 16px;
+    --tw-prose-body: 18px;
     max-width: 65ch;
     font-family: Georgia, Times New Roman, serif;
   }
   .prose p {
-    font-size: 1rem;
+    font-size: 1.125rem;
     line-height: 1.7;
     margin-bottom: 1.25rem;
     font-family: Georgia, Times New Roman, serif;
   }
+  .prose h2 {
+    font-size: 1.875rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: Georgia, Times New Roman, serif;
+  }
+  .prose h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-family: Georgia, Times New Roman, serif;
+  }
+  .prose h4 {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: Georgia, Times New Roman, serif;
+  }
+  .prose ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.125rem;
+  }
+  .prose ol {
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.125rem;
+  }
+  .prose li {
+    margin-bottom: 0.5rem;
+    font-family: Georgia, Times New Roman, serif;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  .prose blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 1rem;
+    margin-left: 0;
+    margin-bottom: 1.25rem;
+    font-style: italic;
+    color: #666;
+    font-size: 1.125rem;
+  }
+  .prose strong {
+    font-weight: bold;
+  }
+  .prose em {
+    font-style: italic;
+  }
+  .prose a {
+    color: #d32f2f;
+    text-decoration: underline;
+  }
   .prose p:first-of-type::first-letter {
-    font-size: 3.43rem;
+    font-size: 3.45rem;
     font-family: Georgia, Times New Roman, serif;
     font-weight: bold;
     float: left;
     line-height: 1;
     padding-right: 0.5rem;
-    margin-top: -0.04rem;
+    margin-top: 0.29rem;
   }
 `}</style>
                 {article.article &&
@@ -725,11 +807,15 @@ const formattedDate = publishDate
             </article>
 
             {/* ✅ RIGHT: 4 columns - RELATED ARTICLES */}
-            <div className="col-span-4">
+            <div className="col-span-4 mt-1">
               <RelatedArticlesSidebar
                 currentArticleId={article.id}
                 sectionPath={article.section_path}
               />
+              {/* ✅ AD CONTAINER - BELOW RELATED ARTICLES */}
+              <div className="mt-8">
+                <AdContainer sticky={true} />
+              </div>
             </div>
           </div>
 

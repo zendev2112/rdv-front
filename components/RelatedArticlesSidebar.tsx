@@ -50,12 +50,12 @@ export default function RelatedArticlesSidebar({
     fetchRelated()
   }, [sectionPath, currentArticleId])
 
-  if (loading) return <div className="text-gray-400 text-xs">Cargando...</div>
+  if (loading) return <div className="text-gray-400 text-sm">Cargando...</div>
 
   if (articles.length === 0) {
     return (
       <div className="p-2">
-        <p className="text-xs text-gray-500">No hay artículos disponibles</p>
+        <p className="text-sm text-gray-500">No hay artículos disponibles</p>
       </div>
     )
   }
@@ -64,11 +64,11 @@ export default function RelatedArticlesSidebar({
     <div className="pl-4 pt-0">
       {/* ✅ HEADER - TITLE + NAVIGATION ICON */}
       <div className="flex items-center justify-between py-3 pr-3 pl-0 border-b border-gray-200 -mt-3">
-        <h3 className="font-serif text-base font-bold text-gray-900 leading-tight">
+        <h3 className="font-serif text-lg font-bold text-gray-900 leading-tight">
           Más leídas de {getProperSpanishName(sectionSlug, { plural: true })}
         </h3>
         <svg
-          className="w-4 h-4 text-primary-red flex-shrink-0"
+          className="w-5 h-5 text-primary-red flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -106,10 +106,10 @@ export default function RelatedArticlesSidebar({
           {/* Content with number and title - PERFECTLY ALIGNED */}
           <div className="py-3 pr-3 pl-0 flex gap-3 items-center">
             <div className="flex-shrink-0">
-              <span className="font-serif text-2xl font-black text-gray-900">1</span>
+              <span className="font-serif text-3xl font-black text-gray-900">1</span>
             </div>
             <div className="flex-1">
-              <p className="font-serif text-sm text-gray-900">{articles[0].title}</p>
+              <p className="font-serif text-base text-gray-900">{articles[0].title}</p>
             </div>
           </div>
         </Link>
@@ -126,25 +126,25 @@ export default function RelatedArticlesSidebar({
         >
           {/* ✅ COLUMN 1: NUMBER - BLACK */}
           <div className="flex-shrink-0">
-            <span className="font-serif text-2xl font-black text-gray-900">
+            <span className="font-serif text-3xl font-black text-gray-900">
               {index + 2}
             </span>
           </div>
 
           {/* ✅ COLUMN 2: TEXT - COMPLETE, NO BOLD */}
           <div className="flex-1">
-            <p className="font-serif text-sm text-gray-900">{article.title}</p>
+            <p className="font-serif text-base text-gray-900">{article.title}</p>
           </div>
 
           {/* ✅ COLUMN 3: THUMBNAIL - BIGGER, NO ROUNDED CORNERS */}
           {article.imgUrl && (
-            <div className="flex-shrink-0 w-28 h-24 overflow-hidden bg-gray-100">
+            <div className="flex-shrink-0 w-32 h-28 overflow-hidden bg-gray-100">
               <Image
                 src={article.imgUrl}
                 alt={article.title}
-                width={112}
-                height={96}
-                sizes="112px"
+                width={128}
+                height={112}
+                sizes="128px"
                 className="w-full h-full object-cover group-hover:opacity-60 transition-opacity"
               />
             </div>
