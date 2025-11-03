@@ -480,7 +480,8 @@ const formattedDate = publishDate
             )}
 
             <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
-              {formattedDate} · {' '}
+              {formattedDate}
+              {'   '}·{'   '}
               <span className="inline-flex items-center gap-1">
                 ⏱️ {readingTimeMinutes}'
               </span>
@@ -603,8 +604,12 @@ const formattedDate = publishDate
               )}
 
               {/* DATE AND READING TIME */}
-              <div className="text-sm text-gray-600 mb-6">
-                {formattedDate} · {readingTimeMinutes} minutos de lectura
+              <div className="text-sm text-gray-600 mb-6 whitespace-pre-wrap">
+                {formattedDate}
+                {'   '}·{'   '}
+                <span className="inline-flex items-center gap-1">
+                  {readingTimeMinutes} minutos de lectura
+                </span>
               </div>
 
               {/* MAIN IMAGE */}
