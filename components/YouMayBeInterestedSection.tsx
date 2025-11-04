@@ -52,7 +52,7 @@ export default function YouMayBeInterestedSection({
     <section className="py-12 border-t border-gray-200 mt-16">
       {/* ✅ H2 TITLE + DIVISORY LINE - EXACT SAME AS PAGE.TSX */}
       <div className="mb-6">
-        <h2 className="font-serif text-lg font-bold mb-4 uppercase text-gray-900 text-left px-4 md:px-0">
+        <h2 className="font-serif text-xl font-bold mb-4 text-gray-900 text-left px-4 md:px-0 -ml-3 md:ml-0">
           Te puede interesar
         </h2>
         <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>

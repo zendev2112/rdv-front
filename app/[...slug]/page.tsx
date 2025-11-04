@@ -159,7 +159,7 @@ export default async function DynamicPage({
                       <Link
                         key={child.id}
                         href={`/${childPath}`}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                        className="font-serif px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
                       >
                         {child.name}
                       </Link>
@@ -168,9 +168,6 @@ export default async function DynamicPage({
                 </div>
               )}
 
-              <p className="text-gray-500 text-sm mt-3">
-                {count} {count === 1 ? 'artículo' : 'artículos'}
-              </p>
             </div>
 
             {articles.length > 0 ? (
@@ -257,144 +254,7 @@ export default async function DynamicPage({
           </SidelinesLayout>
         </div>
 
-        <div className="hidden md:block pt-[80px]">
-          {/* Desktop version - WITH SidelinesLayout */}
-          <SidelinesLayout sidelineWidth={sidelineWidth}>
-            <div className="mb-0 pb-4 px-8 py-8">
-              {/* Breadcrumbs */}
-              <div className="text-sm md:text-xs text-gray-500 mb-4">
-                <Link href="/" className="hover:text-primary-red font-medium">
-                  RADIO DEL VOLGA
-                </Link>
-                {sectionData.breadcrumb_slugs.map(
-                  (slug: string, index: number) => (
-                    <span key={slug}>
-                      <span className="mx-2 text-gray-400">›</span>
-                      <Link
-                        href={`/${sectionData.breadcrumb_slugs
-                          .slice(0, index + 1)
-                          .join('/')}`}
-                        className="hover:text-primary-red font-medium capitalize"
-                      >
-                        {sectionData.breadcrumb_names[index]}
-                      </Link>
-                    </span>
-                  )
-                )}
-              </div>
 
-              <h1 className="font-serif text-2xl md:text-3xl font-semibold mb-4 leading-tight mt-4 md:mt-6">
-                {sectionData.name}
-              </h1>
-
-              {childSections && childSections.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {childSections.map((child) => {
-                    const childPath = sectionData.breadcrumb_slugs
-                      .concat(child.slug)
-                      .join('/')
-
-                    return (
-                      <Link
-                        key={child.id}
-                        href={`/${childPath}`}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
-                      >
-                        {child.name}
-                      </Link>
-                    )
-                  })}
-                </div>
-              )}
-
-              <p className="text-gray-500 text-sm mt-3">
-                {count} {count === 1 ? 'artículo' : 'artículos'}
-              </p>
-            </div>
-
-            {articles.length > 0 ? (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8">
-                  {articles.map((article) => {
-                    const articlePath = getArticleUrl(
-                      article.section_path,
-                      article.slug
-                    )
-
-                    return (
-                      <article
-                        key={article.id}
-                        className="bg-white rounded-lg shadow-md overflow-hidden"
-                      >
-                        {article.imgUrl && (
-                          <Link href={articlePath}>
-                            <div className="relative h-48 w-full overflow-hidden">
-                              <Image
-                                src={article.imgUrl}
-                                alt={article.title}
-                                fill
-                                className="object-cover hover:scale-105 transition-transform duration-300"
-                              />
-                            </div>
-                          </Link>
-                        )}
-                        <div className="p-5">
-                          <h2 className="text-xl font-bold text-gray-900 mb-3">
-                            <Link href={articlePath}>{article.title}</Link>
-                          </h2>
-                          {article.excerpt && (
-                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                              {article.excerpt}
-                            </p>
-                          )}
-                          <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
-                            <span>
-                              {article.created_at
-                                ? new Date(
-                                    article.created_at
-                                  ).toLocaleDateString('es-AR')
-                                : 'Fecha no disponible'}
-                            </span>
-                          </div>
-                        </div>
-                      </article>
-                    )
-                  })}
-                </div>
-
-                {totalPages > 1 && (
-                  <div className="mt-8 flex justify-center gap-2 px-8">
-                    {page > 1 && (
-                      <Link
-                        href={`/${fullPath}?page=${page - 1}`}
-                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
-                      >
-                        Anterior
-                      </Link>
-                    )}
-                    <span className="px-4 py-2">
-                      Página {page} de {totalPages}
-                    </span>
-                    {page < totalPages && (
-                      <Link
-                        href={`/${fullPath}?page=${page + 1}`}
-                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
-                      >
-                        Siguiente
-                      </Link>
-                    )}
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="text-center py-20 bg-gray-50 rounded-lg">
-                <p className="text-gray-600 text-lg">
-                  No hay artículos disponibles en esta sección.
-                </p>
-              </div>
-            )}
-          </SidelinesLayout>
-        </div>
       </>
     )
   }
@@ -492,12 +352,14 @@ export default async function DynamicPage({
                 const orientation = detectImageOrientation(article.imgUrl)
 
                 return (
-                  <ClientSafeImage
-                    src={applyCloudinaryTransform(article.imgUrl, 'hq')}
-                    alt={article.title}
-                    priority
-                    orientation={orientation}
-                  />
+                  <div className="w-screen -mx-4 mb-6">
+                    <ClientSafeImage
+                      src={applyCloudinaryTransform(article.imgUrl, 'hq')}
+                      alt={article.title}
+                      priority
+                      orientation={orientation}
+                    />
+                  </div>
                 )
               })()}
 
@@ -514,7 +376,7 @@ export default async function DynamicPage({
             <div className="border-t border-gray-300 my-4"></div>
 
             {/* ✅ MOBILE: INTERCALATED EMBEDS */}
-            <div className="prose prose-2xl max-w-none prose-p:text-left prose-p:text-lg prose-p:leading-[1.8] prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-6 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-bold prose-h3:mt-5 prose-h3:mb-3 prose-h4:text-lg prose-h4:font-bold prose-h4:mt-4 prose-h4:mb-2 prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-5 prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-5 prose-li:text-lg prose-li:mb-2 prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:mb-5 prose-strong:font-bold prose-a:text-primary-red prose-a:underline first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:pr-2 first-letter:leading-[0.8]">
+                       <div className="prose prose-2xl max-w-none prose-p:text-left prose-p:text-lg prose-p:leading-[1.8] prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-6 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-bold prose-h3:mt-5 prose-h3:mb-3 prose-h4:text-lg prose-h4:font-bold prose-h4:mt-4 prose-h4:mb-2 prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-5 prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-5 prose-li:text-lg prose-li:mb-2 prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:mb-5 prose-strong:font-bold prose-a:text-primary-red prose-a:underline first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:pr-2 first-letter:leading-[0.8] prose-img:w-screen prose-img:-mx-4">
               {article.article &&
                 (() => {
                   const contentParts = intercalateEmbeds(article.article, {
@@ -799,8 +661,8 @@ export default async function DynamicPage({
                   })()}
                 {/* SOURCE */}
                 {article.source && (
-                  <div className="text-sm text-gray-600 mb-6">
-                    {article.source}
+                  <div className="font-serif text-sm text-gray-600 mt-6 mb-6">
+                    Fuente: {article.source}
                   </div>
                 )}
               </div>
