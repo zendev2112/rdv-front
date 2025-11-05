@@ -88,6 +88,15 @@ async function getChildSections(parentId: string) {
   return data || []
 }
 
+// Add this helper function at the top
+function formatDateShort(dateString: string): string {
+  const date = new Date(dateString)
+  return new Intl.DateTimeFormat('es-AR', {
+    day: 'numeric',
+    month: 'long',
+  }).format(date)
+}
+
 export default async function DynamicPage({
   params,
   searchParams,
@@ -201,6 +210,11 @@ export default async function DynamicPage({
                         {articles[0].excerpt || 'No excerpt available'}
                       </p>
 
+                      {/* ✅ DATE BELOW EXCERPT */}
+                      <div className="text-xs text-gray-500 mb-4">
+                        {formatDateShort(articles[0].created_at)}
+                      </div>
+
                       {/* Main Image */}
                       {articles[0].imgUrl && (
                         <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
@@ -246,7 +260,7 @@ export default async function DynamicPage({
                           )}
 
                           {/* Title with inline Overline */}
-                          <h3 className="font-serif text-base font-semibold leading-tight">
+                          <h3 className="font-serif text-base font-semibold leading-tight mb-2">
                             {article.overline && (
                               <span className="text-primary-red font-semibold text-base">
                                 {article.overline}.{' '}
@@ -254,8 +268,14 @@ export default async function DynamicPage({
                             )}
                             {article.title}
                           </h3>
+
+                          {/* ✅ DATE BELOW TITLE */}
+                          <div className="text-xs text-gray-500 mb-3">
+                            {formatDateShort(article.created_at)}
+                          </div>
                         </Link>
-                        {/* ✅ DIVISORY LINE BETWEEN ARTICLES */}
+
+                        {/* ✅ DIVISORY LINE BETWEEN ARTICLES - VISIBLE */}
                         {index === 0 && (
                           <div className="border-t border-gray-300 my-6"></div>
                         )}
