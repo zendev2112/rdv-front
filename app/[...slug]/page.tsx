@@ -714,7 +714,7 @@ export default async function DynamicPage({
                   })()}
                 {/* SOURCE */}
                 {article.source && (
-                  <div className="font-serif text-sm text-gray-600 mt-6 mb-6">
+                  <div className="font-serif text-lg italic text-gray-600 mt-6 mb-6">
                     Fuente: {article.source}
                   </div>
                 )}
