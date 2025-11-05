@@ -47,7 +47,7 @@ const menuSections = [
   },
   {
     label: 'Pymes y Emprendimientos',
-    href: '/pymes',
+    href: '/pymes-emprendimientos',
     children: [
       { label: 'Inmuebles', href: '/pymes/inmuebles' },
       { label: 'Campos', href: '/pymes/campos' },

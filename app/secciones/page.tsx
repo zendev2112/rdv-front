@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Header from '@/components/Header'
 import { supabase } from '@/lib/supabase'
+import { formatSectionPath } from '@/lib/utils'
 
 type SectionRow = {
   id: string
@@ -15,7 +16,7 @@ type SectionRow = {
 export default async function SeccionesPage() {
   // fetch section hierarchy
   const { data, error } = await supabase
-    .from('section_hierarchy') // removed generic <SectionRow> to satisfy Supabase typings
+    .from('section_hierarchy')
     .select('*')
     .order('path', { ascending: true })
 
@@ -51,9 +52,10 @@ export default async function SeccionesPage() {
 
   const toUrlPath = (path: any, slug: string) => {
     if (path) {
-      return String(path).replace(/\./g, '/')
+      // ✅ USE formatSectionPath TO CONVERT UNDERSCORES TO HYPHENS
+      return formatSectionPath(String(path))
     }
-    return slug
+    return formatSectionPath(slug)
   }
 
   return (
