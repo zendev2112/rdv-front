@@ -285,7 +285,7 @@ export default async function DynamicPage({
 
                   <div className="grid grid-cols-12 gap-8">
                     {/* ✅ LEFT: 8 cols - 5x3 ARTICLES GRID */}
-                    <div className="col-span-8">
+                    <div className="col-span-9">
                       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
                         {articles.slice(3).map((article) => (
                           <Link
@@ -324,10 +324,8 @@ export default async function DynamicPage({
                     </div>
 
                     {/* ✅ RIGHT: 4 cols - RELATED ARTICLES SIDEBAR - ALIGNED WITH TOP */}
-                    <div className="col-span-4">
-                      <RelatedArticlesSidebar
-                        currentArticleId={articles[0]?.id}
-                        sectionPath={sectionData.slug}
+                    <div className="col-span-3">
+                      <AdContainer
                       />
                     </div>
                   </div>
