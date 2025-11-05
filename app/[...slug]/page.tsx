@@ -429,7 +429,7 @@ export default async function DynamicPage({
             <div className="border-t border-gray-300 my-4"></div>
 
             {/* ✅ MOBILE: INTERCALATED EMBEDS */}
-                       <div className="prose prose-2xl max-w-none prose-p:text-left prose-p:text-lg prose-p:leading-[1.8] prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-6 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-bold prose-h3:mt-5 prose-h3:mb-3 prose-h4:text-lg prose-h4:font-bold prose-h4:mt-4 prose-h4:mb-2 prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-5 prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-5 prose-li:text-lg prose-li:mb-2 prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:mb-5 prose-strong:font-bold prose-a:text-primary-red prose-a:underline first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:pr-2 first-letter:leading-[0.8] prose-img:w-screen prose-img:-mx-4">
+            <div className="prose prose-2xl max-w-none prose-p:text-left prose-p:text-lg prose-p:leading-[1.8] prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-6 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-bold prose-h3:mt-5 prose-h3:mb-3 prose-h4:text-lg prose-h4:font-bold prose-h4:mt-4 prose-h4:mb-2 prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-5 prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-5 prose-li:text-lg prose-li:mb-2 prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:mb-5 prose-strong:font-bold prose-a:text-primary-red prose-a:underline first-letter:text-4xl first-letter:font-serif first-letter:font-bold first-letter:float-left first-letter:pr-2 first-letter:leading-[0.8] prose-img:w-screen prose-img:-mx-4">
               {article.article &&
                 (() => {
                   const contentParts = intercalateEmbeds(article.article, {
@@ -473,6 +473,13 @@ export default async function DynamicPage({
                   })
                 })()}
             </div>
+
+            {/* ✅ SOURCE - MOBILE */}
+            {article.source && (
+              <p className="font-serif text-lg italic text-gray-600 mt-6 mb-6">
+                Fuente: {article.source}
+              </p>
+            )}
           </article>
           {/* ✅ YOU MAY BE INTERESTED SECTION - MOBILE */}
           <div className="mt-12">
