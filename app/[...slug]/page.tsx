@@ -166,7 +166,7 @@ export default async function DynamicPage({
 
             {/* ✅ CHILD SECTIONS - IF PRESENT */}
             {childSections && childSections.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2 mb-6">
+              <div className="mt-4 flex flex-wrap gap-2 mb-6 -ml-3">
                 {childSections.map((child) => {
                   const childPath = sectionData.breadcrumb_slugs
                     .concat(child.slug)
