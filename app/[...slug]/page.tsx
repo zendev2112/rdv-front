@@ -88,12 +88,13 @@ async function getChildSections(parentId: string) {
   return data || []
 }
 
-// Add this helper function at the top
+// Update this helper function
 function formatDateShort(dateString: string): string {
   const date = new Date(dateString)
   return new Intl.DateTimeFormat('es-AR', {
     day: 'numeric',
     month: 'long',
+    year: 'numeric',
   }).format(date)
 }
 

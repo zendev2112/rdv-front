@@ -6,6 +6,16 @@ import OptimizedImage from './OptimizedImage'
 import AdContainer from './AdContainer'
 import { getArticleUrl } from '@/lib/utils'
 
+// Add date formatter
+function formatDateShort(dateString: string): string {
+  const date = new Date(dateString)
+  return new Intl.DateTimeFormat('es-AR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date)
+}
+
 interface SectionArticlesGridProps {
   initialArticles: any[]
   sectionData: any
@@ -92,7 +102,7 @@ export default function SectionArticlesGrid({
                       )}
 
                       {/* Title with inline Overline */}
-                      <h3 className="font-serif text-base font-semibold text-gray-900">
+                      <h3 className="font-serif text-base font-semibold text-gray-900 mb-2">
                         {article.overline && (
                           <span className="text-primary-red font-semibold text-base">
                             {article.overline}.{' '}
@@ -100,6 +110,11 @@ export default function SectionArticlesGrid({
                         )}
                         {article.title}
                       </h3>
+
+                      {/* ✅ DATE BELOW TITLE */}
+                      <div className="text-xs text-gray-500 mb-3">
+                        {formatDateShort(article.created_at)}
+                      </div>
                     </Link>
 
                     {/* ✅ BLUR OVERLAY ON LAST 6 ARTICLES */}
