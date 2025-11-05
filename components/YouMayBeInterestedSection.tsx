@@ -59,7 +59,7 @@ export default function YouMayBeInterestedSection({
       </div>
 
       {/* ✅ RESPONSIVE GRID: 1 COLUMN MOBILE, 3 MD, 3 LG - INCREASED GAP */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-0 md:gap-8 px-4 md:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-0 md:gap-8 px-0 md:px-0">
         {articles.map((article) => {
           return (
             <Link
@@ -69,9 +69,9 @@ export default function YouMayBeInterestedSection({
               }`}
               className="group mb-8 md:mb-0"
             >
-              {/* ✅ IMAGE - FULL WIDTH MOBILE, NO OFFSET */}
+              {/* ✅ IMAGE - 100% VIEWPORT WIDTH MOBILE, BREAK OUT OF CONTAINER */}
               {article.imgUrl && (
-                <div className="relative w-full md:w-full aspect-[3/2] overflow-hidden bg-gray-100 md:rounded-lg mb-3 md:mb-3">
+                <div className="relative w-screen md:w-full aspect-[3/2] overflow-hidden bg-gray-100 md:rounded-lg mb-3 md:mb-3 -mx-4 md:mx-0">
                   <Image
                     src={article.imgUrl}
                     alt={article.title}
@@ -82,8 +82,8 @@ export default function YouMayBeInterestedSection({
                 </div>
               )}
 
-              {/* ✅ TITLE - NO EXTRA PADDING ON MOBILE */}
-              <h3 className="font-serif text-base font-bold text-gray-900 px-0 md:px-0 text-left">
+              {/* ✅ TITLE - LEFT ALIGNED WITH PADDING ON MOBILE */}
+              <h3 className="font-serif text-base font-bold text-gray-900 px-4 md:px-0 text-left">
                 {article.overline && (
                   <span className="text-base font-semibold text-primary-red">
                     {article.overline}.{' '}
