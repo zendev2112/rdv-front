@@ -270,32 +270,7 @@ export default async function DynamicPage({
                   <div className="md:col-span-3"></div>
                 </div>
 
-                {/* ✅ PAGINATION */}
-                {totalPages > 1 && (
-                  <div className="mt-8 flex justify-center gap-2 px-8">
-                    {page > 1 && (
-                      <Link
-                        href={`/${fullPath}?page=${page - 1}`}
-                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
-                      >
-                        Anterior
-                      </Link>
-                    )}
-                    <span className="px-4 py-2">
-                      Página {page} de {totalPages}
-                    </span>
-                    {page < totalPages && (
-                      <Link
-                        href={`/${fullPath}?page=${page + 1}`}
-                        className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
-                      >
-                        Siguiente
-                      </Link>
-                    )}
-                  </div>
-                )}
-
-                {/* ✅ DIVISORY LINE - MATCH TOP GRID EXACTLY - FULL WIDTH */}
+              {/* ✅ DIVISORY LINE - MATCH TOP GRID EXACTLY - FULL WIDTH */}
                 <div className="px-8">
                   <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
                 </div>
