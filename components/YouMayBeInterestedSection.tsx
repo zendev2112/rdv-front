@@ -58,8 +58,8 @@ export default function YouMayBeInterestedSection({
         <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
       </div>
 
-      {/* ✅ RESPONSIVE GRID: 1 COLUMN MOBILE, 2 MD, 4 LG */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 md:gap-6">
+      {/* ✅ RESPONSIVE GRID: 1 COLUMN MOBILE, 3 MD, 3 LG - INCREASED GAP */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-0 md:gap-8 px-4 md:px-0">
         {articles.map((article) => {
           return (
             <Link
@@ -69,14 +69,14 @@ export default function YouMayBeInterestedSection({
               }`}
               className="group mb-8 md:mb-0"
             >
-              {/* ✅ IMAGE - FULL VIEWPORT WIDTH ON MOBILE */}
+              {/* ✅ IMAGE - SMALLER SIZE FOR MORE GAP */}
               {article.imgUrl && (
-                <div className="relative w-screen md:w-full aspect-[4/3] overflow-hidden bg-gray-100 md:rounded-lg mb-3 md:mb-3 -mx-4 md:mx-0">
+                <div className="relative w-screen md:w-full aspect-[3/2] overflow-hidden bg-gray-100 md:rounded-lg mb-3 md:mb-3 -mx-4 md:mx-0">
                   <Image
                     src={article.imgUrl}
                     alt={article.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 33vw"
                     className="object-cover group-hover:opacity-75 transition-opacity duration-300"
                   />
                 </div>

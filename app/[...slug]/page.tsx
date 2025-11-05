@@ -24,6 +24,7 @@ import { applyCloudinaryTransform } from '@/lib/cloudinaryTransforms'
 import { detectImageOrientation } from '@/lib/imageOrientation'
 import StickyShareSidebar from '@/components/StickyShareSidebar'
 import AdContainer from '@/components/AdContainer'
+import OptimizedImage from '@/components/OptimizedImage'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -149,7 +150,10 @@ export default async function DynamicPage({
               </h1>
 
               {childSections && childSections.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div
+                  className="mt-4 flex flex-wrap gap-2"
+                  style={{ marginLeft: '-0.75rem' }}
+                >
                   {childSections.map((child) => {
                     const childPath = sectionData.breadcrumb_slugs
                       .concat(child.slug)
@@ -159,7 +163,7 @@ export default async function DynamicPage({
                       <Link
                         key={child.id}
                         href={`/${childPath}`}
-                        className="font-serif px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                        className="font-serif px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-lg font-medium"
                       >
                         {child.name}
                       </Link>
@@ -167,59 +171,106 @@ export default async function DynamicPage({
                   })}
                 </div>
               )}
-
+              <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
             </div>
 
             {articles.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8">
-                  {articles.map((article) => {
-                    const articlePath = getArticleUrl(
-                      article.section_path,
-                      article.slug
-                    )
+                {/* ✅ 3-COLUMN GRID LAYOUT */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 px-8">
+                  {/* ✅ LEFT COLUMN: 6 cols - MAIN ARTICLE */}
+                  <div className="md:col-span-6 relative">
+                    <Link
+                      href={getArticleUrl(
+                        articles[0].section_path || articles[0].section,
+                        articles[0].slug
+                      )}
+                      className="block h-full flex flex-col group"
+                    >
+                      {/* Title with inline Overline */}
+                      <h2 className="font-serif text-2xl md:text-3xl font-semibold leading-tight mb-3">
+                        {articles[0].overline && (
+                          <span className="text-primary-red font-semibold text-2xl md:text-3xl">
+                            {articles[0].overline}.{' '}
+                          </span>
+                        )}
+                        {articles[0].title}
+                      </h2>
 
-                    return (
-                      <article
-                        key={article.id}
-                        className="bg-white rounded-lg shadow-md overflow-hidden"
-                      >
-                        {article.imgUrl && (
-                          <Link href={articlePath}>
-                            <div className="relative h-48 w-full overflow-hidden">
-                              <Image
+                      {/* Excerpt */}
+                      <p className="font-serif text-base text-gray-600 mb-4 leading-relaxed">
+                        {articles[0].excerpt || 'No excerpt available'}
+                      </p>
+
+                      {/* Main Image */}
+                      {articles[0].imgUrl && (
+                        <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
+                          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                          <OptimizedImage
+                            src={articles[0].imgUrl}
+                            alt={articles[0].title}
+                            fill
+                            className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
+                            priority
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                        </div>
+                      )}
+                    </Link>
+                    {/* Vertical divider */}
+                    <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+                  </div>
+
+                  {/* ✅ MIDDLE COLUMN: 3 cols - 2 STACKED ARTICLES */}
+                  <div className="md:col-span-3 flex flex-col gap-6">
+                    {articles.slice(1, 3).map((article, index) => (
+                      <div key={article.id}>
+                        <Link
+                          href={getArticleUrl(
+                            article.section_path || article.section,
+                            article.slug
+                          )}
+                          className="block h-full flex flex-col group"
+                        >
+                          {/* Image */}
+                          {article.imgUrl && (
+                            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg mb-3">
+                              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                              <OptimizedImage
                                 src={article.imgUrl}
                                 alt={article.title}
                                 fill
-                                className="object-cover hover:scale-105 transition-transform duration-300"
+                                className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
+                                sizes="(max-width: 768px) 100vw, 25vw"
                               />
                             </div>
-                          </Link>
-                        )}
-                        <div className="p-5">
-                          <h2 className="font-serif text-xl font-semibold text-gray-900 mb-3">
-                            <Link href={articlePath}>{article.title}</Link>
-                          </h2>
-                          {article.excerpt && (
-                            <p className="font-serif text-gray-600 text-sm mb-4 line-clamp-3">
-                              {article.excerpt}
-                            </p>
                           )}
-                          <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t">
-                            <span>
-                              {article.created_at
-                                ? new Date(
-                                    article.created_at
-                                  ).toLocaleDateString('es-AR')
-                                : 'Fecha no disponible'}
-                            </span>
-                          </div>
-                        </div>
-                      </article>
-                    )
-                  })}
+
+                          {/* Title with inline Overline */}
+                          <h3 className="font-serif text-base font-semibold leading-tight">
+                            {article.overline && (
+                              <span className="text-primary-red font-semibold text-base">
+                                {article.overline}.{' '}
+                              </span>
+                            )}
+                            {article.title}
+                          </h3>
+                        </Link>
+                        {/* ✅ DIVISORY LINE BETWEEN ARTICLES */}
+                        {index === 0 && (
+                          <div className="border-t border-gray-300 my-6"></div>
+                        )}
+                      </div>
+                    ))}
+                    {/* Vertical divider */}
+                    <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+                  </div>
+
+                  {/* ✅ RIGHT COLUMN: 3 cols - EMPTY SPACE */}
+                  <div className="md:col-span-3"></div>
                 </div>
 
+                {/* ✅ PAGINATION */}
                 {totalPages > 1 && (
                   <div className="mt-8 flex justify-center gap-2 px-8">
                     {page > 1 && (
@@ -243,6 +294,69 @@ export default async function DynamicPage({
                     )}
                   </div>
                 )}
+
+                {/* ✅ DIVISORY LINE - MATCH TOP GRID EXACTLY - FULL WIDTH */}
+                <div className="px-8">
+                  <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
+                </div>
+
+                {/* ✅ MORE NEWS SECTION - 8 COLS GRID + 4 COLS SIDEBAR */}
+                <div className="px-8">
+                  <h2 className="font-serif text-2xl font-bold mb-6 text-gray-900 text-left">
+                    Más noticias de {sectionData.name}
+                  </h2>
+
+                  <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
+
+                  <div className="grid grid-cols-12 gap-8">
+                    {/* ✅ LEFT: 8 cols - 5x3 ARTICLES GRID */}
+                    <div className="col-span-8">
+                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
+                        {articles.slice(3).map((article) => (
+                          <Link
+                            key={article.id}
+                            href={getArticleUrl(
+                              article.section_path || article.section,
+                              article.slug
+                            )}
+                            className="group"
+                          >
+                            {/* Image */}
+                            {article.imgUrl && (
+                              <div className="relative w-full aspect-[3/2] overflow-hidden bg-gray-100 rounded-lg mb-3">
+                                <OptimizedImage
+                                  src={article.imgUrl}
+                                  alt={article.title}
+                                  fill
+                                  className="object-cover group-hover:opacity-75 transition-opacity duration-300"
+                                  sizes="33vw"
+                                />
+                              </div>
+                            )}
+
+                            {/* Title with inline Overline */}
+                            <h3 className="font-serif text-base font-semibold text-gray-900">
+                              {article.overline && (
+                                <span className="text-primary-red font-semibold text-base">
+                                  {article.overline}.{' '}
+                                </span>
+                              )}
+                              {article.title}
+                            </h3>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* ✅ RIGHT: 4 cols - RELATED ARTICLES SIDEBAR - ALIGNED WITH TOP */}
+                    <div className="col-span-4">
+                      <RelatedArticlesSidebar
+                        currentArticleId={articles[0]?.id}
+                        sectionPath={sectionData.slug}
+                      />
+                    </div>
+                  </div>
+                </div>
               </>
             ) : (
               <div className="text-center py-20 bg-gray-50 rounded-lg">
@@ -253,8 +367,6 @@ export default async function DynamicPage({
             )}
           </SidelinesLayout>
         </div>
-
-
       </>
     )
   }
