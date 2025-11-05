@@ -25,6 +25,7 @@ import { detectImageOrientation } from '@/lib/imageOrientation'
 import StickyShareSidebar from '@/components/StickyShareSidebar'
 import AdContainer from '@/components/AdContainer'
 import OptimizedImage from '@/components/OptimizedImage'
+import SectionArticlesGrid from '@/components/SectionArticlesGrid'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -115,12 +116,10 @@ export default async function DynamicPage({
     )
 
     const { articles, count } = articlesResult
-    const totalPages = Math.ceil(count / pageSize)
 
     return (
       <>
         <div className="hidden md:block pt-[80px]">
-          {/* Desktop version - WITH SidelinesLayout */}
           <SidelinesLayout sidelineWidth={sidelineWidth}>
             <div className="mb-0 pb-4 px-8 py-8">
               {/* Breadcrumbs */}
@@ -176,7 +175,7 @@ export default async function DynamicPage({
 
             {articles.length > 0 ? (
               <>
-                {/* ✅ 3-COLUMN GRID LAYOUT */}
+                {/* ✅ 3-COLUMN GRID LAYOUT - FIRST 3 ARTICLES */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 px-8">
                   {/* ✅ LEFT COLUMN: 6 cols - MAIN ARTICLE */}
                   <div className="md:col-span-6 relative">
@@ -266,70 +265,18 @@ export default async function DynamicPage({
                     <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
                   </div>
 
-                  {/* ✅ RIGHT COLUMN: 3 cols - EMPTY SPACE */}
-                  <div className="md:col-span-3"></div>
-                </div>
-
-              {/* ✅ DIVISORY LINE - MATCH TOP GRID EXACTLY - FULL WIDTH */}
-                <div className="px-8">
-                  <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
-                </div>
-
-                {/* ✅ MORE NEWS SECTION - 8 COLS GRID + 4 COLS SIDEBAR */}
-                <div className="px-8">
-                  <h2 className="font-serif text-2xl font-bold mb-6 text-gray-900 text-left">
-                    Más noticias de {sectionData.name}
-                  </h2>
-
-                  <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
-
-                  <div className="grid grid-cols-12 gap-8">
-                    {/* ✅ LEFT: 8 cols - 5x3 ARTICLES GRID */}
-                    <div className="col-span-9">
-                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
-                        {articles.slice(3).map((article) => (
-                          <Link
-                            key={article.id}
-                            href={getArticleUrl(
-                              article.section_path || article.section,
-                              article.slug
-                            )}
-                            className="group"
-                          >
-                            {/* Image */}
-                            {article.imgUrl && (
-                              <div className="relative w-full aspect-[3/2] overflow-hidden bg-gray-100 rounded-lg mb-3">
-                                <OptimizedImage
-                                  src={article.imgUrl}
-                                  alt={article.title}
-                                  fill
-                                  className="object-cover group-hover:opacity-75 transition-opacity duration-300"
-                                  sizes="33vw"
-                                />
-                              </div>
-                            )}
-
-                            {/* Title with inline Overline */}
-                            <h3 className="font-serif text-base font-semibold text-gray-900">
-                              {article.overline && (
-                                <span className="text-primary-red font-semibold text-base">
-                                  {article.overline}.{' '}
-                                </span>
-                              )}
-                              {article.title}
-                            </h3>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* ✅ RIGHT: 4 cols - RELATED ARTICLES SIDEBAR - ALIGNED WITH TOP */}
-                    <div className="col-span-3">
-                      <AdContainer
-                      />
-                    </div>
+                  {/* ✅ RIGHT COLUMN: 3 cols - AD */}
+                  <div className="md:col-span-3">
+                    <AdContainer />
                   </div>
                 </div>
+
+                {/* ✅ PROGRESSIVE LOADING GRID COMPONENT */}
+                <SectionArticlesGrid
+                  initialArticles={articles}
+                  sectionData={sectionData}
+                  sectionSlug={sectionData.slug}
+                />
               </>
             ) : (
               <div className="text-center py-20 bg-gray-50 rounded-lg">
