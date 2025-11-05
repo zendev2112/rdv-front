@@ -133,7 +133,7 @@ export default async function DynamicPage({
     return (
       <>
         {/* ✅ MOBILE SECTION PAGE */}
-        <div className="md:hidden pt-[184px]">
+        <div className="md:hidden pt-[184px] pb-24">
           <div className="container mx-auto max-w-[1600px] px-4">
             <div className="mb-0 pb-4 py-0 -mt-8">
               {/* ✅ BREADCRUMBS - EXACT SAME AS ARTICLE PAGE */}

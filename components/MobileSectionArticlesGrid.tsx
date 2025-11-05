@@ -101,7 +101,7 @@ export default function MobileSectionArticlesGrid({
               {/* ✅ BLUR OVERLAY ON LAST 6 ARTICLES */}
               {isLastSix && (
                 <div
-                  className="absolute inset-0 bg-gradient-to-b from-transparent via-white/60 to-white pointer-events-none"
+                  className="absolute inset-0 bg-gradient-to-b from-transparent via-white/60 to-white pointer-events-none w-screen -mx-4"
                   style={{
                     opacity: blurIntensity * 0.95,
                   }}
