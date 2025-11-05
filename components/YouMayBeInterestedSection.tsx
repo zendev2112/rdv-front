@@ -82,8 +82,8 @@ export default function YouMayBeInterestedSection({
                 </div>
               )}
 
-              {/* ✅ TITLE - LEFT ALIGNED WITH PADDING ON MOBILE */}
-              <h3 className="font-serif text-base font-bold text-gray-900 px-4 md:px-0 text-left">
+              {/* ✅ TITLE - ALIGNED WITH ARTICLE H1 ON MOBILE */}
+              <h3 className="font-serif text-base font-bold text-gray-900 px-0 md:px-0 text-left">
                 {article.overline && (
                   <span className="text-base font-semibold text-primary-red">
                     {article.overline}.{' '}
