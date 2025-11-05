@@ -69,9 +69,9 @@ export default function YouMayBeInterestedSection({
               }`}
               className="group mb-8 md:mb-0"
             >
-              {/* ✅ IMAGE - SMALLER SIZE FOR MORE GAP */}
+              {/* ✅ IMAGE - FULL WIDTH MOBILE, NO OFFSET */}
               {article.imgUrl && (
-                <div className="relative w-screen md:w-full aspect-[3/2] overflow-hidden bg-gray-100 md:rounded-lg mb-3 md:mb-3 -mx-4 md:mx-0">
+                <div className="relative w-full md:w-full aspect-[3/2] overflow-hidden bg-gray-100 md:rounded-lg mb-3 md:mb-3">
                   <Image
                     src={article.imgUrl}
                     alt={article.title}
@@ -82,8 +82,8 @@ export default function YouMayBeInterestedSection({
                 </div>
               )}
 
-              {/* ✅ TITLE - SPREAD WITH LESS LEFT/RIGHT PADDING */}
-              <h3 className="font-serif text-base font-bold text-gray-900 px-2 md:px-0 text-left">
+              {/* ✅ TITLE - NO EXTRA PADDING ON MOBILE */}
+              <h3 className="font-serif text-base font-bold text-gray-900 px-0 md:px-0 text-left">
                 {article.overline && (
                   <span className="text-base font-semibold text-primary-red">
                     {article.overline}.{' '}
