@@ -199,11 +199,191 @@ export default async function DynamicPage({
 
         {/* ✅ DESKTOP SECTION PAGE - EXISTING CODE */}
         <div className="hidden md:block pt-[80px]">
-          {/* ...existing desktop section page code... */}
+          <SidelinesLayout sidelineWidth={sidelineWidth}>
+            <div className="mb-0 pb-4 px-8 py-8">
+              {/* Breadcrumbs */}
+              <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-4">
+                <Link href="/" className="hover:text-primary-red font-medium">
+                  RADIO DEL VOLGA
+                </Link>
+                {sectionData.breadcrumb_slugs.map(
+                  (slug: string, index: number) => (
+                    <span key={slug}>
+                      <span className="mx-2 text-gray-400">›</span>
+                      <Link
+                        href={`/${sectionData.breadcrumb_slugs
+                          .slice(0, index + 1)
+                          .join('/')}`}
+                        className="hover:text-primary-red font-medium capitalize"
+                      >
+                        {sectionData.breadcrumb_names[index]}
+                      </Link>
+                    </span>
+                  )
+                )}
+              </nav>
+
+              <h1 className="font-serif text-2xl md:text-3xl font-semibold mb-4 leading-tight mt-4 md:mt-6">
+                {sectionData.name}
+              </h1>
+
+              {childSections && childSections.length > 0 && (
+                <div
+                  className="mt-4 flex flex-wrap gap-2"
+                  style={{ marginLeft: '-0.75rem' }}
+                >
+                  {childSections.map((child) => {
+                    const childPath = sectionData.breadcrumb_slugs
+                      .concat(child.slug)
+                      .join('/')
+
+                    return (
+                      <Link
+                        key={child.id}
+                        href={`/${childPath}`}
+                        className="font-serif px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-lg font-medium"
+                      >
+                        {child.name}
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+              <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
+            </div>
+
+            {articles.length > 0 ? (
+              <>
+                {/* ✅ 3-COLUMN GRID LAYOUT - FIRST 3 ARTICLES */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 px-8">
+                  {/* ✅ LEFT COLUMN: 6 cols - MAIN ARTICLE */}
+                  <div className="md:col-span-6 relative">
+                    <Link
+                      href={getArticleUrl(
+                        articles[0].section_path || articles[0].section,
+                        articles[0].slug
+                      )}
+                      className="block h-full flex flex-col group"
+                    >
+                      {/* Title with inline Overline */}
+                      <h2 className="font-serif text-2xl md:text-3xl font-semibold leading-tight mb-3">
+                        {articles[0].overline && (
+                          <span className="text-primary-red font-semibold text-2xl md:text-3xl">
+                            {articles[0].overline}.{' '}
+                          </span>
+                        )}
+                        {articles[0].title}
+                      </h2>
+
+                      {/* Excerpt */}
+                      <p className="font-serif text-base text-gray-600 mb-4 leading-relaxed">
+                        {articles[0].excerpt || 'No excerpt available'}
+                      </p>
+
+                      {/* ✅ DATE BELOW EXCERPT */}
+                      <div className="text-xs text-gray-500 mb-4">
+                        {formatDateShort(articles[0].created_at)}
+                      </div>
+
+                      {/* Main Image */}
+                      {articles[0].imgUrl && (
+                        <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
+                          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                          <OptimizedImage
+                            src={articles[0].imgUrl}
+                            alt={articles[0].title}
+                            fill
+                            className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
+                            priority
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                        </div>
+                      )}
+                    </Link>
+                    {/* Vertical divider */}
+                    <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+                  </div>
+
+                  {/* ✅ MIDDLE COLUMN: 3 cols - 2 STACKED ARTICLES */}
+                  <div className="md:col-span-3 flex flex-col gap-6">
+                    {articles.slice(1, 3).map((article, index) => (
+                      <div key={article.id}>
+                        <Link
+                          href={getArticleUrl(
+                            article.section_path || article.section,
+                            article.slug
+                          )}
+                          className="block h-full flex flex-col group"
+                        >
+                          {/* Image */}
+                          {article.imgUrl && (
+                            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg mb-3">
+                              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                              <OptimizedImage
+                                src={article.imgUrl}
+                                alt={article.title}
+                                fill
+                                className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
+                                sizes="(max-width: 768px) 100vw, 25vw"
+                              />
+                            </div>
+                          )}
+
+                          {/* Title with inline Overline */}
+                          <h3 className="font-serif text-base font-semibold leading-tight mb-2">
+                            {article.overline && (
+                              <span className="text-primary-red font-semibold text-base">
+                                {article.overline}.{' '}
+                              </span>
+                            )}
+                            {article.title}
+                          </h3>
+
+                          {/* ✅ DATE BELOW TITLE */}
+                          <div className="text-xs text-gray-500 mb-3">
+                            {formatDateShort(article.created_at)}
+                          </div>
+                        </Link>
+
+                        {/* ✅ DIVISORY LINE BETWEEN ARTICLES - VISIBLE */}
+                        {index === 0 && (
+                          <div className="border-t border-gray-300 my-6"></div>
+                        )}
+                      </div>
+                    ))}
+                    {/* Vertical divider */}
+                    <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+                  </div>
+
+                  {/* ✅ RIGHT COLUMN: 3 cols - AD */}
+                  <div className="md:col-span-3">
+                    <AdContainer />
+                  </div>
+                </div>
+
+                {/* ✅ DIVISORY LINE - MATCH TOP GRID EXACTLY - FULL WIDTH */}
+                <div className="px-8">
+                  <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
+                </div>
+
+                {/* ✅ PROGRESSIVE LOADING GRID COMPONENT */}
+                <SectionArticlesGrid
+                  initialArticles={articles}
+                  sectionData={sectionData}
+                  sectionSlug={sectionData.slug}
+                />
+              </>
+            ) : (
+              <div className="text-center py-20 bg-gray-50 rounded-lg">
+                <p className="text-gray-600 text-lg">
+                  No hay artículos disponibles en esta sección.
+                </p>
+              </div>
+            )}
+          </SidelinesLayout>
         </div>
       </>
     )
-
   }
 
   // Article detail page logic
