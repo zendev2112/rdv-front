@@ -23,16 +23,16 @@ export default function MobileSectionNav() {
       className={`md:hidden fixed top-[60px] left-0 right-0 z-[40] bg-primary-red text-white border-b border-light-gray transition-transform duration-300 ease-out ${
         scrollDirection === 'down' ? '-translate-y-[104px]' : 'translate-y-0'
       }`}
+      style={{
+        height: '48px',
+        minHeight: '48px',
+        maxHeight: '48px',
+      }}
     >
       <div
-        className="flex items-center px-4 space-x-6 whitespace-nowrap overflow-x-auto scrollbar-hide"
+        className="flex items-center px-4 space-x-6 whitespace-nowrap overflow-x-auto scrollbar-hide h-full"
         style={{
-          height: '48px',
-          minHeight: '48px',
-          maxHeight: '48px',
-          paddingTop: '8px',
-          paddingBottom: '8px',
-          boxSizing: 'border-box'
+          alignItems: 'center',
         }}
       >
         {sections.map((section) => {
@@ -49,7 +49,7 @@ export default function MobileSectionNav() {
               style={{
                 fontSize: '14px',
                 lineHeight: '20px',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
               }}
               aria-current={isActive ? 'page' : undefined}
             >
@@ -58,13 +58,6 @@ export default function MobileSectionNav() {
           )
         })}
       </div>
-
-      <style jsx>{`
-        nav {
-          height: 48px !important;
-          min-height: 48px !important;
-        }
-      `}</style>
     </nav>
   )
 }
