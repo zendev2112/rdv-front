@@ -50,12 +50,22 @@ export default async function SeccionesPage() {
     }
   })
 
-  const toUrlPath = (path: any, slug: string) => {
-    if (path) {
-      // ✅ USE formatSectionPath TO CONVERT UNDERSCORES TO HYPHENS
-      return formatSectionPath(String(path))
+  const toUrlPath = (section: SectionRow) => {
+    // ✅ USE parent_id AS SOURCE OF TRUTH
+    // If parent_id is null, it's a standalone parent - use only slug
+    // If parent_id exists, use the full path
+
+    if (!section.parent_id) {
+      // ✅ Standalone section - use only slug
+      return formatSectionPath(section.slug)
     }
-    return formatSectionPath(slug)
+
+    // ✅ Has parent - use full path
+    if (section.path) {
+      return formatSectionPath(String(section.path))
+    }
+
+    return formatSectionPath(section.slug)
   }
 
   return (
@@ -70,7 +80,7 @@ export default async function SeccionesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {parents.map((parent) => {
               const kids = childrenMap.get(parent.id) || []
-              const parentPath = toUrlPath(parent.path, parent.slug)
+              const parentPath = toUrlPath(parent)
 
               return (
                 <article
@@ -86,7 +96,7 @@ export default async function SeccionesPage() {
                   {kids.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-2">
                       {kids.map((c) => {
-                        const childPath = toUrlPath(c.path, c.slug)
+                        const childPath = toUrlPath(c)
                         return (
                           <Link
                             key={c.id}
