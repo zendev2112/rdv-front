@@ -9,9 +9,14 @@ import { getArticleUrl } from '@/lib/utils'
 interface SearchBarProps {
   isOpen: boolean
   onClose: () => void
+  isMobile?: boolean
 }
 
-export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
+export default function SearchBar({
+  isOpen,
+  onClose,
+  isMobile = false,
+}: SearchBarProps) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
@@ -75,10 +80,22 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
       <div className="fixed inset-0 bg-black/50 z-50" onClick={onClose} />
 
       {/* Search Modal */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-xl">
-        <div className="container mx-auto max-w-4xl px-4 py-6">
+      <div
+        className={`fixed ${
+          isMobile ? 'top-0 left-0 right-0 bottom-14' : 'top-0 left-0 right-0'
+        } z-50 bg-white shadow-xl overflow-hidden flex flex-col`}
+      >
+        <div
+          className={`${
+            isMobile
+              ? 'container mx-auto max-w-full px-4'
+              : 'container mx-auto max-w-4xl px-4'
+          } py-4 md:py-6`}
+        >
           {/* Search Input */}
-          <div className="flex items-center gap-4 mb-6">
+          <div
+            className={`flex items-center gap-4 ${isMobile ? 'mb-4' : 'mb-6'}`}
+          >
             <div className="flex-1 relative">
               <input
                 ref={inputRef}
@@ -86,12 +103,12 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Buscar noticias..."
-                className="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-red focus:border-transparent"
+                className={`w-full px-4 py-3 md:px-6 md:py-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-red focus:border-transparent`}
               />
               {query && (
                 <button
                   onClick={() => setQuery('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   aria-label="Limpiar búsqueda"
                 >
                   <X className="w-5 h-5" />
@@ -108,7 +125,11 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
           </div>
 
           {/* Search Results */}
-          <div className="max-h-[70vh] overflow-y-auto">
+          <div
+            className={`${
+              isMobile ? 'max-h-[calc(100vh-200px)]' : 'max-h-[70vh]'
+            } overflow-y-auto`}
+          >
             {loading ? (
               <div className="text-center py-12">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-red"></div>
@@ -124,7 +145,11 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                   {results.length} resultado{results.length !== 1 ? 's' : ''}{' '}
                   encontrado{results.length !== 1 ? 's' : ''}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div
+                  className={`grid ${
+                    isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'
+                  } gap-4 md:gap-6`}
+                >
                   {results.map((article) => (
                     <Link
                       key={article.id}
@@ -133,21 +158,31 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                         article.slug
                       )}
                       onClick={onClose}
-                      className="group flex gap-4 p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                      className={`group ${
+                        isMobile ? 'flex gap-3 p-3' : 'flex gap-4 p-4'
+                      } hover:bg-gray-50 rounded-lg transition-colors`}
                     >
                       {article.imgUrl && (
-                        <div className="relative w-32 h-24 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                        <div
+                          className={`relative ${
+                            isMobile ? 'w-24 h-16' : 'w-32 h-24'
+                          } flex-shrink-0 overflow-hidden rounded-lg bg-gray-100`}
+                        >
                           <OptimizedImage
                             src={article.imgUrl}
                             alt={article.title}
                             fill
                             className="object-cover group-hover:opacity-75 transition-opacity"
-                            sizes="128px"
+                            sizes={isMobile ? '96px' : '128px'}
                           />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-serif text-base font-bold text-gray-900 mb-2 line-clamp-2">
+                        <h3
+                          className={`font-serif ${
+                            isMobile ? 'text-sm' : 'text-base'
+                          } font-bold text-gray-900 mb-1 md:mb-2 line-clamp-2`}
+                        >
                           {article.overline && (
                             <span className="text-primary-red">
                               {article.overline}.{' '}
@@ -156,7 +191,11 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                           {article.title}
                         </h3>
                         {article.excerpt && (
-                          <p className="text-sm text-gray-600 line-clamp-2">
+                          <p
+                            className={`${
+                              isMobile ? 'text-xs' : 'text-sm'
+                            } text-gray-600 line-clamp-2`}
+                          >
                             {article.excerpt}
                           </p>
                         )}
@@ -168,7 +207,7 @@ export default function SearchBar({ isOpen, onClose }: SearchBarProps) {
                   <Link
                     href={`/buscar?q=${encodeURIComponent(query)}`}
                     onClick={onClose}
-                    className="block mt-6 text-center py-3 text-primary-red hover:text-red-700 font-medium"
+                    className="block mt-6 text-center py-3 text-primary-red hover:text-red-700 font-medium text-sm md:text-base"
                   >
                     Ver todos los resultados →
                   </Link>
