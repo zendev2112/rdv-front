@@ -6,6 +6,16 @@ import { X } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
 
+// ✅ ADD DATE FORMATTER
+function formatDateShort(dateString: string): string {
+  const date = new Date(dateString)
+  return new Intl.DateTimeFormat('es-AR', {
+    day: 'numeric',
+    month: 'long',
+    year: '2-digit',
+  }).format(date)
+}
+
 interface SearchBarProps {
   isOpen: boolean
   onClose: () => void
@@ -77,7 +87,10 @@ export default function SearchBar({
   return (
     <>
       {/* Overlay */}
-      <div className="fixed inset-0 bg-black/50 z-50" onClick={onClose} />
+      <div
+        className="fixed inset-0 bg-black/50 z-50"
+        onClick={onClose}
+      />
 
       {/* Search Modal */}
       <div
@@ -190,6 +203,14 @@ export default function SearchBar({
                           )}
                           {article.title}
                         </h3>
+                        {/* ✅ ADD DATE BELOW TITLE */}
+                        <div
+                          className={`text-gray-500 mb-2 ${
+                            isMobile ? 'text-xs' : 'text-xs'
+                          }`}
+                        >
+                          {formatDateShort(article.created_at)}
+                        </div>
                         {article.excerpt && (
                           <p
                             className={`${
@@ -215,9 +236,7 @@ export default function SearchBar({
               </>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-600 mb-2">
-                  No se encontraron resultados
-                </p>
+                <p className="text-gray-600 mb-2">No se encontraron resultados</p>
                 <p className="text-sm text-gray-500">
                   Intente con otras palabras clave
                 </p>
