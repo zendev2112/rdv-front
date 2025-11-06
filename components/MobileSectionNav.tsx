@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useScrollDirection } from './hooks/useScrollDirection'
 
 const sections = [
   { name: 'Inicio', href: '/' },
@@ -15,11 +16,15 @@ const sections = [
 
 export default function MobileSectionNav() {
   const pathname = usePathname()
+  const scrollDirection = useScrollDirection()
 
   return (
     <nav
-      className="md:hidden fixed top-[60px] left-0 right-0 z-[40] bg-primary-red text-white border-b border-light-gray text-base"
+      className={`md:hidden fixed left-0 right-0 z-[40] bg-primary-red text-white border-b border-light-gray text-base transition-transform duration-300 ease-out ${
+        scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
+      }`}
       style={{
+        top: '60px', // ✅ MOVED TO INLINE STYLE
         height: '48px',
         minHeight: '48px',
         maxHeight: '48px',
@@ -28,7 +33,8 @@ export default function MobileSectionNav() {
       <div
         className="flex items-center px-4 space-x-6 whitespace-nowrap overflow-x-auto scrollbar-hide"
         style={{
-          height: '100%',
+          height: '48px', // ✅ EXPLICIT HEIGHT INSTEAD OF 100%
+          minHeight: '48px',
           alignItems: 'center',
         }}
       >
@@ -38,7 +44,7 @@ export default function MobileSectionNav() {
             <Link
               key={section.href}
               href={section.href}
-              className={`font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 flex-shrink-0 ${
+              className={`font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 flex-shrink-0 text-sm ${
                 isActive
                   ? 'text-white bg-white/10 px-3 py-1.5 rounded-md'
                   : 'text-white/90 hover:text-white'
