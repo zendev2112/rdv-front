@@ -234,7 +234,7 @@ export default function Header() {
                 <Link
                   key={section.href}
                   href={section.href}
-                  className={`font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 flex-shrink-0 ${
+                  className={`font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 flex-shrink-0 inline-flex items-center justify-center ${
                     isActive
                       ? 'text-white bg-white/10 px-3 py-1.5 rounded-md'
                       : 'text-white/90 hover:text-white'
@@ -242,6 +242,10 @@ export default function Header() {
                   style={{
                     fontSize: '14px',
                     lineHeight: '20px',
+                    height: '32px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                   aria-current={isActive ? 'page' : undefined}
                 >
