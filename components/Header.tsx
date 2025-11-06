@@ -234,7 +234,7 @@ export default function Header() {
                 <Link
                   key={section.href}
                   href={section.href}
-                  className={`font-medium transition-all duration-200 focus:outline-none flex-shrink-0 px-2 py-2 rounded-full active:bg-white/20 ${
+                  className={`font-bold transition-all duration-200 focus:outline-none flex-shrink-0 px-2 py-2 rounded-full active:bg-white/20 ${
                     isActive ? 'text-white' : 'text-white/90 hover:text-white'
                   }`}
                   style={{
@@ -245,11 +245,12 @@ export default function Header() {
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {section.name}
-                  {/* ✅ BOTTOM BORDER LINE FOR ACTIVE */}
+                  {/* ✅ THIN MINIMALIST BOTTOM BORDER LINE */}
                   {isActive && (
                     <span
-                      className="absolute bottom-0 left-2 right-2 h-1 bg-white rounded-t-full"
+                      className="absolute bottom-0 left-2 right-2 bg-white"
                       style={{
+                        height: '2px',
                         marginTop: '4px',
                       }}
                     />
