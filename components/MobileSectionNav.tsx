@@ -18,7 +18,7 @@ export default function MobileSectionNav() {
 
   return (
     <nav
-      className="md:hidden fixed top-[60px] left-0 right-0 z-[40] bg-primary-red text-white border-b border-light-gray"
+      className="md:hidden fixed top-[60px] left-0 right-0 z-[40] bg-primary-red text-white border-b border-light-gray text-base"
       style={{
         height: '48px',
         minHeight: '48px',
