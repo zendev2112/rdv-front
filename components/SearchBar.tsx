@@ -6,13 +6,13 @@ import { X } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
 
-// ✅ ADD DATE FORMATTER
+// ✅ UPDATE DATE FORMATTER
 function formatDateShort(dateString: string): string {
   const date = new Date(dateString)
   return new Intl.DateTimeFormat('es-AR', {
     day: 'numeric',
     month: 'long',
-    year: '2-digit',
+    year: 'numeric', // ✅ CHANGED FROM '2-digit' TO 'numeric'
   }).format(date)
 }
 
