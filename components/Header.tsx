@@ -19,7 +19,7 @@ const mobileSections = [
   { name: 'Lifestyle', href: '/lifestyle' },
 ]
 
-// ✅ Desktop dropdown menu sections (keep your existing structure)
+// ✅ Desktop dropdown menu sections
 const menuSections = [
   {
     label: 'Coronel Suárez',
@@ -218,8 +218,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* ✅ MOBILE SECTION NAV - INTEGRATED HERE */}
-        <nav className="md:hidden w-full border-t border-white/10">
+        {/* ✅ MOBILE SECTION NAV - UPDATED STYLING */}
+        <nav className="md:hidden w-full border-t border-white/10 relative">
           <div
             className="flex items-center px-4 space-x-6 whitespace-nowrap overflow-x-auto scrollbar-hide"
             style={{
@@ -234,22 +234,26 @@ export default function Header() {
                 <Link
                   key={section.href}
                   href={section.href}
-                  className={`font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 flex-shrink-0 inline-flex items-center justify-center ${
-                    isActive
-                      ? 'text-white bg-white/10 px-3 py-1.5 rounded-md'
-                      : 'text-white/90 hover:text-white'
+                  className={`font-medium transition-all duration-200 focus:outline-none flex-shrink-0 px-2 py-2 rounded-full active:bg-white/20 ${
+                    isActive ? 'text-white' : 'text-white/90 hover:text-white'
                   }`}
                   style={{
                     fontSize: '14px',
                     lineHeight: '20px',
-                    height: '32px',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    position: 'relative',
                   }}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {section.name}
+                  {/* ✅ BOTTOM BORDER LINE FOR ACTIVE */}
+                  {isActive && (
+                    <span
+                      className="absolute bottom-0 left-2 right-2 h-1 bg-white rounded-t-full"
+                      style={{
+                        marginTop: '4px',
+                      }}
+                    />
+                  )}
                 </Link>
               )
             })}
