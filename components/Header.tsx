@@ -18,6 +18,7 @@ import {
   ChevronUp,
   ChevronRight,
 } from 'lucide-react'
+import SearchBar from './SearchBar'
 
 // --- 1. Updated menu structure - Pymes y Emprendimientos as its own section ---
 const menuSections = [
@@ -118,6 +119,7 @@ export default function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openSections, setOpenSections] = useState<Set<string>>(new Set())
+  const [searchOpen, setSearchOpen] = useState(false)
 
   const toggleSection = (sectionLabel: string) => {
     const newOpenSections = new Set(openSections)
@@ -194,120 +196,129 @@ export default function Header() {
   }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-primary-red text-white w-full shadow-md transition-transform duration-300 ease-out ${
-        scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
-      }`}
-    >
-      {/* Main header area */}
-      <div className="w-full px-4 py-3 md:py-4 flex items-center border-b border-white/10 md:border-b-0">
-        {/* Desktop: constrained inner flex, centered, with left/center/right */}
-        <div className="hidden md:flex w-full mx-auto max-w-screen-lg items-center">
-          {/* Left: nav */}
-          <div className="flex items-center gap-3 flex-1 -ml-5">
-            <button
-              className="text-white p-1"
-              aria-label="Abrir menú"
-              onClick={() => setMobileMenuOpen((open) => !open)}
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-            <span className="text-white font-bold text-xs md:text-sm uppercase">
-              SECCIONES
-            </span>
-            <button className="text-white p-1 ml-2" aria-label="Buscar">
-              <Search className="w-5 h-5 md:w-6 md:h-6" />
-            </button>
-          </div>
-          {/* Center: logo */}
-          <div className="flex justify-center flex-1">
-            <Link href="/" className="text-center">
-              <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-18 md:w-60 lg:h-18 lg:w-60 xl:h-18 xl:w-60">
-                <Image
-                  src="/images/logo.svg"
-                  alt="Noticias Logo"
-                  fill
-                  priority
-                  style={{ objectFit: 'contain' }}
-                  className="brightness-0 invert"
-                />
-              </div>
-            </Link>
-          </div>
-          {/* Right: bell */}
-          <div className="flex justify-end flex-1 -mr-5">
-            <button className="text-white p-1" aria-label="Notifications">
-              <Bell className="w-5 h-5 md:w-6 md:h-6" />
-            </button>
-          </div>
-        </div>
-        {/* Mobile: only logo (center) and bell (right) */}
-        <div className="flex w-full items-center justify-between md:hidden">
-          <div className="flex-1" /> {/* empty left */}
-          <div className="flex justify-center flex-1">
-            <Link href="/" className="text-center">
-              <div className="relative h-12 w-40">
-                <Image
-                  src="/images/logo.svg"
-                  alt="Noticias Logo"
-                  fill
-                  priority
-                  style={{ objectFit: 'contain' }}
-                  className="brightness-0 invert"
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="flex justify-end flex-1">
-            <button className="text-white p-1" aria-label="Notifications">
-              <Bell className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Section Navigation - INTEGRATED INSIDE HEADER */}
-      <nav className="md:hidden w-full overflow-x-auto scrollbar-hide">
-        <div className="flex items-center px-4 py-2 space-x-6 whitespace-nowrap">
-          {sections.map((section) => {
-            const isActive = pathname === section.href
-            return (
-              <Link
-                key={section.href}
-                href={section.href}
-                className={`text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 ${
-                  isActive
-                    ? 'text-white bg-white/10 px-3 py-1.5 rounded-md'
-                    : 'text-white/90 hover:text-white'
-                }`}
-                aria-current={isActive ? 'page' : undefined}
-              >
-                {section.name}
-              </Link>
-            )
-          })}
-        </div>
-      </nav>
-
-      {/* Mobile and Desktop menu - slides down when menu is open */}
-      <div
-        className={`${
-          mobileMenuOpen ? 'max-h-[80vh] py-4' : 'max-h-0 py-0 overflow-hidden'
-        } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 bg-primary-red text-white w-full shadow-md transition-transform duration-300 ease-out ${
+          scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
+        }`}
       >
-        <div className="container mx-auto px-4">
-          <div className="max-h-[70vh] overflow-y-auto">
-            <nav className="flex flex-col">
-              {/* Menu links */}
-              {renderMenu(menuSections)}
-            </nav>
+        {/* Main header area */}
+        <div className="w-full px-4 py-3 md:py-4 flex items-center border-b border-white/10 md:border-b-0">
+          {/* Desktop: constrained inner flex, centered, with left/center/right */}
+          <div className="hidden md:flex w-full mx-auto max-w-screen-lg items-center">
+            {/* Left: nav */}
+            <div className="flex items-center gap-3 flex-1 -ml-5">
+              <button
+                className="text-white p-1"
+                aria-label="Abrir menú"
+                onClick={() => setMobileMenuOpen((open) => !open)}
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+              <span className="text-white font-bold text-xs md:text-sm uppercase">
+                SECCIONES
+              </span>
+              <button
+                className="text-white p-1 ml-2"
+                aria-label="Buscar"
+                onClick={() => setSearchOpen(true)}
+              >
+                <Search className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
+            {/* Center: logo */}
+            <div className="flex justify-center flex-1">
+              <Link href="/" className="text-center">
+                <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-18 md:w-60 lg:h-18 lg:w-60 xl:h-18 xl:w-60">
+                  <Image
+                    src="/images/logo.svg"
+                    alt="Noticias Logo"
+                    fill
+                    priority
+                    style={{ objectFit: 'contain' }}
+                    className="brightness-0 invert"
+                  />
+                </div>
+              </Link>
+            </div>
+            {/* Right: bell */}
+            <div className="flex justify-end flex-1 -mr-5">
+              <button className="text-white p-1" aria-label="Notifications">
+                <Bell className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
+          </div>
+          {/* Mobile: only logo (center) and bell (right) */}
+          <div className="flex w-full items-center justify-between md:hidden">
+            <div className="flex-1" /> {/* empty left */}
+            <div className="flex justify-center flex-1">
+              <Link href="/" className="text-center">
+                <div className="relative h-12 w-40">
+                  <Image
+                    src="/images/logo.svg"
+                    alt="Noticias Logo"
+                    fill
+                    priority
+                    style={{ objectFit: 'contain' }}
+                    className="brightness-0 invert"
+                  />
+                </div>
+              </Link>
+            </div>
+            <div className="flex justify-end flex-1">
+              <button className="text-white p-1" aria-label="Notifications">
+                <Bell className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+
+        {/* Mobile Section Navigation - INTEGRATED INSIDE HEADER */}
+        <nav className="md:hidden w-full overflow-x-auto scrollbar-hide">
+          <div className="flex items-center px-4 py-2 space-x-6 whitespace-nowrap">
+            {sections.map((section) => {
+              const isActive = pathname === section.href
+              return (
+                <Link
+                  key={section.href}
+                  href={section.href}
+                  className={`text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 ${
+                    isActive
+                      ? 'text-white bg-white/10 px-3 py-1.5 rounded-md'
+                      : 'text-white/90 hover:text-white'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {section.name}
+                </Link>
+              )
+            })}
+          </div>
+        </nav>
+
+        {/* Mobile and Desktop menu - slides down when menu is open */}
+        <div
+          className={`${
+            mobileMenuOpen
+              ? 'max-h-[80vh] py-4'
+              : 'max-h-0 py-0 overflow-hidden'
+          } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
+        >
+          <div className="container mx-auto px-4">
+            <div className="max-h-[70vh] overflow-y-auto">
+              <nav className="flex flex-col">
+                {/* Menu links */}
+                {renderMenu(menuSections)}
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+      <SearchBar isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+    </>
   )
 }
