@@ -40,7 +40,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Header />
-        <GlobalMobileNav />
+        {/* <GlobalMobileNav /> */}
         {children}
         <script async src="https://www.instagram.com/embed.js"></script>
         <script
