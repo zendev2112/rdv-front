@@ -177,7 +177,7 @@ export default function NoticiasImportantesSection({
 
               {/* Title area - CONSISTENT SPACING */}
               <div className="pt-2 pb-6 md:pb-0 flex-1">
-                <h2 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
+                <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
                   {article.overline && (
                     <span className="text-primary-red">
                       {article.overline}.{' '}

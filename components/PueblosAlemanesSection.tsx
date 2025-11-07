@@ -118,7 +118,7 @@ export default function PueblosAlemanesSection({
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="text-2xl font-bold uppercase">PUEBLOS ALEMANES</h2>
+          <h2 className="font-serif text-2xl font-bold uppercase">PUEBLOS ALEMANES</h2>
         </div>
       </div>
 
@@ -150,7 +150,7 @@ export default function PueblosAlemanesSection({
 
               {/* Title area - CONSISTENT SPACING */}
               <div className="bg-white pt-3 pb-6 md:pb-0">
-                <h1 className="text-xl md:text-2xl font-bold leading-7 sm:leading-tight">
+                <h1 className="font-serif text-xl md:text-2xl font-bold leading-7 sm:leading-tight">
                   {mainArticle.overline && (
                     <span className="text-primary-red">
                       {mainArticle.overline}.{' '}
@@ -158,7 +158,7 @@ export default function PueblosAlemanesSection({
                   )}
                   {mainArticle.title}
                 </h1>
-                <p className="text-sm md:text-sm text-gray-600 mt-2 leading-6 sm:leading-relaxed">
+                <p className="font-serif text-sm md:text-sm text-gray-600 mt-2 leading-6 sm:leading-relaxed">
                   {mainArticle.excerpt || 'No excerpt available'}
                 </p>
               </div>
@@ -199,7 +199,7 @@ export default function PueblosAlemanesSection({
 
                   {/* Text - Below image on mobile, left side on desktop */}
                   <div className="pt-2 md:pt-0 pb-0 md:pb-0 md:order-1 flex-1">
-                    <h2 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
+                    <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
                       {article.overline && (
                         <span className="text-primary-red">
                           {article.overline}.{' '}

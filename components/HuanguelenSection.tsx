@@ -109,7 +109,9 @@ export default function HuanguelenSection({
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="text-2xl font-bold uppercase">HUANGUELÉN</h2>
+          <h2 className="font-serif text-2xl font-bold uppercase">
+            HUANGUELÉN
+          </h2>
         </div>
       </div>
 
@@ -141,7 +143,7 @@ export default function HuanguelenSection({
 
                 {/* Title area */}
                 <div className="pt-2 pb-6 md:pb-0 flex-1">
-                  <h2 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
+                  <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
                     {article.overline && (
                       <span className="text-primary-red">
                         {article.overline}.{' '}

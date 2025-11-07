@@ -37,7 +37,7 @@ export default function VolgaTVSection({
         {/* Section Title - Top Left */}
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="text-2xl font-bold uppercase">VOLGA TV</h2>
+          <h2 className="font-serif text-2xl font-bold uppercase">VOLGA TV</h2>
         </div>
         
         {/* YouTube Channel Link - Top Right */}
@@ -94,7 +94,7 @@ export default function VolgaTVSection({
 
               {/* Title area - CONSISTENT SPACING */}
               <div className="bg-white pt-3 pb-6 md:pb-0">
-                <h1 className="text-lg md:text-2xl font-bold leading-tight">
+                <h1 className="font-serif text-lg md:text-2xl font-bold leading-tight">
                   {featuredVideo.title}
                 </h1>
               </div>
