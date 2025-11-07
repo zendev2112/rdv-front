@@ -232,6 +232,8 @@ export default async function Home() {
 
           <AdPlaceholder />
 
+          <Footer />
+
           {/* Sports News Section */}
           {/*           <DeportesSection
             mainArticle={{
@@ -1275,7 +1277,7 @@ export default async function Home() {
             ]}
           />
          */}
-         <Footer/>
+              <Footer />
             </div>
           </div>
         </SidelinesLayout>
