@@ -4,7 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/Header"
 import MobileNavBar from '@/components/MobileNavBar'
-import GlobalMobileNav from '@/components/GlobalMobileNav'
+import Footer from "@/components/Footer"
 
 
 const inter = Inter({ subsets: ["latin"] })
@@ -42,6 +42,7 @@ export default function RootLayout({
         <Header />
         {/* <GlobalMobileNav /> */}
         {children}
+        <Footer/>
         <script async src="https://www.instagram.com/embed.js"></script>
         <script
           async
