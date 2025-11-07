@@ -1,166 +1,131 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Instagram, Rss, ExternalLink } from "lucide-react";
-import { Twitter } from "lucide-react";
+import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 text-gray-700 pt-8 pb-4">
-      {/* Main footer content with navigation and social media */}
+    <footer className="bg-gray-100 text-gray-700 pt-8 pb-4 mt-12 md:mt-16 border-t border-gray-300">
+      {/* Main footer content */}
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Mobile: Single column */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* First column - Sections */}
           <div>
             <h4 className="font-bold text-sm uppercase mb-4">Secciones</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-blue-800">Política</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Economía</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Sociedad</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Mundo</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Opinión</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Deportes</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Lifestyle</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Espectáculos</Link></li>
+              <li><Link href="/" className="hover:text-primary-red">Inicio</Link></li>
+              <li><Link href="/coronel-suarez" className="hover:text-primary-red">Coronel Suárez</Link></li>
+              <li><Link href="/pueblos-alemanes" className="hover:text-primary-red">Pueblos Alemanes</Link></li>
+              <li><Link href="/huanguelen" className="hover:text-primary-red">Huanguelén</Link></li>
+              <li><Link href="/la-sexta" className="hover:text-primary-red">La Sexta</Link></li>
+              <li><Link href="/agro" className="hover:text-primary-red">Agro</Link></li>
+              <li><Link href="/lifestyle" className="hover:text-primary-red">Lifestyle</Link></li>
+              <li><Link href="/farmacias-de-turno" className="hover:text-primary-red">Farmacias de Turno</Link></li>
             </ul>
           </div>
           
-          {/* Second column - Magazines and special sections */}
+          {/* Second column - Volga TV */}
           <div>
-            <h4 className="font-bold text-sm uppercase mb-4">Revistas</h4>
+            <h4 className="font-bold text-sm uppercase mb-4">Multimedia</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-blue-800">Living</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">OHLALÁ!</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Jardín</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Brando</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Rolling Stone</Link></li>
-            </ul>
-            
-            <h4 className="font-bold text-sm uppercase mt-6 mb-4">Club LA NACION</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-blue-800">Beneficios</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Círculo de Lectores</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Colecciones</Link></li>
-            </ul>
-          </div>
-          
-          {/* Third column - Services */}
-          <div>
-            <h4 className="font-bold text-sm uppercase mb-4">Servicios</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-blue-800">Newsletters</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Alertas y novedades</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">LN Radio</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Centro de ayuda</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Términos y condiciones</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">¿Cómo anunciar?</Link></li>
-              <li><Link href="#" className="hover:text-blue-800">Suscribirse al diario</Link></li>
+              <li>
+                <Link href="https://volgatelevision.com.ar" target="_blank" rel="noopener noreferrer" className="hover:text-primary-red flex items-center">
+                  Volga TV
+                  <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </Link>
+              </li>
+              <li>
+                <Link href="https://app.radiodelvolga.com.ar" target="_blank" rel="noopener noreferrer" className="hover:text-primary-red flex items-center">
+                  Radio en vivo
+                  <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </Link>
+              </li>
             </ul>
           </div>
           
-          {/* Fourth column - Social media and app downloads */}
+          {/* Third column - Social media */}
           <div>
             <h4 className="font-bold text-sm uppercase mb-4">Redes sociales</h4>
             <div className="flex space-x-4 mb-6">
-              <Link href="#" className="text-gray-700 hover:text-blue-800">
+              <Link 
+                href="https://twitter.com/radiodelvolga" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-700 hover:text-primary-red transition-colors"
+                aria-label="Twitter"
+              >
                 <Twitter className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-gray-700 hover:text-blue-800">
+              <Link 
+                href="https://facebook.com/radiodelvolga" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-700 hover:text-primary-red transition-colors"
+                aria-label="Facebook"
+              >
                 <Facebook className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-gray-700 hover:text-blue-800">
+              <Link 
+                href="https://instagram.com/radiodelvolga" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-700 hover:text-primary-red transition-colors"
+                aria-label="Instagram"
+              >
                 <Instagram className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-gray-700 hover:text-blue-800">
-                <Rss className="w-5 h-5" />
-              </Link>
-            </div>
-            
-            <h4 className="font-bold text-sm uppercase mb-4">Aplicaciones</h4>
-            <div className="flex flex-col space-y-3">
-              <Link href="#">
-                <Image 
-                  src="/placeholder.svg?height=40&width=120" 
-                  alt="App Store" 
-                  width={120} 
-                  height={40} 
-                  className="h-10 w-auto" 
-                />
-              </Link>
-              <Link href="#">
-                <Image 
-                  src="/placeholder.svg?height=40&width=120" 
-                  alt="Google Play" 
-                  width={120} 
-                  height={40} 
-                  className="h-10 w-auto" 
-                />
+              <Link 
+                href="https://youtube.com/@radiodelvolga" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-700 hover:text-primary-red transition-colors"
+                aria-label="YouTube"
+              >
+                <Youtube className="w-5 h-5" />
               </Link>
             </div>
           </div>
         </div>
       </div>
       
-      {/* Captura del sitio - LA NACION */}
+      {/* Logo and copyright */}
       <div className="container mx-auto px-4 pt-8 pb-4 mt-6 border-t border-gray-300">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center">
             <Image 
-              src="/placeholder.svg?height=60&width=200" 
-              alt="LA NACION" 
-              width={200} 
-              height={60} 
+              src="/images/logo.svg" 
+              alt="Radio del Volga" 
+              width={160} 
+              height={40} 
               className="h-8 w-auto"
-              style={{
-                filter: "invert(19%) sepia(99%) saturate(1453%) hue-rotate(181deg) brightness(96%) contrast(101%)",
-              }}
             />
           </div>
-          <div className="text-xs text-gray-600">
-            <p>Captura del sitio: {new Date().toLocaleDateString()}</p>
+          <div className="text-xs text-gray-600 text-center md:text-right">
+            <p>© {new Date().getFullYear()} Radio del Volga. Todos los derechos reservados.</p>
           </div>
         </div>
       </div>
       
       {/* Legal information */}
       <div className="container mx-auto px-4 pt-6 mt-4 border-t border-gray-300">
-        <div className="text-xs text-gray-600">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div>
-              <p className="mb-2">LA NACION S.A.</p>
-              <p>Número de edición: 02142015040638</p>
-            </div>
-            <div>
-              <p className="mb-2">Domicilio: Av. Del Libertador 101, Ciudad Autónoma de Buenos Aires</p>
-              <p>CUIT: 30-70057343-9</p>
-            </div>
-            <div>
-              <p>Fundación: 4 de enero de 1870</p>
-              <p>Director: José Del Rio</p>
-            </div>
-          </div>
-          
-          <div className="mt-4 pt-4 border-t border-gray-300">
-            <p className="mb-2">
-              Las notas firmadas expresan la opinión de sus autores. LA NACION se reserva el derecho de publicar o no artículos y correcciones que los lectores envíen al correo de lectores.
-            </p>
-            <p className="mb-2">
-              © LA NACION S.A. 2005-2025. Todos los derechos reservados.
-            </p>
-            <div className="flex flex-wrap gap-4 mt-4">
-              <Link href="#" className="text-gray-600 hover:text-blue-800 flex items-center">
-                Política de protección de datos personales <ExternalLink className="w-3 h-3 ml-1" />
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-blue-800 flex items-center">
-                Normas de confidencialidad <ExternalLink className="w-3 h-3 ml-1" />
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-blue-800 flex items-center">
-                Términos y condiciones <ExternalLink className="w-3 h-3 ml-1" />
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-blue-800 flex items-center">
-                Cómo anunciar <ExternalLink className="w-3 h-3 ml-1" />
-              </Link>
-            </div>
+        <div className="text-xs text-gray-600 text-center md:text-left">
+          <div className="flex flex-col md:flex-row flex-wrap gap-2 md:gap-4 justify-center md:justify-start">
+            <Link href="/terminos-y-condiciones" className="text-gray-600 hover:text-primary-red">
+              Términos y condiciones
+            </Link>
+            <span className="hidden md:inline">|</span>
+            <Link href="/politica-de-privacidad" className="text-gray-600 hover:text-primary-red">
+              Política de privacidad
+            </Link>
+            <span className="hidden md:inline">|</span>
+            <Link href="/contacto" className="text-gray-600 hover:text-primary-red">
+              Contacto
+            </Link>
           </div>
         </div>
       </div>
