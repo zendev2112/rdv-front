@@ -42,7 +42,6 @@ export default function RootLayout({
         <Header />
         {/* <GlobalMobileNav /> */}
         {children}
-        <Footer/>
         <script async src="https://www.instagram.com/embed.js"></script>
         <script
           async

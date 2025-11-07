@@ -27,6 +27,7 @@ import AdContainer from '@/components/AdContainer'
 import OptimizedImage from '@/components/OptimizedImage'
 import SectionArticlesGrid from '@/components/SectionArticlesGrid'
 import MobileSectionArticlesGrid from '@/components/MobileSectionArticlesGrid'
+import Footer from '@/components/Footer'
 
 const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
   ssr: false,
@@ -194,6 +195,9 @@ export default async function DynamicPage({
               sectionData={sectionData}
               sectionSlug={sectionData.slug}
             />
+
+            {/* ✅ FOOTER - MOBILE SECTION PAGE */}
+            <Footer />
           </div>
         </div>
 
@@ -372,6 +376,11 @@ export default async function DynamicPage({
                   sectionData={sectionData}
                   sectionSlug={sectionData.slug}
                 />
+
+                {/* ✅ FOOTER - DESKTOP SECTION PAGE INSIDE SIDELINESAYOUT */}
+                <div className="px-8">
+                  <Footer />
+                </div>
               </>
             ) : (
               <div className="text-center py-20 bg-gray-50 rounded-lg">
@@ -562,6 +571,9 @@ export default async function DynamicPage({
               currentSectionPath={article.section_path}
             />
           </div>
+
+          {/* ✅ FOOTER - MOBILE ARTICLE PAGE */}
+          <Footer />
         </div>
       </div>
 
@@ -820,6 +832,11 @@ export default async function DynamicPage({
               currentArticleId={article.id}
               currentSectionPath={article.section_path}
             />
+          </div>
+
+          {/* ✅ FOOTER - DESKTOP ARTICLE PAGE INSIDE SIDELINESAYOUT */}
+          <div className="px-8 mt-12">
+            <Footer />
           </div>
         </SidelinesLayout>
       </div>
