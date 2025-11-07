@@ -1275,6 +1275,7 @@ export default async function Home() {
             ]}
           />
          */}
+         <Footer/>
             </div>
           </div>
         </SidelinesLayout>
