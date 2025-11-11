@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -8,7 +8,7 @@ import { Menu, X, Search, Bell, ChevronDown, ChevronUp } from 'lucide-react'
 import { useScrollDirection } from './hooks/useScrollDirection'
 import SearchBar from './SearchBar'
 
-// ✅ Mobile horizontal sections
+// ✅ MOBILE SECTIONS - KEEP AS IS (HARDCODED)
 const mobileSections = [
   { name: 'Inicio', href: '/' },
   { name: 'Coronel Suárez', href: '/coronel-suarez' },
@@ -19,48 +19,20 @@ const mobileSections = [
   { name: 'Lifestyle', href: '/lifestyle' },
 ]
 
-// ✅ Desktop dropdown menu sections
-const menuSections = [
-  {
-    label: 'Coronel Suárez',
-    href: '/coronel-suarez',
-    children: [],
-  },
-  {
-    label: 'Pueblos Alemanes',
-    href: '/pueblos-alemanes',
-    children: [
-      { label: 'Santa Trinidad', href: '/pueblos-alemanes/santa-trinidad' },
-      { label: 'San José', href: '/pueblos-alemanes/san-jose' },
-      { label: 'Santa María', href: '/pueblos-alemanes/santa-maria' },
-    ],
-  },
-  {
-    label: 'Huanguelén',
-    href: '/huanguelen',
-    children: [],
-  },
-  {
-    label: 'La Sexta',
-    href: '/la-sexta',
-    children: [],
-  },
-  {
-    label: 'Agro',
-    href: '/agro',
-    children: [],
-  },
-  {
-    label: 'Lifestyle',
-    href: '/lifestyle',
-    children: [],
-  },
-  {
-    label: 'Farmacias de Turno',
-    href: '/farmacias-de-turno',
-    children: [],
-  },
-]
+interface Section {
+  id: string
+  name: string
+  slug: string
+  level: number
+  parent_id: string | null
+  breadcrumb_slugs: string[]
+}
+
+interface MenuSection {
+  label: string
+  href: string
+  children: { label: string; href: string }[]
+}
 
 export default function Header() {
   const scrollDirection = useScrollDirection()
@@ -68,6 +40,36 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openSections, setOpenSections] = useState<Set<string>>(new Set())
   const [searchOpen, setSearchOpen] = useState(false)
+  const [menuSections, setMenuSections] = useState<MenuSection[]>([])
+
+  // ✅ FETCH SECTIONS FOR DESKTOP MENU ONLY
+  useEffect(() => {
+    fetch('/api/sections')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.sections) {
+          const topLevelSections = data.sections.filter((s: Section) => s.level === 0)
+
+          const menu = topLevelSections.map((section: Section) => {
+            const children = data.sections
+              .filter((s: Section) => s.parent_id === section.id)
+              .map((child: Section) => ({
+                label: child.name,
+                href: `/${child.breadcrumb_slugs.join('/')}`,
+              }))
+
+            return {
+              label: section.name,
+              href: `/${section.slug}`,
+              children,
+            }
+          })
+
+          setMenuSections(menu)
+        }
+      })
+      .catch((error) => console.error('Error fetching sections:', error))
+  }, [])
 
   const toggleSection = (sectionLabel: string) => {
     const newOpenSections = new Set(openSections)
@@ -79,7 +81,7 @@ export default function Header() {
     setOpenSections(newOpenSections)
   }
 
-  const renderMenu = (sections: typeof menuSections) => {
+  const renderMenu = (sections: MenuSection[]) => {
     return sections.map((section) => {
       const hasChildren = section.children && section.children.length > 0
       const isExpanded = openSections.has(section.label)
@@ -89,7 +91,7 @@ export default function Header() {
           <div key={section.label} className="border-b border-gray-200">
             <div className="flex items-center justify-between">
               <Link
-                href={section.href!}
+                href={section.href}
                 className="flex-1 py-3 px-4 hover:bg-gray-50 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -110,7 +112,7 @@ export default function Header() {
 
             {isExpanded && (
               <div className="bg-gray-50 pl-6">
-                {section.children!.map((child) => (
+                {section.children.map((child) => (
                   <Link
                     key={child.href}
                     href={child.href}
@@ -129,7 +131,7 @@ export default function Header() {
       return (
         <Link
           key={section.href}
-          href={section.href!}
+          href={section.href}
           className="block py-3 px-4 border-b border-gray-200 hover:bg-gray-50 font-medium"
           onClick={() => setMobileMenuOpen(false)}
         >
@@ -147,34 +149,37 @@ export default function Header() {
         }`}
       >
         {/* Desktop/Main Header */}
-        <div className="w-full px-4 py-3 md:py-4 flex items-center border-b border-white/10 md:border-b-0">
-          <div className="hidden md:flex w-full mx-auto max-w-screen-lg items-center">
-            <div className="flex items-center gap-3 flex-1 -ml-5">
+        <div className="w-full py-3 md:py-4 flex justify-center items-center border-b border-white/10 md:border-b-0">
+          <div className="hidden md:flex w-full mx-auto px-4 xl:px-8 max-w-[1200px] items-center justify-between relative">
+            {/* Left section */}
+            <div className="flex items-center gap-1 lg:gap-2 z-10">
               <button
-                className="text-white p-1"
+                className="text-white p-1 flex-shrink-0"
                 aria-label="Abrir menú"
                 onClick={() => setMobileMenuOpen((open) => !open)}
               >
                 {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5 lg:w-6 lg:h-6" />
                 ) : (
-                  <Menu className="w-6 h-6" />
+                  <Menu className="w-5 h-5 lg:w-6 lg:h-6" />
                 )}
               </button>
-              <span className="text-white font-bold text-xs md:text-sm uppercase">
+              <span className="text-white font-bold text-xs lg:text-sm uppercase whitespace-nowrap">
                 SECCIONES
               </span>
               <button
-                className="text-white p-1 ml-2"
+                className="text-white p-1 flex-shrink-0"
                 aria-label="Buscar"
                 onClick={() => setSearchOpen(true)}
               >
-                <Search className="w-5 h-5 md:w-6 md:h-6" />
+                <Search className="w-5 h-5 lg:w-6 lg:h-6" />
               </button>
             </div>
-            <div className="flex justify-center flex-1">
+
+            {/* Center - Logo */}
+            <div className="absolute left-1/2 transform -translate-x-1/2">
               <Link href="/" className="text-center">
-                <div className="relative h-12 w-40 sm:h-14 sm:w-44 md:h-18 md:w-60 lg:h-18 lg:w-60 xl:h-18 xl:w-60">
+                <div className="relative h-14 w-48">
                   <Image
                     src="/images/logo.svg"
                     alt="Noticias Logo"
@@ -186,15 +191,17 @@ export default function Header() {
                 </div>
               </Link>
             </div>
-            <div className="flex justify-end flex-1 -mr-5">
-              <button className="text-white p-1" aria-label="Notifications">
-                <Bell className="w-5 h-5 md:w-6 md:h-6" />
+
+            {/* Right section */}
+            <div className="flex z-10">
+              <button className="text-white p-1 flex-shrink-0" aria-label="Notifications">
+                <Bell className="w-5 h-5 lg:w-6 lg:h-6" />
               </button>
             </div>
           </div>
 
           {/* Mobile Header */}
-          <div className="flex w-full items-center justify-between md:hidden">
+          <div className="flex w-full items-center justify-between md:hidden px-4">
             <div className="flex-1" />
             <div className="flex justify-center flex-1">
               <Link href="/" className="text-center">
@@ -218,7 +225,7 @@ export default function Header() {
           </div>
         </div>
 
-        {/* ✅ MOBILE SECTION NAV - UPDATED STYLING */}
+        {/* ✅ MOBILE SECTION NAV - UNCHANGED (HARDCODED) */}
         <nav className="md:hidden w-full border-t border-white/10 relative">
           <div
             className="flex items-center px-4 space-x-6 whitespace-nowrap overflow-x-auto scrollbar-hide"
@@ -245,7 +252,6 @@ export default function Header() {
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {section.name}
-                  {/* ✅ THIN MINIMALIST BOTTOM BORDER LINE */}
                   {isActive && (
                     <span
                       className="absolute bottom-0 left-2 right-2 bg-white"
@@ -261,7 +267,7 @@ export default function Header() {
           </div>
         </nav>
 
-        {/* Desktop/Mobile Dropdown Menu */}
+        {/* ✅ DESKTOP DROPDOWN MENU - DYNAMIC FROM DATABASE */}
         <div
           className={`${
             mobileMenuOpen
@@ -269,7 +275,7 @@ export default function Header() {
               : 'max-h-0 py-0 overflow-hidden'
           } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
         >
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 xl:px-8 max-w-[1200px]">
             <div className="max-h-[70vh] overflow-y-auto">
               <nav className="flex flex-col">{renderMenu(menuSections)}</nav>
             </div>
