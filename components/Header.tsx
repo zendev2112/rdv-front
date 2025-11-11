@@ -149,7 +149,7 @@ export default function Header() {
         }`}
       >
         {/* Desktop/Main Header */}
-        <div className="w-full py-2 md:py-3 flex justify-center items-center border-b border-white/10 md:border-b-0">
+        <div className="w-full py-3 md:py-4 flex justify-center items-center border-b border-white/10 md:border-b-0">
           <div className="hidden md:flex w-full mx-auto px-4 xl:px-8 max-w-[1200px] items-center justify-between relative">
             {/* Left section */}
             <div className="flex items-center gap-1 lg:gap-2 z-10">
