@@ -149,7 +149,7 @@ export default function Header() {
         }`}
       >
         {/* Desktop/Main Header */}
-        <div className="w-full py-3 md:py-4 flex justify-center items-center border-b border-white/10 md:border-b-0">
+        <div className="w-full py-4 md:py-5 flex justify-center items-center border-b border-white/10 md:border-b-0">
           <div className="hidden md:flex w-full mx-auto px-4 xl:px-8 max-w-[1200px] items-center justify-between relative">
             {/* Left section */}
             <div className="flex items-center gap-1 lg:gap-2 z-10">
@@ -179,7 +179,7 @@ export default function Header() {
             {/* Center - Logo */}
             <div className="absolute left-1/2 transform -translate-x-1/2">
               <Link href="/" className="text-center">
-                <div className="relative h-10 w-32 sm:h-12 sm:w-40 lg:h-14 lg:w-48">
+                <div className="relative h-12 w-40 sm:h-14 sm:w-44 lg:h-16 lg:w-52">
                   <Image
                     src="/images/logo.svg"
                     alt="Noticias Logo"
