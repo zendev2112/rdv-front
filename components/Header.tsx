@@ -149,7 +149,7 @@ export default function Header() {
         }`}
       >
         {/* Desktop/Main Header */}
-        <div className="w-full py-10 md:py-7 flex justify-center items-center border-b border-white/10 md:border-b-0">
+        <div className="w-full py-2 md:py-7 flex justify-center items-center border-b border-white/10 md:border-b-0">
           <div className="hidden md:flex w-full mx-auto px-4 xl:px-8 max-w-[1200px] items-center justify-between relative">
             {/* Left section */}
             <div className="flex items-center gap-1 lg:gap-2 z-10">
@@ -201,11 +201,11 @@ export default function Header() {
           </div>
 
           {/* Mobile Header */}
-          <div className="flex w-full items-center justify-between md:hidden px-4">
+          <div className="flex w-full items-center justify-between md:hidden px-4 py-1">
             <div className="flex-1" />
             <div className="flex justify-center flex-1">
               <Link href="/" className="text-center">
-                <div className="relative h-12 w-40">
+                <div className="relative h-8 w-28">
                   <Image
                     src="/images/logo.svg"
                     alt="Noticias Logo"
