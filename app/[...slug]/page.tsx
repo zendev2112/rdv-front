@@ -138,7 +138,7 @@ export default async function DynamicPage({
           <div className="container mx-auto max-w-[1600px] px-4">
             <div className="mb-0 pb-4 py-0 -mt-8">
               {/* ✅ BREADCRUMBS - EXACT SAME AS ARTICLE PAGE */}
-              <nav className="text-base md:text-sm text-gray-500 mb-4 mt-4">
+              <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-0">
                 <Link href="/" className="hover:text-primary-red font-medium">
                   RADIO DEL VOLGA
                 </Link>
