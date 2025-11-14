@@ -206,7 +206,7 @@ export default async function DynamicPage({
           <SidelinesLayout sidelineWidth={sidelineWidth}>
             <div className="mb-0 pb-4 px-8 py-8">
               {/* Breadcrumbs */}
-              <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-4">
+              <nav className="text-base md:text-xs text-gray-500 mb-4 mt-4">
                 <Link href="/" className="hover:text-primary-red font-medium">
                   RADIO DEL VOLGA
                 </Link>
