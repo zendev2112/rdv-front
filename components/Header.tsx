@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Search, Bell, ChevronDown, ChevronUp } from 'lucide-react'
+import { Menu, X, Search, Bell, ChevronRight } from 'lucide-react'
 import { useScrollDirection } from './hooks/useScrollDirection'
 import SearchBar from './SearchBar'
 
@@ -42,9 +42,9 @@ export default function Header() {
   const scrollDirection = useScrollDirection()
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [openSections, setOpenSections] = useState<Set<string>>(new Set())
   const [searchOpen, setSearchOpen] = useState(false)
   const [menuSections, setMenuSections] = useState<MenuSection[]>([])
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null)
 
   // ✅ FETCH SECTIONS FOR DESKTOP MENU ONLY
   useEffect(() => {
@@ -74,76 +74,6 @@ export default function Header() {
       })
       .catch((error) => console.error('Error fetching sections:', error))
   }, [])
-
-  const toggleSection = (sectionLabel: string) => {
-    const newOpenSections = new Set(openSections)
-    if (newOpenSections.has(sectionLabel)) {
-      newOpenSections.delete(sectionLabel)
-    } else {
-      newOpenSections.add(sectionLabel)
-    }
-    setOpenSections(newOpenSections)
-  }
-
-  const renderMenu = (sections: MenuSection[]) => {
-    return sections.map((section) => {
-      const hasChildren = section.children && section.children.length > 0
-      const isExpanded = openSections.has(section.label)
-
-      if (hasChildren) {
-        return (
-          <div key={section.label} className="border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <Link
-                href={section.href}
-                className="flex-1 py-3 px-4 hover:bg-gray-50 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {section.label}
-              </Link>
-              <button
-                onClick={() => toggleSection(section.label)}
-                className="px-4 py-3 hover:bg-gray-50"
-                aria-label={`Toggle ${section.label} subsections`}
-              >
-                {isExpanded ? (
-                  <ChevronUp className="w-5 h-5 text-gray-500" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-gray-500" />
-                )}
-              </button>
-            </div>
-
-            {isExpanded && (
-              <div className="bg-gray-50 pl-6">
-                {section.children.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    className="block py-2 px-4 text-sm hover:text-primary-red hover:bg-gray-100"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {child.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        )
-      }
-
-      return (
-        <Link
-          key={section.href}
-          href={section.href}
-          className="block py-3 px-4 border-b border-gray-200 hover:bg-gray-50 font-medium"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          {section.label}
-        </Link>
-      )
-    })
-  }
 
   return (
     <>
@@ -273,22 +203,94 @@ export default function Header() {
             })}
           </div>
         </nav>
-
-        {/* ✅ DESKTOP DROPDOWN MENU - DYNAMIC FROM DATABASE */}
-        <div
-          className={`${
-            mobileMenuOpen
-              ? 'max-h-[80vh] py-4'
-              : 'max-h-0 py-0 overflow-hidden'
-          } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
-        >
-          <div className="container mx-auto px-4 w-[70%]">
-            <div className="max-h-[70vh] overflow-y-auto">
-              <nav className="flex flex-col">{renderMenu(menuSections)}</nav>
-            </div>
-          </div>
-        </div>
       </header>
+
+      {/* ✅ DESKTOP SLIDING MENU PANEL - LEFT SIDELINE WIDTH (15%) */}
+      <div
+        className={`hidden xl:block fixed top-0 left-0 h-screen w-[15%] bg-white shadow-2xl z-[60] transition-transform duration-300 ease-in-out ${
+          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* Menu Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <div className="relative h-10 w-32 pl-0">
+            <Image
+              src="/images/logo.svg"
+              alt="Logo"
+              fill
+              style={{
+                objectFit: 'contain',
+                filter:
+                  'invert(100%) sepia(2%) saturate(10%) hue-rotate(336deg) brightness(102%) contrast(106%)',
+              }}
+            />
+          </div>
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="Cerrar menú"
+          >
+            <X className="w-5 h-5 text-gray-800" />
+          </button>
+        </div>
+
+        {/* Menu Content */}
+        <nav className="overflow-y-auto h-[calc(100vh-64px)]">
+          {menuSections.map((section) => {
+            const hasChildren = section.children && section.children.length > 0
+
+            return (
+              <div
+                key={section.label}
+                className="relative border-b border-gray-200"
+                onMouseEnter={() =>
+                  hasChildren && setHoveredSection(section.label)
+                }
+                onMouseLeave={() => setHoveredSection(null)}
+              >
+                <Link
+                  href={section.href}
+                  className="flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-colors text-gray-800 font-bold text-sm"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>{section.label}</span>
+                  {hasChildren && (
+                    <ChevronRight className="w-4 h-4 text-gray-500" />
+                  )}
+                </Link>
+
+                {/* Submenu Panel - Appears to the RIGHT */}
+                {hasChildren && hoveredSection === section.label && (
+                  <div
+                    className="absolute left-full top-0 w-64 bg-white shadow-xl border-l border-gray-200 max-h-screen overflow-y-auto"
+                    onMouseEnter={() => setHoveredSection(section.label)}
+                    onMouseLeave={() => setHoveredSection(null)}
+                  >
+                    {section.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="block py-2 px-4 text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-primary-red transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </nav>
+      </div>
+
+      {/* Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="hidden xl:block fixed inset-0 bg-black/50 z-[55]"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
 
       <SearchBar isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
