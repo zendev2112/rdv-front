@@ -15,18 +15,11 @@ export default function SidelinesLayout({
   className = '',
   sidelineWidth = 12, // now represents percentage (12% each side)
 }: SidelinesLayoutProps) {
-  const stripeStyle: React.CSSProperties = {
-    backgroundImage: `repeating-linear-gradient(
-      45deg,
-      transparent 0px,
-      transparent 2px,
-      rgba(0, 0, 0, 0.05) 2px,
-      rgba(0, 0, 0, 0.05) 3px
-    )`,
-    backgroundColor: '#f8f8f8',
-    minHeight: '100vh',
-    flex: `0 0 ${sidelineWidth}%`, // ✅ Use percentage instead of fixed px
-  }
+   const stripeStyle: React.CSSProperties = {
+     backgroundColor: '#ffffff', // ✅ Plain white instead of #f8f8f8
+     minHeight: '100vh',
+     flex: `0 0 ${sidelineWidth}%`,
+   }
 
   return (
     <>
