@@ -13,10 +13,14 @@ const mobileSections = [
   { name: 'Inicio', href: '/' },
   { name: 'Coronel Suárez', href: '/coronel-suarez' },
   { name: 'Pueblos Alemanes', href: '/pueblos-alemanes' },
+  { name: 'Farmacias de Turno', href: '/farmacias-de-turno' },
   { name: 'Huanguelén', href: '/huanguelen' },
   { name: 'La Sexta', href: '/la-sexta' },
+  { name: 'Actualidad', href: '/actualidad' },
   { name: 'Agro', href: '/agro' },
+  { name: 'Economia', href: '/economia' },
   { name: 'Lifestyle', href: '/lifestyle' },
+  { name: 'Deportes', href: '/deportes' },
 ]
 
 interface Section {
