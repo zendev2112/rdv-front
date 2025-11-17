@@ -35,7 +35,7 @@ export default function MobileNavBar() {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-primary-red text-white border-t border-light-gray shadow-lg flex justify-around items-center h-14 lg:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-primary-red text-white border-t border-light-gray shadow-lg flex justify-around items-center h-14 xl:hidden">
         <Link
           href="/"
           className="flex flex-col items-center text-xs text-white/95 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"

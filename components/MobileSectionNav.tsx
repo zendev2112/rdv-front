@@ -11,7 +11,9 @@ const sections = [
   { name: 'Huanguelén', href: '/huanguelen' },
   { name: 'La Sexta', href: '/la-sexta' },
   { name: 'Agro', href: '/agro' },
+  { name: 'Actualidad', href: '/actualidad' },
   { name: 'Lifestyle', href: '/lifestyle' },
+  { name: 'Deportes', href: '/deportes' },
 ]
 
 export default function MobileSectionNav() {

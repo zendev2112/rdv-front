@@ -149,9 +149,9 @@ export default function Header() {
         }`}
       >
         {/* Desktop/Main Header */}
-        <div className="w-full py-2 md:py-7 flex justify-center items-center border-b border-white/10 md:border-b-0">
-          <div className="hidden md:flex w-full mx-auto px-4 xl:px-8 max-w-[1200px] items-center justify-between relative">
-            {/* Left section */}
+        <div className="w-full py-2 xl:py-7 flex justify-center items-center border-b border-white/10 xl:border-b-0">
+          <div className="hidden xl:flex w-[70%] mx-auto items-center justify-between relative">
+            {/* Left section - at left edge */}
             <div className="flex items-center gap-1 lg:gap-2 z-10">
               <button
                 className="text-white p-1 flex-shrink-0"
@@ -192,20 +192,23 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* Right section */}
+            {/* Right section - at right edge */}
             <div className="flex z-10">
-              <button className="text-white p-1 flex-shrink-0" aria-label="Notifications">
+              <button
+                className="text-white p-1 flex-shrink-0"
+                aria-label="Notifications"
+              >
                 <Bell className="w-5 h-5 lg:w-6 lg:h-6" />
               </button>
             </div>
           </div>
 
-          {/* Mobile Header */}
-          <div className="flex w-full items-center justify-between md:hidden px-4 py-1">
+          {/* Tablet/Mobile Header (below 1280px) - NO left section */}
+          <div className="flex xl:hidden w-full items-center justify-between px-4 py-1">
             <div className="flex-1" />
             <div className="flex justify-center flex-1">
               <Link href="/" className="text-center">
-                <div className="relative h-12 w-36">
+                <div className="relative h-10 w-32">
                   <Image
                     src="/images/logo.svg"
                     alt="Noticias Logo"
@@ -226,7 +229,7 @@ export default function Header() {
         </div>
 
         {/* ✅ MOBILE SECTION NAV - UNCHANGED (HARDCODED) */}
-        <nav className="md:hidden w-full border-t border-white/10 relative">
+        <nav className="xl:hidden w-full border-t border-white/10 relative">
           <div
             className="flex items-center px-4 space-x-6 whitespace-nowrap overflow-x-auto scrollbar-hide"
             style={{
@@ -275,7 +278,7 @@ export default function Header() {
               : 'max-h-0 py-0 overflow-hidden'
           } transition-all duration-300 ease-in-out bg-white text-gray-800 shadow-lg`}
         >
-          <div className="container mx-auto px-4 xl:px-8 max-w-[1200px]">
+          <div className="container mx-auto px-4 w-[70%]">
             <div className="max-h-[70vh] overflow-y-auto">
               <nav className="flex flex-col">{renderMenu(menuSections)}</nav>
             </div>
