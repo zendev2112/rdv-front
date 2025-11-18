@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -45,6 +45,7 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [menuSections, setMenuSections] = useState<MenuSection[]>([])
   const [hoveredSection, setHoveredSection] = useState<string | null>(null)
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
   // ✅ FETCH SECTIONS FOR DESKTOP MENU ONLY
   useEffect(() => {
@@ -54,7 +55,28 @@ export default function Header() {
         if (data.sections) {
           const topLevelSections = data.sections.filter((s: Section) => s.level === 0)
 
-          const menu = topLevelSections.map((section: Section) => {
+          // ✅ Define the desired order
+          const sectionOrder = [
+            'Coronel Suárez',
+            'Pueblos Alemanes',
+            'Farmacias de Turno',
+            'Huanguelén',
+            'La Sexta',
+            'Actualidad',
+            'Agro',
+            'Economia',
+            'Lifestyle',
+            'Deportes',
+          ]
+
+          // ✅ Sort sections by the desired order
+          const sortedSections = topLevelSections.sort((a: Section, b: Section) => {
+            const indexA = sectionOrder.indexOf(a.name)
+            const indexB = sectionOrder.indexOf(b.name)
+            return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB)
+          })
+
+          const menu = sortedSections.map((section: Section) => {
             const children = data.sections
               .filter((s: Section) => s.parent_id === section.id)
               .map((child: Section) => ({
@@ -68,6 +90,16 @@ export default function Header() {
               children,
             }
           })
+
+          // ✅ Insert "Farmacias de Turno" after "Pueblos Alemanes"
+          const pueblosIndex = menu.findIndex(s => s.label === 'Pueblos Alemanes')
+          if (pueblosIndex !== -1) {
+            menu.splice(pueblosIndex + 1, 0, {
+              label: 'Farmacias de Turno',
+              href: '/farmacias-de-turno',
+              children: [],
+            })
+          }
 
           setMenuSections(menu)
         }
@@ -88,7 +120,7 @@ export default function Header() {
             {/* Left section - at left edge */}
             <div className="flex items-center gap-1 lg:gap-2 z-10">
               <button
-                className="text-white p-1 flex-shrink-0"
+                className={`text-white p-1 flex-shrink-0 ${mobileMenuOpen ? 'hidden' : ''}`}
                 aria-label="Abrir menú"
                 onClick={() => setMobileMenuOpen((open) => !open)}
               >
@@ -212,77 +244,103 @@ export default function Header() {
         }`}
       >
         {/* Menu Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <div className="relative h-10 w-32 pl-0">
-            <Image
-              src="/images/logo.svg"
-              alt="Logo"
-              fill
-              style={{
-                objectFit: 'contain',
-                filter:
-                  'invert(100%) sepia(2%) saturate(10%) hue-rotate(336deg) brightness(102%) contrast(106%)',
-              }}
-            />
+        <div className="border-b border-gray-200">
+          <div className="flex items-center justify-between py-3 px-4">
+            <div className="relative h-10 w-32">
+              <Image
+                src="/images/logo.svg"
+                alt="Logo"
+                fill
+                style={{
+                  objectFit: 'contain',
+                  objectPosition: 'left center',
+                  filter:
+                    'invert(100%) sepia(2%) saturate(10%) hue-rotate(336deg) brightness(102%) contrast(106%)',
+                }}
+              />
+            </div>
+            <div className="flex items-center justify-center w-4 h-4">
+              <X
+                className="w-4 h-4 text-gray-800 cursor-pointer hover:opacity-70 transition-opacity"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Cerrar menú"
+                style={{ display: 'block' }}
+              />
+            </div>
           </div>
-          <button
-            onClick={() => setMobileMenuOpen(false)}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="Cerrar menú"
-          >
-            <X className="w-5 h-5 text-gray-800" />
-          </button>
         </div>
 
-        {/* Menu Content */}
-        <nav className="overflow-y-auto h-[calc(100vh-64px)]">
-          {menuSections.map((section) => {
-            const hasChildren = section.children && section.children.length > 0
 
-            return (
-              <div
-                key={section.label}
-                className="relative border-b border-gray-200"
-                onMouseEnter={() =>
-                  hasChildren && setHoveredSection(section.label)
-                }
-                onMouseLeave={() => setHoveredSection(null)}
-              >
-                <Link
-                  href={section.href}
-                  className="flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-colors text-gray-800 font-bold text-sm"
-                  onClick={() => setMobileMenuOpen(false)}
+          <nav
+            className="overflow-y-auto overflow-x-visible h-[calc(100vh-73px)]"
+            style={{ overflowX: 'visible' }}
+          >
+            {menuSections.map((section) => {
+              const hasChildren =
+                section.children && section.children.length > 0
+              const isHovered = hoveredSection === section.label
+
+              return (
+                <div 
+                  key={section.label} 
+                  className="border-b border-gray-200"
+                  ref={(el) => {
+                    if (el) sectionRefs.current[section.label] = el
+                  }}
                 >
-                  <span>{section.label}</span>
-                  {hasChildren && (
-                    <ChevronRight className="w-4 h-4 text-gray-500" />
-                  )}
-                </Link>
-
-                {/* Submenu Panel - Appears to the RIGHT */}
-                {hasChildren && hoveredSection === section.label && (
                   <div
-                    className="absolute left-full top-0 w-64 bg-white shadow-xl border-l border-gray-200 max-h-screen overflow-y-auto"
-                    onMouseEnter={() => setHoveredSection(section.label)}
+                    className="relative"
+                    onMouseEnter={() => {
+                      if (hasChildren) {
+                        setHoveredSection(section.label)
+                      }
+                    }}
                     onMouseLeave={() => setHoveredSection(null)}
                   >
-                    {section.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className="block py-2 px-4 text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-primary-red transition-colors"
-                        onClick={() => setMobileMenuOpen(false)}
+                    <Link
+                      href={section.href}
+                      className="flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-colors text-gray-800 font-bold text-sm"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>{section.label}</span>
+                      {hasChildren && (
+                        <ChevronRight className="w-4 h-4 text-gray-500" />
+                      )}
+                    </Link>
+
+                    {/* Submenu Panel - positioned relative to parent section */}
+                    {hasChildren && isHovered && (
+                      <div
+                        className="fixed bg-white shadow-2xl border border-gray-200 min-w-[12rem] z-[70]"
+                        style={{ 
+                          left: '15%', 
+                          top: sectionRefs.current[section.label]?.getBoundingClientRect().top || 0
+                        }}
+                        onMouseEnter={() => setHoveredSection(section.label)}
+                        onMouseLeave={() => setHoveredSection(null)}
                       >
-                        {child.label}
-                      </Link>
-                    ))}
+                        {section.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="block py-2 px-4 text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-primary-red transition-colors whitespace-nowrap"
+                            onClick={() => {
+                              setMobileMenuOpen(false)
+                              setHoveredSection(null)
+                            }}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            )
-          })}
-        </nav>
-      </div>
+                </div>
+              )
+            })}
+          </nav>
+        </div>
+      
 
       {/* Overlay */}
       {mobileMenuOpen && (

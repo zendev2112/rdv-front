@@ -23,13 +23,51 @@ export default function DollarRates() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('https://dolarapi.com/v1/dolares')
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchRates = async () => {
+      try {
+        // Primary API
+        const res = await fetch('https://dolarapi.com/v1/dolares')
+        if (!res.ok) throw new Error('Primary API failed')
+        const data = await res.json()
         setRates(data)
         setLoading(false)
-      })
-      .catch(() => setLoading(false))
+      } catch (error) {
+        try {
+          // Fallback API 1
+          const res = await fetch('https://api.bluelytics.com.ar/v2/latest')
+          if (!res.ok) throw new Error('Fallback API 1 failed')
+          const data = await res.json()
+
+          // Transform fallback data to match primary format
+          const transformedRates = [
+            { nombre: 'oficial', compra: data.oficial.compra, venta: data.oficial.venta },
+            { nombre: 'blue', compra: data.blue.compra, venta: data.blue.venta },
+          ]
+          setRates(transformedRates)
+          setLoading(false)
+        } catch (fallbackError) {
+          try {
+            // Fallback API 2
+            const res = await fetch('https://api.yadio.io/json')
+            if (!res.ok) throw new Error('Fallback API 2 failed')
+            const data = await res.json()
+
+            // Transform yadio data to match primary format
+            const transformedRates = [
+              { nombre: 'oficial', compra: data.ARS.oficial.buy, venta: data.ARS.oficial.sell },
+              { nombre: 'blue', compra: data.ARS.blue.buy, venta: data.ARS.blue.sell },
+            ]
+            setRates(transformedRates)
+            setLoading(false)
+          } catch (secondFallbackError) {
+            console.error('All APIs failed:', secondFallbackError)
+            setLoading(false)
+          }
+        }
+      }
+    }
+
+    fetchRates()
   }, [])
 
   if (loading) {
