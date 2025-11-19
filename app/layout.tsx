@@ -10,20 +10,6 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: 'Radio del Volga',
   description: 'Radio del Volga',
-  icons: {
-    icon: [
-      {
-        url: '/logo.svg',
-        media: '(prefers-color-scheme: light)',
-        type: 'image/svg+xml',
-      },
-      {
-        url: '/logo-dark.svg',
-        media: '(prefers-color-scheme: dark)',
-        type: 'image/svg+xml',
-      },
-    ],
-  },
 }
 
 export default function RootLayout({
@@ -34,6 +20,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden">
       <head>
+        <link 
+          rel="icon" 
+          href="/logo.svg" 
+          type="image/svg+xml"
+          media="(prefers-color-scheme: light)"
+        />
+        <link 
+          rel="icon" 
+          href="/logo-dark.svg" 
+          type="image/svg+xml"
+          media="(prefers-color-scheme: dark)"
+        />
+        <link rel="shortcut icon" href="/logo.svg" />
         <style
           dangerouslySetInnerHTML={{
             __html: `
