@@ -82,7 +82,7 @@ export default async function SeccionesPage() {
 
   // ✅ HELPER: Generate image path from section slug
   const getImagePath = (slug: string) => {
-    return `/images/sections/${slug}.jpg`
+    return `/images/sections/${slug}.webp`
   }
 
   return (
