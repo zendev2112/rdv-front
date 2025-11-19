@@ -4,26 +4,13 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/Header"
 import MobileNavBar from '@/components/MobileNavBar'
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: 'Radio del Volga',
   description: 'Radio del Volga',
-  icons: [
-    {
-      rel: 'icon',
-      url: '/logo.svg',
-      media: '(prefers-color-scheme: light)',
-      type: 'image/svg+xml',
-    },
-    {
-      rel: 'icon',
-      url: '/logo-dark.svg',
-      media: '(prefers-color-scheme: dark)',
-      type: 'image/svg+xml',
-    },
-  ],
 }
 
 export default function RootLayout({
@@ -34,6 +21,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden">
       <head>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" media="(prefers-color-scheme: light)" />
+        <link rel="icon" href="/logo-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -52,12 +41,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         {children}
-        <script async src="https://www.instagram.com/embed.js"></script>
-        <script
-          async
-          src="https://platform.twitter.com/widgets.js"
-          charSet="utf-8"
-        ></script>
+        <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
+        <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
         <MobileNavBar />
       </body>
     </html>
