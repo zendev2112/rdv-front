@@ -131,7 +131,7 @@ export default async function SeccionesPage() {
 
                     {/* Right Half - Title */}
                     <div className="w-1/2 flex items-center justify-center p-2">
-                      <h2 className="text-xs font-bold text-gray-900 text-center group-hover:text-primary-red transition-colors whitespace-normal">
+                      <h2 className="text-xs font-bold text-gray-900 text-center group-hover:text-primary-red transition-colors">
                         {parent.name}
                       </h2>
                     </div>
