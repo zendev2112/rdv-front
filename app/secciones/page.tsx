@@ -116,11 +116,7 @@ export default async function SeccionesPage() {
               const sectionImage = getImagePath(parent.slug)
 
               return (
-                <Link
-                  key={parent.id}
-                  href={`/${parentPath}`}
-                  className="group"
-                >
+                <Link key={parent.id} href={`/${parentPath}`} className="group">
                   <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 h-16 flex">
                     {/* Left Half - Image */}
                     <div className="w-1/2 relative overflow-hidden bg-gray-200">
@@ -135,7 +131,7 @@ export default async function SeccionesPage() {
 
                     {/* Right Half - Title */}
                     <div className="w-1/2 flex items-center justify-center p-2">
-                      <h2 className="text-xs font-bold text-gray-900 text-center group-hover:text-primary-red transition-colors line-clamp-2">
+                      <h2 className="text-xs font-bold text-gray-900 text-center group-hover:text-primary-red transition-colors break-words">
                         {parent.name}
                       </h2>
                     </div>
