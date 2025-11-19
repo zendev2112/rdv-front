@@ -85,6 +85,29 @@ export default async function SeccionesPage() {
     return `/images/sections/${slug}.webp`
   }
 
+  // ✅ HELPER: Get children for a parent section - SORTED
+  const getChildrenForParent = (parentId: string) => {
+    const childrenOrder: Record<string, string[]> = {
+      'pueblos-alemanes': ['Santa Trinidad', 'San Jose', 'Santa Maria'],
+      // Add more custom orders here as needed
+    }
+
+    let children = sections.filter((s) => s.parent_id === parentId)
+
+    // Find parent to get slug
+    const parent = sections.find((s) => s.id === parentId)
+    if (parent && childrenOrder[parent.slug]) {
+      const order = childrenOrder[parent.slug]
+      children.sort((a, b) => {
+        const indexA = order.indexOf(a.name)
+        const indexB = order.indexOf(b.name)
+        return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB)
+      })
+    }
+
+    return children
+  }
+
   return (
     <>
       <Header />
@@ -137,6 +160,48 @@ export default async function SeccionesPage() {
                     </div>
                   </article>
                 </Link>
+              )
+            })}
+          </div>
+
+          {/* ✅ CHILD SECTIONS - HORIZONTAL SCROLLABLE */}
+          <div className="mt-12 space-y-8">
+            {sortedParents.map((parent) => {
+              const children = getChildrenForParent(parent.id)
+
+              // Only show if parent has children
+              if (children.length === 0) return null
+
+              return (
+                <div key={parent.id}>
+                  {/* Title */}
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">
+                    Más de {parent.name}
+                  </h3>
+
+                  {/* Horizontal Scrollable Bar - HIDDEN SCROLLBAR */}
+                  <div className="overflow-x-auto pb-2 scrollbar-hide">
+                    <div className="flex gap-3 min-w-min">
+                      {children.map((child) => {
+                        const childPath = toUrlPath(child)
+
+                        return (
+                          <Link
+                            key={child.id}
+                            href={`/${childPath}`}
+                            className="flex-shrink-0"
+                          >
+                            <div className="bg-white border border-gray-200 rounded-lg px-4 py-3 hover:shadow-lg hover:border-primary-red transition-all whitespace-nowrap">
+                              <p className="text-sm font-semibold text-gray-900 hover:text-primary-red transition-colors">
+                                {child.name}
+                              </p>
+                            </div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
               )
             })}
           </div>

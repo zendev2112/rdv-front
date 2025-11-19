@@ -79,14 +79,13 @@ export default function DollarRates() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-4 whitespace-nowrap">
+    <div className="container mx-auto px-4 py-2 flex items-center text-sm space-x-4 whitespace-nowrap h-12">
       {SHOW_RATES.map((rateKey) => {
         const rate = rates.find((r) => r.nombre.toLowerCase() === rateKey)
         return rate ? (
-          <span key={rateKey}>
-            Dólar {RATE_LABELS[rateKey]}{' '}
+          <span key={rateKey} className="flex items-center h-full">
+            Dólar {RATE_LABELS[rateKey]} $
             <strong>
-              $
               {rate.venta.toLocaleString('es-AR', { minimumFractionDigits: 2 })}
             </strong>
           </span>

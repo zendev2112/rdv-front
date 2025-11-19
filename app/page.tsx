@@ -45,6 +45,7 @@ import DollarRates from '@/components/DollarRates'
 import NewsTicker from '@/components/NewsTicker'
 import { fetchYouTubeRSS } from '@/lib/youtube/fetchYouTubeRSS'
 import MobileDollarRates from '@/components/MobileDollarRates'
+import WeatherWidget from '@/components/WeatherWidget'
 
 
 export const dynamic = 'force-dynamic'
@@ -695,9 +696,12 @@ export default async function Home() {
         >
           <div className="pt-[100px]">
             <div className="container mx-auto max-w-[1600px] px-4">
-              {/* Currency rates */}
-              <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
-                <DollarRates />
+              {/* Currency rates + Weather */}
+              <div className="hidden md:flex border-b border-gray-200 overflow-x-auto">
+                <div className="flex-1">
+                  <DollarRates />
+                </div>
+                <WeatherWidget />
               </div>
 
               <div className="pt-12 md:pt-0"></div>
