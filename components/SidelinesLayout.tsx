@@ -16,7 +16,7 @@ export default function SidelinesLayout({
   sidelineWidth = 12, // now represents percentage (12% each side)
 }: SidelinesLayoutProps) {
    const stripeStyle: React.CSSProperties = {
-     backgroundColor: '#ffffff', // ✅ Plain white instead of #f8f8f8
+     backgroundColor: '#eaeaea', // ✅ Plain white instead of #f8f8f8
      minHeight: '100vh',
      flex: `0 0 ${sidelineWidth}%`,
    }
