@@ -1,7 +1,7 @@
 {
   "name": "Radio del Volga",
-  "short_name": "RDV",
-  "description": "Radio del Volga - Tu radio local",
+  "short_name": "Radio del Volga",
+  "description": "Noticias del Coronel Suárez y el sudoeste bonaerense",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -9,13 +9,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/images/logo-red.png",
+      "src": "/images/logo-red-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/images/logo-red.png",
+      "src": "/images/logo-red-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

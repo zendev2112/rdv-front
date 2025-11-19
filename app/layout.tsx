@@ -4,14 +4,14 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/Header"
 import MobileNavBar from '@/components/MobileNavBar'
+import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import Script from 'next/script'
-import RegisterSW from './register-sw'
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: 'Radio del Volga',
-  description: 'Radio del Volga - Tu radio local',
+  description: 'Noticias del Coronel Suárez y el sudoeste bonaerense',
   manifest: '/manifest.json',
   icons: {
     icon: '/images/logo-red.png',
@@ -51,16 +51,31 @@ export default function RootLayout({
             max-width: 100vw;
             overflow-x: hidden;
           }
+
+          @keyframes slide-in {
+            from {
+              transform: translateX(400px);
+              opacity: 0;
+            }
+            to {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+
+          .animate-slide-in {
+            animation: slide-in 0.3s ease-out;
+          }
         `,
           }}
         />
       </head>
       <body className={inter.className}>
-        <RegisterSW />
         <Header />
         {children}
         <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
         <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
+        <PWAInstallPrompt />
         <MobileNavBar />
       </body>
     </html>
