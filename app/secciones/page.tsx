@@ -117,7 +117,7 @@ export default async function SeccionesPage() {
 
               return (
                 <Link key={parent.id} href={`/${parentPath}`} className="group">
-                  <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 h-16 flex">
+                  <article className="bg-white border border-gray-200 rounded-lg overflow-visible hover:shadow-lg transition-shadow duration-300 h-16 flex">
                     {/* Left Half - Image */}
                     <div className="w-1/2 relative overflow-hidden bg-gray-200">
                       <Image
@@ -130,8 +130,8 @@ export default async function SeccionesPage() {
                     </div>
 
                     {/* Right Half - Title */}
-                    <div className="w-1/2 flex items-center justify-center p-2">
-                      <h2 className="text-xs font-bold text-gray-900 text-center group-hover:text-primary-red transition-colors">
+                    <div className="w-1/2 flex items-center justify-center p-2 overflow-visible">
+                      <h2 className="text-xs font-bold text-gray-900 text-center group-hover:text-primary-red transition-colors whitespace-normal break-words">
                         {parent.name}
                       </h2>
                     </div>
