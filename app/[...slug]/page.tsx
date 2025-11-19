@@ -129,15 +129,13 @@ export default async function DynamicPage({
 
     const { articles, count } = articlesResult
 
-    // Add this at the beginning of the section page logic, after articles fetch
-
     return (
       <>
         {/* ✅ MOBILE SECTION PAGE */}
         <div className="md:hidden pt-[184px] pb-24">
           <div className="container mx-auto max-w-[1600px] px-4">
             <div className="mb-0 pb-4 py-0 -mt-8">
-              {/* ✅ BREADCRUMBS - EXACT SAME AS ARTICLE PAGE */}
+              {/* ✅ BREADCRUMBS - USING getProperSpanishName */}
               <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-0">
                 <Link href="/" className="hover:text-primary-red font-medium">
                   RADIO DEL VOLGA
@@ -150,18 +148,18 @@ export default async function DynamicPage({
                         href={`/${sectionData.breadcrumb_slugs
                           .slice(0, index + 1)
                           .join('/')}`}
-                        className="hover:text-primary-red font-medium capitalize"
+                        className="hover:text-primary-red font-medium"
                       >
-                        {sectionData.breadcrumb_names[index]}
+                        {getProperSpanishName(slug)}
                       </Link>
                     </span>
                   )
                 )}
               </nav>
 
-              {/* ✅ SECTION TITLE */}
+              {/* ✅ SECTION TITLE - USING getProperSpanishName */}
               <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2 leading-tight mt-6 md:mt-8">
-                {sectionData.name}
+                {getProperSpanishName(sectionData.slug)}
               </h1>
             </div>
 
@@ -179,7 +177,7 @@ export default async function DynamicPage({
                       href={`/${childPath}`}
                       className="font-serif px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-base font-medium"
                     >
-                      {child.name}
+                      {getProperSpanishName(child.slug)}
                     </Link>
                   )
                 })}
@@ -201,7 +199,7 @@ export default async function DynamicPage({
           </div>
         </div>
 
-        {/* ✅ DESKTOP SECTION PAGE - EXISTING CODE */}
+        {/* ✅ DESKTOP SECTION PAGE - USING getProperSpanishName */}
         <div className="hidden md:block pt-[80px]">
           <SidelinesLayout sidelineWidth={sidelineWidth}>
             <div className="mb-0 pb-4 px-8 py-8">
@@ -218,9 +216,9 @@ export default async function DynamicPage({
                         href={`/${sectionData.breadcrumb_slugs
                           .slice(0, index + 1)
                           .join('/')}`}
-                        className="hover:text-primary-red font-medium capitalize"
+                        className="hover:text-primary-red font-medium"
                       >
-                        {sectionData.breadcrumb_names[index]}
+                        {getProperSpanishName(slug)}
                       </Link>
                     </span>
                   )
@@ -228,7 +226,7 @@ export default async function DynamicPage({
               </nav>
 
               <h1 className="font-serif text-2xl md:text-3xl font-semibold mb-4 leading-tight mt-4 md:mt-6">
-                {sectionData.name}
+                {getProperSpanishName(sectionData.slug)}
               </h1>
 
               {childSections && childSections.length > 0 && (
@@ -247,7 +245,7 @@ export default async function DynamicPage({
                         href={`/${childPath}`}
                         className="font-serif px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-lg font-medium"
                       >
-                        {child.name}
+                        {getProperSpanishName(child.slug)}
                       </Link>
                     )
                   })}
