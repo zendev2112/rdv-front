@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden">
       <head>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         {/* Remove styled-jsx and use a regular style tag */}
         <style
           dangerouslySetInnerHTML={{
@@ -33,6 +34,20 @@ export default function RootLayout({
           html, body {
             max-width: 100vw;
             overflow-x: hidden;
+          }
+
+          /* Light mode - black logo */
+          @media (prefers-color-scheme: light) {
+            link[rel="icon"] {
+              filter: brightness(0) saturate(100%);
+            }
+          }
+
+          /* Dark mode - white logo */
+          @media (prefers-color-scheme: dark) {
+            link[rel="icon"] {
+              filter: brightness(100) saturate(100%);
+            }
           }
         `,
           }}
