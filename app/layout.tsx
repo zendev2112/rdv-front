@@ -9,9 +9,21 @@ import Footer from "@/components/Footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Radio del Volga',
   description: 'Radio del Volga',
+  icons: {
+    icon: [
+      {
+        url: '/logo-light.svg',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/logo-dark.svg',
+        media: '(prefers-color-scheme: dark)',
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
@@ -22,8 +34,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden">
       <head>
-        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
-        {/* Remove styled-jsx and use a regular style tag */}
+        <link 
+          rel="icon" 
+          href="/logo.svg" 
+          type="image/svg+xml"
+          media="(prefers-color-scheme: light)"
+        />
+        <link 
+          rel="icon" 
+          href="/logo-dark.svg" 
+          type="image/svg+xml"
+          media="(prefers-color-scheme: dark)"
+        />
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -35,27 +57,12 @@ export default function RootLayout({
             max-width: 100vw;
             overflow-x: hidden;
           }
-
-          /* Light mode - black logo */
-          @media (prefers-color-scheme: light) {
-            link[rel="icon"] {
-              filter: brightness(0) saturate(100%);
-            }
-          }
-
-          /* Dark mode - white logo */
-          @media (prefers-color-scheme: dark) {
-            link[rel="icon"] {
-              filter: brightness(100) saturate(100%);
-            }
-          }
         `,
           }}
         />
       </head>
       <body className={inter.className}>
         <Header />
-        {/* <GlobalMobileNav /> */}
         {children}
         <script async src="https://www.instagram.com/embed.js"></script>
         <script
