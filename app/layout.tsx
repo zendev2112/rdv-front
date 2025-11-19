@@ -33,13 +33,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden">
       <head>
-        <link rel="icon" href="/images/logo-red.png" type="image/png" />
+        <link rel="icon" href="/images/icon-192.png" type="image/png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#dc2626" />
+        <meta name="theme-color" content="#ff0808" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Radio del Volga" />
-        <link rel="apple-touch-icon" href="/images/logo-red.png" />
+        <link rel="apple-touch-icon" href="/images/icon-192.png" />
         <style
           dangerouslySetInnerHTML={{
             __html: `
