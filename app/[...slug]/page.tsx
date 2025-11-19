@@ -462,7 +462,7 @@ export default async function DynamicPage({
                 </>
               )}
             </nav>
-            <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2 leading-tight mt-6 md:mt-8">
+            <h1 className="font-serif text-3xl md:text-5xl font-bold mb-2 leading-tight mt-6 md:mt-8">
               {article.title}
             </h1>
           </div>

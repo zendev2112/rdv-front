@@ -40,6 +40,11 @@ const SECTION_NAMES: Record<
     plural: 'Santa Trinidad',
     gender: 'm',
   },
+  ganaderia: {
+    singular: 'Ganadería',
+    plural: 'Ganadería',
+    gender: 'f',
+  },
 }
 
 export function getProperSpanishName(
