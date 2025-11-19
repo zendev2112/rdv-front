@@ -11,16 +11,16 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: 'Radio del Volga',
-  description: 'Noticias del Coronel Suárez y el sudoeste bonaerense',
+  description: 'Noticias de Coronel Suárez y el sudoeste bonaerense',
   manifest: '/manifest.json',
   icons: {
-    icon: '/images/logo-red.png',
-    apple: '/images/logo-red.png',
+    icon: '/images/icon-192.png',
+    apple: '/images/icon-192.png',
   },
-  themeColor: '#dc2626',
+  themeColor: '#ff0808',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Radio del Volga',
   },
 }
