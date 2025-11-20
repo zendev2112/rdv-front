@@ -17,17 +17,14 @@ type SectionRow = {
 }
 
 export default async function SeccionesPage() {
-  // fetch section hierarchy
   const { data, error } = await supabase
     .from('section_hierarchy')
     .select('*')
     .order('path', { ascending: true })
 
-  // cast returned data to our local type
   const sections = (data || []) as SectionRow[]
 
   if (error) {
-    // fallback UI for fetch error
     return (
       <>
         <Header />
@@ -41,17 +38,29 @@ export default async function SeccionesPage() {
     )
   }
 
-  // normalize path and build parent->children map
   const byId = new Map<string, SectionRow>()
   sections.forEach((s) => byId.set(s.id, s))
 
   const parents = sections.filter((s) => !s.parent_id)
 
-  // ✅ Define the desired order (same as Header nav, excluding 'Inicio')
+  const staticSections = [
+    {
+      id: 'farmacias-de-turno',
+      name: 'Farmacias de Turno',
+      slug: 'farmacias-de-turno',
+      parent_id: null,
+      path: null,
+      breadcrumb_names: [],
+      breadcrumb_slugs: [],
+    },
+  ]
+
+  const allParents = [...parents, ...staticSections]
+
   const sectionOrder = [
     'Coronel Suárez',
-    'Pueblos Alemanes',
     'Farmacias de Turno',
+    'Pueblos Alemanes',
     'Huanguelén',
     'La Sexta',
     'Actualidad',
@@ -61,40 +70,36 @@ export default async function SeccionesPage() {
     'Deportes',
   ]
 
-  // ✅ Sort sections by the desired order, then append remaining sections
-  const sortedParents = parents.sort((a: SectionRow, b: SectionRow) => {
+  const sortedParents = allParents.sort((a: any, b: any) => {
     const indexA = sectionOrder.indexOf(a.name)
     const indexB = sectionOrder.indexOf(b.name)
     return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB)
   })
 
-  const toUrlPath = (section: SectionRow) => {
+  const toUrlPath = (section: any) => {
+    if (section.slug === 'farmacias-de-turno') {
+      return 'farmacias-de-turno'
+    }
     if (!section.parent_id) {
       return formatSectionPath(section.slug)
     }
-
     if (section.path) {
       return formatSectionPath(String(section.path))
     }
-
     return formatSectionPath(section.slug)
   }
 
-  // ✅ HELPER: Generate image path from section slug
   const getImagePath = (slug: string) => {
     return `/images/sections/${slug}.webp`
   }
 
-  // ✅ HELPER: Get children for a parent section - SORTED
   const getChildrenForParent = (parentId: string) => {
     const childrenOrder: Record<string, string[]> = {
       'pueblos-alemanes': ['Santa Trinidad', 'San Jose', 'Santa Maria'],
-      // Add more custom orders here as needed
     }
 
     let children = sections.filter((s) => s.parent_id === parentId)
 
-    // Find parent to get slug
     const parent = sections.find((s) => s.id === parentId)
     if (parent && childrenOrder[parent.slug]) {
       const order = childrenOrder[parent.slug]
