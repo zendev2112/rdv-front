@@ -1,6 +1,6 @@
 'use client'
 
-import { useTomorrowWeather } from './hooks/useTomorrowWeather'
+import { useWeather } from './hooks/useWeather'
 import {
   Cloud,
   CloudRain,
@@ -33,7 +33,7 @@ interface WeatherData {
 }
 
 export default function ClimaSection() {
-  const { data, loading, error } = useTomorrowWeather()
+  const { data, loading, error } = useWeather()
 
   if (loading)
     return (
@@ -42,9 +42,7 @@ export default function ClimaSection() {
         <div className="flex justify-start mb-6">
           <div className="text-left">
             <div className="w-16 h-1 bg-primary-red mb-2"></div>
-            <h2 className="text-2xl font-bold uppercase">
-              EL CLIMA
-            </h2>
+            <h2 className="text-2xl font-bold uppercase">EL CLIMA</h2>
           </div>
         </div>
         <div className="flex justify-center items-center h-40">
@@ -62,9 +60,7 @@ export default function ClimaSection() {
         <div className="flex justify-start mb-6">
           <div className="text-left">
             <div className="w-16 h-1 bg-primary-red mb-2"></div>
-            <h2 className="text-2xl font-bold uppercase">
-              EL CLIMA
-            </h2>
+            <h2 className="text-2xl font-bold uppercase">EL CLIMA</h2>
           </div>
         </div>
         <div className="text-center text-gray-600">
@@ -101,7 +97,7 @@ export default function ClimaSection() {
         }),
         highTemp: Math.round(d.values.temperatureMax),
         lowTemp: Math.round(d.values.temperatureMin),
-        weatherCode: d.values.weatherCodeMax || d.values.weatherCode,
+        weatherCode: d.values.weatherCode,
         precipitationProbability: d.values.precipitationProbabilityAvg || 0,
       })) || [],
   }
@@ -149,10 +145,8 @@ export default function ClimaSection() {
 
   return (
     <main className="py-0 md:py-6">
-      {/* Horizontal divider */}
       <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
 
-      {/* Header with Title */}
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
@@ -161,7 +155,6 @@ export default function ClimaSection() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Current weather - 6 columns (half) */}
         <div className="w-full">
           <div className="border border-gray-200 bg-white p-6">
             <div className="flex justify-between items-start mb-4">
@@ -169,9 +162,7 @@ export default function ClimaSection() {
                 <h3 className="text-2xl font-bold text-gray-900">
                   {weatherData.location}
                 </h3>
-                <p className="text-gray-600">
-                  {weatherData.condition}
-                </p>
+                <p className="text-gray-600">{weatherData.condition}</p>
               </div>
               <div className="text-right">
                 <div className="text-5xl font-bold text-gray-900">
@@ -190,14 +181,11 @@ export default function ClimaSection() {
               )}
             </div>
 
-            {/* Weather details grid */}
             <div className="grid grid-cols-2 gap-4 mt-6">
               <div className="flex items-center border border-gray-200 p-3">
                 <Droplets className="w-5 h-5 text-blue-500 mr-3" />
                 <div>
-                  <p className="text-xs text-gray-500 uppercase">
-                    Humedad
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase">Humedad</p>
                   <p className="font-bold text-gray-900">
                     {weatherData.humidity}%
                   </p>
@@ -206,9 +194,7 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Wind className="w-5 h-5 text-green-500 mr-3" />
                 <div>
-                  <p className="text-xs text-gray-500 uppercase">
-                    Viento
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase">Viento</p>
                   <p className="font-bold text-gray-900">
                     {weatherData.windSpeed} km/h
                   </p>
@@ -217,9 +203,7 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Eye className="w-5 h-5 text-purple-500 mr-3" />
                 <div>
-                  <p className="text-xs text-gray-500 uppercase">
-                    Visibilidad
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase">Visibilidad</p>
                   <p className="font-bold text-gray-900">
                     {weatherData.visibility} km
                   </p>
@@ -228,9 +212,7 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Umbrella className="w-5 h-5 text-indigo-500 mr-3" />
                 <div>
-                  <p className="text-xs text-gray-500 uppercase">
-                    Lluvia
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase">Lluvia</p>
                   <p className="font-bold text-gray-900">
                     {weatherData.precipitationProbability}%
                   </p>
@@ -240,7 +222,6 @@ export default function ClimaSection() {
           </div>
         </div>
 
-        {/* Daily forecast - 6 columns (half) */}
         <div className="w-full">
           <div className="border border-gray-200 bg-white p-6">
             <h3 className="text-lg font-bold mb-4">
@@ -273,17 +254,16 @@ export default function ClimaSection() {
         </div>
       </div>
 
-      {/* Attribution */}
       <div className="mt-6 text-center">
         <div className="text-xs text-gray-500">
           Powered by{' '}
           <a
-            href="https://www.tomorrow.io/"
+            href="https://open-meteo.com/"
             target="_blank"
             rel="noopener"
             className="underline"
           >
-            Tomorrow.io
+            Open-Meteo
           </a>
         </div>
       </div>
