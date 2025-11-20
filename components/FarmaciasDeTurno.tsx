@@ -237,7 +237,7 @@ export default function FarmaciasDeTurno() {
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="font-serif text-2xl font-bold uppercase">FARMACIAS DE TURNO</h2>
+          <h2 className="text-2xl font-bold uppercase">FARMACIAS DE TURNO</h2>
         </div>
       </div>
 
@@ -246,10 +246,10 @@ export default function FarmaciasDeTurno() {
         {/* TODAY'S PHARMACY - 6 columns */}
         <div className="md:col-span-6 relative">
           <div className="bg-white border-l-4 border-l-primary-red p-6">
-            <h3 className="font-serif text-sm font-semibold text-gray-500 uppercase mb-3">
+            <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">
               {todayFormatted}
             </h3>
-            <h1 className="font-serif text-2xl md:text-3xl font-bold text-primary-red mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-primary-red mb-4">
               {currentPharmacy.name}
             </h1>
 
@@ -257,7 +257,7 @@ export default function FarmaciasDeTurno() {
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="font-serif text-sm text-gray-600">Dirección</p>
+                  <p className="text-sm text-gray-600">Dirección</p>
                   <a
                     href={getGoogleMapsUrl(currentPharmacy.address)}
                     target="_blank"
@@ -272,7 +272,7 @@ export default function FarmaciasDeTurno() {
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-primary-red mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="font-serif text-sm text-gray-600">Teléfono</p>
+                  <p className="text-sm text-gray-600">Teléfono</p>
                   <a
                     href={`tel:${currentPharmacy.phone}`}
                     className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"
@@ -294,10 +294,10 @@ export default function FarmaciasDeTurno() {
         {nextPharmacy && (
           <div className="md:col-span-6">
             <div className="bg-white border-l-4 border-l-gray-400 p-6">
-              <h3 className="font-serif text-sm font-semibold text-gray-500 uppercase mb-3">
+              <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">
                 {tomorrowFormatted}
               </h3>
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                 {nextPharmacy.name}
               </h2>
 
@@ -305,7 +305,7 @@ export default function FarmaciasDeTurno() {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-serif text-sm text-gray-600">Dirección</p>
+                    <p className="text-sm text-gray-600">Dirección</p>
                     <a
                       href={getGoogleMapsUrl(nextPharmacy.address)}
                       target="_blank"
@@ -320,7 +320,7 @@ export default function FarmaciasDeTurno() {
                 <div className="flex items-start gap-3">
                   <Phone className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-serif text-sm text-gray-600">Teléfono</p>
+                    <p className="text-sm text-gray-600">Teléfono</p>
                     <a
                       href={`tel:${nextPharmacy.phone}`}
                       className="text-base font-semibold text-gray-800 hover:text-primary-red transition-colors"

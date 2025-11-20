@@ -42,7 +42,7 @@ export default function ClimaSection() {
         <div className="flex justify-start mb-6">
           <div className="text-left">
             <div className="w-16 h-1 bg-primary-red mb-2"></div>
-            <h2 className="font-serif text-2xl font-bold uppercase">
+            <h2 className="text-2xl font-bold uppercase">
               EL CLIMA
             </h2>
           </div>
@@ -62,7 +62,7 @@ export default function ClimaSection() {
         <div className="flex justify-start mb-6">
           <div className="text-left">
             <div className="w-16 h-1 bg-primary-red mb-2"></div>
-            <h2 className="font-serif text-2xl font-bold uppercase">
+            <h2 className="text-2xl font-bold uppercase">
               EL CLIMA
             </h2>
           </div>
@@ -156,7 +156,7 @@ export default function ClimaSection() {
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="font-serif text-2xl font-bold uppercase">EL CLIMA</h2>
+          <h2 className="text-2xl font-bold uppercase">EL CLIMA</h2>
         </div>
       </div>
 
@@ -169,7 +169,7 @@ export default function ClimaSection() {
                 <h3 className="text-2xl font-bold text-gray-900">
                   {weatherData.location}
                 </h3>
-                <p className="font-serif text-gray-600">
+                <p className="text-gray-600">
                   {weatherData.condition}
                 </p>
               </div>
@@ -195,10 +195,10 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Droplets className="w-5 h-5 text-blue-500 mr-3" />
                 <div>
-                  <p className="font-serif text-xs text-gray-500 uppercase">
+                  <p className="text-xs text-gray-500 uppercase">
                     Humedad
                   </p>
-                  <p className="font-serif font-bold text-gray-900">
+                  <p className="font-bold text-gray-900">
                     {weatherData.humidity}%
                   </p>
                 </div>
@@ -206,10 +206,10 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Wind className="w-5 h-5 text-green-500 mr-3" />
                 <div>
-                  <p className="font-serif text-xs text-gray-500 uppercase">
+                  <p className="text-xs text-gray-500 uppercase">
                     Viento
                   </p>
-                  <p className="font-serif font-bold text-gray-900">
+                  <p className="font-bold text-gray-900">
                     {weatherData.windSpeed} km/h
                   </p>
                 </div>
@@ -217,10 +217,10 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Eye className="w-5 h-5 text-purple-500 mr-3" />
                 <div>
-                  <p className="font-serif text-xs text-gray-500 uppercase">
+                  <p className="text-xs text-gray-500 uppercase">
                     Visibilidad
                   </p>
-                  <p className="font-serif font-bold text-gray-900">
+                  <p className="font-bold text-gray-900">
                     {weatherData.visibility} km
                   </p>
                 </div>
@@ -228,10 +228,10 @@ export default function ClimaSection() {
               <div className="flex items-center border border-gray-200 p-3">
                 <Umbrella className="w-5 h-5 text-indigo-500 mr-3" />
                 <div>
-                  <p className="font-serif text-xs text-gray-500 uppercase">
+                  <p className="text-xs text-gray-500 uppercase">
                     Lluvia
                   </p>
-                  <p className="font-serif font-bold text-gray-900">
+                  <p className="font-bold text-gray-900">
                     {weatherData.precipitationProbability}%
                   </p>
                 </div>
@@ -252,17 +252,17 @@ export default function ClimaSection() {
                   key={index}
                   className="text-center bg-gray-50 border border-gray-200 p-4"
                 >
-                  <p className="font-serif text-sm font-semibold text-gray-700 mb-2 uppercase">
+                  <p className="text-sm font-semibold text-gray-700 mb-2 uppercase">
                     {day.day}
                   </p>
                   <div className="flex justify-center mb-3">
                     {getWeatherIcon(day.weatherCode, 'w-8 h-8')}
                   </div>
                   <div className="space-y-1">
-                    <p className="font-serif text-lg font-bold text-gray-900">
+                    <p className="text-lg font-bold text-gray-900">
                       {day.highTemp}° / {day.lowTemp}°
                     </p>
-                    <p className="font-serif text-xs text-blue-500">
+                    <p className="text-xs text-blue-500">
                       {day.precipitationProbability}% lluvia
                     </p>
                   </div>
