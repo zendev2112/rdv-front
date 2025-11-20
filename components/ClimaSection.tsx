@@ -42,7 +42,7 @@ export default function ClimaSection() {
         <div className="flex justify-start mb-6">
           <div className="text-left">
             <div className="w-16 h-1 bg-primary-red mb-2"></div>
-            <h2 className="text-2xl font-bold uppercase">EL CLIMA</h2>
+            <h2 className="font-serif text-2xl font-bold uppercase">EL CLIMA</h2>
           </div>
         </div>
         <div className="flex justify-center items-center h-40">
@@ -60,7 +60,7 @@ export default function ClimaSection() {
         <div className="flex justify-start mb-6">
           <div className="text-left">
             <div className="w-16 h-1 bg-primary-red mb-2"></div>
-            <h2 className="text-2xl font-bold uppercase">EL CLIMA</h2>
+            <h2 className="font-serif text-2xl font-bold uppercase">EL CLIMA</h2>
           </div>
         </div>
         <div className="text-center text-gray-600">

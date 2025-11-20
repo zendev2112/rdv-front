@@ -237,7 +237,7 @@ export default function FarmaciasDeTurno() {
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="text-2xl font-bold uppercase">FARMACIAS DE TURNO</h2>
+          <h2 className="font-serif text-2xl font-bold uppercase">FARMACIAS DE TURNO</h2>
         </div>
       </div>
 
