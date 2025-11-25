@@ -561,7 +561,28 @@ export default async function DynamicPage({
                 {article.source}
               </p>
             )}
+
+            {/* ✅ TAGS - MOBILE (NEW) */}
+            {article.tags && (
+              <div className="mt-8 mb-6">
+                <div className="flex flex-wrap gap-2">
+                  {article.tags.split(',').map((tag: string) => {
+                    const cleanTag = tag.trim()
+                    return (
+                      <Link
+                        key={cleanTag}
+                        href={`/search?tag=${encodeURIComponent(cleanTag)}`}
+                        className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                      >
+                        #{cleanTag}
+                      </Link>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
           </article>
+
           {/* ✅ YOU MAY BE INTERESTED SECTION - MOBILE */}
           <div className="mt-12">
             <YouMayBeInterestedSection
@@ -807,6 +828,26 @@ export default async function DynamicPage({
                 {article.source && (
                   <div className="font-serif text-lg italic text-gray-600 mt-6 mb-6">
                     {article.source}
+                  </div>
+                )}
+
+                {/* ✅ TAGS - DESKTOP (NEW) */}
+                {article.tags && (
+                  <div className="mt-8 pt-6 border-t border-gray-300">
+                    <div className="flex flex-wrap gap-2">
+                      {article.tags.split(',').map((tag: string) => {
+                        const cleanTag = tag.trim()
+                        return (
+                          <Link
+                            key={cleanTag}
+                            href={`/search?tag=${encodeURIComponent(cleanTag)}`}
+                            className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                          >
+                            #{cleanTag}
+                          </Link>
+                        )
+                      })}
+                    </div>
                   </div>
                 )}
               </div>
