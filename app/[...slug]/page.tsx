@@ -282,6 +282,13 @@ export default async function DynamicPage({
                         {articles[0].excerpt || 'No excerpt available'}
                       </p>
 
+                      {/* ✅ AUTHOR - BELOW OVERLINE/TITLE - MAIN ARTICLE */}
+                      {articles[0].author && (
+                        <div className="text-sm text-gray-700 mb-3 font-medium">
+                          Por {articles[0].author}
+                        </div>
+                      )}
+
                       {/* ✅ DATE BELOW EXCERPT */}
                       <div className="text-xs text-gray-500 mb-4">
                         {formatDateShort(articles[0].created_at)}
@@ -340,6 +347,13 @@ export default async function DynamicPage({
                             )}
                             {article.title}
                           </h3>
+
+                          {/* ✅ AUTHOR - BELOW TITLE - STACKED ARTICLES */}
+                          {article.author && (
+                            <div className="text-xs text-gray-700 mb-2 font-medium">
+                              Por {article.author}
+                            </div>
+                          )}
 
                           {/* ✅ DATE BELOW TITLE */}
                           <div className="text-xs text-gray-500 mb-3">
