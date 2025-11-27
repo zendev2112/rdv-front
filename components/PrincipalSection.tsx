@@ -19,6 +19,7 @@ interface Article {
   created_at?: string
   section?: string
   section_path?: string
+  author?: string
 }
 
 interface PrincipalSectionProps {
@@ -456,6 +457,14 @@ export default function PrincipalSection({
                 )}
                 {mainArticle.title}
               </h1>
+
+              {/* ✅ AUTHOR - MAIN ARTICLE - BELOW EXCERPT */}
+              {mainArticle.author && (
+                <div className="text-sm text-gray-700 mt-2 font-medium">
+                  Por {mainArticle.author}
+                </div>
+              )}
+
               <p className="font-serif text-sm md:text-sm text-gray-600 mt-2 leading-6 sm:leading-relaxed">
                 {mainArticle.excerpt || 'No excerpt available'}
               </p>
@@ -504,6 +513,12 @@ export default function PrincipalSection({
                     )}
                     {upperRowArticles[0].title}
                   </h2>
+
+                  {upperRowArticles[0].author && (
+                    <div className="text-xs text-gray-700 mt-1 font-medium">
+                      Por {upperRowArticles[0].author}
+                    </div>
+                  )}
                 </div>
               </Link>
               <div className="absolute top-0 -right-3 w-[1px] h-full bg-gray-400 opacity-30 hidden sm:block"></div>
@@ -544,6 +559,12 @@ export default function PrincipalSection({
                     )}
                     {upperRowArticles[1].title}
                   </h2>
+
+                  {upperRowArticles[1].author && (
+                    <div className="text-xs text-gray-700 mt-1 font-medium">
+                      Por {upperRowArticles[1].author}
+                    </div>
+                  )}
                 </div>
               </Link>
               {/* Mobile divisory line - MATCHES IMAGE WIDTH */}
@@ -588,6 +609,12 @@ export default function PrincipalSection({
                         )}
                         {article.title}
                       </h2>
+
+                      {article.author && (
+                        <div className="text-xs text-gray-700 mt-1 font-medium">
+                          Por {article.author}
+                        </div>
+                      )}
                     </div>
                   </Link>
                   {index < lowerRowArticles.length - 1 && (
