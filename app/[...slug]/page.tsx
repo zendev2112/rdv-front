@@ -481,6 +481,13 @@ export default async function DynamicPage({
               </span>
             </div>
 
+            {/* ✅ AUTHOR - MOBILE */}
+            {article.author && (
+              <div className="text-base text-gray-700 mb-6 font-medium">
+                Por {article.author}
+              </div>
+            )}
+
             {article.imgUrl &&
               (() => {
                 const orientation = detectImageOrientation(article.imgUrl)
@@ -657,6 +664,13 @@ export default async function DynamicPage({
                   ⏱️ {readingTimeMinutes} minutos de lectura
                 </span>
               </div>
+
+              {/* ✅ AUTHOR - MOBILE */}
+              {article.author && (
+                <div className="text-base text-gray-700 mb-6 font-medium">
+                  Por {article.author}
+                </div>
+              )}
 
               {/* MAIN IMAGE */}
               {article.imgUrl &&
