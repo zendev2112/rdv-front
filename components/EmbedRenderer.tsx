@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import { extractYouTubeId } from '@/lib/articleEmbeds'
 
@@ -14,77 +14,98 @@ export default function EmbedRenderer({
   content,
 }: EmbedRendererProps) {
   const [mounted, setMounted] = useState(false)
+  const [scriptLoaded, setScriptLoaded] = useState(false)
+  const embedRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
+  }, [])
 
-    // Instagram embeds - ensure script loads and processes
+  useEffect(() => {
+    if (!mounted) return
+
+    // Instagram embeds
     if (embedType === 'instagram') {
-      let checkInterval: NodeJS.Timeout
+      // Check if script already exists
+      const existingScript = document.querySelector(
+        'script[src*="instagram.com/embed.js"]'
+      )
 
-      const processInstagram = () => {
+      if (existingScript) {
+        // Script exists, just process
         if ((window as any).instgrm) {
-          ;(window as any).instgrm.Embeds.process()
+          setTimeout(() => {
+            ;(window as any).instgrm.Embeds.process()
+          }, 100)
         }
-      }
-
-      // If script already loaded, process immediately
-      if ((window as any).instgrm) {
-        processInstagram()
       } else {
-        // Wait for script to load, then process
-        checkInterval = setInterval(() => {
+        // Load script for the first time
+        const script = document.createElement('script')
+        script.async = true
+        script.src = '//www.instagram.com/embed.js'
+
+        script.onload = () => {
+          setScriptLoaded(true)
           if ((window as any).instgrm) {
-            processInstagram()
-            clearInterval(checkInterval)
+            ;(window as any).instgrm.Embeds.process()
           }
-        }, 100)
-
-        // Cleanup after 10 seconds
-        const timeout = setTimeout(() => {
-          clearInterval(checkInterval)
-        }, 10000)
-
-        return () => {
-          clearInterval(checkInterval)
-          clearTimeout(timeout)
         }
+
+        document.body.appendChild(script)
       }
     }
 
     // Twitter embeds
     if (embedType === 'twitter') {
-      let checkInterval: NodeJS.Timeout
+      const existingScript = document.querySelector(
+        'script[src*="platform.twitter.com"]'
+      )
 
-      const processTwitter = () => {
+      if (existingScript) {
         if ((window as any).twttr) {
-          ;(window as any).twttr.widgets.load()
+          setTimeout(() => {
+            ;(window as any).twttr.widgets.load()
+          }, 100)
         }
-      }
-
-      if ((window as any).twttr) {
-        processTwitter()
       } else {
-        checkInterval = setInterval(() => {
+        const script = document.createElement('script')
+        script.async = true
+        script.src = 'https://platform.twitter.com/widgets.js'
+        script.charset = 'utf-8'
+
+        script.onload = () => {
           if ((window as any).twttr) {
-            processTwitter()
-            clearInterval(checkInterval)
+            ;(window as any).twttr.widgets.load()
           }
-        }, 100)
-
-        const timeout = setTimeout(() => {
-          clearInterval(checkInterval)
-        }, 10000)
-
-        return () => {
-          clearInterval(checkInterval)
-          clearTimeout(timeout)
         }
+
+        document.body.appendChild(script)
       }
     }
-  }, [embedType, content])
+  }, [mounted, embedType, content])
 
-  // Don't render blockquotes on server - only render on client
+  // Additional effect to retry processing after script loads
+  useEffect(() => {
+    if (scriptLoaded && embedType === 'instagram') {
+      const retryProcess = () => {
+        if ((window as any).instgrm && embedRef.current) {
+          ;(window as any).instgrm.Embeds.process()
+        }
+      }
+
+      // Retry a few times with increasing delays
+      const timeouts = [
+        setTimeout(retryProcess, 500),
+        setTimeout(retryProcess, 1000),
+        setTimeout(retryProcess, 2000),
+      ]
+
+      return () => {
+        timeouts.forEach((timeout) => clearTimeout(timeout))
+      }
+    }
+  }, [scriptLoaded, embedType])
+
   if (!mounted) {
     return (
       <div className="min-h-64 bg-gray-100 rounded my-8 animate-pulse"></div>
@@ -94,12 +115,28 @@ export default function EmbedRenderer({
   switch (embedType) {
     case 'instagram':
       return (
-        <div className="flex justify-center my-8">
+        <div ref={embedRef} className="flex justify-center my-8">
           <blockquote
             className="instagram-media"
             data-instgrm-permalink={content}
             data-instgrm-version="14"
-          ></blockquote>
+            style={{
+              background: '#FFF',
+              border: '0',
+              borderRadius: '3px',
+              boxShadow:
+                '0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15)',
+              margin: '1px',
+              maxWidth: '540px',
+              minWidth: '326px',
+              padding: '0',
+              width: '99%',
+            }}
+          >
+            <a href={content} target="_blank" rel="noopener noreferrer">
+              View this post on Instagram
+            </a>
+          </blockquote>
         </div>
       )
 
