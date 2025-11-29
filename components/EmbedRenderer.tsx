@@ -20,6 +20,8 @@ export default function EmbedRenderer({
 
     // Instagram embeds - ensure script loads and processes
     if (embedType === 'instagram') {
+      let checkInterval: NodeJS.Timeout
+
       const processInstagram = () => {
         if ((window as any).instgrm) {
           ;(window as any).instgrm.Embeds.process()
@@ -31,22 +33,29 @@ export default function EmbedRenderer({
         processInstagram()
       } else {
         // Wait for script to load, then process
-        const checkInterval = setInterval(() => {
+        checkInterval = setInterval(() => {
           if ((window as any).instgrm) {
             processInstagram()
             clearInterval(checkInterval)
           }
         }, 100)
 
-        // Cleanup after 5 seconds
-        setTimeout(() => clearInterval(checkInterval), 5000)
+        // Cleanup after 10 seconds
+        const timeout = setTimeout(() => {
+          clearInterval(checkInterval)
+        }, 10000)
 
-        return () => clearInterval(checkInterval)
+        return () => {
+          clearInterval(checkInterval)
+          clearTimeout(timeout)
+        }
       }
     }
 
     // Twitter embeds
     if (embedType === 'twitter') {
+      let checkInterval: NodeJS.Timeout
+
       const processTwitter = () => {
         if ((window as any).twttr) {
           ;(window as any).twttr.widgets.load()
@@ -56,23 +65,30 @@ export default function EmbedRenderer({
       if ((window as any).twttr) {
         processTwitter()
       } else {
-        const checkInterval = setInterval(() => {
+        checkInterval = setInterval(() => {
           if ((window as any).twttr) {
             processTwitter()
             clearInterval(checkInterval)
           }
         }, 100)
 
-        setTimeout(() => clearInterval(checkInterval), 5000)
+        const timeout = setTimeout(() => {
+          clearInterval(checkInterval)
+        }, 10000)
 
-        return () => clearInterval(checkInterval)
+        return () => {
+          clearInterval(checkInterval)
+          clearTimeout(timeout)
+        }
       }
     }
-  }, [embedType])
+  }, [embedType, content])
 
   // Don't render blockquotes on server - only render on client
   if (!mounted) {
-    return <div className="min-h-64 bg-gray-100 rounded my-8"></div>
+    return (
+      <div className="min-h-64 bg-gray-100 rounded my-8 animate-pulse"></div>
+    )
   }
 
   switch (embedType) {
