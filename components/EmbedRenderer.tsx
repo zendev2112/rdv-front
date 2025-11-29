@@ -18,13 +18,55 @@ export default function EmbedRenderer({
   useEffect(() => {
     setMounted(true)
 
-    // Reload Instagram embeds
-    if (embedType === 'instagram' && (window as any).instgrm) {
-      ;(window as any).instgrm.Embeds.process()
+    // Instagram embeds - ensure script loads and processes
+    if (embedType === 'instagram') {
+      const processInstagram = () => {
+        if ((window as any).instgrm) {
+          ;(window as any).instgrm.Embeds.process()
+        }
+      }
+
+      // If script already loaded, process immediately
+      if ((window as any).instgrm) {
+        processInstagram()
+      } else {
+        // Wait for script to load, then process
+        const checkInterval = setInterval(() => {
+          if ((window as any).instgrm) {
+            processInstagram()
+            clearInterval(checkInterval)
+          }
+        }, 100)
+
+        // Cleanup after 5 seconds
+        setTimeout(() => clearInterval(checkInterval), 5000)
+
+        return () => clearInterval(checkInterval)
+      }
     }
-    // Reload Twitter embeds
-    if (embedType === 'twitter' && (window as any).twttr) {
-      ;(window as any).twttr.widgets.load()
+
+    // Twitter embeds
+    if (embedType === 'twitter') {
+      const processTwitter = () => {
+        if ((window as any).twttr) {
+          ;(window as any).twttr.widgets.load()
+        }
+      }
+
+      if ((window as any).twttr) {
+        processTwitter()
+      } else {
+        const checkInterval = setInterval(() => {
+          if ((window as any).twttr) {
+            processTwitter()
+            clearInterval(checkInterval)
+          }
+        }, 100)
+
+        setTimeout(() => clearInterval(checkInterval), 5000)
+
+        return () => clearInterval(checkInterval)
+      }
     }
   }, [embedType])
 
