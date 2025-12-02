@@ -414,6 +414,14 @@ export default async function DynamicPage({
     notFound()
   }
 
+  // ✅ CONSTRUCT FULL ARTICLE URL ON SERVER
+  const articlePath = article.section_path
+    ? `/${article.section_path
+        .split('.')
+        .map((p: string) => p.replace(/_/g, '-'))
+        .join('/')}/${article.slug}`
+    : `/${article.section}/${article.slug}`
+
   // Use created_at for the date/time display
   const publishDate = article.created_at ? new Date(article.created_at) : null
 
@@ -522,10 +530,7 @@ export default async function DynamicPage({
 
             {/* ✅ SHARE SIDEBAR - HORIZONTAL FOR MOBILE */}
             <div className="flex justify-start my-6">
-              <ArticleShareSidebar
-                title={article.title}
-                url={typeof window !== 'undefined' ? window.location.href : ''}
-              />
+              <ArticleShareSidebar title={article.title} url={articlePath} />
             </div>
 
             <div className="border-t border-gray-300 my-4"></div>
@@ -719,12 +724,7 @@ export default async function DynamicPage({
                 style={{ position: 'sticky', top: '120px' }}
                 className="h-fit flex justify-center"
               >
-                <StickyShareSidebar
-                  title={article.title}
-                  url={
-                    typeof window !== 'undefined' ? window.location.href : ''
-                  }
-                />
+                <StickyShareSidebar title={article.title} url={articlePath} />
               </div>
             </div>
 
