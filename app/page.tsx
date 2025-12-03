@@ -21,6 +21,8 @@ import NewsTicker from '@/components/NewsTicker'
 import { fetchYouTubeRSS } from '@/lib/youtube/fetchYouTubeRSS'
 import MobileDollarRates from '@/components/MobileDollarRates'
 import WeatherWidget from '@/components/WeatherWidget'
+import PWAInstallPrompt from '@/components/PWAInstallPrompt'
+
 
 
 export const dynamic = 'force-dynamic'
@@ -74,6 +76,7 @@ export default async function Home() {
     <>
       {/* MOBILE VERSION - NO SidelinesLayout */}
       <div className="md:hidden pt-[184px]">
+        <PWAInstallPrompt />
         <div className="container mx-auto max-w-[1600px] px-4">
           {/* Currency rates */}
           <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
@@ -128,7 +131,6 @@ export default async function Home() {
             </div>
           </div>
 
-
           <AdPlaceholder />
 
           {/* Agro Four Column Grid Section */}
@@ -149,8 +151,6 @@ export default async function Home() {
           <AdPlaceholder />
 
           <Footer />
-
-          
         </div>
       </div>
 
@@ -219,7 +219,6 @@ export default async function Home() {
                 </div>
               </div>
 
-             
               <AdPlaceholder />
 
               {/* Agro Four Column Grid Section */}
@@ -238,7 +237,6 @@ export default async function Home() {
 
               <AdPlaceholder />
 
-              
               <Footer />
             </div>
           </div>

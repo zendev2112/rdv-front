@@ -4,7 +4,6 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/Header"
 import MobileNavBar from '@/components/MobileNavBar'
-import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import Script from 'next/script'
 
 const inter = Inter({ subsets: ["latin"] })
@@ -75,7 +74,7 @@ export default function RootLayout({
         {children}
         <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
         <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
-        <PWAInstallPrompt />
+        
         <MobileNavBar />
       </body>
     </html>

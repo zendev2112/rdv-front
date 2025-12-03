@@ -8,10 +8,22 @@ export default function PWAInstallPrompt() {
   const [showPrompt, setShowPrompt] = useState(false)
 
   useEffect(() => {
+    // Check if user has already dismissed the prompt
+    const hasSeenPrompt = localStorage.getItem('pwa-prompt-dismissed')
+    if (hasSeenPrompt) {
+      return
+    }
+
     const handler = (e: Event) => {
       e.preventDefault()
       setDeferredPrompt(e)
       setShowPrompt(true)
+
+      // Auto-dismiss after 10 seconds
+      setTimeout(() => {
+        setShowPrompt(false)
+        localStorage.setItem('pwa-prompt-dismissed', 'true')
+      }, 10000)
     }
 
     window.addEventListener('beforeinstallprompt', handler)
@@ -23,11 +35,17 @@ export default function PWAInstallPrompt() {
 
     deferredPrompt.prompt()
     const { outcome } = await deferredPrompt.userChoice
-    
+
     if (outcome === 'accepted') {
       setDeferredPrompt(null)
       setShowPrompt(false)
+      localStorage.setItem('pwa-prompt-dismissed', 'true')
     }
+  }
+
+  const handleDismiss = () => {
+    setShowPrompt(false)
+    localStorage.setItem('pwa-prompt-dismissed', 'true')
   }
 
   if (!showPrompt || !deferredPrompt) return null
@@ -38,16 +56,14 @@ export default function PWAInstallPrompt() {
         <div className="flex items-start gap-3 flex-1">
           <Download className="w-5 h-5 text-primary-red flex-shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-gray-900">
-              Descargar app
-            </p>
+            <p className="text-sm font-semibold text-gray-900">Descargar app</p>
             <p className="text-xs text-gray-600 mt-1">
               Accedé a Radio del Volga desde tu pantalla de inicio
             </p>
           </div>
         </div>
         <button
-          onClick={() => setShowPrompt(false)}
+          onClick={handleDismiss}
           className="text-gray-400 hover:text-gray-600 flex-shrink-0"
         >
           <X className="w-4 h-4" />
