@@ -13,7 +13,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
-import dynamic from 'next/dynamic'
+import dynamicImport from 'next/dynamic'
 import ArticleShareSidebar from '@/components/ArticleShareSidebar'
 import RelatedArticlesSidebar from '@/components/RelatedArticlesSidebar'
 import { getProperSpanishName } from '@/lib/spanishGrammar'
@@ -29,7 +29,12 @@ import SectionArticlesGrid from '@/components/SectionArticlesGrid'
 import MobileSectionArticlesGrid from '@/components/MobileSectionArticlesGrid'
 import Footer from '@/components/Footer'
 
-const ClientSafeImage = dynamic(() => import('@/components/ClientSafeImage'), {
+export const dynamic = 'force-static'
+export const revalidate = 300 // Revalidate every 5 minutes
+export const fetchCache = 'default-cache'
+export const runtime = 'nodejs'
+
+const ClientSafeImage = dynamicImport(() => import('@/components/ClientSafeImage'), {
   ssr: false,
 })
 
