@@ -29,7 +29,7 @@ import SectionArticlesGrid from '@/components/SectionArticlesGrid'
 import MobileSectionArticlesGrid from '@/components/MobileSectionArticlesGrid'
 import Footer from '@/components/Footer'
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 export const revalidate = 300 // Revalidate every 5 minutes
 export const fetchCache = 'default-cache'
 export const runtime = 'nodejs'
