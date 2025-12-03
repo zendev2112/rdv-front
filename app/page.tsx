@@ -34,27 +34,35 @@ export const maxDuration = 30
 
 // This is a Server Component
 export default async function Home() {
-  // Fetch data for each section
-  const principalSectionArticles = await fetchSectionArticles(
-    'PrincipalSection'
-  )
-  const noticiasImportantesArticles = await fetchSectionArticles(
-    'NoticiasImportantesSection'
-  )
-  const pueblosAlemanesArticles = await fetchSectionArticles(
-    'PueblosAlemanesSection'
-  )
-  const huanguelenArticles = await fetchSectionArticles('HuanguelenSection')
-  const laSextaArticles = await fetchSectionArticles('LaSextaSection')
 
-  const youtubeVideos = await fetchYouTubeRSS(process.env.CHANNEL_ID!)
+  const [
+    principalSectionArticles,
+    noticiasImportantesArticles,
+    pueblosAlemanesArticles,
+    huanguelenArticles,
+    laSextaArticles,
+    youtubeVideos,
+    actualidadArticles,
+    latestHeadlines,
+    agroArticles,
+    lifestyleArticles,
+  ] = await Promise.all([
+    fetchSectionArticles('PrincipalSection'),
+    fetchSectionArticles('NoticiasImportantesSection'),
+    fetchSectionArticles('PueblosAlemanesSection'),
+    fetchSectionArticles('HuanguelenSection'),
+    fetchSectionArticles('LaSextaSection'),
+    fetchYouTubeRSS(process.env.CHANNEL_ID!),
+    fetchSectionArticles('ActualidadSection'),
+    fetchLatestHeadlines(),
+    fetchSectionArticles('AgroSection'),
+    fetchSectionArticles('LifestyleSection'),
+  ])
+
   const featuredVideo = youtubeVideos[0] || null
   const recentVideos = youtubeVideos.slice(1, 4)
 
-  const actualidadArticles = await fetchSectionArticles('ActualidadSection')
-  const latestHeadlines = await fetchLatestHeadlines()
-  const agroArticles = await fetchSectionArticles('AgroSection')
-  const lifestyleArticles = await fetchSectionArticles('LifestyleSection')
+
 
 
   // Define custom ads for sidelines (optional)
