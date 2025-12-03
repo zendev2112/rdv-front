@@ -5,9 +5,8 @@ import { formatSectionPath } from '@/lib/utils'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
 
-export const dynamic = 'force-dynamic'
 export const revalidate = 300 // Cache for 5 minutes
-export const fetchCache = 'default-cache'
+export const fetchCache = 'force-cache'
 export const runtime = 'nodejs'
 
 
