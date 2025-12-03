@@ -498,7 +498,7 @@ export default function PrincipalSection({
                       src={upperRowArticles[0].imgUrl}
                       alt={upperRowArticles[0].title}
                       fill
-                      className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
+                      className="object-cover object-center transition-opacity duration-300 group-hover:opacity-90"
                       sizes="(max-width: 768px) 100vw, 25vw"
                     />
                   </div>
@@ -544,7 +544,7 @@ export default function PrincipalSection({
                       src={upperRowArticles[1].imgUrl}
                       alt={upperRowArticles[1].title}
                       fill
-                      className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
+                      className="object-cover object-center transition-opacity duration-300 group-hover:opacity-90"
                       sizes="(max-width: 768px) 100vw, 25vw"
                     />
                   </div>
@@ -594,7 +594,7 @@ export default function PrincipalSection({
                           src={article.imgUrl}
                           alt={article.title}
                           fill
-                          className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
+                          className="object-cover object-center transition-opacity duration-300 group-hover:opacity-90"
                           sizes="(max-width: 768px) 100vw, 16vw"
                         />
                       </div>
