@@ -25,9 +25,9 @@ import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 
 
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
-export const fetchCache = 'force-no-store'
+export const dynamic = 'force-static'
+export const revalidate = 300
+export const fetchCache = 'default-cache'
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
