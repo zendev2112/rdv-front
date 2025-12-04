@@ -39,7 +39,7 @@ export const pharmacies = [
   },
   {
     day: 4,
-    name: 'GOMEZ',
+    name: 'GÓMEZ',
     address: 'Av. San Martín 218',
     phone: '431713',
   },
@@ -93,7 +93,7 @@ export const pharmacies = [
   },
   {
     day: 13,
-    name: 'CORONEL SUAREZ',
+    name: 'CORONEL SUÁREZ',
     address: 'Avelaneda y Rivadavia',
     phone: '430019',
   },
@@ -117,7 +117,7 @@ export const pharmacies = [
   },
   {
     day: 17,
-    name: 'GOMEZ',
+    name: 'GÓMEZ',
     address: 'Av. San Martín 218',
     phone: '431713',
   },
@@ -195,7 +195,7 @@ export const pharmacies = [
   },
   {
     day: 30,
-    name: 'GOMEZ',
+    name: 'GÓMEZ',
     address: 'Av. San Martín 218',
     phone: '431713',
   },
