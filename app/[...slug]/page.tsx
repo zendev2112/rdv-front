@@ -426,7 +426,7 @@ export default async function DynamicPage({
         .join('/')}/${article.slug}`
     : `/${article.section}/${article.slug}`
 
-  // Use created_at for the date/time display
+  // Use created_at for the date/timeline display
   const publishDate = article.created_at ? new Date(article.created_at) : null
 
   const formattedDate = publishDate
@@ -597,14 +597,14 @@ export default async function DynamicPage({
               <div className="mt-8 mb-6">
                 <div className="flex flex-wrap gap-2">
                   {article.tags.split(',').map((tag: string) => {
-                    const cleanTag = tag.trim()
+                    const cleanTag = tag.trim().replace(/^#/, '').toUpperCase()
                     return (
                       <Link
                         key={cleanTag}
                         href={`/search?tag=${encodeURIComponent(cleanTag)}`}
-                        className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                        className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-base font-semibold"
                       >
-                        #{cleanTag}
+                        {cleanTag}
                       </Link>
                     )
                   })}
@@ -868,14 +868,14 @@ export default async function DynamicPage({
                   <div className="mt-8 pt-6 border-t border-gray-300">
                     <div className="flex flex-wrap gap-2">
                       {article.tags.split(',').map((tag: string) => {
-                        const cleanTag = tag.trim()
+                        const cleanTag = tag.trim().replace(/^#/, '').toUpperCase()
                         return (
                           <Link
                             key={cleanTag}
                             href={`/search?tag=${encodeURIComponent(cleanTag)}`}
-                            className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-sm font-medium"
+                            className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-base font-semibold"
                           >
-                            #{cleanTag}
+                            {cleanTag}
                           </Link>
                         )
                       })}
