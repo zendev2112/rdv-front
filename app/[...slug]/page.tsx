@@ -602,7 +602,7 @@ export default async function DynamicPage({
                       <Link
                         key={cleanTag}
                         href={`/search?tag=${encodeURIComponent(cleanTag)}`}
-                        className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-base font-semibold"
+                        className="inline-block px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-base font-bold no-underline"
                       >
                         {cleanTag}
                       </Link>
@@ -873,7 +873,7 @@ export default async function DynamicPage({
                           <Link
                             key={cleanTag}
                             href={`/search?tag=${encodeURIComponent(cleanTag)}`}
-                            className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-base font-semibold"
+                            className="inline-block px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-primary-red hover:text-white transition-colors text-base font-bold no-underline"
                           >
                             {cleanTag}
                           </Link>
