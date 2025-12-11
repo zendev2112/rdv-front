@@ -22,7 +22,7 @@ import { fetchYouTubeRSS } from '@/lib/youtube/fetchYouTubeRSS'
 import MobileDollarRates from '@/components/MobileDollarRates'
 import WeatherWidget from '@/components/WeatherWidget'
 import PWAInstallPrompt from '@/components/PWAInstallPrompt'
-
+import RecetasSection from '@/components/RecetasSection'
 
 
 export const dynamic = 'force-static'
@@ -46,6 +46,7 @@ export default async function Home() {
     latestHeadlines,
     agroArticles,
     lifestyleArticles,
+    recetasSection,
   ] = await Promise.all([
     fetchSectionArticles('PrincipalSection'),
     fetchSectionArticles('NoticiasImportantesSection'),
@@ -57,6 +58,7 @@ export default async function Home() {
     fetchLatestHeadlines(),
     fetchSectionArticles('AgroSection'),
     fetchSectionArticles('LifestyleSection'),
+    fetchSectionArticles('RecetasSection'),
   ])
 
   const featuredVideo = youtubeVideos[0] || null
@@ -96,9 +98,7 @@ export default async function Home() {
           {/* Breaking news ticker */}
           <div className="hidden md:block border-b border-light-gray overflow-x-auto">
             <div className="py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
-              <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
-                EN VIVO
-              </span>
+
               <NewsTicker headlines={latestHeadlines} />
             </div>
           </div>
@@ -146,6 +146,8 @@ export default async function Home() {
             <AgroSection serverData={agroArticles} />
           </section>
 
+          {/* <RecetasSection serverData={recetasSection} /> */}
+
           {/* Add Radio Player Showcase */}
           {/* Radio Player Showcase - Full Width */}
           <div className="py-6">
@@ -184,9 +186,7 @@ export default async function Home() {
               {/* Breaking news ticker */}
               <div className="hidden md:block border-b border-light-gray overflow-x-auto">
                 <div className="py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
-                  <span className="bg-primary-red text-white px-2 py-0.5 text-xs rounded">
-                    EN VIVO
-                  </span>
+
                   <NewsTicker headlines={latestHeadlines} />
                 </div>
               </div>
@@ -233,6 +233,8 @@ export default async function Home() {
               <section className="py-6 border-t border-gray-200">
                 <AgroSection serverData={agroArticles} />
               </section>
+
+             {/*  <RecetasSection serverData={recetasSection} /> */}
 
               {/* Radio Player Showcase - Full Width */}
               <div className="py-6">

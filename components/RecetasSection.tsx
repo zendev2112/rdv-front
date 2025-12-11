@@ -3,124 +3,135 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
-import { AspectRatio } from '@/components/ui/aspect-ratio'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
 
-interface RecetasSectionProps {
-  logoSrc?: string
-  categories?: {
-    name: string
-    href: string
-  }[]
-  mainArticle?: {
-    titleBold: string
-    titleRegular: string
-    content: string
-    imageUrl: string
-    imageAlt: string
-  }
+interface Article {
+  title: string
+  excerpt: string
+  imgUrl: string
+  slug: string
+  section_path: string
 }
 
-export default function RecetasSection({
-  logoSrc = '/images/logo-recetario.svg',
-  categories = [
-    { name: 'MENU', href: '#' },
-    { name: 'TIPS Y SECRETOS DE COCINA', href: '#' },
-    { name: 'RECETAS FACILES', href: '#' },
-  ],
-  mainArticle = {
-    titleBold: 'Dulce y crocante.',
-    titleRegular:
-      'Una tarta invertida con pistachos para decirle adiós a la clásica de jamón y queso',
-    content:
-      'La dulzura de las cebollas combina de maravilla con el perfume de las hierbas y el toque del fruto seco que está de moda; una receta para un almuerzo diferente y lleno de sabor',
-    imageUrl: '/placeholder.svg?height=300&width=400',
-    imageAlt: 'Tarta invertida con pistachos',
-  },
-}: RecetasSectionProps) {
+interface RecetasSectionProps {
+  serverData?: Article[]
+}
+
+export default function RecetasSection({ serverData }: RecetasSectionProps) {
+  if (!serverData || serverData.length === 0) return null
+
+  const mainArticle = serverData[0]
+
   return (
-    <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Foodit Logo and Description */}
-        <div className="md:col-span-1">
-          <Card className="border-0 shadow-none">
-            <CardContent className="p-0">
-              <div className="mb-4">
-                {/* Increased logo size */}
-                <div className="relative w-full h-32">
-                  <Image
-                    src="/images/logo-recetario.svg"
-                    alt="Foodit"
-                    fill
-                    className="object-contain object-left"
-                    priority
-                    unoptimized
-                  />
-                </div>
-                {/* Increased text size and adjusted alignment */}
-                <div className="text-dark-gray space-y-1 mt-4 text-lg">
-                  <p className="font-medium">recetas,</p>
-                  <p className="font-medium">menús y tips</p>
-                  <div className="flex items-center">
-                    <p className="font-medium">para cocinar</p>
-                    <ChevronRight className="h-5 w-5 ml-1" />
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+    <>
+      {/* ✅ MOBILE VERSION */}
+      <section className="md:hidden container mx-auto px-4 py-8 border-t border-gray-300">
+        {/* Logo and Description */}
+        <div className="mb-6">
+          <div className="relative w-full h-24 mb-4">
+            <Image
+              src="/images/logo-recetario.svg"
+              alt="Recetario"
+              fill
+              className="object-contain object-left"
+              priority
+              unoptimized
+            />
+          </div>
+          <div className="flex items-center gap-1 text-gray-700 text-base font-medium">
+            <span>recetas, menús y tips para cocinar</span>
+            <ChevronRight className="h-4 w-4" />
+          </div>
         </div>
 
-        {/* Recipe Article - stretched to fit categories on one row */}
-        <div className="md:col-span-2">
-          <Card className="border-0 shadow-none">
-            <CardContent className="p-0">
-              <div className="flex flex-col md:flex-row gap-6">
-                <div className="md:w-3/5">
-                  <div className="flex flex-wrap gap-6 mb-6 text-sm">
-                    {categories.map((category, index) => (
-                      <Link
-                        key={index}
-                        href={category.href}
-                        className={cn(
-                          buttonVariants({ variant: 'link' }),
-                          'text-dark-gray hover:text-blue-800 p-0 h-auto whitespace-nowrap'
-                        )}
-                      >
-                        {category.name}
-                      </Link>
-                    ))}
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3 leading-tight">
-                    <span className="text-primary-red font-bold">
-                      {mainArticle.titleBold}
-                    </span>{' '}
-                    {mainArticle.titleRegular}
-                  </h3>
-                  <p className="text-dark-gray">{mainArticle.content}</p>
-                </div>
-                <div className="md:w-2/5">
-                  <AspectRatio
-                    ratio={4 / 3}
-                    className="overflow-hidden rounded-md"
-                  >
-                    <Image
-                      src={mainArticle.imageUrl}
-                      alt={mainArticle.imageAlt}
-                      fill
-                      className="object-cover"
-                    />
-                    {/* Hover effect with gray overlay */}
-                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
-                  </AspectRatio>
+        {/* Main Article */}
+        <Link
+          href={getArticleUrl(mainArticle.section_path, mainArticle.slug)}
+          className="block group"
+        >
+          {/* Image */}
+          <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg mb-4">
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+            <OptimizedImage
+              src={mainArticle.imgUrl}
+              alt={mainArticle.title}
+              fill
+              className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+
+          {/* Title */}
+          <h2 className="font-serif text-xl font-semibold leading-tight mb-3">
+            {mainArticle.title}
+          </h2>
+
+          {/* Excerpt */}
+          <p className="font-serif text-base text-gray-600 leading-relaxed">
+            {mainArticle.excerpt}
+          </p>
+        </Link>
+      </section>
+
+      {/* ✅ DESKTOP VERSION */}
+      <section className="hidden md:block container mx-auto px-8 py-8 border-t border-gray-300">
+        <div className="grid grid-cols-12 gap-8">
+          {/* Left Column - Logo and Description */}
+          <div className="col-span-3">
+            <div className="relative w-full h-32 mb-4">
+              <Image
+                src="/images/logo-recetario.svg"
+                alt="Recetario"
+                fill
+                className="object-contain object-left"
+                priority
+                unoptimized
+              />
+            </div>
+            <div className="text-gray-700 space-y-1 text-lg font-medium">
+              <p>recetas,</p>
+              <p>menús y tips</p>
+              <div className="flex items-center">
+                <p>para cocinar</p>
+                <ChevronRight className="h-5 w-5 ml-1" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Main Article */}
+          <div className="col-span-9">
+            <Link
+              href={getArticleUrl(mainArticle.section_path, mainArticle.slug)}
+              className="grid grid-cols-12 gap-6 group"
+            >
+              {/* Article Content */}
+              <div className="col-span-7">
+                <h2 className="font-serif text-2xl font-semibold leading-tight mb-3">
+                  {mainArticle.title}
+                </h2>
+                <p className="font-serif text-base text-gray-600 leading-relaxed">
+                  {mainArticle.excerpt}
+                </p>
+              </div>
+
+              {/* Article Image */}
+              <div className="col-span-5">
+                <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                  <OptimizedImage
+                    src={mainArticle.imgUrl}
+                    alt={mainArticle.title}
+                    fill
+                    className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </Link>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
