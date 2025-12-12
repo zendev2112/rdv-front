@@ -9,7 +9,6 @@ import ClimaSection from '@/components/ClimaSection'
 import FarmaciasDeTurno from '@/components/FarmaciasDeTurno'
 import AdPlaceholder from '@/components/AdPlaceholder'
 import VolgaTVSection from '@/components/VolgaTVSection'
-import RadioPlayerShowcase from '@/components/RadioPlayerShowcase'
 import PueblosAlemanesSection from '@/components/PueblosAlemanesSection'
 import MobileNavBar from '@/components/MobileNavBar'
 import { fetchSectionArticles } from '@/utils/api'
@@ -148,16 +147,6 @@ export default async function Home() {
 
           {/* <RecetasSection serverData={recetasSection} /> */}
 
-          {/* Add Radio Player Showcase */}
-          {/* Radio Player Showcase - Full Width */}
-          <div className="py-6">
-            <RadioPlayerShowcase
-              frequency="99.5"
-              stationName="Radio del Volga"
-              radioLink="https://app.radiodelvolga.com.ar/"
-            />
-          </div>
-
           <AdPlaceholder />
 
           <Footer />
@@ -235,15 +224,6 @@ export default async function Home() {
               </section>
 
              {/*  <RecetasSection serverData={recetasSection} /> */}
-
-              {/* Radio Player Showcase - Full Width */}
-              <div className="py-6">
-                <RadioPlayerShowcase
-                  frequency="99.5"
-                  stationName="Radio del Volga"
-                  radioLink="https://app.radiodelvolga.com.ar/"
-                />
-              </div>
 
               <AdPlaceholder />
 
