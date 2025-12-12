@@ -145,7 +145,7 @@ export default async function Home() {
             <AgroSection serverData={agroArticles} />
           </section>
 
-          {/* <RecetasSection serverData={recetasSection} /> */}
+          <RecetasSection serverData={recetasSection} />
 
           <AdPlaceholder />
 
@@ -223,7 +223,7 @@ export default async function Home() {
                 <AgroSection serverData={agroArticles} />
               </section>
 
-             {/*  <RecetasSection serverData={recetasSection} /> */}
+             <RecetasSection serverData={recetasSection} /> 
 
               <AdPlaceholder />
 
