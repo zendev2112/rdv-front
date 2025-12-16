@@ -22,6 +22,7 @@ import MobileDollarRates from '@/components/MobileDollarRates'
 import WeatherWidget from '@/components/WeatherWidget'
 import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import RecetasSection from '@/components/RecetasSection'
+import ActualidadSection from '@/components/ActualidadSection'
 
 
 export const dynamic = 'force-static'
@@ -97,7 +98,6 @@ export default async function Home() {
           {/* Breaking news ticker */}
           <div className="hidden md:block border-b border-light-gray overflow-x-auto">
             <div className="py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
-
               <NewsTicker headlines={latestHeadlines} />
             </div>
           </div>
@@ -127,6 +127,8 @@ export default async function Home() {
           <HuanguelenSection serverData={huanguelenArticles} />
 
           <LaSextaSection serverData={laSextaArticles} />
+
+          <ActualidadSection serverData={actualidadArticles} />
 
           {/* Advertisement banner */}
           <div className="py-6">
@@ -175,7 +177,6 @@ export default async function Home() {
               {/* Breaking news ticker */}
               <div className="hidden md:block border-b border-light-gray overflow-x-auto">
                 <div className="py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
-
                   <NewsTicker headlines={latestHeadlines} />
                 </div>
               </div>
@@ -206,6 +207,8 @@ export default async function Home() {
 
               <LaSextaSection serverData={laSextaArticles} />
 
+              <ActualidadSection serverData={actualidadArticles} />
+
               {/* Advertisement banner */}
               <div className="py-6">
                 <div className="bg-gray-100 p-4 text-center">
@@ -223,7 +226,7 @@ export default async function Home() {
                 <AgroSection serverData={agroArticles} />
               </section>
 
-             <RecetasSection serverData={recetasSection} /> 
+              <RecetasSection serverData={recetasSection} />
 
               <AdPlaceholder />
 
