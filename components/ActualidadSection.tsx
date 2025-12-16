@@ -32,7 +32,7 @@ export default function ActualidadSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('ActualidadSection', 16) // ✅ Fetch 16 articles for 4x4 grid
+  } = useArticles('ActualidadSection', 16)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -48,7 +48,7 @@ export default function ActualidadSection({
         : 0
     )
 
-    return sorted.slice(0, 16) // ✅ Take first 16 articles
+    return sorted.slice(0, 16)
   }, [articles])
 
   if (isLoading && articles.length === 0) {
@@ -64,132 +64,87 @@ export default function ActualidadSection({
   }
 
   return (
-    <>
-      {/* ✅ MOBILE VERSION */}
-      <section className="md:hidden container mx-auto px-4 py-8 border-t border-gray-300">
-        {/* Header */}
-        <div className="mb-6">
-          <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="text-2xl font-bold uppercase">ACTUALIDAD</h2>
-        </div>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider to separate from section above */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
 
-        {/* Stacked Articles */}
-        <div className="space-y-6">
-          {processedArticles.map((article, idx) => (
+      {/* Header with Title */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">
+            ACTUALIDAD
+          </h2>
+        </div>
+      </div>
+
+      {/* 12-column grid layout - 4 articles of 3 columns each (4x4 = 16 articles) */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {processedArticles.map((article, idx) => {
+          // Calculate row for horizontal dividers (every 4 articles = new row)
+          const row = Math.floor(idx / 4)
+          const isLastInRow = (idx + 1) % 4 === 0
+          const isLastRow = row === 3
+
+          return (
             <React.Fragment key={article.id}>
-              <Link
-                href={getArticleUrl(
-                  article.section_path || article.section,
-                  article.slug
-                )}
-                className="block group"
-              >
-                {/* Image */}
-                <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg mb-3">
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                  <OptimizedImage
-                    src={article.imgUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                    sizes="100vw"
-                  />
-                </div>
-
-                {/* Title */}
-                <h3 className="font-serif text-lg font-semibold leading-tight">
-                  {article.overline && (
-                    <span className="text-primary-red">
-                      {article.overline}.{' '}
-                    </span>
-                  )}
-                  {article.title}
-                </h3>
-
-                {/* Author (if available) */}
-                {article.author && (
-                  <p className="text-sm text-gray-500 mt-1">{article.author}</p>
-                )}
-              </Link>
-
-              {/* Divider */}
-              {idx < processedArticles.length - 1 && (
-                <div className="w-full h-[1px] bg-gray-300"></div>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      </section>
-
-      {/* ✅ DESKTOP VERSION - 4x4 GRID */}
-      <section className="hidden md:block container mx-auto px-8 py-8 border-t border-gray-300">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="text-2xl font-bold uppercase">ACTUALIDAD</h2>
-        </div>
-
-        {/* 4x4 Grid */}
-        <div className="grid grid-cols-4 gap-x-8 gap-y-8">
-          {processedArticles.map((article, idx) => {
-            const col = idx % 4
-            const row = Math.floor(idx / 4)
-            const isLastInRow = col === 3
-            const isLastRow = row === 3
-
-            return (
-              <div key={article.id} className="relative">
+              <div className="md:col-span-3 relative">
                 <Link
                   href={getArticleUrl(
                     article.section_path || article.section,
                     article.slug
                   )}
-                  className="block group h-full flex flex-col"
+                  className="block h-full flex flex-col group"
                 >
                   {/* Image */}
-                  <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg mb-3">
-                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                    <OptimizedImage
-                      src={article.imgUrl}
-                      alt={article.title}
-                      fill
-                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="25vw"
-                    />
+                  <div className="relative w-full aspect-[16/9]">
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                      <OptimizedImage
+                        src={article.imgUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                      />
+                    </div>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="font-serif text-base font-semibold leading-tight flex-1">
-                    {article.overline && (
-                      <span className="text-primary-red">
-                        {article.overline}.{' '}
-                      </span>
+                  {/* Title area */}
+                  <div className="pt-2 pb-6 md:pb-0 flex-1">
+                    <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
+                      {article.overline && (
+                        <span className="text-primary-red">
+                          {article.overline}.{' '}
+                        </span>
+                      )}
+                      {article.title}
+                    </h2>
+                    {article.author && (
+                      <p className="text-sm text-gray-500 mt-2">
+                        {article.author}
+                      </p>
                     )}
-                    {article.title}
-                  </h3>
-
-                  {/* Author (if available) */}
-                  {article.author && (
-                    <p className="text-sm text-gray-500 mt-2">
-                      {article.author}
-                    </p>
-                  )}
+                  </div>
                 </Link>
 
-                {/* Vertical divider between columns */}
+                {/* Vertical divider between articles (not on last in row) */}
                 {!isLastInRow && (
-                  <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-300"></div>
+                  <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
                 )}
 
-                {/* Horizontal divider between rows */}
-                {!isLastRow && (
-                  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gray-300 -mb-4"></div>
-                )}
+                {/* Mobile divisory line */}
+                <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
               </div>
-            )
-          })}
-        </div>
-      </section>
-    </>
+
+              {/* Horizontal divider after each row (every 4 articles) - not after last row */}
+              {isLastInRow && !isLastRow && (
+                <div className="md:col-span-12 h-[1px] bg-gray-400 opacity-50 hidden md:block"></div>
+              )}
+            </React.Fragment>
+          )
+        })}
+      </div>
+    </main>
   )
 }
