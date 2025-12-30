@@ -25,28 +25,7 @@ export default function Footer() {
             </ul>
           </div>
           
-          {/* Second column - Volga TV */}
-          <div>
-            <h4 className="font-bold text-sm uppercase mb-4">Multimedia</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="https://volgatelevision.com.ar" target="_blank" rel="noopener noreferrer" className="hover:text-primary-red flex items-center">
-                  Volga TV
-                  <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </Link>
-              </li>
-              <li>
-                <Link href="https://app.radiodelvolga.com.ar" target="_blank" rel="noopener noreferrer" className="hover:text-primary-red flex items-center">
-                  Radio en vivo
-                  <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </Link>
-              </li>
-            </ul>
-          </div>
+
           
           {/* Third column - Social media */}
           <div>
@@ -80,7 +59,7 @@ export default function Footer() {
                 <Instagram className="w-5 h-5" />
               </Link>
               <Link 
-                href="https://youtube.com/@radiodelvolga" 
+                href="https://youtube.com/@volgatvok" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-gray-700 hover:text-primary-red transition-colors"
