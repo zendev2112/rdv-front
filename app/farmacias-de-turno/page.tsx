@@ -35,6 +35,21 @@ export default function FarmaciasDeTurnoPage() {
   })
   const sidelineWidth = 15
 
+  // Add structured data for the page
+  const pageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Farmacias de Turno - Coronel Suárez',
+    description: 'Farmacias de turno 24 horas en Coronel Suárez',
+    areaServed: {
+      '@type': 'City',
+      name: 'Coronel Suárez',
+      addressRegion: 'Buenos Aires',
+      addressCountry: 'AR',
+    },
+    url: 'https://www.radiodelvolga.com.ar/farmacias-de-turno',
+  }
+
   return (
     <>
       <Head>
@@ -63,6 +78,10 @@ export default function FarmaciasDeTurnoPage() {
         />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="es_AR" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }}
+        />
       </Head>
 
       {/* ✅ MOBILE */}
