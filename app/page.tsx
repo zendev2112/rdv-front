@@ -1,4 +1,4 @@
-
+import type { Metadata } from 'next'
 import HuanguelenSection from '@/components/HuanguelenSection'
 import LaSextaSection from '../components/LaSextaSection' // Changed import
 import AgroSection from '@/components/AgroSection'
@@ -24,6 +24,55 @@ import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import RecetasSection from '@/components/RecetasSection'
 import ActualidadSection from '@/components/ActualidadSection'
 
+export const metadata: Metadata = {
+  title: 'Radio del Volga - Noticias de Coronel Suárez | Actualidad Argentina',
+  description:
+    'Las últimas noticias de Coronel Suárez y región. Información local, clima, farmacias de turno, agro, deportes y actualidad. Pueblos Alemanes, Huanguelén, La Sexta.',
+  keywords: [
+    'noticias coronel suarez',
+    'radio del volga',
+    'coronel suarez argentina',
+    'noticias locales coronel suarez',
+    'actualidad coronel suarez',
+    'pueblos alemanes',
+    'huanguelen noticias',
+    'la sexta coronel suarez',
+    'agro coronel suarez',
+    'clima coronel suarez',
+    'farmacias de turno coronel suarez',
+  ],
+  openGraph: {
+    title: 'Radio del Volga - Noticias de Coronel Suárez',
+    description:
+      'Últimas noticias de Coronel Suárez, Argentina. Tu fuente de información local.',
+    type: 'website',
+    locale: 'es_AR',
+    url: 'https://www.radiodelvolga.com.ar',
+    siteName: 'Radio del Volga',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Radio del Volga - Noticias Coronel Suárez',
+    description: 'Últimas noticias de Coronel Suárez y región',
+  },
+  alternates: {
+    canonical: 'https://www.radiodelvolga.com.ar',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code', // Add after registering in Search Console
+  },
+}
 
 export const dynamic = 'force-static'
 export const revalidate = 300
@@ -31,10 +80,8 @@ export const fetchCache = 'default-cache'
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
-
 // This is a Server Component
 export default async function Home() {
-
   const [
     principalSectionArticles,
     noticiasImportantesArticles,
@@ -63,9 +110,6 @@ export default async function Home() {
 
   const featuredVideo = youtubeVideos[0] || null
   const recentVideos = youtubeVideos.slice(1, 4)
-
-
-
 
   // Define custom ads for sidelines (optional)
   const sidelineWidth = 15

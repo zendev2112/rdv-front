@@ -1,12 +1,12 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import Header from "@/components/Header"
+import type React from 'react'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import Header from '@/components/Header'
 import MobileNavBar from '@/components/MobileNavBar'
 import Script from 'next/script'
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Radio del Volga',
@@ -29,6 +29,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsMediaOrganization',
+    name: 'Radio del Volga',
+    alternateName: 'RDV',
+    url: 'https://www.radiodelvolga.com.ar',
+    logo: 'https://www.radiodelvolga.com.ar/logo.png',
+    description:
+      'Noticias de Coronel Suárez y región. Radio del Volga, tu fuente de información local.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Coronel Suárez',
+      addressRegion: 'Buenos Aires',
+      addressCountry: 'AR',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '-37.4500',
+      longitude: '-61.9333',
+    },
+    areaServed: {
+      '@type': 'City',
+      name: 'Coronel Suárez',
+    },
+  }
+
   return (
     <html lang="en" className="overflow-x-hidden">
       <head>
@@ -36,7 +62,10 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#ff0808" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
         <meta name="apple-mobile-web-app-title" content="Radio del Volga" />
         <link rel="apple-touch-icon" href="/images/icon-192.png" />
         <style
@@ -68,16 +97,25 @@ export default function RootLayout({
         `,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className={inter.className}>
         <Header />
         {children}
-        <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
-        <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
-        
+        <Script
+          src="https://www.instagram.com/embed.js"
+          strategy="lazyOnload"
+        />
+        <Script
+          src="https://platform.twitter.com/widgets.js"
+          strategy="lazyOnload"
+        />
+
         <MobileNavBar />
       </body>
     </html>
   )
 }
-
