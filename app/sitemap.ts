@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 )
 
 // Function to escape XML special characters
@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     const articleUrls = (articles || [])
-      .filter(((articl)e) => {
+      .filter((article) => {
         // Filter out invalid entries
         if (!article.slug || !article.section_path) return false
 
@@ -55,9 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         // Clean the URL by encoding special characters
         const cleanSlug = encodeURIComponent(article.slug).replace(/%2F/g, '/')
         const cleanSectionPath = encodeURIComponent(
-          ,
-        
-  article.section_path,
+          article.section_path,
         ).replace(/%2F/g, '/')
 
         return {
@@ -88,7 +86,6 @@ function getStaticPages(baseUrl: string): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.8,
- 
-   },
+    },
   ]
 }
