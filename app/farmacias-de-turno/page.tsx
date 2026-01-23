@@ -1,3 +1,5 @@
+'use client'
+
 import { pharmacies } from '@/components/FarmaciasDeTurno'
 import Link from 'next/link'
 import Header from '@/components/Header'
