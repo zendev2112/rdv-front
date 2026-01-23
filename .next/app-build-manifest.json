@@ -1,0 +1,65 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-956c49351650e0a5.js",
+      "static/chunks/117-81b3e981641155f6.js",
+      "static/chunks/main-app-2a1c1a263339ae6a.js",
+      "static/chunks/app/_not-found/page-33611ce8dccfc097.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-956c49351650e0a5.js",
+      "static/chunks/117-81b3e981641155f6.js",
+      "static/chunks/main-app-2a1c1a263339ae6a.js",
+      "static/css/8148264d22aedaf4.css",
+      "static/chunks/726-4f4062d6e1a5321e.js",
+      "static/chunks/329-c683649c740e7723.js",
+      "static/chunks/978-0dac4259727e0076.js",
+      "static/chunks/app/layout-e22f573544869186.js"
+    ],
+    "/loading": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-956c49351650e0a5.js",
+      "static/chunks/117-81b3e981641155f6.js",
+      "static/chunks/main-app-2a1c1a263339ae6a.js",
+      "static/chunks/app/loading-4fe98d3e7baa0c87.js"
+    ],
+    "/farmacias-de-turno/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-956c49351650e0a5.js",
+      "static/chunks/117-81b3e981641155f6.js",
+      "static/chunks/main-app-2a1c1a263339ae6a.js",
+      "static/chunks/726-4f4062d6e1a5321e.js",
+      "static/chunks/978-0dac4259727e0076.js",
+      "static/chunks/app/farmacias-de-turno/page-885764c7c6818964.js"
+    ],
+    "/[...slug]/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-956c49351650e0a5.js",
+      "static/chunks/117-81b3e981641155f6.js",
+      "static/chunks/main-app-2a1c1a263339ae6a.js",
+      "static/chunks/53c13509-2a858b414eb3a7a4.js",
+      "static/chunks/726-4f4062d6e1a5321e.js",
+      "static/chunks/app/[...slug]/page-c06976cf8ef45179.js"
+    ],
+    "/secciones/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-956c49351650e0a5.js",
+      "static/chunks/117-81b3e981641155f6.js",
+      "static/chunks/main-app-2a1c1a263339ae6a.js",
+      "static/chunks/726-4f4062d6e1a5321e.js",
+      "static/chunks/978-0dac4259727e0076.js",
+      "static/chunks/app/secciones/page-ad3f9ec49edc8cdc.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-41a9ee0a1d65a3d2.js",
+      "static/chunks/fd9d1056-956c49351650e0a5.js",
+      "static/chunks/117-81b3e981641155f6.js",
+      "static/chunks/main-app-2a1c1a263339ae6a.js",
+      "static/chunks/726-4f4062d6e1a5321e.js",
+      "static/chunks/819-f7a3111bb4a263e3.js",
+      "static/chunks/app/page-6182e2e20b3756e2.js"
+    ]
+  }
+}

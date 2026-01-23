@@ -1,0 +1,1 @@
+"use strict";exports.id=653,exports.ids=[653],exports.modules={3653:(e,t,r)=>{r.r(t),r.d(t,{default:()=>o});let o=(0,r(8570).createProxy)(String.raw`/home/zen/Documents/rdv-frontend/components/ClientSafeImage.tsx#default`)}};

@@ -1,0 +1,8 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+
+Sitemap: https://www.radiodelvolga.com.ar/sitemap.xml
+Sitemap: https://radiodelvolga.com.ar/sitemap.xml

@@ -1,0 +1,12 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/sections/[slug]/route": "app/api/sections/[slug]/route.js",
+  "/api/sections/route": "app/api/sections/route.js",
+  "/farmacias-de-turno/page": "app/farmacias-de-turno/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
+  "/[...slug]/page": "app/[...slug]/page.js",
+  "/api/search/route": "app/api/search/route.js",
+  "/secciones/page": "app/secciones/page.js",
+  "/page": "app/page.js"
+}
