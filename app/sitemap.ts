@@ -87,5 +87,11 @@ function getStaticPages(baseUrl: string): MetadataRoute.Sitemap {
       changeFrequency: 'daily' as const,
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/farmacias-de-turno`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.9, // High priority - people search for this daily!
+    },
   ]
 }

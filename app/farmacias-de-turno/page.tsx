@@ -6,10 +6,33 @@ import Header from '@/components/Header'
 import SidelinesLayout from '@/components/SidelinesLayout'
 import { MapPin, Phone } from 'lucide-react'
 import Footer from '@/components/Footer'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Farmacias de Turno en Coronel Suárez Hoy | Radio del Volga',
+  description:
+    'Consulta las farmacias de turno en Coronel Suárez hoy. Información actualizada diariamente sobre farmacias abiertas 24 horas.',
+  keywords: [
+    'farmacias de turno coronel suarez',
+    'farmacias abiertas coronel suarez',
+    'farmacia de guardia coronel suarez',
+    'farmacias hoy coronel suarez',
+    'farmacia 24 horas coronel suarez',
+  ],
+  openGraph: {
+    title: 'Farmacias de Turno en Coronel Suárez',
+    description: 'Farmacias de turno actualizadas para hoy en Coronel Suárez',
+    type: 'website',
+    locale: 'es_AR',
+  },
+  alternates: {
+    canonical: 'https://www.radiodelvolga.com.ar/farmacias-de-turno',
+  },
+}
 
 function getGoogleMapsUrl(address: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    address
+    address,
   )}`
 }
 
