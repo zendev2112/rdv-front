@@ -48,55 +48,29 @@ export default function PueblosAlemanesSection({
         : 0
     )
 
-    let layout = sorted.slice(0, 4)
+    let layout: (Article | undefined)[] = [undefined, undefined, undefined, undefined]
 
     const principalArticle = sorted.find((a) => a.order === 'principal')
     const secundarioArticle = sorted.find((a) => a.order === 'secundario')
-    const normalArticle = sorted.find((a) => a.order === 'normal')
+    const normalArticles = sorted.filter((a) => a.order === 'normal')
 
-    if (principalArticle) {
-      const formerMain = layout[0]
-      layout = layout.filter((a) => a.id !== principalArticle.id)
-      layout[0] = principalArticle
+    // Position [0]: PRINCIPAL
+    layout[0] = principalArticle || sorted[0]
 
-      if (formerMain && formerMain.id !== principalArticle.id) {
-        const formerFirst = layout[1]
-        layout[1] = formerMain
+    // Position [1]: SECUNDARIO ← GOES HERE NOW
+    layout[1] = secundarioArticle || sorted.find((a) => a.id !== layout[0]?.id)
 
-        if (formerFirst && formerFirst.id !== formerMain.id) {
-          const formerSecond = layout[2]
-          layout[2] = formerFirst
+    // Position [2]: FIRST NORMAL
+    layout[2] = normalArticles[0] || sorted.find((a) =>
+      a.id !== layout[0]?.id && a.id !== layout[1]?.id
+    )
 
-          if (formerSecond && formerSecond.id !== formerFirst.id) {
-            layout[3] = formerSecond
-          }
-        }
-      }
-    }
+    // Position [3]: SECOND NORMAL
+    layout[3] = normalArticles[1] || sorted.find((a) =>
+      a.id !== layout[0]?.id && a.id !== layout[1]?.id && a.id !== layout[2]?.id
+    )
 
-    if (secundarioArticle) {
-      layout = layout.filter((a) => a.id !== secundarioArticle.id)
-      layout[3] = secundarioArticle
-    }
-
-    if (normalArticle) {
-      layout = layout.filter((a) => a.id !== normalArticle.id)
-    }
-
-    while (layout.length < 4) {
-      const nextArticle = sorted.find(
-        (a) =>
-          !layout.some((l) => l && l.id === a.id) &&
-          a.id !== normalArticle?.id
-      )
-      if (nextArticle) {
-        layout.push(nextArticle)
-      } else {
-        break
-      }
-    }
-
-    return layout.slice(0, 4).filter(Boolean)
+    return layout.filter(Boolean) as Article[]
   }, [articles])
 
   if (isLoading && articles.length === 0) {
