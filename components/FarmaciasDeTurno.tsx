@@ -6,7 +6,7 @@ import { MapPin, Phone, ChevronRight } from 'lucide-react'
 
 function getGoogleMapsUrl(address: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    address
+    address,
   )}`
 }
 
@@ -21,189 +21,171 @@ function formatDate(date: Date): string {
 export const pharmacies = [
   {
     day: 1,
-    name: 'MATTA',
-    address: 'Lamadrid y Conturbi',
-    phone: '15492303',
-  },
-  {
-    day: 2,
-    name: 'PASTEUR',
-    address: 'Belgrano y Junín',
-    phone: '422156',
-  },
-  {
-    day: 3,
-    name: 'PERRIG',
-    address: 'Av. Balcarce 459',
-    phone: '15408697',
-  },
-  {
-    day: 4,
-    name: 'SANTOMAURO',
-    address: 'Las Heras 1242',
-    phone: '421261',
-  },
-  {
-    day: 5,
-    name: 'GÓMEZ',
-    address: 'Av. San Martín 218',
-    phone: '431713',
-  },
-  {
-    day: 6,
     name: 'SOTELO',
     address: 'Hipólito Irigoyen 855',
     phone: '421739',
   },
   {
-    day: 7,
-    name: 'MENNA',
-    address: 'Av. S. Rodríguez y Alem',
-    phone: '431467',
+    day: 2,
+    name: 'FETTER',
+    address: 'Mitre y San Martín',
+    phone: '15-521496',
   },
   {
-    day: 8,
-    name: 'CNEL SUÁREZ',
-    address: 'Avellaneda y Lavalle',
+    day: 3,
+    name: 'CNEL SUAREZ',
+    address: 'Avellaneda y Rivadavia',
     phone: '430019',
   },
   {
-    day: 9,
+    day: 4,
     name: 'FETTER',
     address: 'Mitre y San Martín',
-    phone: '422778',
+    phone: '15-521496',
   },
   {
-    day: 10,
-    name: 'DE LA CIUDAD',
-    address: 'Las Heras y Garibaldi',
-    phone: '431666',
+    day: 5,
+    name: 'PASTEUR',
+    address: 'Belgrano y Junín',
+    phone: '422156',
   },
   {
-    day: 11,
+    day: 6,
     name: 'DEL PUEBLO',
     address: 'Mitre y Brandsen',
     phone: '424338',
   },
   {
-    day: 12,
+    day: 7,
     name: 'FONZO',
     address: 'Belgrano 1269',
     phone: '422230',
   },
   {
-    day: 13,
+    day: 8,
+    name: 'GOMEZ',
+    address: 'Avda. San Martín 218',
+    phone: '15-407906',
+  },
+  {
+    day: 9,
     name: 'JAIME',
     address: 'Brandsen y Brown',
     phone: '422254',
   },
   {
-    day: 14,
-    name: 'MENNA',
-    address: 'Av. S. Rodríguez y Alem',
-    phone: '431467',
-  },
-  {
-    day: 15,
+    day: 10,
     name: 'DE LA CIUDAD',
     address: 'Las Heras y Garibaldi',
-    phone: '431666',
+    phone: '15-500641',
   },
   {
-    day: 16,
+    day: 11,
     name: 'PERRIG',
-    address: 'Av. Balcarce 459',
-    phone: '15408697',
+    address: 'Avda. Balcarce 459',
+    phone: '15-408697',
   },
   {
-    day: 17,
+    day: 12,
     name: 'SANTOMAURO',
     address: 'Las Heras 1242',
-    phone: '421261',
+    phone: '15-407913',
   },
   {
-    day: 18,
+    day: 13,
     name: 'SCHUVAB',
     address: 'Belgrano y Sarmiento',
-    phone: '422045',
+    phone: '15-500643',
   },
   {
-    day: 19,
+    day: 14,
     name: 'SOTELO',
     address: 'Hipólito Irigoyen 855',
     phone: '421739',
   },
   {
-    day: 20,
+    day: 15,
     name: 'MATTA',
     address: 'Lamadrid y Conturbi',
-    phone: '15492303',
+    phone: '15-492303',
   },
   {
-    day: 21,
-    name: 'CNEL SUÁREZ',
-    address: 'Avellaneda y Lavalle',
+    day: 16,
+    name: 'CNEL SUAREZ',
+    address: 'Avellaneda y Rivadavia',
     phone: '430019',
   },
   {
-    day: 22,
+    day: 17,
     name: 'FETTER',
     address: 'Mitre y San Martín',
-    phone: '422778',
+    phone: '15-521496',
   },
   {
-    day: 23,
+    day: 18,
     name: 'DE LA CIUDAD',
     address: 'Las Heras y Garibaldi',
-    phone: '431666',
+    phone: '15-500641',
   },
   {
-    day: 24,
-    name: 'GÓMEZ',
-    address: 'Av. San Martín 218',
-    phone: '431713',
+    day: 19,
+    name: 'DEL PUEBLO',
+    address: 'Mitre y Brandsen',
+    phone: '424338',
   },
   {
-    day: 25,
+    day: 20,
     name: 'FONZO',
     address: 'Belgrano 1269',
     phone: '422230',
   },
   {
+    day: 21,
+    name: 'DEL PUEBLO',
+    address: 'Mitre y Brandsen',
+    phone: '424338',
+  },
+  {
+    day: 22,
+    name: 'JAIME',
+    address: 'Brandsen y Brown',
+    phone: '422254',
+  },
+  {
+    day: 23,
+    name: 'MENNA',
+    address: 'Avda. Sixto Rodríguez y Alem',
+    phone: '15-459052',
+  },
+  {
+    day: 24,
+    name: 'PERRIG',
+    address: 'Avda. Balcarce 459',
+    phone: '15-408697',
+  },
+  {
+    day: 25,
+    name: 'SANTOMAURO',
+    address: 'Las Heras 1242',
+    phone: '15-407913',
+  },
+  {
     day: 26,
-    name: 'GÓMEZ',
-    address: 'Av. San Martín 218',
-    phone: '431713',
+    name: 'MENNA',
+    address: 'Avda. Sixto Rodríguez y Alem',
+    phone: '15-459052',
   },
   {
     day: 27,
-    name: 'SCHUVAB',
-    address: 'Belgrano y Sarmiento',
-    phone: '422045',
+    name: 'SOTELO',
+    address: 'Hipólito Irigoyen 855',
+    phone: '421739',
   },
   {
     day: 28,
-    name: 'PASTEUR',
-    address: 'Belgrano y Junín',
-    phone: '422156',
-  },
-  {
-    day: 29,
-    name: 'PERRIG',
-    address: 'Av. Balcarce 459',
-    phone: '15408697',
-  },
-  {
-    day: 30,
-    name: 'SANTOMAURO',
-    address: 'Las Heras 1242',
-    phone: '421261',
-  },
-  {
-    day: 31,
-    name: 'SCHUVAB',
-    address: 'Belgrano y Sarmiento',
-    phone: '422045',
+    name: 'MATTA',
+    address: 'Lamadrid y Conturbi',
+    phone: '15-492303',
   },
 ]
 
@@ -237,11 +219,13 @@ export default function FarmaciasDeTurno() {
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="font-serif text-2xl font-bold uppercase">FARMACIAS DE TURNO</h2>
+          <h2 className="font-serif text-2xl font-bold uppercase">
+            FARMACIAS DE TURNO
+          </h2>
         </div>
       </div>
 
-      {/* 12-column grid layout */}
+      {/* ...existing code... */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* TODAY'S PHARMACY - 6 columns */}
         <div className="md:col-span-6 relative">
