@@ -18,6 +18,15 @@ export async function GET() {
   try {
     const baseUrl = 'https://www.radiodelvolga.com.ar'
 
+    // ✅ CHECK ENV VARS FIRST
+    if (
+      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    ) {
+      console.error('Missing Supabase env vars')
+      return new Response('Missing env vars', { status: 500 })
+    }
+
     const { data: articles, error } = await supabase
       .from('article_with_sections')
       .select('slug, section_path, updated_at, created_at, title, description')
@@ -25,8 +34,16 @@ export async function GET() {
       .limit(100)
 
     if (error) {
-      console.error('Error fetching articles:', error)
-      return new Response('Error generating sitemap', { status: 500 })
+      // ✅ RETURN THE ACTUAL ERROR SO WE CAN SEE IT
+      console.error('Supabase error:', JSON.stringify(error))
+      return new Response(`Supabase error: ${JSON.stringify(error)}`, {
+        status: 500,
+      })
+    }
+
+    if (!articles || articles.length === 0) {
+      console.error('No articles found')
+      return new Response('No articles found', { status: 500 })
     }
 
     const formatDate = (date: string | Date) => {
@@ -71,7 +88,7 @@ export async function GET() {
       },
     })
   } catch (error) {
-    console.error('Error:', error)
-    return new Response('Error', { status: 500 })
+    console.error('Catch error:', error)
+    return new Response(`Catch error: ${error}`, { status: 500 })
   }
 }
