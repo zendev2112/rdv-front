@@ -29,7 +29,7 @@ export async function GET() {
 
     const { data: articles, error } = await supabase
       .from('article_with_sections')
-      .select('slug, section_path, updated_at, created_at, title, description')
+      .select('slug, section_path, updated_at, created_at, title, excerpt')
       .order('created_at', { ascending: false })
       .limit(100)
 
