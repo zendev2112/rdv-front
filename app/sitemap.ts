@@ -1,4 +1,3 @@
-import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -6,7 +5,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 )
 
-// Function to escape XML special characters
+// Escape XML special characters
 function escapeXml(unsafe: string): string {
   return unsafe
     .replace(/&/g, '&amp;')
@@ -16,82 +15,67 @@ function escapeXml(unsafe: string): string {
     .replace(/'/g, '&apos;')
 }
 
-// Function to validate and clean URLs
-function isValidUrl(url: string): boolean {
+export async function GET() {
   try {
-    new URL(url)
-    return true
-  } catch {
-    return false
-  }
-}
+    const baseUrl = 'https://www.radiodelvolga.com.ar'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.radiodelvolga.com.ar'
-
-  try {
-    // Fetch all articles
+    // Fetch latest 100 articles for news sitemap
     const { data: articles, error } = await supabase
       .from('article_with_sections')
-      .select('slug, section_path, updated_at, created_at')
+      .select('slug, section_path, updated_at, created_at, title, description')
       .order('created_at', { ascending: false })
-      .limit(5000)
+      .limit(100)
 
     if (error) {
-      console.error('Error fetching articles for sitemap:', error)
-      return getStaticPages(baseUrl)
+      console.error('Error fetching articles for news sitemap:', error)
+      return new Response('Error generating sitemap', { status: 500 })
     }
 
-    const articleUrls = (articles || [])
-      .filter((article) => {
-        // Filter out invalid entries
-        if (!article.slug || !article.section_path) return false
+    // Format date for sitemap (YYYY-MM-DD)
+    const formatDate = (date: string | Date) => {
+      const d = new Date(date)
+      return d.toISOString().split('T')[0]
+    }
 
-        // Check if slug contains problematic characters
-        const url = `${baseUrl}/${article.section_path}/${article.slug}`
-        return isValidUrl(url)
-      })
-      .map((article) => {
-        // Clean the URL by encoding special characters
-        const cleanSlug = encodeURIComponent(article.slug).replace(/%2F/g, '/')
-        const cleanSectionPath = encodeURIComponent(
-          article.section_path,
-        ).replace(/%2F/g, '/')
+    // Build XML
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  ${(articles || [])
+    .map((article: any) => {
+      const url = `${baseUrl}/${article.section_path}/${article.slug}`
+      const title = article.title || 'Noticia de Coronel Suárez'
+      const keywords = article.description
+        ? article.description.substring(0, 100)
+        : 'coronel suarez, noticias locales'
 
-        return {
-          url: `${baseUrl}/${cleanSectionPath}/${cleanSlug}`,
-          lastModified: new Date(article.updated_at || article.created_at),
-          changeFrequency: 'weekly' as const,
-          priority: 0.7,
-        }
-      })
+      return `
+  <url>
+    <loc>${escapeXml(url)}</loc>
+    <lastmod>${formatDate(article.updated_at || article.created_at)}</lastmod>
+    <news:news>
+      <news:publication>
+        <news:name>Radio del Volga</news:name>
+        <news:language>es</news:language>
+      </news:publication>
+      <news:publication_date>${formatDate(article.updated_at || article.created_at)}</news:publication_date>
+      <news:title>${escapeXml(title)}</news:title>
+      <news:keywords>${escapeXml(keywords)}</news:keywords>
+    </news:news>
+  </url>`
+    })
+    .join('')}
+</urlset>`
 
-    return [...getStaticPages(baseUrl), ...articleUrls]
+    return new Response(xml, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      },
+    })
   } catch (error) {
-    console.error('Error generating sitemap:', error)
-    return getStaticPages(baseUrl)
+    console.error('Error generating news sitemap:', error)
+    return new Response('Error generating sitemap', { status: 500 })
   }
-}
-
-function getStaticPages(baseUrl: string): MetadataRoute.Sitemap {
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'hourly' as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/secciones`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/farmacias-de-turno`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9, // High priority - people search for this daily!
-    },
-  ]
 }

@@ -42,9 +42,10 @@ export const metadata: Metadata = {
     'farmacias de turno coronel suarez',
   ],
   openGraph: {
-    title: 'Radio del Volga - Noticias de Coronel Suárez',
+    title:
+      'Radio del Volga - Noticias de Coronel Suárez | Actualidad Argentina',
     description:
-      'Últimas noticias de Coronel Suárez, Argentina. Tu fuente de información local.',
+      'Radio del Volga: noticias diarias de Coronel Suárez, Pueblos Alemanes, Huanguelén y La Sexta. Actualidad local, clima, farmacias de turno, agro, deportes y eventos. Información confiable del sudoeste bonaerense.',
     type: 'website',
     locale: 'es_AR',
     url: 'https://www.radiodelvolga.com.ar',
@@ -71,6 +72,35 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'google3c7dccb03f07c084', // Add after registering in Search Console
+  },
+
+  // ✅ ADD THIS NEW SECTION - AI ENGINE METADATA
+  other: {
+    // Google AI (Gemini, Bard, SGE)
+    'google-extended': 'index, follow',
+    'googlebot-news': 'index, follow',
+    'google-ai': 'index, follow',
+
+    // Perplexity AI (most popular for news)
+    'perplexity-ai': 'index, follow',
+    perplexitybot: 'index, follow',
+
+    // OpenAI (ChatGPT, GPT-4)
+    'chatgpt-user': 'index, follow',
+    'gpt-bot': 'index, follow',
+    'openai-bot': 'index, follow',
+
+    // Anthropic (Claude)
+    'anthropic-ai': 'index, follow',
+    'claude-web': 'index, follow',
+
+    // Microsoft Bing AI (Copilot)
+    bingbot: 'index, follow',
+    msnbot: 'index, follow',
+
+    // Other AI engines
+    yandex: 'index, follow',
+    duckduckbot: 'index, follow',
   },
 }
 
