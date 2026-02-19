@@ -5,7 +5,6 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 )
 
-// Escape XML special characters
 function escapeXml(unsafe: string): string {
   return unsafe
     .replace(/&/g, '&amp;')
@@ -19,7 +18,6 @@ export async function GET() {
   try {
     const baseUrl = 'https://www.radiodelvolga.com.ar'
 
-    // Fetch latest 100 articles for news sitemap
     const { data: articles, error } = await supabase
       .from('article_with_sections')
       .select('slug, section_path, updated_at, created_at, title, description')
@@ -27,17 +25,15 @@ export async function GET() {
       .limit(100)
 
     if (error) {
-      console.error('Error fetching articles for news sitemap:', error)
+      console.error('Error fetching articles:', error)
       return new Response('Error generating sitemap', { status: 500 })
     }
 
-    // Format date for sitemap (YYYY-MM-DD)
     const formatDate = (date: string | Date) => {
       const d = new Date(date)
       return d.toISOString().split('T')[0]
     }
 
-    // Build XML
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
@@ -75,7 +71,7 @@ export async function GET() {
       },
     })
   } catch (error) {
-    console.error('Error generating news sitemap:', error)
-    return new Response('Error generating sitemap', { status: 500 })
+    console.error('Error:', error)
+    return new Response('Error', { status: 500 })
   }
 }
