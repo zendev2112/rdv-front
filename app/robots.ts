@@ -23,7 +23,7 @@ export default function robots(): MetadataRoute.Robots {
         crawlDelay: 0,
       },
 
-      // Perplexity AI (most important for news)
+      // Perplexity AI
       {
         userAgent: 'Perplexity',
         allow: '/',
@@ -76,11 +76,12 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
 
+    // ✅ UPDATED PATHS
     sitemap: [
       'https://www.radiodelvolga.com.ar/sitemap.xml',
-      'https://www.radiodelvolga.com.ar/sitemap-news.xml',
+      'https://www.radiodelvolga.com.ar/sitemap-news', // ← CHANGED
       'https://radiodelvolga.com.ar/sitemap.xml',
-      'https://radiodelvolga.com.ar/sitemap-news.xml',
+      'https://radiodelvolga.com.ar/sitemap-news', // ← CHANGED
     ],
   }
 }
