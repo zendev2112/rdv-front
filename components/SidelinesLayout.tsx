@@ -33,7 +33,9 @@ export default function SidelinesLayout({
         <div className={`hidden xl:flex justify-center ${className}`}>
           {/* Left Sideline - Responsive */}
           <div style={stripeStyle}>
-            <div className="sticky top-[80px] p-4">{leftAd}</div>
+            <div className="sticky top-[80px] p-4 flex justify-center">
+              {leftAd}
+            </div>
           </div>
 
           {/* Main Content - Responsive */}
@@ -43,7 +45,9 @@ export default function SidelinesLayout({
 
           {/* Right Sideline - Responsive */}
           <div style={stripeStyle}>
-            <div className="sticky top-[80px] p-4">{rightAd}</div>
+            <div className="sticky top-[80px] p-4 flex justify-center">
+              {rightAd}
+            </div>
           </div>
         </div>
       </>
