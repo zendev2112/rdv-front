@@ -23,6 +23,8 @@ import WeatherWidget from '@/components/WeatherWidget'
 import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import RecetasSection from '@/components/RecetasSection'
 import ActualidadSection from '@/components/ActualidadSection'
+import LeftAd from '@/components/ads/LeftAd'
+import RightAd from '@/components/ads/RightAd'
 
 export const metadata: Metadata = {
   title: 'Radio del Volga - Noticias de Coronel Suárez | Actualidad Argentina',
@@ -232,8 +234,8 @@ export default async function Home() {
       {/* DESKTOP VERSION - WITH SidelinesLayout */}
       <div className="hidden md:block">
         <SidelinesLayout
-          leftAd={leftSideAds}
-          rightAd={rightSideAds}
+          leftAd={<LeftAd />}
+          rightAd={<RightAd />}
           sidelineWidth={sidelineWidth}
         >
           <div className="pt-[100px]">
