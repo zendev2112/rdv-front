@@ -29,8 +29,8 @@ import SectionArticlesGrid from '@/components/SectionArticlesGrid'
 import MobileSectionArticlesGrid from '@/components/MobileSectionArticlesGrid'
 import Footer from '@/components/Footer'
 
-export const revalidate = 0 // Revalidate every 5 minutes
-export const fetchCache = 'force-no-store'
+export const revalidate = 300 // Revalidate every 5 minutes
+export const fetchCache = 'force-cache'
 export const runtime = 'nodejs'
 
 const ClientSafeImage = dynamicImport(
