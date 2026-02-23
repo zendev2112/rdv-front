@@ -33,9 +33,12 @@ export const revalidate = 300 // Revalidate every 5 minutes
 export const fetchCache = 'force-cache'
 export const runtime = 'nodejs'
 
-const ClientSafeImage = dynamicImport(() => import('@/components/ClientSafeImage'), {
-  ssr: false,
-})
+const ClientSafeImage = dynamicImport(
+  () => import('@/components/ClientSafeImage'),
+  {
+    ssr: false,
+  },
+)
 
 interface PageProps {
   params: {
@@ -45,6 +48,10 @@ interface PageProps {
 
 // Generate metadata
 export async function generateMetadata({ params }: PageProps) {
+  // Prevent catch-all from intercepting API routes
+  if (params.slug[0] === 'api') {
+    return {}
+  }
   const pathSlug = params.slug[params.slug.length - 1]
 
   // Check if it's a section page
@@ -111,6 +118,10 @@ export default async function DynamicPage({
   params: { slug: string[] }
   searchParams: { page?: string }
 }) {
+  // Prevent catch-all from intercepting API routes
+  if (params.slug[0] === 'api') {
+    notFound()
+  }
   const page = parseInt(searchParams.page || '1', 10)
   const pageSize = 12
   const sidelineWidth = 15
@@ -128,7 +139,7 @@ export default async function DynamicPage({
     articlesResult = await fetchArticlesByParentSection(
       sectionData.slug,
       page,
-      pageSize
+      pageSize,
     )
 
     const { articles, count } = articlesResult
@@ -157,7 +168,7 @@ export default async function DynamicPage({
                         {getProperSpanishName(slug)}
                       </Link>
                     </span>
-                  )
+                  ),
                 )}
               </nav>
 
@@ -225,7 +236,7 @@ export default async function DynamicPage({
                         {getProperSpanishName(slug)}
                       </Link>
                     </span>
-                  )
+                  ),
                 )}
               </nav>
 
@@ -267,7 +278,7 @@ export default async function DynamicPage({
                     <Link
                       href={getArticleUrl(
                         articles[0].section_path || articles[0].section,
-                        articles[0].slug
+                        articles[0].slug,
                       )}
                       className="block h-full flex flex-col group"
                     >
@@ -324,7 +335,7 @@ export default async function DynamicPage({
                         <Link
                           href={getArticleUrl(
                             article.section_path || article.section,
-                            article.slug
+                            article.slug,
                           )}
                           className="block h-full flex flex-col group"
                         >
