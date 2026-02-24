@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import React from 'react'
+import { createElement } from 'react'
 import { Resend } from 'resend'
 import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
 import { BeneficioEmail } from '@/emails/BeneficioEmail'
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
           from: 'onboarding@resend.dev',
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
-          react: React.createElement(BeneficioEmail, {
+          react: createElement(BeneficioEmail, {
             userName: nombre,
             businessNombre,
             benefitTitulo: benefit.titulo,
