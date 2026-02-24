@@ -1,15 +1,22 @@
 import { BeneficioActivo } from './types'
 import BeneficiosGrid from './components/BeneficiosGrid'
+import { supabaseBeneficios } from '@/lib/supabase-beneficios'
 
 async function getBeneficios(): Promise<BeneficioActivo[]> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/beneficios`,
-    { next: { revalidate: 60 } },
-  )
-  if (!res.ok) return []
-  const json = await res.json()
-  return json.beneficios ?? []
+  const { data, error } = await supabaseBeneficios
+    .from('beneficios_activos')
+    .select('*')
+    .order('business_nombre', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching beneficios:', error)
+    return []
+  }
+
+  return data ?? []
 }
+
+export const dynamic = 'force-dynamic'
 
 export default async function BeneficiosPage() {
   const beneficios = await getBeneficios()
