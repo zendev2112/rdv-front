@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server'
 import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(request: Request) {
+  const resend = new Resend(process.env.BENEFICIOS_RESEND_API_KEY)
+
   try {
     const body = await request.json()
     const { nombre, email, telefono, benefit_id, business_id } = body
@@ -38,7 +38,6 @@ export async function POST(request: Request) {
       )
     }
 
-    // Fetch benefit + business info
     const { data: benefit } = await supabaseBeneficiosAdmin
       .from('benefits')
       .select('titulo, codigo_unico, businesses(nombre, telefono)')
@@ -50,7 +49,6 @@ export async function POST(request: Request) {
       (benefit?.businesses as any)?.telefono ??
       process.env.BENEFICIOS_WHATSAPP_NUMBER
 
-    // Build WhatsApp URL
     const mensaje = encodeURIComponent(
       `Hola! Quiero canjear mi beneficio de *${businessNombre}*.\n` +
         `Beneficio: ${benefit?.titulo}\n` +
@@ -59,7 +57,6 @@ export async function POST(request: Request) {
     )
     const whatsappUrl = `https://wa.me/${businessTelefono}?text=${mensaje}`
 
-    // Update whatsapp_enviado + whatsapp_enviado_at
     await supabaseBeneficiosAdmin
       .from('leads')
       .update({
@@ -68,12 +65,11 @@ export async function POST(request: Request) {
       })
       .eq('id', lead.id)
 
-    // Send email if provided
     let emailSent = false
     if (email) {
       try {
-        await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL!,
+        const emailResult = await resend.emails.send({
+          from: 'radiodelvolga@gmail.com',
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
           html: `
@@ -90,6 +86,8 @@ export async function POST(request: Request) {
             </div>
           `,
         })
+
+        console.log('Email result:', emailResult)
 
         await supabaseBeneficiosAdmin
           .from('leads')
