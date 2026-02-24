@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
 import { Resend } from 'resend'
+import { BeneficioEmail } from '@/emails/BeneficioEmail'
 
 export async function POST(request: Request) {
   const resend = new Resend(process.env.BENEFICIOS_RESEND_API_KEY)
@@ -40,11 +41,14 @@ export async function POST(request: Request) {
 
     const { data: benefit } = await supabaseBeneficiosAdmin
       .from('benefits')
-      .select('titulo, codigo_unico, businesses(nombre, telefono)')
+      .select(
+        'titulo, descripcion, condiciones, codigo_unico, fecha_fin, businesses(nombre, telefono, slug)',
+      )
       .eq('id', benefit_id)
       .single()
 
     const businessNombre = (benefit?.businesses as any)?.nombre ?? ''
+    const businessSlug = (benefit?.businesses as any)?.slug ?? ''
     const businessTelefono =
       (benefit?.businesses as any)?.telefono ??
       process.env.BENEFICIOS_WHATSAPP_NUMBER
@@ -66,28 +70,31 @@ export async function POST(request: Request) {
       .eq('id', lead.id)
 
     let emailSent = false
+
     if (email) {
       try {
-        const emailResult = await resend.emails.send({
-          from: 'onboarding@resend.dev', // ← Use Resend's test domain
+        const fechaFin = benefit?.fecha_fin
+          ? new Date(benefit.fecha_fin).toLocaleDateString('es-AR', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })
+          : undefined
+
+        await resend.emails.send({
+          from: 'onboarding@resend.dev',
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
-          html: `
-            <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-              <h2>¡Hola ${nombre}!</h2>
-              <p>Tu beneficio fue registrado exitosamente.</p>
-              <div style="background: #f5f5f5; border-radius: 8px; padding: 16px; margin: 16px 0;">
-                <p><strong>Comercio:</strong> ${businessNombre}</p>
-                <p><strong>Beneficio:</strong> ${benefit?.titulo}</p>
-                <p><strong>Código:</strong> <span style="font-size: 20px; font-weight: bold; color: #ff0808;">${benefit?.codigo_unico}</span></p>
-              </div>
-              <p>Presentá este código en el comercio para canjearlo.</p>
-              <p style="color: #888; font-size: 12px;">Volga Beneficios — Radio del Volga</p>
-            </div>
-          `,
+          react: BeneficioEmail({
+            userName: nombre,
+            businessNombre,
+            benefitTitulo: benefit?.titulo ?? '',
+            condiciones: benefit?.condiciones ?? '',
+            codigoUnico: benefit?.codigo_unico ?? '',
+            businessSlug,
+            fechaFin,
+          }),
         })
-
-        console.log('Email result:', emailResult)
 
         await supabaseBeneficiosAdmin
           .from('leads')
