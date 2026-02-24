@@ -193,6 +193,27 @@ export async function POST(request: Request) {
         condiciones: benefit.condiciones,
         fechaFin,
       },
+      pdf_html: `
+        <div style="padding:40px;font-family:Arial,sans-serif;text-align:center;">
+          <h1 style="color:#8B0000;">VOLGA BENEFICIOS</h1>
+          <p style="color:#666;">Radio del Volga</p>
+          <hr style="border:2px solid #8B0000;margin:20px 0;" />
+          
+          <h2>¡Hola, ${nombre}!</h2>
+          <p>Tu beneficio en ${businessNombre} está listo para usar.</p>
+          
+          <div style="background:#fafafa;border-left:4px solid #8B0000;padding:20px;margin:20px 0;text-align:left;">
+            <p><strong>COMERCIO:</strong> ${businessNombre}</p>
+            <p><strong>BENEFICIO:</strong> ${benefit.titulo}</p>
+            <p><strong>CONDICIONES:</strong> ${benefit.condiciones}</p>
+            <p style="font-size:24px;color:#8B0000;font-weight:bold;text-align:center;letter-spacing:3px;">${benefit.codigo_unico}</p>
+            ${fechaFin ? `<p><strong>VÁLIDO HASTA:</strong> ${fechaFin}</p>` : ''}
+          </div>
+          
+          <p style="margin-top:30px;color:#666;">Presentá este código en el comercio para canjearlo.</p>
+          <p style="font-size:12px;color:#999;">radiodelvolga.com.ar</p>
+        </div>
+      `,
     })
   } catch (error) {
     console.error('API error:', error)

@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 
 interface Props {
   benefitId: string
@@ -16,6 +18,29 @@ interface FormState {
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
+async function downloadPDF(pdfHtml: string, filename: string) {
+  const element = document.createElement('div')
+  element.innerHTML = pdfHtml
+  element.style.position = 'absolute'
+  element.style.left = '-9999px'
+  document.body.appendChild(element)
+
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+    })
+    const imgData = canvas.toDataURL('image/png')
+    const pdf = new jsPDF('p', 'mm', 'a4')
+    const imgWidth = 210
+    const imgHeight = (canvas.height * imgWidth) / canvas.width
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
+    pdf.save(filename)
+  } finally {
+    document.body.removeChild(element)
+  }
+}
+
 export default function SolicitarForm({
   benefitId,
   businessId,
@@ -29,6 +54,8 @@ export default function SolicitarForm({
   const [status, setStatus] = useState<Status>('idle')
   const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null)
   const [errorMsg, setErrorMsg] = useState<string>('')
+  const [pdfHtml, setPdfHtml] = useState<string | null>(null)
+  const [codigoUnico, setCodigoUnico] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -59,10 +86,25 @@ export default function SolicitarForm({
       }
 
       setWhatsappUrl(data.whatsapp_url)
+      setPdfHtml(data.pdf_html)
+      setCodigoUnico(data.beneficio.codigoUnico)
       setStatus('success')
+
+      // Auto-download PDF
+      if (data.pdf_html) {
+        setTimeout(() => {
+          downloadPDF(data.pdf_html, `coupon-${data.beneficio.codigoUnico}.pdf`)
+        }, 500)
+      }
     } catch {
       setErrorMsg('No se pudo conectar. Revisá tu conexión.')
       setStatus('error')
+    }
+  }
+
+  const handleDownloadPDF = async () => {
+    if (pdfHtml && codigoUnico) {
+      await downloadPDF(pdfHtml, `coupon-${codigoUnico}.pdf`)
     }
   }
 
@@ -85,6 +127,14 @@ export default function SolicitarForm({
           <WhatsAppIcon />
           Abrir en WhatsApp
         </a>
+        {pdfHtml && (
+          <button
+            onClick={handleDownloadPDF}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-red px-4 py-3 text-sm font-bold text-white transition-all hover:bg-red-600 active:scale-[0.98]"
+          >
+            📥 Descargar cupón (PDF)
+          </button>
+        )}
         <button
           onClick={onCancel}
           className="w-full text-xs text-neutral-gray underline underline-offset-2 hover:text-dark-gray"
