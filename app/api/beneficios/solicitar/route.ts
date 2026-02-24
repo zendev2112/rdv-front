@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server'
-import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
+import React from 'react'
 import { Resend } from 'resend'
+import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
 import { BeneficioEmail } from '@/emails/BeneficioEmail'
 
-export async function POST(request: Request) {
-  const resend = new Resend(process.env.BENEFICIOS_RESEND_API_KEY)
+const resend = new Resend(process.env.BENEFICIOS_RESEND_API_KEY)
 
+export async function POST(request: Request) {
   try {
-    const body = await request.json()
-    const { nombre, email, telefono, benefit_id, business_id } = body
+    const { nombre, email, telefono, benefit_id, business_id } =
+      await request.json()
 
     if (!nombre || !telefono || !benefit_id || !business_id) {
       return NextResponse.json(
@@ -17,6 +18,7 @@ export async function POST(request: Request) {
       )
     }
 
+    // Insert lead
     const { data: lead, error: leadError } = await supabaseBeneficiosAdmin
       .from('leads')
       .insert({
@@ -25,13 +27,11 @@ export async function POST(request: Request) {
         telefono,
         benefit_id,
         business_id,
-        whatsapp_enviado: false,
-        email_enviado: false,
       })
       .select()
       .single()
 
-    if (leadError) {
+    if (leadError || !lead) {
       console.error('Error inserting lead:', leadError)
       return NextResponse.json(
         { success: false, error: 'Error al registrar solicitud' },
@@ -39,28 +39,46 @@ export async function POST(request: Request) {
       )
     }
 
-    const { data: benefit } = await supabaseBeneficiosAdmin
+    // Fetch benefit & business data
+    const { data: benefit, error: benefitError } = await supabaseBeneficiosAdmin
       .from('benefits')
       .select(
-        'titulo, descripcion, condiciones, codigo_unico, fecha_fin, businesses(nombre, telefono, slug)',
+        'titulo, condiciones, codigo_unico, fecha_fin, businesses(nombre, telefono, slug)',
       )
       .eq('id', benefit_id)
       .single()
 
-    const businessNombre = (benefit?.businesses as any)?.nombre ?? ''
-    const businessSlug = (benefit?.businesses as any)?.slug ?? ''
+    if (benefitError || !benefit) {
+      console.error('Error fetching benefit:', benefitError)
+      return NextResponse.json(
+        { success: false, error: 'Beneficio no encontrado' },
+        { status: 404 },
+      )
+    }
+
+    const businessData = benefit.businesses as any
+    const businessNombre = businessData?.nombre ?? ''
+    const businessSlug = businessData?.slug ?? ''
     const businessTelefono =
-      (benefit?.businesses as any)?.telefono ??
-      process.env.BENEFICIOS_WHATSAPP_NUMBER
+      businessData?.telefono ?? process.env.BENEFICIOS_WHATSAPP_NUMBER
 
-    const mensaje = encodeURIComponent(
-      `Hola! Quiero canjear mi beneficio de *${businessNombre}*.\n` +
-        `Beneficio: ${benefit?.titulo}\n` +
-        `Mi nombre es ${nombre}.\n` +
-        `Código: ${benefit?.codigo_unico}`,
+    // Format date
+    const fechaFin = benefit.fecha_fin
+      ? new Date(benefit.fecha_fin).toLocaleDateString('es-AR', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        })
+      : undefined
+
+    // Build WhatsApp URL
+    const whatsappUrl = new URL('https://wa.me/' + businessTelefono)
+    whatsappUrl.searchParams.set(
+      'text',
+      `Hola! Quiero canjear mi beneficio de *${businessNombre}*.\nBeneficio: ${benefit.titulo}\nMi nombre es ${nombre}.\nCódigo: ${benefit.codigo_unico}`,
     )
-    const whatsappUrl = `https://wa.me/${businessTelefono}?text=${mensaje}`
 
+    // Mark WhatsApp as sent
     await supabaseBeneficiosAdmin
       .from('leads')
       .update({
@@ -69,28 +87,20 @@ export async function POST(request: Request) {
       })
       .eq('id', lead.id)
 
+    // Send email if provided
     let emailSent = false
-
     if (email) {
       try {
-        const fechaFin = benefit?.fecha_fin
-          ? new Date(benefit.fecha_fin).toLocaleDateString('es-AR', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-            })
-          : undefined
-
         await resend.emails.send({
           from: 'onboarding@resend.dev',
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
-          react: BeneficioEmail({
+          react: React.createElement(BeneficioEmail, {
             userName: nombre,
             businessNombre,
-            benefitTitulo: benefit?.titulo ?? '',
-            condiciones: benefit?.condiciones ?? '',
-            codigoUnico: benefit?.codigo_unico ?? '',
+            benefitTitulo: benefit.titulo,
+            condiciones: benefit.condiciones,
+            codigoUnico: benefit.codigo_unico,
             businessSlug,
             fechaFin,
           }),
@@ -112,7 +122,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      whatsapp_url: whatsappUrl,
+      whatsapp_url: whatsappUrl.toString(),
       email_sent: emailSent,
     })
   } catch (error) {
