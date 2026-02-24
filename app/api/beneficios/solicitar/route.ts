@@ -108,7 +108,7 @@ export async function POST(request: Request) {
                   <h1 style="font-size:22px;font-weight:bold;color:#1a1a1a;margin:0 0 12px;">¡Hola, ${nombre}! 🎉</h1>
                   <p style="font-size:15px;color:#444444;line-height:1.6;margin:0 0 16px;">
                     Tu beneficio de <strong>${businessNombre}</strong> está listo.
-                    Mostrá este email en el comercio para canjearlo.
+                    Mostrá este documento en el comercio para canjearlo.
                   </p>
                 </div>
 
@@ -194,25 +194,96 @@ export async function POST(request: Request) {
         fechaFin,
       },
       pdf_html: `
-        <div style="padding:40px;font-family:Arial,sans-serif;text-align:center;">
-          <h1 style="color:#8B0000;">VOLGA BENEFICIOS</h1>
-          <p style="color:#666;">Radio del Volga</p>
-          <hr style="border:2px solid #8B0000;margin:20px 0;" />
-          
-          <h2>¡Hola, ${nombre}!</h2>
-          <p>Tu beneficio en ${businessNombre} está listo para usar.</p>
-          
-          <div style="background:#fafafa;border-left:4px solid #8B0000;padding:20px;margin:20px 0;text-align:left;">
-            <p><strong>COMERCIO:</strong> ${businessNombre}</p>
-            <p><strong>BENEFICIO:</strong> ${benefit.titulo}</p>
-            <p><strong>CONDICIONES:</strong> ${benefit.condiciones}</p>
-            <p style="font-size:24px;color:#8B0000;font-weight:bold;text-align:center;letter-spacing:3px;">${benefit.codigo_unico}</p>
-            ${fechaFin ? `<p><strong>VÁLIDO HASTA:</strong> ${fechaFin}</p>` : ''}
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8" />
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; }
+            .container { max-width: 560px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; }
+            .header { background: #8B0000; padding: 24px 32px; text-align: center; }
+            .header img { margin-bottom: 8px; }
+            .header-subtitle { color: #ffffff; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; margin: 0; }
+            .section { padding: 24px 32px; }
+            h1 { font-size: 22px; font-weight: bold; color: #1a1a1a; margin: 0 0 12px; }
+            .greeting { font-size: 15px; color: #444444; line-height: 1.6; margin: 0 0 16px; }
+            hr { border: none; border-top: 1px solid #eeeeee; margin: 0; }
+            .benefit-box { background: #fafafa; padding: 24px 32px; border-left: 4px solid #8B0000; margin: 24px 0; border-radius: 4px; }
+            .label { font-size: 10px; font-weight: bold; color: #999999; letter-spacing: 1.5px; text-transform: uppercase; margin: 16px 0 4px; }
+            .value { font-size: 16px; font-weight: bold; color: #1a1a1a; margin: 0 0 16px; }
+            .condiciones { font-size: 14px; color: #666666; margin: 0 0 16px; font-style: italic; }
+            .codigo { font-size: 28px; font-weight: bold; color: #8B0000; letter-spacing: 3px; font-family: 'Courier New', monospace; text-align: center; margin: 0 0 16px; }
+            .footer { background: #f9f9f9; padding: 20px 32px; text-align: center; }
+            .footer-text { font-size: 13px; color: #888888; margin: 4px 0; }
+            .footer-link { color: #8B0000; text-decoration: none; }
+            .footer-small { font-size: 11px; color: #bbbbbb; margin: 8px 0 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            
+            <!-- Header -->
+            <div class="header">
+              <img src="https://radiodelvolga.com.ar/images/logo.svg" alt="Radio del Volga" width="160" height="40" />
+              <p class="header-subtitle">Volga Beneficios</p>
+            </div>
+
+            <!-- Greeting -->
+            <div class="section">
+              <h1>¡Hola, ${nombre}! 🎉</h1>
+              <p class="greeting">
+                Tu beneficio de <strong>${businessNombre}</strong> está listo.
+                Mostrá este documento en el comercio para canjearlo.
+              </p>
+            </div>
+
+            <hr />
+
+            <!-- Benefit Details -->
+            <div class="benefit-box">
+              <p class="label">COMERCIO</p>
+              <p class="value">${businessNombre}</p>
+
+              <p class="label">BENEFICIO</p>
+              <p class="value">${benefit.titulo}</p>
+
+              <p class="label">CONDICIONES</p>
+              <p class="condiciones">${benefit.condiciones}</p>
+
+              <p class="label">TU CÓDIGO</p>
+              <p class="codigo">${benefit.codigo_unico}</p>
+
+              ${
+                fechaFin
+                  ? `
+          <p class="label">VÁLIDO HASTA</p>
+          <p class="value">${fechaFin}</p>
+          `
+                  : ''
+              }
+            </div>
+
+            <hr />
+
+            <!-- Footer -->
+            <div class="footer">
+              <p class="footer-text">
+                Radio del Volga — Coronel Suárez, Buenos Aires, Argentina
+              </p>
+              <p class="footer-text">
+                <a href="https://radiodelvolga.com.ar" class="footer-link">radiodelvolga.com.ar</a>
+                &nbsp;·&nbsp;
+                <a href="https://radiodelvolga.com.ar/beneficios" class="footer-link">Volga Beneficios</a>
+              </p>
+              <p class="footer-small">
+                Recibiste este documento porque solicitaste un beneficio en Volga Beneficios.
+              </p>
+            </div>
+
           </div>
-          
-          <p style="margin-top:30px;color:#666;">Presentá este código en el comercio para canjearlo.</p>
-          <p style="font-size:12px;color:#999;">radiodelvolga.com.ar</p>
-        </div>
+        </body>
+        </html>
       `,
     })
   } catch (error) {
