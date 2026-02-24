@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
+import { generateCouponPDF } from '@/lib/generate-coupon-pdf'
 
 const resend = new Resend(process.env.BENEFICIOS_RESEND_API_KEY)
 
@@ -64,7 +65,17 @@ export async function POST(request: Request) {
           month: 'long',
           year: 'numeric',
         })
-      : null
+      : undefined
+
+    // Generate PDF
+    const pdfBuffer = await generateCouponPDF({
+      nombre,
+      businessNombre,
+      benefitTitulo: benefit.titulo,
+      codigoUnico: benefit.codigo_unico,
+      condiciones: benefit.condiciones,
+      fechaFin,
+    })
 
     const whatsappUrl = `https://wa.me/${businessTelefono}?text=${encodeURIComponent(
       `Hola! Quiero canjear mi beneficio de *${businessNombre}*.\nBeneficio: ${benefit.titulo}\nMi nombre es ${nombre}.\nCódigo: ${benefit.codigo_unico}`,
@@ -82,7 +93,7 @@ export async function POST(request: Request) {
     if (email) {
       try {
         await resend.emails.send({
-          from: 'onboarding@resend.dev',
+          from: 'beneficios@radiodelvolga.com.ar',
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
           html: `
@@ -174,6 +185,7 @@ export async function POST(request: Request) {
       success: true,
       whatsapp_url: whatsappUrl,
       email_sent: emailSent,
+      pdf_link: `data:application/pdf;base64,${pdfBuffer.toString('base64')}`,
     })
   } catch (error) {
     console.error('API error:', error)

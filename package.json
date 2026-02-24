@@ -24,6 +24,7 @@
     "date-fns": "^4.1.0",
     "lucide-react": "^0.294.0",
     "next": "^14.2.31",
+    "pdfkit": "^0.17.2",
     "react": "^18.3.1",
     "react-dom": "^18.2.0",
     "react-email": "^5.2.8",
