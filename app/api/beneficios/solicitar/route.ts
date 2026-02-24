@@ -80,8 +80,12 @@ export async function POST(request: Request) {
 
     let emailSent = false
     if (email) {
+      console.log('📧 Starting email send to:', email)
       try {
-        await resend.emails.send({
+        console.log('🔑 API Key exists:', !!process.env.BENEFICIOS_RESEND_API_KEY)
+        console.log('📤 Sending with from:', 'beneficios@radiodelvolga.com.ar')
+
+        const result = await resend.emails.send({
           from: 'beneficios@radiodelvolga.com.ar',
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
@@ -156,6 +160,8 @@ export async function POST(request: Request) {
           `,
         })
 
+        console.log('✅ Email sent successfully:', result)
+
         await supabaseBeneficiosAdmin
           .from('leads')
           .update({
@@ -166,8 +172,10 @@ export async function POST(request: Request) {
 
         emailSent = true
       } catch (emailError) {
-        console.error('Error sending email:', emailError)
+        console.error('❌ Email error:', emailError)
       }
+    } else {
+      console.log('⚠️ No email provided')
     }
 
     return NextResponse.json({
