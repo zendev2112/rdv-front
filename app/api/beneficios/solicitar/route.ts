@@ -82,11 +82,14 @@ export async function POST(request: Request) {
     if (email) {
       console.log('📧 Starting email send to:', email)
       try {
-        console.log('🔑 API Key exists:', !!process.env.BENEFICIOS_RESEND_API_KEY)
-        console.log('📤 Sending with from:', 'beneficios@radiodelvolga.com.ar')
+        console.log(
+          '🔑 API Key exists:',
+          !!process.env.BENEFICIOS_RESEND_API_KEY,
+        )
+        console.log('📤 Sending with from:', 'onboarding@resend.dev')
 
         const result = await resend.emails.send({
-          from: 'beneficios@radiodelvolga.com.ar',
+          from: 'onboarding@resend.dev',
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
           html: `
