@@ -69,7 +69,7 @@ export async function POST(request: Request) {
     if (email) {
       try {
         const emailResult = await resend.emails.send({
-          from: 'radiodelvolga@gmail.com',
+          from: 'onboarding@resend.dev', // ← Use Resend's test domain
           to: email,
           subject: `Tu beneficio en ${businessNombre} 🎉`,
           html: `
