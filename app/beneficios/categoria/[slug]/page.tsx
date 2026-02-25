@@ -32,7 +32,7 @@ export async function generateStaticParams() {
   const { data } = await supabaseBeneficios
     .from('beneficios_activos')
     .select('categoria_slug')
-  const slugs = [...new Set((data ?? []).map((d) => d.categoria_slug))]
+  const slugs = Array.from(new Set((data ?? []).map((d) => d.categoria_slug)))
   return slugs.map((slug) => ({ slug }))
 }
 

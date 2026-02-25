@@ -37,6 +37,41 @@ export default function BeneficiosGrid({ comerciosPorCategoria }: Props) {
     )
   }, [search, categoriaActiva, comerciosPorCategoria])
 
+  // Transform BeneficioActivo[] to unique comercios
+  const comerciosUnicos = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        slug: string
+        nombre: string
+        descripcion: string | null
+        logo_url: string | null
+        categoria_nombre: string
+        categoria_icono: string | null
+        benefitCount: number
+      }
+    >()
+
+    Object.values(filtered).forEach((items) => {
+      items.forEach((b) => {
+        if (!map.has(b.business_slug)) {
+          map.set(b.business_slug, {
+            slug: b.business_slug,
+            nombre: b.business_nombre,
+            descripcion: b.business_descripcion,
+            logo_url: b.logo_url,
+            categoria_nombre: b.categoria_nombre,
+            categoria_icono: b.categoria_icono,
+            benefitCount: 0,
+          })
+        }
+        map.get(b.business_slug)!.benefitCount++
+      })
+    })
+
+    return Array.from(map.values())
+  }, [filtered])
+
   return (
     <div className="space-y-6">
       <div className="relative">
@@ -90,12 +125,23 @@ export default function BeneficiosGrid({ comerciosPorCategoria }: Props) {
               </span>
             </h2>
             <div className="space-y-3">
-              {items.map((comercio) => (
-                <ComercioCard
-                  key={comercio.business_slug}
-                  comercio={comercio}
-                />
-              ))}
+              {items.map((comercio) => {
+                const cardProps = {
+                  slug: comercio.business_slug,
+                  nombre: comercio.business_nombre,
+                  descripcion: comercio.business_descripcion,
+                  logo_url: comercio.logo_url,
+                  categoria_nombre: comercio.categoria_nombre,
+                  categoria_icono: comercio.categoria_icono,
+                  benefitCount: 1,
+                }
+                return (
+                  <ComercioCard
+                    key={comercio.business_slug}
+                    {...cardProps}
+                  />
+                )
+              })}
             </div>
           </section>
         ))

@@ -67,7 +67,7 @@ export default function ComercioCard({
         {/* Footer */}
         <div className="mt-auto flex items-center justify-between border-t border-neutral-100 pt-4">
           <span className="flex items-center gap-1.5 text-sm font-semibold text-primary-red">
-            🎁 {benefitCount} beneficio{benefitCount !== 1 ? 's' : ''}
+            🎁 {benefitCount} {benefitCount === 1 ? 'beneficio' : 'beneficios'}
           </span>
 
           <span className="text-xs font-medium text-neutral-gray group-hover:text-primary-red transition-colors">
