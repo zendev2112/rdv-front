@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const COLS = [
   {
@@ -45,7 +48,17 @@ const SOCIALS = [
   { label: 'TikTok', icon: '🎵', href: 'https://tiktok.com/@radiodelvolga' },
 ]
 
+const NAV_ITEMS = [
+  { icon: '🏠', label: 'Inicio', href: '/beneficios' },
+  { icon: '🔍', label: 'Buscar', href: '/beneficios/buscar' },
+  { icon: '❤️', label: 'Favoritos', href: '/beneficios/favoritos' },
+  { icon: '👤', label: 'Perfil', href: '/beneficios/perfil' },
+  { icon: '⋯', label: 'Más', href: '/beneficios/mas' },
+]
+
 export default function BeneficiosFooter() {
+  const pathname = usePathname()
+
   return (
     <footer
       style={{
@@ -59,9 +72,7 @@ export default function BeneficiosFooter() {
         className="px-4 sm:px-6 lg:px-10"
       >
         {/* Row 1 — 4-col link directory */}
-        <div
-          className="grid grid-cols-2 gap-10 md:grid-cols-4"
-        >
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           {COLS.map((col) => (
             <div key={col.heading}>
               <p
@@ -183,13 +194,13 @@ export default function BeneficiosFooter() {
 
           {/* Logo + copyright */}
           <div style={{ textAlign: 'right' }}>
-            <Link href="/">
+            <Link href="/" style={{ display: 'inline-block', marginBottom: 8 }}>
               <Image
-                src="/images/logo.svg"
+                src="https://res.cloudinary.com/dwhu22onh/image/upload/v1772054267/ChatGPT_Image_Feb_25_2026_06_17_02_PM_dn1q21.png"
                 alt="Radio del Volga"
-                width={100}
-                height={30}
-                style={{ objectFit: 'contain', marginBottom: 8 }}
+                width={120}
+                height={38}
+                style={{ objectFit: 'contain', height: 'auto' }}
               />
             </Link>
             <p
@@ -204,6 +215,87 @@ export default function BeneficiosFooter() {
           </div>
         </div>
       </div>
+
+      {/* Navegación inferior */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40"
+        style={{
+          background: '#FFFFFF',
+          borderTop: '1px solid var(--rdv-border)',
+          padding: '0 0 max(0px, env(safe-area-inset-bottom))',
+          boxShadow: '0 -2px 8px rgba(0, 0, 0, 0.08)',
+        }}
+        aria-label="Navegación inferior"
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'stretch',
+            height: 64,
+          }}
+        >
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              pathname === item.href || pathname.startsWith(item.href + '/')
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 3,
+                  flex: 1,
+                  textDecoration: 'none',
+                  color: isActive
+                    ? 'var(--rdv-primary)'
+                    : 'var(--rdv-text-muted)',
+                  transition: 'all 0.2s ease',
+                  borderTop: isActive
+                    ? '3px solid var(--rdv-primary)'
+                    : '3px solid transparent',
+                  paddingTop: 0,
+                  position: 'relative',
+                }}
+                aria-label={item.label}
+                aria-current={isActive ? 'page' : undefined}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'rgba(0,0,0,0.02)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent'
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 24,
+                    lineHeight: 1,
+                  }}
+                >
+                  {item.icon}
+                </span>
+                <span
+                  style={{
+                    fontSize: 10,
+                    fontWeight: isActive ? 700 : 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.3px',
+                    color: 'inherit',
+                  }}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
     </footer>
   )
 }

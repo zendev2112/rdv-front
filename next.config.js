@@ -14,53 +14,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: '**',
+        hostname: 'res.cloudinary.com',
       },
       {
         protocol: 'https',
-        hostname: '**.ytimg.com',
+        hostname: '**.supabase.co',
       },
       {
         protocol: 'https',
-        hostname: '**.youtube.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'resizer.glanacion.com',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.infobae.com',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.cdninstagram.com',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'pxcdn.lanueva.com',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.clarin.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'fotos.perfil.com',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'dib.com.ar',
-        pathname: '**',
+        hostname: 'radiodelvolga.com.ar',
       },
     ],
     formats: ['image/webp'],

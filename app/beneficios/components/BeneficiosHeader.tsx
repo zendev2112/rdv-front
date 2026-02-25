@@ -38,8 +38,15 @@ export default function BeneficiosHeader() {
           <button aria-label="Menú" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
             <Menu size={24} color="var(--rdv-text-primary)" />
           </button>
-          <Link href="/beneficios">
-            <Image src="/images/logo.svg" alt="Radio del Volga" width={120} height={36} style={{ objectFit: 'contain' }} />
+          <Link href="/beneficios" style={{ display: 'flex', alignItems: 'center' }}>
+            <Image 
+              src="https://res.cloudinary.com/dwhu22onh/image/upload/v1772054267/ChatGPT_Image_Feb_25_2026_06_17_02_PM_dn1q21.png" 
+              alt="Radio del Volga" 
+              width={140} 
+              height={46}
+              style={{ objectFit: 'contain', height: 'auto' }}
+              priority
+            />
           </Link>
         </div>
 
@@ -127,8 +134,15 @@ export default function BeneficiosHeader() {
         <button aria-label="Menú" onClick={() => setMenuOpen(true)} style={{ minWidth: 44, minHeight: 44, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
           <Menu size={24} color="var(--rdv-text-primary)" />
         </button>
-        <Link href="/beneficios">
-          <Image src="/images/logo.svg" alt="Radio del Volga" width={110} height={34} style={{ objectFit: 'contain' }} />
+        <Link href="/beneficios" style={{ display: 'flex', alignItems: 'center' }}>
+          <Image 
+            src="https://res.cloudinary.com/dwhu22onh/image/upload/v1772054267/ChatGPT_Image_Feb_25_2026_06_17_02_PM_dn1q21.png" 
+            alt="Radio del Volga" 
+            width={120} 
+            height={40}
+            style={{ objectFit: 'contain', height: 'auto' }}
+            priority
+          />
         </Link>
         <div style={{ display: 'flex', gap: 4 }}>
           <button aria-label="Notificaciones" style={{ minWidth: 44, minHeight: 44, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -172,7 +186,13 @@ export default function BeneficiosHeader() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100 }} onClick={() => setMenuOpen(false)}>
           <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '80%', maxWidth: 320, background: '#FFFFFF', padding: '24px 0', overflowY: 'auto' }} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 20px 16px', borderBottom: '1px solid var(--rdv-border)' }}>
-              <Image src="/images/logo.svg" alt="Radio del Volga" width={100} height={30} />
+              <Image 
+                src="https://res.cloudinary.com/dwhu22onh/image/upload/v1772054267/ChatGPT_Image_Feb_25_2026_06_17_02_PM_dn1q21.png" 
+                alt="Radio del Volga" 
+                width={100} 
+                height={32}
+                style={{ objectFit: 'contain', height: 'auto' }}
+              />
               <button aria-label="Cerrar menú" onClick={() => setMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                 <X size={22} />
               </button>
