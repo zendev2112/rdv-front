@@ -46,19 +46,20 @@ async function getComercio(slug: string): Promise<Comercio | null> {
 export default async function ComercioPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const comercio = await getComercio(params.slug)
+  const { slug } = await params
+  const comercio = await getComercio(slug)
   if (!comercio) notFound()
 
   return (
     <main className="min-h-screen bg-cream">
       <ComercioHeader comercio={comercio} />
 
-      <div className="mx-auto max-w-2xl px-4 py-8">
-        <h2 className="mb-4 text-xs font-bold uppercase tracking-widest text-neutral-gray">
+      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
+        <h2 className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-neutral-gray">
           Beneficios disponibles
-          <span className="ml-2 rounded-full bg-primary-red px-2 py-0.5 text-white">
+          <span className="rounded-full bg-primary-red px-2.5 py-0.5 text-xs font-bold text-white">
             {comercio.benefits.length}
           </span>
         </h2>

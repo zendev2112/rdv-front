@@ -230,3 +230,64 @@ body {
     display: none;
   }
 }
+
+/* ── Volga Beneficios Design System ── */
+:root {
+  --rdv-primary: #8B0000;
+  --rdv-primary-hover: #6B0000;
+  --rdv-primary-light: #C0392B;
+  --rdv-cta: #E8C547;
+  --rdv-cta-text: #1A1A1A;
+  --rdv-premium-bg: #1A0000;
+  --rdv-premium-accent: #8B0000;
+  --rdv-dark-bg: #1C1C1C;
+  --rdv-indicator: #8B0000;
+  --rdv-text-primary: #1A1A1A;
+  --rdv-text-secondary: #666666;
+  --rdv-text-muted: #999999;
+  --rdv-text-white: #FFFFFF;
+  --rdv-bg-page: #F5F5F5;
+  --rdv-bg-white: #FFFFFF;
+  --rdv-bg-input: #F2F2F2;
+  --rdv-border: #E0E0E0;
+  --rdv-shadow: rgba(0, 0, 0, 0.08);
+
+  --font-xs: 11px;
+  --font-sm: 12px;
+  --font-base: 14px;
+  --font-md: 16px;
+  --font-lg: 20px;
+  --font-xl: 22px;
+  --font-2xl: 26px;
+  --font-3xl: 32px;
+  --font-4xl: 48px;
+}
+
+/* Carousel system */
+.rdv-carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 16px;
+}
+
+.rdv-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.rdv-carousel-card {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Ticket perforation */
+.rdv-ticket-perforation {
+  height: 12px;
+  background:
+    radial-gradient(circle at 50% 0%, var(--rdv-dark-bg) 6px, transparent 6px),
+    radial-gradient(circle at 50% 100%, var(--rdv-dark-bg) 6px, transparent 6px);
+  background-size: 16px 12px;
+  background-repeat: repeat-x;
+}

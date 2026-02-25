@@ -1,80 +1,84 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Comercio } from '../types'
 
-interface Props {
-  comercio: Comercio
-}
-
-export default function ComercioHeader({ comercio }: Props) {
+export default function ComercioHeader({ comercio }: { comercio: Comercio }) {
   return (
-    <div className="bg-dark-gray">
-      <div className="px-4 pt-4">
+    <section className="bg-dark-gray px-4 pb-8 pt-6 sm:px-6">
+      <div className="mx-auto max-w-2xl">
+        {/* Back */}
         <Link
           href="/beneficios"
-          className="inline-flex items-center gap-1.5 text-sm text-neutral-gray transition-colors hover:text-white"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm text-neutral-gray transition-colors hover:text-white"
         >
           ← Volver a beneficios
         </Link>
-      </div>
 
-      <div className="px-4 pb-8 pt-4">
         <div className="flex items-start gap-4">
-          <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border-2 border-white/10 bg-white/5">
+          {/* Logo */}
+          <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/10">
             {comercio.logo_url ? (
               <Image
                 src={comercio.logo_url}
                 alt={comercio.nombre}
-                fill
-                className="object-cover"
+                width={56}
+                height={56}
+                className="h-12 w-12 object-contain"
               />
             ) : (
-              <span className="flex h-full w-full items-center justify-center text-4xl">
-                {comercio.categoria.icono}
+              <span className="text-2xl font-bold text-white">
+                {comercio.nombre.charAt(0)}
               </span>
             )}
           </div>
 
-          <div className="min-w-0 flex-1">
-            <span className="mb-1.5 inline-flex items-center gap-1 rounded-full bg-primary-red/10 px-2.5 py-0.5 text-xs font-medium text-primary-red">
-              {comercio.categoria.icono} {comercio.categoria.nombre}
+          <div className="flex-1">
+            <span className="mb-1 inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-medium text-neutral-gray">
+              {comercio.categoria.icono && (
+                <span>{comercio.categoria.icono}</span>
+              )}
+              {comercio.categoria.nombre}
             </span>
-            <h1 className="text-xl font-extrabold leading-tight text-white">
+
+            <h1 className="text-2xl font-extrabold text-white sm:text-3xl">
               {comercio.nombre}
             </h1>
+
             {comercio.descripcion && (
-              <p className="mt-1 text-sm leading-relaxed text-neutral-gray">
+              <p className="mt-1 text-sm text-neutral-gray">
                 {comercio.descripcion}
               </p>
             )}
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        {/* Meta */}
+        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-neutral-gray">
           {comercio.direccion && (
-            <MetaPill icon="📍" text={comercio.direccion} />
+            <span className="flex items-center gap-1.5">
+              📍 {comercio.direccion}
+            </span>
           )}
-          {comercio.telefono && <MetaPill icon="📞" text={comercio.telefono} />}
+          {comercio.telefono && (
+            <a
+              href={`tel:${comercio.telefono}`}
+              className="flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              📞 {comercio.telefono}
+            </a>
+          )}
           {comercio.website && (
             <a
               href={comercio.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 text-xs text-neutral-gray transition-colors hover:text-white"
+              className="flex items-center gap-1.5 transition-colors hover:text-white"
             >
-              🌐 <span>Sitio web</span>
+              🌐 Sitio web
             </a>
           )}
         </div>
       </div>
-    </div>
-  )
-}
-
-function MetaPill({ icon, text }: { icon: string; text: string }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 text-xs text-neutral-gray">
-      {icon} {text}
-    </span>
+    </section>
   )
 }
