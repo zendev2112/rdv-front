@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Home, LayoutGrid, Tv, Search, Play, Pause } from 'lucide-react'
 import SearchBar from './SearchBar'
 
@@ -14,6 +15,10 @@ export default function MobileNavBar() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
+  const pathname = usePathname()
+
+  // Hide on /beneficios routes — BeneficiosFooter handles nav there
+  if (pathname.startsWith('/beneficios')) return null
 
   const handleVolgaTVClick = (e: React.MouseEvent) => {
     e.preventDefault()
