@@ -129,14 +129,6 @@ export default async function BeneficiosPage() {
               >
                 ?
               </span>
-              <span
-                style={{
-                  fontSize: 'var(--font-base)',
-                  color: 'var(--rdv-text-secondary)',
-                }}
-              >
-                ¿Qué beneficio buscás hoy?
-              </span>
             </span>
             <span style={{ color: 'var(--rdv-primary)', fontWeight: 700 }}>
               &gt;

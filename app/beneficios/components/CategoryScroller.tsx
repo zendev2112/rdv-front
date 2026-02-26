@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 interface Categoria {
   id: number
@@ -15,8 +15,12 @@ interface Props {
 }
 
 export default function CategoryScroller({ categorias }: Props) {
-  const searchParams = useSearchParams()
-  const activeSlug = searchParams.get('categoria')
+  const pathname = usePathname()
+
+  // active if current path starts with /beneficios/[cat.slug]
+  const activeSlug =
+    categorias.find((c) => pathname.startsWith(`/beneficios/${c.slug}`))
+      ?.slug ?? null
 
   return (
     <div>
@@ -85,10 +89,7 @@ export default function CategoryScroller({ categorias }: Props) {
               minWidth: 72,
             }}
           >
-            <Link
-              href={`/beneficios?categoria=${cat.slug}`}
-              aria-label={cat.nombre}
-            >
+            <Link href={`/beneficios/${cat.slug}`} aria-label={cat.nombre}>
               <div
                 style={{
                   width: 56,
@@ -143,7 +144,7 @@ export default function CategoryScroller({ categorias }: Props) {
               color: '#fff',
               borderRadius: '50%',
               width: 20,
-              height: 20,
+              height: 22,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -169,7 +170,7 @@ function CategoryCard({
 }) {
   return (
     <Link
-      href={`/beneficios?categoria=${cat.slug}`}
+      href={`/beneficios/${cat.slug}`}
       aria-label={cat.nombre}
       style={{ textDecoration: 'none' }}
     >
@@ -178,7 +179,7 @@ function CategoryCard({
           background: '#FFFFFF',
           borderRadius: 16,
           boxShadow: active
-            ? `0 4px 16px rgba(139,0,0,0.25)`
+            ? '0 4px 16px rgba(139,0,0,0.25)'
             : '0 4px 16px rgba(0,0,0,0.12)',
           padding: '16px 8px',
           display: 'flex',
