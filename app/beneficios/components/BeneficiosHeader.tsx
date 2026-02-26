@@ -125,7 +125,7 @@ export default function BeneficiosHeader() {
             flexShrink: 0,
           }}
         >
-          <button
+          {/*           <button
             style={{
               borderRadius: 50,
               border: '1px solid var(--rdv-border)',
@@ -141,8 +141,8 @@ export default function BeneficiosHeader() {
           >
             <MapPin size={14} />
             Cerca Mío
-          </button>
-          <a
+          </button> */}
+          {/*           <a
             href="#sumarse"
             style={{
               borderRadius: 50,
@@ -157,7 +157,7 @@ export default function BeneficiosHeader() {
             }}
           >
             Sumarse
-          </a>
+          </a> */}
           <button
             aria-label="Notificaciones"
             style={{
@@ -169,7 +169,7 @@ export default function BeneficiosHeader() {
           >
             <Bell size={24} color="var(--rdv-text-primary)" />
           </button>
-          <div
+          {/*           <div
             style={{
               width: 32,
               height: 32,
@@ -185,7 +185,7 @@ export default function BeneficiosHeader() {
             }}
           >
             RV
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -229,7 +229,7 @@ export default function BeneficiosHeader() {
             {item.label}
           </Link>
         ))}
-        <Link
+        {/*         <Link
           href="/beneficios/newsletters"
           style={{
             marginLeft: 'auto',
@@ -244,7 +244,7 @@ export default function BeneficiosHeader() {
           }}
         >
           ✉ Newsletters
-        </Link>
+        </Link> */}
       </div>
 
       {/* ── TABLET navbar ── */}
