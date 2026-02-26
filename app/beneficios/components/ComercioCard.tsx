@@ -9,6 +9,7 @@ interface Props {
   categoria_nombre: string
   categoria_icono: string | null
   benefitCount: number
+  href?: string
 }
 
 export default function ComercioCard({
@@ -19,17 +20,18 @@ export default function ComercioCard({
   categoria_nombre,
   categoria_icono,
   benefitCount,
+  href,
 }: Props) {
+  const linkHref = href ?? `/beneficios/${slug}`
+
   return (
     <Link
-      href={`/beneficios/${slug}`}
+      href={linkHref}
       className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
     >
-      {/* Top accent bar */}
       <div className="h-1 w-full bg-gradient-to-r from-primary-red to-primary-red/60" />
 
       <div className="flex flex-1 flex-col p-5">
-        {/* Logo + Category */}
         <div className="mb-4 flex items-start justify-between">
           <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-neutral-50 border border-neutral-100">
             {logo_url ? (
@@ -53,7 +55,6 @@ export default function ComercioCard({
           </span>
         </div>
 
-        {/* Info */}
         <h3 className="mb-1 text-lg font-bold text-dark-gray group-hover:text-primary-red transition-colors">
           {nombre}
         </h3>
@@ -64,12 +65,10 @@ export default function ComercioCard({
           </p>
         )}
 
-        {/* Footer */}
         <div className="mt-auto flex items-center justify-between border-t border-neutral-100 pt-4">
           <span className="flex items-center gap-1.5 text-sm font-semibold text-primary-red">
             🎁 {benefitCount} {benefitCount === 1 ? 'beneficio' : 'beneficios'}
           </span>
-
           <span className="text-xs font-medium text-neutral-gray group-hover:text-primary-red transition-colors">
             Ver más →
           </span>
