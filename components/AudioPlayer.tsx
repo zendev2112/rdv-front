@@ -82,8 +82,10 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
     [duration],
   )
 
+  const remainingTime = Math.max(0, (duration ?? 0) - currentTime)
+
   return (
-    <div className="flex items-center gap-3 w-full py-3">
+    <div className="bg-gray-50 border border-gray-200 shadow-sm rounded-2xl py-3 px-4 flex items-center gap-4 w-full">
       {/* Hidden audio element */}
       <audio ref={audioRef} src={src} preload="metadata" />
 
@@ -91,12 +93,12 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
       <button
         onClick={togglePlay}
         disabled={isLoading}
-        className="w-9 h-9 flex-shrink-0 rounded-full bg-primary-red text-white flex items-center justify-center hover:bg-red-700 transition-colors disabled:opacity-40"
+        className="w-10 h-10 flex-shrink-0 rounded-full bg-primary-red text-white flex items-center justify-center hover:bg-red-700 shadow-md transition-all disabled:opacity-40"
         aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
       >
         {isLoading ? (
           <svg
-            className="animate-spin w-4 h-4"
+            className="animate-spin w-5 h-5"
             fill="none"
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -117,17 +119,17 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
           </svg>
         ) : isPlaying ? (
           <svg
-            className="w-4 h-4"
+            className="w-5 h-5"
             fill="currentColor"
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
-            <rect x="6" y="4" width="4" height="16" rx="1" />
-            <rect x="14" y="4" width="4" height="16" rx="1" />
+            <rect x="6" y="4" width="4" height="16" rx="1.5" />
+            <rect x="14" y="4" width="4" height="16" rx="1.5" />
           </svg>
         ) : (
           <svg
-            className="w-4 h-4 ml-0.5"
+            className="w-5 h-5 ml-1"
             fill="currentColor"
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -138,10 +140,15 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
       </button>
 
       {/* Label + seek bar */}
-      <div className="flex-1 flex flex-col gap-1 min-w-0">
-        <span className="text-sm font-medium text-gray-700 leading-tight">
-          Escuchá la nota completa
-        </span>
+      <div className="flex-1 flex flex-col gap-2 min-w-0 justify-center">
+        <div className="flex items-center justify-between w-full">
+          <span className="text-sm font-bold text-gray-800 tracking-tight leading-none">
+            Escuchá la nota completa
+          </span>
+          <span className="text-xs font-semibold text-gray-500 font-mono tracking-tighter leading-none">
+            {duration ? `-${formatTime(remainingTime)}` : '--:--'}
+          </span>
+        </div>
         <input
           type="range"
           min={0}
@@ -150,17 +157,10 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
           value={currentTime}
           onChange={handleSeek}
           disabled={!duration}
-          className="w-full h-1 rounded-full cursor-pointer accent-[#ff0808] disabled:opacity-40"
+          className="w-full h-1.5 mt-0.5 rounded-full cursor-pointer accent-[#ff0808] disabled:opacity-40"
           aria-label="Progreso de reproducción"
         />
       </div>
-
-      {/* Single time number */}
-      <span className="text-xs text-gray-400 font-mono flex-shrink-0 w-10 text-right">
-        {isPlaying || currentTime > 0
-          ? formatTime(currentTime)
-          : formatTime(duration ?? 0)}
-      </span>
     </div>
   )
 }
