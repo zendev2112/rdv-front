@@ -40,6 +40,10 @@ const ClientSafeImage = dynamicImport(
   },
 )
 
+const AudioPlayer = dynamicImport(() => import('@/components/AudioPlayer'), {
+  ssr: false,
+})
+
 interface PageProps {
   params: {
     slug: string[]
@@ -525,6 +529,13 @@ export default async function DynamicPage({
               </div>
             )}
 
+            {/* ✅ AUDIO PLAYER - MOBILE */}
+            {article.audio && (
+              <div className="mb-6">
+                <AudioPlayer src={article.audio} title={article.title} />
+              </div>
+            )}
+
             {article.imgUrl &&
               (() => {
                 const orientation = detectImageOrientation(article.imgUrl)
@@ -707,6 +718,13 @@ export default async function DynamicPage({
               {article.author && (
                 <div className="text-base text-gray-700 mb-6 font-medium">
                   Por {article.author}
+                </div>
+              )}
+
+              {/* ✅ AUDIO PLAYER - DESKTOP */}
+              {article.audio && (
+                <div className="mb-6">
+                  <AudioPlayer src={article.audio} title={article.title} />
                 </div>
               )}
 
