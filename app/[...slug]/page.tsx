@@ -530,9 +530,9 @@ export default async function DynamicPage({
             )}
 
             {/* ✅ AUDIO PLAYER - MOBILE */}
-            {article.audio && (
+            {article.audio_url && (
               <div className="mb-6">
-                <AudioPlayer src={article.audio} title={article.title} />
+                <AudioPlayer src={article.audio_url} title={article.title} />
               </div>
             )}
 
@@ -722,9 +722,9 @@ export default async function DynamicPage({
               )}
 
               {/* ✅ AUDIO PLAYER - DESKTOP */}
-              {article.audio && (
+              {article.audio_url && (
                 <div className="mb-6">
-                  <AudioPlayer src={article.audio} title={article.title} />
+                  <AudioPlayer src={article.audio_url} title={article.title} />
                 </div>
               )}
 
