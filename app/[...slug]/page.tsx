@@ -529,13 +529,6 @@ export default async function DynamicPage({
               </div>
             )}
 
-            {/* ✅ AUDIO PLAYER - MOBILE */}
-            {article.audio_url && (
-              <div className="mb-6">
-                <AudioPlayer src={article.audio_url} title={article.title} />
-              </div>
-            )}
-
             {article.imgUrl &&
               (() => {
                 const orientation = detectImageOrientation(article.imgUrl)
@@ -553,6 +546,9 @@ export default async function DynamicPage({
               })()}
 
             <div className="border-t border-gray-300 my-4"></div>
+
+            {/* ✅ AUDIO PLAYER - MOBILE */}
+            {article.audio_url && <AudioPlayer src={article.audio_url} />}
 
             {/* ✅ SHARE SIDEBAR - HORIZONTAL FOR MOBILE */}
             <div className="flex justify-start my-6">
@@ -721,13 +717,6 @@ export default async function DynamicPage({
                 </div>
               )}
 
-              {/* ✅ AUDIO PLAYER - DESKTOP */}
-              {article.audio_url && (
-                <div className="mb-6">
-                  <AudioPlayer src={article.audio_url} title={article.title} />
-                </div>
-              )}
-
               {/* MAIN IMAGE */}
               {article.imgUrl &&
                 (() => {
@@ -745,6 +734,9 @@ export default async function DynamicPage({
 
               {/* ✅ DIVISORY LINE */}
               <div className="border-t border-gray-300 my-8"></div>
+
+              {/* ✅ AUDIO PLAYER - DESKTOP */}
+              {article.audio_url && <AudioPlayer src={article.audio_url} />}
             </div>
 
             {/* ✅ RIGHT: 4 columns - AD CONTAINER */}
