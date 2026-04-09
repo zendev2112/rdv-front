@@ -129,7 +129,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
           </svg>
         ) : (
           <svg
-            className="w-5 h-5 ml-1"
+            className="w-5 h-5 ml-0.5"
             fill="currentColor"
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -140,12 +140,12 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
       </button>
 
       {/* Label + seek bar */}
-      <div className="flex-1 flex flex-col gap-2 min-w-0 justify-center">
+      <div className="flex-1 flex flex-col gap-1.5 min-w-0 justify-center -mt-0.5">
         <div className="flex items-center justify-between w-full">
-          <span className="text-sm font-bold text-gray-800 tracking-tight leading-none">
+          <span className="text-sm font-bold text-gray-800 tracking-tight leading-none mb-0.5">
             Escuchá la nota completa
           </span>
-          <span className="text-xs font-semibold text-gray-500 font-mono tracking-tighter leading-none">
+          <span className="text-xs font-semibold text-gray-500 font-mono tracking-tighter leading-none mb-0.5">
             {duration ? `-${formatTime(remainingTime)}` : '--:--'}
           </span>
         </div>
