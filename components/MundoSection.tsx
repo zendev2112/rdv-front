@@ -1,23 +1,62 @@
 'use client'
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useMemo } from 'react'
+import Link from 'next/link'
+import { useArticles } from '../hooks/useArticles'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
 interface Article {
-  id?: string;
-  title: string;
-  subtitle?: string;
-  author?: string;
-  imageUrl: string;
+  id: string
+  title: string
+  slug: string
+  excerpt?: string
+  imgUrl?: string
+  overline?: string
+  order?: string
+  created_at?: string
+  section?: string
+  section_path?: string
+  author?: string
+  hasVideo?: boolean
 }
 
 interface MundoSectionProps {
-  mainArticle: Article;
-  sideArticles: Article[];
+  serverData?: Article[]
 }
 
-export default function MundoSection({ mainArticle, sideArticles }: MundoSectionProps) {
+export default function MundoSection({ serverData }: MundoSectionProps) {
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('MundoSection', 4)
+
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
+
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 4),
+    [articles],
+  )
+
+  if (isLoading && articles.length === 0) {
+    return <div className="container mx-auto p-4">Loading...</div>
+  }
+
+  if (hasError && articles.length === 0) {
+    return <div className="container mx-auto p-4 text-red-500">{error}</div>
+  }
+
+  if (processedArticles.length === 0) {
+    return null
+  }
+
+  const [mainArticle, ...sideArticles] = processedArticles
+
   return (
     <section className="py-6">
       <div className="container mx-auto px-4">
@@ -30,18 +69,17 @@ export default function MundoSection({ mainArticle, sideArticles }: MundoSection
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left Column: Main article with image on top, text on bottom */}
           <div>
-            <a
-              href="#"
+            <Link
+              href={getArticleUrl(
+                mainArticle.section_path || mainArticle.section,
+                mainArticle.slug,
+              )}
               className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
-              onClick={(e) => {
-                e.preventDefault()
-                console.log(`Main article clicked`)
-              }}
             >
               {/* Image container - Full width on top */}
               <div className="relative w-full aspect-[16/9] overflow-hidden">
-                <Image
-                  src={mainArticle.imageUrl}
+                <OptimizedImage
+                  src={mainArticle.imgUrl}
                   alt={mainArticle.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -52,13 +90,17 @@ export default function MundoSection({ mainArticle, sideArticles }: MundoSection
               {/* Content area - Below image */}
               <div className="p-4">
                 <h3 className="text-xl font-bold mb-2 leading-tight text-[#292929] line-clamp-3">
-                  <span className="text-primary-red font-bold">Mundo.</span>{' '}
+                  {mainArticle.overline && (
+                    <span className="text-primary-red font-bold">
+                      {mainArticle.overline}.{' '}
+                    </span>
+                  )}
                   {mainArticle.title}
                 </h3>
 
-                {mainArticle.subtitle && (
+                {mainArticle.excerpt && (
                   <p className="text-sm text-dark-gray mb-2 line-clamp-3">
-                    {mainArticle.subtitle}
+                    {mainArticle.excerpt}
                   </p>
                 )}
 
@@ -68,25 +110,24 @@ export default function MundoSection({ mainArticle, sideArticles }: MundoSection
                   </p>
                 )}
               </div>
-            </a>
+            </Link>
           </div>
 
           {/* Right Column: Stacked side articles with image on left, text on right */}
           <div className="space-y-4">
             {sideArticles.map((article, index) => (
-              <a
-                href="#"
-                key={index}
+              <Link
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug,
+                )}
+                key={article.id}
                 className="flex bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-32"
-                onClick={(e) => {
-                  e.preventDefault()
-                  console.log(`Side article ${index} clicked`)
-                }}
               >
                 {/* Image container - Left side */}
                 <div className="relative w-1/3 overflow-hidden">
-                  <Image
-                    src={article.imageUrl}
+                  <OptimizedImage
+                    src={article.imgUrl}
                     alt={article.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -97,13 +138,17 @@ export default function MundoSection({ mainArticle, sideArticles }: MundoSection
                 {/* Content area - Right side */}
                 <div className="p-3 w-2/3 flex flex-col justify-center">
                   <h3 className="text-base font-bold leading-tight text-[#292929] line-clamp-2">
-                    <span className="text-primary-red font-bold">Mundo.</span>{' '}
+                    {article.overline && (
+                      <span className="text-primary-red font-bold">
+                        {article.overline}.{' '}
+                      </span>
+                    )}
                     {article.title}
                   </h3>
 
-                  {article.subtitle && (
+                  {article.excerpt && (
                     <p className="text-xs text-dark-gray line-clamp-1 mb-1">
-                      {article.subtitle}
+                      {article.excerpt}
                     </p>
                   )}
 
@@ -113,7 +158,7 @@ export default function MundoSection({ mainArticle, sideArticles }: MundoSection
                     </p>
                   )}
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

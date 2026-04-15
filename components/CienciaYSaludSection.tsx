@@ -1,63 +1,92 @@
 'use client'
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import React, { useMemo } from 'react'
+import Link from 'next/link'
+import { useArticles } from '../hooks/useArticles'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
 interface Article {
-  titleHighlight: string;
-  titleRegular: string;
-  subtitle?: string;
-  imageUrl: string;
-  author?: string;
+  id: string
+  title: string
+  slug: string
+  excerpt?: string
+  imgUrl?: string
+  overline?: string
+  order?: string
+  created_at?: string
+  section?: string
+  section_path?: string
+  author?: string
+  hasVideo?: boolean
 }
 
 interface CienciaYSaludSectionProps {
-  sectionTitle: string;
-  logo?: {
-    src: string;
-    alt: string;
-  };
-  mainArticle: Article;
-  smallArticles: Article[];
+  serverData?: Article[]
 }
 
 export default function CienciaYSaludSection({
-  sectionTitle,
-  logo,
-  mainArticle,
-  smallArticles,
+  serverData,
 }: CienciaYSaludSectionProps) {
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('CienciaYSaludSection', 4)
+
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
+
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 4),
+    [articles],
+  )
+
+  if (isLoading && articles.length === 0) {
+    return <div className="container mx-auto p-4">Loading...</div>
+  }
+
+  if (hasError && articles.length === 0) {
+    return <div className="container mx-auto p-4 text-red-500">{error}</div>
+  }
+
+  if (processedArticles.length === 0) {
+    return null
+  }
+
+  const [mainArticle, ...smallArticles] = processedArticles
+
   return (
     <section className="py-6">
       <div className="container mx-auto px-4">
         {/* Divisory line */}
         <div className="border-b border-[#292929]/20 mb-6"></div>
 
-        {/* Section title instead of logo */}
+        {/* Section title */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold">{sectionTitle}</h2>
+          <h2 className="text-2xl font-bold">CIENCIA Y SALUD</h2>
         </div>
 
         {/* Main content layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Main article - full width */}
           <div className="md:col-span-12">
-            <a
-              href="#"
+            <Link
+              href={getArticleUrl(
+                mainArticle.section_path || mainArticle.section,
+                mainArticle.slug,
+              )}
               className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
-              onClick={(e) => {
-                e.preventDefault()
-                console.log(`Main article clicked`)
-              }}
             >
               <div className="flex flex-col md:flex-row">
                 {/* Image container */}
                 <div className="md:w-1/2 relative aspect-[16/9] md:aspect-[3/2] overflow-hidden">
-                  <Image
-                    src={mainArticle.imageUrl}
-                    alt={mainArticle.titleRegular}
+                  <OptimizedImage
+                    src={mainArticle.imgUrl}
+                    alt={mainArticle.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -67,16 +96,16 @@ export default function CienciaYSaludSection({
                 {/* Content area */}
                 <div className="md:w-1/2 p-4 md:p-6">
                   <h2 className="text-xl md:text-2xl font-bold mb-3 leading-tight">
-                    <span className="text-primary-red font-bold">
-                      {mainArticle.titleHighlight}.
-                    </span>{' '}
-                    {mainArticle.titleRegular}
+                    {mainArticle.overline && (
+                      <span className="text-primary-red font-bold">
+                        {mainArticle.overline}.
+                      </span>
+                    )}{' '}
+                    {mainArticle.title}
                   </h2>
 
-                  {mainArticle.subtitle && (
-                    <p className="text-dark-gray mb-3">
-                      {mainArticle.subtitle}
-                    </p>
+                  {mainArticle.excerpt && (
+                    <p className="text-dark-gray mb-3">{mainArticle.excerpt}</p>
                   )}
 
                   {mainArticle.author && (
@@ -86,27 +115,26 @@ export default function CienciaYSaludSection({
                   )}
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
 
           {/* Side articles - three columns */}
           <div className="md:col-span-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {smallArticles.map((article, index) => (
-                <a
-                  href="#"
-                  key={index}
+              {smallArticles.map((article) => (
+                <Link
+                  href={getArticleUrl(
+                    article.section_path || article.section,
+                    article.slug,
+                  )}
+                  key={article.id}
                   className="flex flex-col bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    console.log(`Side article ${index} clicked`)
-                  }}
                 >
                   {/* Image container - TOP */}
                   <div className="relative w-full h-[160px] overflow-hidden">
-                    <Image
-                      src={article.imageUrl}
-                      alt={article.titleRegular}
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -116,10 +144,12 @@ export default function CienciaYSaludSection({
                   {/* Content area - BOTTOM */}
                   <div className="p-4 flex-grow">
                     <h3 className="text-base font-bold leading-tight mb-2">
-                      <span className="text-primary-red font-bold">
-                        {article.titleHighlight}.
-                      </span>{' '}
-                      {article.titleRegular}
+                      {article.overline && (
+                        <span className="text-primary-red font-bold">
+                          {article.overline}.
+                        </span>
+                      )}{' '}
+                      {article.title}
                     </h3>
 
                     {article.author && (
@@ -128,7 +158,7 @@ export default function CienciaYSaludSection({
                       </p>
                     )}
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

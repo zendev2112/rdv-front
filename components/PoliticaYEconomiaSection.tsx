@@ -1,31 +1,64 @@
 'use client'
 
-import React from 'react'
-import { Card, CardContent } from '@/components/ui/card'
-import Image from 'next/image'
+import React, { useMemo } from 'react'
+import Link from 'next/link'
+import { useArticles } from '../hooks/useArticles'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
-// Using consistent interfaces with your existing components
-interface NewsArticle {
+interface Article {
   id: string
-  title: {
-    highlight?: string
-    regular: string
-  }
-  summary?: string
+  title: string
+  slug: string
+  excerpt?: string
+  imgUrl?: string
+  overline?: string
+  order?: string
+  created_at?: string
+  section?: string
+  section_path?: string
   author?: string
-  imageUrl: string
   hasVideo?: boolean
 }
 
 interface PoliticaYEconomiaSectionProps {
-  mainArticle: NewsArticle
-  sideArticles: NewsArticle[]
+  serverData?: Article[]
 }
 
 export default function PoliticaYEconomiaSection({
-  mainArticle,
-  sideArticles,
+  serverData,
 }: PoliticaYEconomiaSectionProps) {
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('PoliticaYEconomiaSection', 4)
+
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
+
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 4),
+    [articles],
+  )
+
+  if (isLoading && articles.length === 0) {
+    return <div className="container mx-auto p-4">Loading...</div>
+  }
+
+  if (hasError && articles.length === 0) {
+    return <div className="container mx-auto p-4 text-red-500">{error}</div>
+  }
+
+  if (processedArticles.length === 0) {
+    return null
+  }
+
+  const [mainArticle, ...sideArticles] = processedArticles
+
   return (
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
@@ -41,13 +74,12 @@ export default function PoliticaYEconomiaSection({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Featured Article - 50% width on desktop */}
           <div>
-            <a
-              href="#"
+            <Link
+              href={getArticleUrl(
+                mainArticle.section_path || mainArticle.section,
+                mainArticle.slug,
+              )}
               className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
-              onClick={(e) => {
-                e.preventDefault()
-                console.log(`Main article clicked: ${mainArticle.id}`)
-              }}
             >
               {/* Main article image on top */}
               <div className="relative aspect-[16/9] w-full overflow-hidden">
@@ -56,12 +88,11 @@ export default function PoliticaYEconomiaSection({
                     VIDEO
                   </div>
                 )}
-                <Image
-                  src={mainArticle.imageUrl}
-                  alt={mainArticle.title.regular}
+                <OptimizedImage
+                  src={mainArticle.imgUrl}
+                  alt={mainArticle.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  priority
                 />
                 {/* Hover effect with gray overlay */}
                 <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
@@ -71,18 +102,18 @@ export default function PoliticaYEconomiaSection({
               <div className="p-5">
                 {/* Title with highlighted part */}
                 <h3 className="text-3xl font-bold mb-3 leading-tight text-[#292929]">
-                  {mainArticle.title.highlight && (
+                  {mainArticle.overline && (
                     <span className="text-primary-red font-bold">
-                      {mainArticle.title.highlight}.{' '}
+                      {mainArticle.overline}.{' '}
                     </span>
                   )}
-                  {mainArticle.title.regular}
+                  {mainArticle.title}
                 </h3>
 
                 {/* Summary */}
-                {mainArticle.summary && (
+                {mainArticle.excerpt && (
                   <p className="text-dark-gray text-base mb-4 line-clamp-3">
-                    {mainArticle.summary}
+                    {mainArticle.excerpt}
                   </p>
                 )}
 
@@ -93,32 +124,31 @@ export default function PoliticaYEconomiaSection({
                   </p>
                 )}
               </div>
-            </a>
+            </Link>
           </div>
 
           {/* Side Articles - 50% width container */}
           <div className="space-y-4">
             {sideArticles.map((article) => (
-              <a
+              <Link
                 key={article.id}
-                href="#"
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug,
+                )}
                 className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group"
-                onClick={(e) => {
-                  e.preventDefault()
-                  console.log(`Side article clicked: ${article.id}`)
-                }}
               >
                 {/* Layout with text left, image right */}
                 <div className="flex flex-col sm:flex-row">
                   {/* Text content */}
                   <div className="p-4 sm:w-2/3 flex flex-col justify-center">
                     <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
-                      {article.title.highlight && (
+                      {article.overline && (
                         <span className="text-primary-red font-bold">
-                          {article.title.highlight}.{' '}
+                          {article.overline}.{' '}
                         </span>
                       )}
-                      {article.title.regular}
+                      {article.title}
                     </h3>
 
                     {article.author && (
@@ -135,9 +165,9 @@ export default function PoliticaYEconomiaSection({
                         VIDEO
                       </div>
                     )}
-                    <Image
-                      src={article.imageUrl}
-                      alt={article.title.regular}
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -145,7 +175,7 @@ export default function PoliticaYEconomiaSection({
                     <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

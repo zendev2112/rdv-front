@@ -1,27 +1,64 @@
 'use client'
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useMemo } from 'react'
+import Link from 'next/link'
+import { useArticles } from '../hooks/useArticles'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
 interface Article {
-  id?: string;
-  title: string;
-  subtitle?: string;
-  author?: string;
-  imageUrl: string;
-  excerpt?: string;
+  id: string
+  title: string
+  slug: string
+  excerpt?: string
+  imgUrl?: string
+  overline?: string
+  order?: string
+  created_at?: string
+  section?: string
+  section_path?: string
+  author?: string
+  hasVideo?: boolean
 }
 
 interface BienestarSectionProps {
-  featuredArticle: Article;
-  smallArticles: Article[];
+  serverData?: Article[]
 }
 
 export default function BienestarSection({
-  featuredArticle,
-  smallArticles,
+  serverData,
 }: BienestarSectionProps) {
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('BienestarSection', 5)
+
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
+
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 5),
+    [articles],
+  )
+
+  if (isLoading && articles.length === 0) {
+    return <div className="container mx-auto p-4">Loading...</div>
+  }
+
+  if (hasError && articles.length === 0) {
+    return <div className="container mx-auto p-4 text-red-500">{error}</div>
+  }
+
+  if (processedArticles.length === 0) {
+    return null
+  }
+
+  const [featuredArticle, ...smallArticles] = processedArticles
+
   return (
     <section className="py-6">
       <div className="container mx-auto px-4">
@@ -34,19 +71,15 @@ export default function BienestarSection({
         <div className="space-y-6">
           {/* Featured Article - slightly smaller */}
           <div className="w-full">
-            <a
-              href="#"
+            <Link
+              href={getArticleUrl(featuredArticle.section_path || featuredArticle.section, featuredArticle.slug)}
               className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
-              onClick={(e) => {
-                e.preventDefault()
-                console.log(`Featured article clicked`)
-              }}
             >
               <div className="flex flex-col md:flex-row">
                 {/* Image container - slightly smaller */}
                 <div className="relative md:w-2/5 aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={featuredArticle.imageUrl}
+                  <OptimizedImage
+                    src={featuredArticle.imgUrl}
                     alt={featuredArticle.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -57,9 +90,11 @@ export default function BienestarSection({
                 {/* Content area - with larger font */}
                 <div className="p-4 md:p-5 md:w-3/5 flex flex-col">
                   <h3 className="text-xl font-bold mb-2 leading-tight text-[#292929] line-clamp-2">
-                    <span className="text-primary-red font-bold">
-                      Bienestar.
-                    </span>{' '}
+                    {featuredArticle.overline && (
+                      <span className="text-primary-red font-bold">
+                        {featuredArticle.overline}.{' '}
+                      </span>
+                    )}
                     {featuredArticle.title}
                   </h3>
 
@@ -70,25 +105,21 @@ export default function BienestarSection({
                   )}
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
 
           {/* Small Articles - bigger size and more space between them */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {smallArticles.map((article, index) => (
-              <a
-                href="#"
-                key={index}
+            {smallArticles.map((article) => (
+              <Link
+                href={getArticleUrl(article.section_path || article.section, article.slug)}
+                key={article.id}
                 className="flex bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-32"
-                onClick={(e) => {
-                  e.preventDefault()
-                  console.log(`Small article ${index} clicked`)
-                }}
               >
                 {/* Image container - slightly larger */}
                 <div className="relative w-1/3 overflow-hidden">
-                  <Image
-                    src={article.imageUrl}
+                  <OptimizedImage
+                    src={article.imgUrl}
                     alt={article.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -99,9 +130,11 @@ export default function BienestarSection({
                 {/* Content area - bigger */}
                 <div className="p-3 w-2/3 flex flex-col justify-center">
                   <h3 className="text-base font-bold leading-tight text-[#292929] line-clamp-2">
-                    <span className="text-primary-red font-bold">
-                      Bienestar.
-                    </span>{' '}
+                    {article.overline && (
+                      <span className="text-primary-red font-bold">
+                        {article.overline}.{' '}
+                      </span>
+                    )}
                     {article.title}
                   </h3>
 
@@ -111,9 +144,14 @@ export default function BienestarSection({
                     </p>
                   )}
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
         </div>
       </div>
     </section>
