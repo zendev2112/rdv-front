@@ -72,7 +72,10 @@ export default function BienestarSection({
           {/* Featured Article - slightly smaller */}
           <div className="w-full">
             <Link
-              href={getArticleUrl(featuredArticle.section_path || featuredArticle.section, featuredArticle.slug)}
+              href={getArticleUrl(
+                featuredArticle.section_path || featuredArticle.section,
+                featuredArticle.slug,
+              )}
               className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
             >
               <div className="flex flex-col md:flex-row">
@@ -112,7 +115,10 @@ export default function BienestarSection({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {smallArticles.map((article) => (
               <Link
-                href={getArticleUrl(article.section_path || article.section, article.slug)}
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug,
+                )}
                 key={article.id}
                 className="flex bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-32"
               >
@@ -147,11 +153,6 @@ export default function BienestarSection({
               </Link>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
         </div>
       </div>
     </section>
