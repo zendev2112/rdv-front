@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useArticles } from '../hooks/useArticles'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
 interface Article {
   id: string
@@ -39,39 +40,10 @@ export default function PueblosAlemanesSection({
   const isLoading = !serverData && loading
   const hasError = !serverData && error
 
-  const processedArticles = useMemo(() => {
-    if (!articles.length) return []
-
-    const sorted = [...articles].sort((a, b) =>
-      a.created_at && b.created_at
-        ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        : 0
-    )
-
-    let layout: (Article | undefined)[] = [undefined, undefined, undefined, undefined]
-
-    const principalArticle = sorted.find((a) => a.order === 'principal')
-    const secundarioArticle = sorted.find((a) => a.order === 'secundario')
-    const normalArticles = sorted.filter((a) => a.order === 'normal')
-
-    // Position [0]: PRINCIPAL
-    layout[0] = principalArticle || sorted[0]
-
-    // Position [1]: SECUNDARIO ← GOES HERE NOW
-    layout[1] = secundarioArticle || sorted.find((a) => a.id !== layout[0]?.id)
-
-    // Position [2]: FIRST NORMAL
-    layout[2] = normalArticles[0] || sorted.find((a) =>
-      a.id !== layout[0]?.id && a.id !== layout[1]?.id
-    )
-
-    // Position [3]: SECOND NORMAL
-    layout[3] = normalArticles[1] || sorted.find((a) =>
-      a.id !== layout[0]?.id && a.id !== layout[1]?.id && a.id !== layout[2]?.id
-    )
-
-    return layout.filter(Boolean) as Article[]
-  }, [articles])
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 4),
+    [articles],
+  )
 
   if (isLoading && articles.length === 0) {
     return <div className="container mx-auto p-4">Loading...</div>
@@ -92,7 +64,9 @@ export default function PueblosAlemanesSection({
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="font-serif text-2xl font-bold uppercase">PUEBLOS ALEMANES</h2>
+          <h2 className="font-serif text-2xl font-bold uppercase">
+            PUEBLOS ALEMANES
+          </h2>
         </div>
       </div>
 
@@ -104,7 +78,7 @@ export default function PueblosAlemanesSection({
             <Link
               href={getArticleUrl(
                 mainArticle.section_path || mainArticle.section,
-                mainArticle.slug
+                mainArticle.slug,
               )}
               className="block h-full flex flex-col group"
             >
@@ -153,7 +127,7 @@ export default function PueblosAlemanesSection({
                 <Link
                   href={getArticleUrl(
                     article.section_path || article.section,
-                    article.slug
+                    article.slug,
                   )}
                   className="block h-full flex flex-col md:flex-row group gap-4"
                 >

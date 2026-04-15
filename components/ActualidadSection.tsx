@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useArticles } from '../hooks/useArticles'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
 interface Article {
   id: string
@@ -39,65 +40,10 @@ export default function ActualidadSection({
   const isLoading = !serverData && loading
   const hasError = !serverData && error
 
-  const processedArticles = useMemo(() => {
-    if (!articles.length) return []
-
-    // Sort by date first
-    const sorted = [...articles].sort((a, b) =>
-      a.created_at && b.created_at
-        ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        : 0
-    )
-
-    // Start with first 16 articles
-    let slots = sorted.slice(0, 16)
-
-    // Find articles with order
-    const principal = sorted.find((a) => a.order === 'principal')
-    const secundario = sorted.find((a) => a.order === 'secundario')
-    const normal = sorted.find((a) => a.order === 'normal')
-
-    // Place principal at position 0
-    if (principal) {
-      slots = slots.filter((a) => a.id !== principal.id)
-      slots.splice(0, 0, principal)
-    }
-
-    // Place secundario at position 1
-    if (secundario) {
-      slots = slots.filter((a) => a.id !== secundario.id)
-      while (slots.length < 2) {
-        const nextArticle = sorted.find(
-          (a) => !slots.some((s) => s.id === a.id)
-        )
-        if (nextArticle) slots.push(nextArticle)
-        else break
-      }
-      slots.splice(1, 0, secundario)
-    }
-
-    // Place normal at position 2
-    if (normal) {
-      slots = slots.filter((a) => a.id !== normal.id)
-      while (slots.length < 3) {
-        const nextArticle = sorted.find(
-          (a) => !slots.some((s) => s.id === a.id)
-        )
-        if (nextArticle) slots.push(nextArticle)
-        else break
-      }
-      slots.splice(2, 0, normal)
-    }
-
-    // Fill remaining slots up to 16
-    while (slots.length < 16) {
-      const nextArticle = sorted.find((a) => !slots.some((s) => s.id === a.id))
-      if (nextArticle) slots.push(nextArticle)
-      else break
-    }
-
-    return slots.slice(0, 16)
-  }, [articles])
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 16),
+    [articles],
+  )
 
   if (isLoading && articles.length === 0) {
     return <div className="container mx-auto p-4">Loading...</div>
@@ -139,7 +85,7 @@ export default function ActualidadSection({
                 <Link
                   href={getArticleUrl(
                     article.section_path || article.section,
-                    article.slug
+                    article.slug,
                   )}
                   className="block h-full flex flex-col group"
                 >

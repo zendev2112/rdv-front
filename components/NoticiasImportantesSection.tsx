@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useArticles } from '../hooks/useArticles'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
 interface Article {
   id: string
@@ -41,72 +42,10 @@ export default function NoticiasImportantesSection({
   const isLoading = !serverData && loading
   const hasError = !serverData && error
 
-  const processedArticles = useMemo(() => {
-    // Sort all articles by created_at desc (most recent first)
-    const sorted = [...articles].sort((a, b) =>
-      a.created_at && b.created_at
-        ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        : 0
-    )
-
-    // Start with the 4 most recent articles as base
-    let slots = sorted.slice(0, 4)
-
-    // Find the most recent for each order
-    const normal = sorted.find((a) => a.order === 'normal')
-    const secundario = sorted.find((a) => a.order === 'secundario')
-    const principal = sorted.find((a) => a.order === 'principal')
-
-    // DISPLACEMENT LOGIC - Remove first, then place in correct position
-
-    // If we have a "normal" article, place it at position 2
-    if (normal) {
-      slots = slots.filter((a) => a.id !== normal.id)
-      while (slots.length < 3) {
-        const nextArticle = sorted.find(
-          (a) => !slots.some((s) => s.id === a.id)
-        )
-        if (nextArticle) slots.push(nextArticle)
-        else break
-      }
-      slots.splice(2, 0, normal)
-    }
-
-    // If we have a "secundario" article, place it at position 1
-    if (secundario) {
-      slots = slots.filter((a) => a.id !== secundario.id)
-      while (slots.length < 2) {
-        const nextArticle = sorted.find(
-          (a) => !slots.some((s) => s.id === a.id)
-        )
-        if (nextArticle) slots.push(nextArticle)
-        else break
-      }
-      slots.splice(1, 0, secundario)
-    }
-
-    // If we have a "principal" article, place it at position 0
-    if (principal) {
-      slots = slots.filter((a) => a.id !== principal.id)
-      while (slots.length < 1) {
-        const nextArticle = sorted.find(
-          (a) => !slots.some((s) => s.id === a.id)
-        )
-        if (nextArticle) slots.push(nextArticle)
-        else break
-      }
-      slots.splice(0, 0, principal)
-    }
-
-    // Fill to exactly 4 slots
-    while (slots.length < 4) {
-      const nextArticle = sorted.find((a) => !slots.some((s) => s.id === a.id))
-      if (nextArticle) slots.push(nextArticle)
-      else break
-    }
-
-    return slots.slice(0, 4)
-  }, [articles])
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 4),
+    [articles],
+  )
 
   // Debug logs
   useEffect(() => {
@@ -116,7 +55,7 @@ export default function NoticiasImportantesSection({
         console.log(
           `Position ${index + 1}:`,
           article?.title,
-          `(${article?.order || 'no-order'})`
+          `(${article?.order || 'no-order'})`,
         )
       })
     }
@@ -144,7 +83,7 @@ export default function NoticiasImportantesSection({
             <Link
               href={getArticleUrl(
                 article.section_path || article.section,
-                article.slug
+                article.slug,
               )}
               className="block h-full flex flex-col group"
             >
