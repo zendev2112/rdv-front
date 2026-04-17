@@ -5,6 +5,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import MobileNavBar from '@/components/MobileNavBar'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -115,6 +116,7 @@ export default function RootLayout({
         />
 
         <MobileNavBar />
+        <Analytics />
       </body>
     </html>
   )
