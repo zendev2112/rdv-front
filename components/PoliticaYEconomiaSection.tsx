@@ -26,6 +26,15 @@ interface PoliticaYEconomiaSectionProps {
   serverData?: Article[]
 }
 
+// Static arrays so Tailwind JIT picks up the full class names
+const SIDE_ROW_CLASSES = ['md:row-start-1', 'md:row-start-2', 'md:row-start-3']
+const BOTTOM_COL_CLASSES = [
+  'md:col-start-1',
+  'md:col-start-2',
+  'md:col-start-3',
+  'md:col-start-4',
+]
+
 export default function PoliticaYEconomiaSection({
   serverData,
 }: PoliticaYEconomiaSectionProps) {
@@ -33,7 +42,7 @@ export default function PoliticaYEconomiaSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('PoliticaYEconomiaSection', 4)
+  } = useArticles('PoliticaYEconomiaSection', 8)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -41,7 +50,7 @@ export default function PoliticaYEconomiaSection({
   const hasError = !serverData && error
 
   const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 4),
+    () => sortArticlesForSlots(articles, 8),
     [articles],
   )
 
@@ -53,133 +62,152 @@ export default function PoliticaYEconomiaSection({
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
-  if (processedArticles.length === 0) {
-    return null
-  }
+  if (processedArticles.length === 0) return null
 
-  const [mainArticle, ...sideArticles] = processedArticles
+  const heroArticle = processedArticles[0]
+  const sideArticles = processedArticles.slice(1, 4)
+  const bottomArticles = processedArticles.slice(4, 8)
 
   return (
-    <section className="py-8 bg-white">
-      <div className="container mx-auto px-4">
-        {/* Section header with red accent */}
-        <div className="flex items-center mb-6 pb-2 border-b border-[#292929]/20">
-          <h2 className="text-2xl font-bold text-[#292929]">
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:opacity-50"></div>
+
+      {/* Header */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">
             POLÍTICA Y ECONOMÍA
           </h2>
-          <div className="ml-auto h-1 w-24 bg-[#ff0808]"></div>
-        </div>
-
-        {/* Two 50/50 column grid layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Featured Article - 50% width on desktop */}
-          <div>
-            <Link
-              href={getArticleUrl(
-                mainArticle.section_path || mainArticle.section,
-                mainArticle.slug,
-              )}
-              className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
-            >
-              {/* Main article image on top */}
-              <div className="relative aspect-[16/9] w-full overflow-hidden">
-                {mainArticle.hasVideo && (
-                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
-                    VIDEO
-                  </div>
-                )}
-                <OptimizedImage
-                  src={mainArticle.imgUrl}
-                  alt={mainArticle.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                {/* Hover effect with gray overlay */}
-                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              </div>
-
-              {/* Text content below */}
-              <div className="p-5">
-                {/* Title with highlighted part */}
-                <h3 className="text-3xl font-bold mb-3 leading-tight text-[#292929]">
-                  {mainArticle.overline && (
-                    <span className="text-primary-red font-bold">
-                      {mainArticle.overline}.{' '}
-                    </span>
-                  )}
-                  {mainArticle.title}
-                </h3>
-
-                {/* Summary */}
-                {mainArticle.excerpt && (
-                  <p className="text-dark-gray text-base mb-4 line-clamp-3">
-                    {mainArticle.excerpt}
-                  </p>
-                )}
-
-                {/* Author name */}
-                {mainArticle.author && (
-                  <p className="text-sm text-dark-gray">
-                    Por {mainArticle.author}
-                  </p>
-                )}
-              </div>
-            </Link>
-          </div>
-
-          {/* Side Articles - 50% width container */}
-          <div className="space-y-4">
-            {sideArticles.map((article) => (
-              <Link
-                key={article.id}
-                href={getArticleUrl(
-                  article.section_path || article.section,
-                  article.slug,
-                )}
-                className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group"
-              >
-                {/* Layout with text left, image right */}
-                <div className="flex flex-col sm:flex-row">
-                  {/* Text content */}
-                  <div className="p-4 sm:w-2/3 flex flex-col justify-center">
-                    <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
-                      {article.overline && (
-                        <span className="text-primary-red font-bold">
-                          {article.overline}.{' '}
-                        </span>
-                      )}
-                      {article.title}
-                    </h3>
-
-                    {article.author && (
-                      <p className="text-sm text-dark-gray mt-auto">
-                        Por {article.author}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Article image */}
-                  <div className="relative sm:w-1/3 aspect-video sm:aspect-square overflow-hidden">
-                    {article.hasVideo && (
-                      <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
-                        VIDEO
-                      </div>
-                    )}
-                    <OptimizedImage
-                      src={article.imgUrl}
-                      alt={article.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    {/* Hover effect with gray overlay */}
-                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </div>
-    </section>
+
+      {/* 4-column grid: hero col 1-2 rows 1-3 | side col 3-4 rows 1-3 | bottom row 4 */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* HERO — col 1-2, rows 1-3 */}
+        <div className="md:col-start-1 md:col-span-2 md:row-start-1 md:row-span-3">
+          <Link
+            href={getArticleUrl(
+              heroArticle.section_path || heroArticle.section,
+              heroArticle.slug,
+            )}
+            className="flex flex-col h-full group"
+          >
+            <div className="relative w-full aspect-[16/9] overflow-hidden">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+              <OptimizedImage
+                src={heroArticle.imgUrl}
+                alt={heroArticle.title}
+                fill
+                className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="pt-3 flex-1 pb-6 md:pb-0">
+              <h2 className="font-serif text-xl md:text-2xl font-bold leading-tight">
+                {heroArticle.overline && (
+                  <span className="text-primary-red">
+                    {heroArticle.overline}.{' '}
+                  </span>
+                )}
+                {heroArticle.title}
+              </h2>
+              {heroArticle.excerpt && (
+                <p className="mt-2 text-sm text-gray-600 line-clamp-3">
+                  {heroArticle.excerpt}
+                </p>
+              )}
+            </div>
+          </Link>
+        </div>
+
+        {/* SIDE ARTICLES — col 3-4, rows 1-3 */}
+        {sideArticles.map((article, idx) => (
+          <div
+            key={article.id}
+            className={`md:col-start-3 md:col-span-2 ${SIDE_ROW_CLASSES[idx]} ${
+              idx < sideArticles.length - 1
+                ? 'md:border-b md:border-gray-200 md:pb-4'
+                : ''
+            }`}
+          >
+            <Link
+              href={getArticleUrl(
+                article.section_path || article.section,
+                article.slug,
+              )}
+              className="flex gap-4 group"
+            >
+              {/* Text left */}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-serif text-sm md:text-base font-bold leading-tight">
+                  {article.overline && (
+                    <span className="text-primary-red">
+                      {article.overline}.{' '}
+                    </span>
+                  )}
+                  {article.title}
+                </h3>
+              </div>
+              {/* Image right */}
+              <div className="relative flex-shrink-0 w-28 md:w-32 aspect-[4/3] overflow-hidden">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                <OptimizedImage
+                  src={article.imgUrl}
+                  alt={article.title}
+                  fill
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  sizes="(max-width: 768px) 112px, 128px"
+                />
+              </div>
+            </Link>
+            {/* Mobile divider */}
+            <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
+          </div>
+        ))}
+
+        {/* BOTTOM ARTICLES — row 4, one per column */}
+        {bottomArticles.map((article, idx) => (
+          <div
+            key={article.id}
+            className={`${BOTTOM_COL_CLASSES[idx]} md:row-start-4 md:border-t md:border-gray-200 md:pt-4`}
+          >
+            <Link
+              href={getArticleUrl(
+                article.section_path || article.section,
+                article.slug,
+              )}
+              className="flex flex-col group"
+            >
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                <OptimizedImage
+                  src={article.imgUrl}
+                  alt={article.title}
+                  fill
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                />
+              </div>
+              <div className="pt-2 pb-6 md:pb-0">
+                <h3 className="font-serif text-sm font-bold leading-tight">
+                  {article.overline && (
+                    <span className="text-primary-red">
+                      {article.overline}.{' '}
+                    </span>
+                  )}
+                  {article.title}
+                </h3>
+              </div>
+            </Link>
+            {/* Mobile divider */}
+            {idx < bottomArticles.length - 1 && (
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+            )}
+          </div>
+        ))}
+      </div>
+    </main>
   )
 }
