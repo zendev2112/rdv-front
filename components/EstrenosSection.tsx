@@ -22,16 +22,16 @@ interface Article {
   hasVideo?: boolean
 }
 
-interface RecetasSectionProps {
+interface EstrenosSectionProps {
   serverData?: Article[]
 }
 
-export default function RecetasSection({ serverData }: RecetasSectionProps) {
+export default function EstrenosSection({ serverData }: EstrenosSectionProps) {
   const {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('RecetasSection', 3)
+  } = useArticles('EstrenosSection', 3)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -60,7 +60,7 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
       <div className="flex justify-start mb-6">
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="font-serif text-2xl font-bold uppercase">RECETAS</h2>
+          <h2 className="font-serif text-2xl font-bold uppercase">ESTRENOS</h2>
         </div>
       </div>
 
@@ -116,6 +116,4 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
       </div>
     </main>
   )
-}
-
 }

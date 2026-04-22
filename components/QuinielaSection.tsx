@@ -1,174 +1,119 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
+import React, { useMemo } from 'react'
 import Link from 'next/link'
-import { ChevronRight, Calendar } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
+import { useArticles } from '../hooks/useArticles'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
-interface LotteryGame {
-  name: string
-  date: string
-  link: string
-  draws: {
-    name: string
-    numbers: string
-  }[]
+interface Article {
+  id: string
+  title: string
+  slug: string
+  excerpt?: string
+  imgUrl?: string
+  overline?: string
+  order?: string
+  created_at?: string
+  section?: string
+  section_path?: string
+  author?: string
+  hasVideo?: boolean
 }
 
 interface QuinielaSectionProps {
-  logoSrc?: string
-  nationalGames?: LotteryGame[]
+  serverData?: Article[]
 }
 
-export default function QuinielaSection({
-  logoSrc = '/placeholder.svg?height=80&width=150&text=QUINIELA',
-  nationalGames = [
-    {
-      name: 'Quiniela Nacional',
-      date: '14.04.2025',
-      link: '#',
-      draws: [
-        { name: 'Previa del 14-04', numbers: '8035' },
-        { name: 'Primera del 14-04', numbers: '9861' },
-        { name: 'Matutina del 14-04', numbers: '7045' },
-        { name: 'Vespertina del 12-04', numbers: '4961' },
-        { name: 'Nocturna del 12-04', numbers: '0658' },
-      ],
-    },
-    {
-      name: 'Quiniela Provincia',
-      date: '14.04.2025',
-      link: '#',
-      draws: [
-        { name: 'Previa del 14-04', numbers: '8661' },
-        { name: 'Primera del 14-04', numbers: '8432' },
-        { name: 'Matutina del 14-04', numbers: '0821' },
-        { name: 'Vespertina del 12-04', numbers: '0684' },
-        { name: 'Nocturna del 12-04', numbers: '3891' },
-      ],
-    },
-    {
-      name: 'Quiniela de Córdoba',
-      date: '14.04.2025',
-      link: '#',
-      draws: [
-        { name: 'Previa del 14-04', numbers: '5775' },
-        { name: 'Matutina del 14-04', numbers: '0546' },
-        { name: 'Vespertina del 12-04', numbers: '6020' },
-        { name: 'Nocturna del 12-04', numbers: '4783' },
-      ],
-    },
-    {
-      name: 'Quiniela Santa Fe',
-      date: '14.04.2025',
-      link: '#',
-      draws: [
-        { name: 'Previa del 14-04', numbers: '2481' },
-        { name: 'Primera del 14-04', numbers: '5028' },
-        { name: 'Matutina del 14-04', numbers: '0206' },
-        { name: 'Vespertina del 12-04', numbers: '3656' },
-        { name: 'Nocturna del 12-04', numbers: '9777' },
-      ],
-    },
-    {
-      name: 'Quiniela Santiago del Estero',
-      date: '14.04.2025',
-      link: '#',
-      draws: [
-        { name: 'Matutina del 14-04', numbers: '0650' },
-        { name: 'Vespertina del 14-04', numbers: '8891' },
-        { name: 'Nocturna del 12-04', numbers: '0070' },
-      ],
-    },
-    {
-      name: 'Quiniela Montevideo',
-      date: '14.04.2025',
-      link: '#',
-      draws: [
-        { name: 'Vespertina del 14-04', numbers: '586' },
-        { name: 'Nocturna del 12-04', numbers: '347' },
-      ],
-    },
-  ],
-}: QuinielaSectionProps) {
+export default function QuinielaSection({ serverData }: QuinielaSectionProps) {
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('QuinielaSection', 3)
+
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
+
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 3),
+    [articles],
+  )
+
+  if (isLoading && articles.length === 0) {
+    return <div className="container mx-auto p-4">Loading...</div>
+  }
+
+  if (hasError && articles.length === 0) {
+    return <div className="container mx-auto p-4 text-red-500">{error}</div>
+  }
+
   return (
-    <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-      <div className="flex items-center justify-between mb-6">
-        <div className="relative h-16 w-40">
-          <Image
-            src={logoSrc}
-            alt="Quiniela"
-            fill
-            className="object-contain object-left"
-            priority
-            unoptimized
-          />
-        </div>
-        <div className="flex space-x-2">
-          <Link
-            href="#"
-            className={cn(
-              buttonVariants({ variant: 'outline', size: 'sm' }),
-              'text-sm'
-            )}
-          >
-            <Calendar className="mr-2 h-4 w-4" />
-            Sorteos
-          </Link>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:opacity-50"></div>
+
+      {/* Header */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">QUINIELA</h2>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {nationalGames.map((game, index) => (
-          <Card key={index} className="overflow-hidden">
-            <CardHeader className="py-3 px-4 bg-gray-50">
-              <div className="flex justify-between items-center">
-                <CardTitle className="text-base font-bold">
-                  {game.name}
-                </CardTitle>
-                <div className="text-sm text-gray-500">Sorteo {game.date}</div>
-              </div>
-            </CardHeader>
-            <CardContent className="py-3 px-4">
-              <div className="space-y-3">
-                {game.draws.map((draw, drawIndex) => (
-                  <div key={drawIndex} className="grid grid-cols-3 gap-2">
-                    <div className="col-span-2 text-sm text-gray-600">
-                      {draw.name}
-                    </div>
-                    <div className="col-span-1 text-right">
-                      <span className="font-bold text-lg text-red-600">
-                        {draw.numbers}
-                      </span>
-                    </div>
+      {/* 12-column grid – 3 articles of 4 columns each */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {processedArticles.map((article, idx) => (
+          <React.Fragment key={article.id}>
+            <div className="md:col-span-4 relative">
+              <Link
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug,
+                )}
+                className="h-full flex flex-col group"
+              >
+                {/* Image */}
+                <div className="relative w-full aspect-[16/9]">
+                  <div className="relative w-full h-full overflow-hidden">
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                   </div>
-                ))}
-              </div>
+                </div>
 
-              <div className="mt-4 flex justify-end">
-                <Link
-                  href={game.link}
-                  className="text-red-600 text-sm font-medium flex items-center"
-                >
-                  Ver resultados
-                  <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+                {/* Title area */}
+                <div className="pt-2 pb-6 md:pb-0 flex-1">
+                  <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
+                    {article.overline && (
+                      <span className="text-primary-red">
+                        {article.overline}.{' '}
+                      </span>
+                    )}
+                    {article.title}
+                  </h2>
+                </div>
+              </Link>
+
+              {/* Vertical divider between articles */}
+              {idx < processedArticles.length - 1 && (
+                <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+              )}
+
+              {/* Mobile divider */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+            </div>
+          </React.Fragment>
         ))}
       </div>
-
-      <div className="mt-6 text-center">
-
-        <p className="text-sm text-gray-500 mt-2">
-          Resultados actualizados al 14 de Abril de 2025
-        </p>
-      </div>
-    </section>
+    </main>
   )
 }

@@ -23,6 +23,7 @@ import WeatherWidget from '@/components/WeatherWidget'
 import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import RecetasSection from '@/components/RecetasSection'
 import ActualidadSection from '@/components/ActualidadSection'
+import DeportesSection from '@/components/DeportesSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
 
@@ -126,6 +127,7 @@ export default async function Home() {
     agroArticles,
     lifestyleArticles,
     recetasSection,
+    deportesArticles,
   ] = await Promise.all([
     fetchSectionArticles('PrincipalSection'),
     fetchSectionArticles('NoticiasImportantesSection'),
@@ -138,6 +140,7 @@ export default async function Home() {
     fetchSectionArticles('AgroSection'),
     fetchSectionArticles('LifestyleSection'),
     fetchSectionArticles('RecetasSection'),
+    fetchSectionArticles('DeportesSection'),
   ])
 
   const featuredVideo = youtubeVideos[0] || null
@@ -225,6 +228,8 @@ export default async function Home() {
 
           <RecetasSection serverData={recetasSection} />
 
+          <DeportesSection serverData={deportesArticles} />
+
           <AdPlaceholder />
 
           <Footer />
@@ -303,6 +308,8 @@ export default async function Home() {
               </section>
 
               <RecetasSection serverData={recetasSection} />
+
+              <DeportesSection serverData={deportesArticles} />
 
               <AdPlaceholder />
 

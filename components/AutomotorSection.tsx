@@ -22,16 +22,18 @@ interface Article {
   hasVideo?: boolean
 }
 
-interface RecetasSectionProps {
+interface AutomotorSectionProps {
   serverData?: Article[]
 }
 
-export default function RecetasSection({ serverData }: RecetasSectionProps) {
+export default function AutomotorSection({
+  serverData,
+}: AutomotorSectionProps) {
   const {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('RecetasSection', 3)
+  } = useArticles('AutomotorSection', 4)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -39,7 +41,7 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
   const hasError = !serverData && error
 
   const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 3),
+    () => sortArticlesForSlots(articles, 4),
     [articles],
   )
 
@@ -59,16 +61,16 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
       {/* Header */}
       <div className="flex justify-start mb-6">
         <div className="text-left">
-          <div className="w-16 h-1 bg-primary-red mb-2"></div>
-          <h2 className="font-serif text-2xl font-bold uppercase">RECETAS</h2>
+          <div className="w-16 h-1 bg-[#f97316] mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">AUTOMOTOR</h2>
         </div>
       </div>
 
-      {/* 12-column grid – 3 articles of 4 columns each */}
+      {/* 12-column grid – 4 articles of 3 columns each */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {processedArticles.map((article, idx) => (
           <React.Fragment key={article.id}>
-            <div className="md:col-span-4 relative">
+            <div className="md:col-span-3 relative">
               <Link
                 href={getArticleUrl(
                   article.section_path || article.section,
@@ -85,7 +87,7 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 768px) 100vw, 25vw"
                     />
                   </div>
                 </div>
@@ -94,7 +96,7 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
                 <div className="pt-2 pb-6 md:pb-0 flex-1">
                   <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
                     {article.overline && (
-                      <span className="text-primary-red">
+                      <span className="text-[#f97316]">
                         {article.overline}.{' '}
                       </span>
                     )}
@@ -116,6 +118,4 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
       </div>
     </main>
   )
-}
-
 }

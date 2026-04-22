@@ -22,16 +22,16 @@ interface Article {
   hasVideo?: boolean
 }
 
-interface IActualidadProps {
+interface EconomiaSectionProps {
   serverData?: Article[]
 }
 
-export default function IActualidad({ serverData }: IActualidadProps) {
+export default function EconomiaSection({ serverData }: EconomiaSectionProps) {
   const {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('IActualidad', 4)
+  } = useArticles('EconomiaSection', 4)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -61,7 +61,7 @@ export default function IActualidad({ serverData }: IActualidadProps) {
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4">
         <div className="flex items-center mb-6 pb-2 border-b border-[#292929]/20">
-          <h2 className="text-2xl font-bold text-[#292929]">ACTUALIDAD</h2>
+          <h2 className="text-2xl font-bold text-[#292929]">ECONOMÍA</h2>
           <div className="ml-auto h-1 w-24 bg-primary-red"></div>
         </div>
 

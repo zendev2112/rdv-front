@@ -1,100 +1,123 @@
 'use client'
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import React, { useMemo } from 'react'
+import Link from 'next/link'
+import { useArticles } from '../hooks/useArticles'
+import OptimizedImage from './OptimizedImage'
+import { getArticleUrl } from '@/lib/utils'
+import { sortArticlesForSlots } from '@/lib/articleSlots'
 
-interface FeaturedItem {
-  imageUrl: string;
-  title: string;
-  description: string;
-}
-
-interface ContentCard {
-  imageUrl: string;
-  highlightedText: string;
-  regularText: string;
+interface Article {
+  id: string
+  title: string
+  slug: string
+  excerpt?: string
+  imgUrl?: string
+  overline?: string
+  order?: string
+  created_at?: string
+  section?: string
+  section_path?: string
+  author?: string
+  hasVideo?: boolean
 }
 
 interface TendenciasSectionProps {
-  hashtagName: string;
-  featuredItem: FeaturedItem;
-  contentCards: ContentCard[];
+  serverData?: Article[]
 }
 
 export default function TendenciasSection({
-  hashtagName,
-  featuredItem,
-  contentCards,
+  serverData,
 }: TendenciasSectionProps) {
+  const {
+    articles: clientArticles,
+    loading,
+    error,
+  } = useArticles('TendenciasSection', 3)
+
+  const articles =
+    serverData && serverData.length > 0 ? serverData : clientArticles
+  const isLoading = !serverData && loading
+  const hasError = !serverData && error
+
+  const processedArticles = useMemo(
+    () => sortArticlesForSlots(articles, 3),
+    [articles],
+  )
+
+  if (isLoading && articles.length === 0) {
+    return <div className="container mx-auto p-4">Loading...</div>
+  }
+
+  if (hasError && articles.length === 0) {
+    return <div className="container mx-auto p-4 text-red-500">{error}</div>
+  }
+
   return (
-    <section className="container mx-auto px-4 py-8 border-t border-gray-200">
-      {/* Hashtag Title - styled as a graphic label */}
-      <div className="inline-block mb-8 relative">
-        <span className="bg-primary-red absolute inset-0 transform skew-x-12 rounded-r-md"></span>
-        <h2 className="text-2xl md:text-3xl font-black px-6 py-2 relative text-white">
-          #{hashtagName}
-        </h2>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:opacity-50"></div>
+
+      {/* Header */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">
+            TENDENCIAS
+          </h2>
+        </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Left: Featured circular image with title/description */}
-        <div className="md:w-1/3 flex flex-col items-center text-center">
-          <Link href="#" className="group flex flex-col items-center">
-            <div className="mb-6 w-48 h-48 md:w-64 md:h-64 relative overflow-hidden rounded-full shadow-lg border-4 border-white">
-              <Image
-                src={featuredItem.imageUrl}
-                alt={featuredItem.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-            </div>
-            <Badge className="mb-3 bg-primary-red hover:bg-primary-red text-white">
-              Destacado
-            </Badge>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-primary-red transition-colors">
-              {featuredItem.title}
-            </h3>
-            <p className="text-dark-gray">{featuredItem.description}</p>
-          </Link>
-        </div>
-
-        {/* Right: 3-column grid of content cards */}
-        <div className="md:w-2/3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {contentCards.map((card, index) => (
-              <Card
-                key={index}
-                className="border-0 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+      {/* 12-column grid – 3 articles of 4 columns each */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {processedArticles.map((article, idx) => (
+          <React.Fragment key={article.id}>
+            <div className="md:col-span-4 relative">
+              <Link
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug,
+                )}
+                className="h-full flex flex-col group"
               >
-                <Link href="#" className="block w-full">
-                  <div className="relative aspect-video overflow-hidden">
-                    <Image
-                      src={card.imageUrl}
-                      alt={`${card.highlightedText} ${card.regularText}`}
+                {/* Image */}
+                <div className="relative w-full aspect-[16/9]">
+                  <div className="relative w-full h-full overflow-hidden">
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-12"></div>
                   </div>
-                  <CardContent className="p-3">
-                    <div className="text-center">
-                      <span className="text-primary-red font-bold">
-                        {card.highlightedText}
-                      </span>{' '}
-                      <span className="text-dark-gray">{card.regularText}</span>
-                    </div>
-                  </CardContent>
-                </Link>
-              </Card>
-            ))}
-          </div>
-        </div>
+                </div>
+
+                {/* Title area */}
+                <div className="pt-2 pb-6 md:pb-0 flex-1">
+                  <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
+                    {article.overline && (
+                      <span className="text-primary-red">
+                        {article.overline}.{' '}
+                      </span>
+                    )}
+                    {article.title}
+                  </h2>
+                </div>
+              </Link>
+
+              {/* Vertical divider between articles */}
+              {idx < processedArticles.length - 1 && (
+                <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+              )}
+
+              {/* Mobile divider */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+            </div>
+          </React.Fragment>
+        ))}
       </div>
-    </section>
+    </main>
   )
 }
