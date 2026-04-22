@@ -13,7 +13,7 @@ export async function debugSupabaseConnection() {
     console.log('🌐 URL:', supabaseUrl)
     console.log(
       '🔑 Using SERVICE key:',
-      !!process.env.SUPABASE_SERVICE_ROLE_KEY
+      !!process.env.SUPABASE_SERVICE_ROLE_KEY,
     )
 
     // Get total count
@@ -39,7 +39,7 @@ export async function debugSupabaseConnection() {
 
     console.log(
       '📝 Available statuses:',
-      allStatuses?.map((a) => a.status)
+      allStatuses?.map((a) => a.status),
     )
 
     return {
@@ -56,7 +56,10 @@ export async function debugSupabaseConnection() {
   }
 }
 
-export async function fetchSectionArticles(section: string) {
+export async function fetchSectionArticles(
+  section: string,
+  limit: number = 10,
+) {
   try {
     // Add timestamp to force fresh queries
     const timestamp = new Date().toISOString()
@@ -69,7 +72,7 @@ export async function fetchSectionArticles(section: string) {
       .eq('front', section)
       .eq('status', 'published')
       .order('created_at', { ascending: false })
-      .limit(10)
+      .limit(limit)
 
     if (error) {
       console.error('❌ Primary query failed:', error)
@@ -81,7 +84,7 @@ export async function fetchSectionArticles(section: string) {
         .eq('section_id', section)
         .eq('status', 'published')
         .order('created_at', { ascending: false })
-        .limit(10)
+        .limit(limit)
 
       if (fallbackError) {
         console.error('❌ Fallback failed:', fallbackError)

@@ -140,7 +140,7 @@ export default function PoliticaYEconomiaSection({
               className="flex gap-4 group"
             >
               {/* Text left */}
-              <div className="flex-1 min-w-0">
+              <div className="w-1/2 min-w-0">
                 <h3 className="font-serif text-sm md:text-base font-bold leading-tight">
                   {article.overline && (
                     <span className="text-primary-red">
@@ -151,7 +151,7 @@ export default function PoliticaYEconomiaSection({
                 </h3>
               </div>
               {/* Image right */}
-              <div className="relative flex-shrink-0 w-28 md:w-32 aspect-[4/3] overflow-hidden">
+              <div className="relative w-1/2 aspect-[4/3] overflow-hidden">
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
                   src={article.imgUrl}
@@ -191,7 +191,7 @@ export default function PoliticaYEconomiaSection({
                 />
               </div>
               <div className="pt-2 pb-6 md:pb-0">
-                <h3 className="font-serif text-sm font-bold leading-tight">
+                <h3 className="font-serif text-sm md:text-base font-bold leading-tight">
                   {article.overline && (
                     <span className="text-primary-red">
                       {article.overline}.{' '}

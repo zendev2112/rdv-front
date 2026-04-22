@@ -33,7 +33,7 @@ export default function ActualidadSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('ActualidadSection', 20)
+  } = useArticles('ActualidadSection', 12)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -41,7 +41,7 @@ export default function ActualidadSection({
   const hasError = !serverData && error
 
   const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 16),
+    () => sortArticlesForSlots(articles, 12),
     [articles],
   )
 
@@ -72,12 +72,12 @@ export default function ActualidadSection({
         </div>
       </div>
 
-      {/* 12-column grid layout - 4 articles of 3 columns each (4x4 = 16 articles) */}
+      {/* 12-column grid layout - 4 articles of 3 columns each (4x3 = 12 articles) */}}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {processedArticles.map((article, idx) => {
           const row = Math.floor(idx / 4)
           const isLastInRow = (idx + 1) % 4 === 0
-          const isLastRow = row === 3
+          const isLastRow = row === 2
 
           return (
             <React.Fragment key={article.id}>

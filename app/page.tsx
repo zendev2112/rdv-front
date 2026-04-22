@@ -140,7 +140,7 @@ export default async function Home() {
     fetchSectionArticles('HuanguelenSection'),
     fetchSectionArticles('LaSextaSection'),
     fetchYouTubeRSS(process.env.CHANNEL_ID!),
-    fetchSectionArticles('ActualidadSection'),
+    fetchSectionArticles('ActualidadSection', 12),
     fetchLatestHeadlines(),
     fetchSectionArticles('AgroSection'),
     fetchSectionArticles('LifestyleSection'),
