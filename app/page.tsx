@@ -25,6 +25,7 @@ import RecetasSection from '@/components/RecetasSection'
 import ActualidadSection from '@/components/ActualidadSection'
 import DeportesSection from '@/components/DeportesSection'
 import LifestyleSection from '@/components/LifestyleSection'
+import EstrenosSection from '@/components/EstrenosSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
 
@@ -129,6 +130,7 @@ export default async function Home() {
     lifestyleArticles,
     recetasSection,
     deportesArticles,
+    estrenosArticles,
   ] = await Promise.all([
     fetchSectionArticles('PrincipalSection'),
     fetchSectionArticles('NoticiasImportantesSection'),
@@ -142,6 +144,7 @@ export default async function Home() {
     fetchSectionArticles('LifestyleSection'),
     fetchSectionArticles('RecetasSection'),
     fetchSectionArticles('DeportesSection'),
+    fetchSectionArticles('EstrenosSection'),
   ])
 
   const featuredVideo = youtubeVideos[0] || null
@@ -233,6 +236,8 @@ export default async function Home() {
 
           <LifestyleSection serverData={lifestyleArticles} />
 
+          <EstrenosSection serverData={estrenosArticles} />
+
           <AdPlaceholder />
 
           <Footer />
@@ -315,6 +320,8 @@ export default async function Home() {
               <DeportesSection serverData={deportesArticles} />
 
               <LifestyleSection serverData={lifestyleArticles} />
+
+              <EstrenosSection serverData={estrenosArticles} />
 
               <AdPlaceholder />
 
