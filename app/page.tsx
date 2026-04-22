@@ -24,6 +24,7 @@ import PWAInstallPrompt from '@/components/PWAInstallPrompt'
 import RecetasSection from '@/components/RecetasSection'
 import ActualidadSection from '@/components/ActualidadSection'
 import DeportesSection from '@/components/DeportesSection'
+import LifestyleSection from '@/components/LifestyleSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
 
@@ -230,6 +231,8 @@ export default async function Home() {
 
           <DeportesSection serverData={deportesArticles} />
 
+          <LifestyleSection serverData={lifestyleArticles} />
+
           <AdPlaceholder />
 
           <Footer />
@@ -310,6 +313,8 @@ export default async function Home() {
               <RecetasSection serverData={recetasSection} />
 
               <DeportesSection serverData={deportesArticles} />
+
+              <LifestyleSection serverData={lifestyleArticles} />
 
               <AdPlaceholder />
 
