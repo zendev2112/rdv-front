@@ -72,7 +72,7 @@ export default function ActualidadSection({
         </div>
       </div>
 
-      {/* 12-column grid layout - 4 articles of 3 columns each (4x3 = 12 articles) */}}
+      {/* 12-column grid layout - 4 articles of 3 columns each (4x3 = 12 articles) */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {processedArticles.map((article, idx) => {
           const row = Math.floor(idx / 4)
