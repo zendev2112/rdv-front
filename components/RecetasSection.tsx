@@ -117,5 +117,3 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
     </main>
   )
 }
-
-}
