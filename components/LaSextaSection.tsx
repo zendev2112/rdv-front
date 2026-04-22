@@ -31,7 +31,7 @@ export default function LaSextaSection({ serverData }: LaSextaSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('LaSextaSection', 4)
+  } = useArticles('LaSextaSection', 8)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -39,7 +39,7 @@ export default function LaSextaSection({ serverData }: LaSextaSectionProps) {
   const hasError = !serverData && error
 
   const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 4),
+    () => sortArticlesForSlots(articles, 8),
     [articles],
   )
 
@@ -64,55 +64,65 @@ export default function LaSextaSection({ serverData }: LaSextaSectionProps) {
         </div>
       </div>
 
-      {/* 12-column grid layout - 4 articles of 3 columns each */}
+      {/* 12-column grid layout - 4 articles of 3 columns each, 2 rows */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {processedArticles.map((article, idx) => (
-          <React.Fragment key={article.id}>
-            <div className="md:col-span-3 relative">
-              <Link
-                href={getArticleUrl(
-                  article.section_path || article.section,
-                  article.slug,
-                )}
-                className="block h-full flex flex-col group"
-              >
-                {/* Image */}
-                <div className="relative w-full aspect-[16/9]">
-                  <div className="relative w-full h-full overflow-hidden">
-                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                    <OptimizedImage
-                      src={article.imgUrl}
-                      alt={article.title}
-                      fill
-                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 25vw"
-                    />
+        {processedArticles.map((article, idx) => {
+          const isLastInRow = (idx + 1) % 4 === 0
+          const isLastRow = idx >= 4
+
+          return (
+            <React.Fragment key={article.id}>
+              <div className="md:col-span-3 relative">
+                <Link
+                  href={getArticleUrl(
+                    article.section_path || article.section,
+                    article.slug,
+                  )}
+                  className="block h-full flex flex-col group"
+                >
+                  {/* Image */}
+                  <div className="relative w-full aspect-[16/9]">
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                      <OptimizedImage
+                        src={article.imgUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Title area */}
-                <div className="pt-2 pb-6 md:pb-0 flex-1">
-                  <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
-                    {article.overline && (
-                      <span className="text-primary-red">
-                        {article.overline}.{' '}
-                      </span>
-                    )}
-                    {article.title}
-                  </h2>
-                </div>
-              </Link>
+                  {/* Title area */}
+                  <div className="pt-2 pb-6 md:pb-0 flex-1">
+                    <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
+                      {article.overline && (
+                        <span className="text-primary-red">
+                          {article.overline}.{' '}
+                        </span>
+                      )}
+                      {article.title}
+                    </h2>
+                  </div>
+                </Link>
 
-              {/* Vertical divider between articles */}
-              {idx < processedArticles.length - 1 && (
-                <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+                {/* Vertical divider between articles */}
+                {!isLastInRow && (
+                  <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+                )}
+
+                {/* Mobile divisory line */}
+                <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+              </div>
+
+              {/* Horizontal divider after first row */}
+              {isLastInRow && !isLastRow && (
+                <div className="md:col-span-12 h-[1px] bg-gray-400 opacity-50 hidden md:block"></div>
               )}
-
-              {/* Mobile divisory line */}
-              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
-            </div>
-          </React.Fragment>
-        ))}
+            </React.Fragment>
+          )
+        })}
       </div>
     </main>
   )

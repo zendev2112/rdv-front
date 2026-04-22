@@ -142,7 +142,7 @@ export default async function Home() {
     fetchSectionArticles('NoticiasImportantesSection'),
     fetchSectionArticles('PueblosAlemanesSection'),
     fetchSectionArticles('HuanguelenSection'),
-    fetchSectionArticles('LaSextaSection'),
+    fetchSectionArticles('LaSextaSection', 8),
     fetchYouTubeRSS(process.env.CHANNEL_ID!),
     fetchSectionArticles('ActualidadSection', 13),
     fetchLatestHeadlines(),
@@ -222,9 +222,9 @@ export default async function Home() {
 
           <ActualidadSection serverData={actualidadArticles} />
 
-          <MundoSection serverData={mundoArticles} />
-
           <PoliticaYEconomiaSection serverData={politicaYEconomiaArticles} />
+
+          <MundoSection serverData={mundoArticles} />
 
           {/* Advertisement banner */}
           <div className="py-6">
@@ -313,11 +313,11 @@ export default async function Home() {
 
               <ActualidadSection serverData={actualidadArticles} />
 
-              <MundoSection serverData={mundoArticles} />
-
               <PoliticaYEconomiaSection
                 serverData={politicaYEconomiaArticles}
               />
+
+              <MundoSection serverData={mundoArticles} />
 
               {/* Advertisement banner */}
               <div className="py-6">

@@ -86,7 +86,7 @@ export default function ActualidadSection({
             className="flex flex-col md:flex-row gap-6 group"
           >
             {/* Text left */}
-            <div className="md:w-1/2 flex flex-col justify-center order-2 md:order-1">
+            <div className="md:w-1/2 flex flex-col justify-start order-2 md:order-1">
               <h2 className="font-serif text-xl md:text-2xl font-bold leading-tight">
                 {heroArticle.overline && (
                   <span className="text-primary-red">
