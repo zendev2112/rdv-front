@@ -58,115 +58,122 @@ export default function DeportesSection({ serverData }: DeportesSectionProps) {
   const [mainArticle, ...sideArticles] = processedArticles
 
   return (
-    <section className="container mx-auto px-4 py-6 border-t border-gray-200">
-      <h2 className="text-2xl font-bold mb-6 uppercase">
-        ACTUALIDAD DEPORTIVA
-      </h2>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:opacity-50"></div>
 
-      {/* Main Article */}
-      <Link
-        href={getArticleUrl(
-          mainArticle.section_path || mainArticle.section,
-          mainArticle.slug,
-        )}
-        className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group mb-8"
-      >
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Text Content - Left */}
-          <div className="p-4 md:w-1/2">
-            <h3 className="text-3xl font-bold mb-3 leading-tight">
-              {mainArticle.overline && (
-                <span className="text-primary-red font-bold">
-                  {mainArticle.overline}.
-                </span>
-              )}{' '}
-              {mainArticle.title}
-            </h3>
-            {mainArticle.excerpt && (
-              <p className="text-base text-dark-gray mb-4">
-                {mainArticle.excerpt}
-              </p>
-            )}
-            {mainArticle.author && (
-              <p className="text-sm text-dark-gray">Por {mainArticle.author}</p>
-            )}
-          </div>
+      {/* Header */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">DEPORTES</h2>
+        </div>
+      </div>
 
-          {/* Image - Right */}
-          <div className="md:w-1/2">
-            <div className="relative w-full h-[300px] overflow-hidden">
-              <OptimizedImage
-                src={mainArticle.imgUrl}
-                alt={mainArticle.title}
-                fill
-                className="object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              {mainArticle.hasVideo && (
-                <div className="absolute top-2 left-2 bg-black text-white border-0 rounded px-2 py-1 text-xs z-10">
-                  VIDEO
-                </div>
+      {/* Main Article – text left, image right */}
+      <div className="mb-6 md:mb-8">
+        <Link
+          href={getArticleUrl(
+            mainArticle.section_path || mainArticle.section,
+            mainArticle.slug,
+          )}
+          className="block group"
+        >
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Text – Left */}
+            <div className="md:w-1/2 pt-2 pb-6 md:pb-0">
+              <h1 className="font-serif text-xl md:text-2xl font-bold leading-7 sm:leading-tight">
+                {mainArticle.overline && (
+                  <span className="text-primary-red">
+                    {mainArticle.overline}.{' '}
+                  </span>
+                )}
+                {mainArticle.title}
+              </h1>
+              {mainArticle.excerpt && (
+                <p className="font-serif text-sm md:text-sm text-gray-600 mt-2 leading-6 sm:leading-relaxed">
+                  {mainArticle.excerpt}
+                </p>
               )}
             </div>
-          </div>
-        </div>
-      </Link>
 
-      <hr className="my-6 border-gray-200" />
-
-      {/* Side Articles */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {sideArticles.map((article) => (
-          <Link
-            key={article.id}
-            href={getArticleUrl(
-              article.section_path || article.section,
-              article.slug,
-            )}
-            className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group"
-          >
-            <div className="flex flex-col md:flex-row gap-4">
-              {/* Text Content - Left */}
-              <div className="p-4 md:w-2/3">
-                <h3 className="text-lg font-bold mb-2 leading-tight">
-                  {article.overline && (
-                    <span className="text-primary-red font-bold">
-                      {article.overline}.
-                    </span>
-                  )}{' '}
-                  {article.title}
-                </h3>
-                {article.excerpt && (
-                  <p className="text-sm text-dark-gray mb-2">
-                    {article.excerpt}
-                  </p>
+            {/* Image – Right */}
+            <div className="md:w-1/2 relative w-full aspect-[16/9]">
+              <div className="relative w-full h-full overflow-hidden">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                <OptimizedImage
+                  src={mainArticle.imgUrl}
+                  alt={mainArticle.title}
+                  fill
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                {mainArticle.hasVideo && (
+                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
+                    VIDEO
+                  </div>
                 )}
-                {article.author && (
-                  <p className="text-sm text-dark-gray">Por {article.author}</p>
-                )}
-              </div>
-
-              {/* Image - Right */}
-              <div className="md:w-1/3">
-                <div className="relative w-full h-[180px] overflow-hidden">
-                  <OptimizedImage
-                    src={article.imgUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-                  {article.hasVideo && (
-                    <div className="absolute top-2 left-2 bg-black text-white border-0 rounded px-2 py-1 text-xs z-10">
-                      VIDEO
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
-          </Link>
+          </div>
+        </Link>
+      </div>
+
+      {/* Divider between main and side articles */}
+      <div className="w-full h-[1px] bg-gray-400 opacity-50 mb-6 md:mb-8"></div>
+
+      {/* Side Articles – 2-column grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        {sideArticles.map((article, idx) => (
+          <React.Fragment key={article.id}>
+            <div className="relative">
+              <Link
+                href={getArticleUrl(
+                  article.section_path || article.section,
+                  article.slug,
+                )}
+                className="block group"
+              >
+                <div className="flex flex-col md:flex-row gap-4">
+                  {/* Text – Left */}
+                  <div className="md:w-1/2 pt-2 pb-6 md:pb-0 md:order-1 flex-1">
+                    <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
+                      {article.overline && (
+                        <span className="text-primary-red">
+                          {article.overline}.{' '}
+                        </span>
+                      )}
+                      {article.title}
+                    </h2>
+                  </div>
+
+                  {/* Image – Right */}
+                  <div className="md:w-1/2 relative w-full aspect-[16/9] md:order-2 flex-shrink-0">
+                    <div className="relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                      <OptimizedImage
+                        src={article.imgUrl}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                      />
+                      {article.hasVideo && (
+                        <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
+                          VIDEO
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Mobile divider */}
+            <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+          </React.Fragment>
         ))}
       </div>
-    </section>
+    </main>
   )
 }
