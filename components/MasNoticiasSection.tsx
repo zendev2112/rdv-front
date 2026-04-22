@@ -33,7 +33,7 @@ export default function MasNoticiasSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('MasNoticiasSection', 3)
+  } = useArticles('MasNoticiasSection', 12)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -41,7 +41,7 @@ export default function MasNoticiasSection({
   const hasError = !serverData && error
 
   const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 3),
+    () => sortArticlesForSlots(articles, 12),
     [articles],
   )
 
@@ -52,6 +52,8 @@ export default function MasNoticiasSection({
   if (hasError && articles.length === 0) {
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
+
+  if (processedArticles.length === 0) return null
 
   return (
     <main className="py-0 md:py-6">
@@ -68,55 +70,60 @@ export default function MasNoticiasSection({
         </div>
       </div>
 
-      {/* 12-column grid – 3 articles of 4 columns each */}
+      {/* 4x3 GRID — 12 articles */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {processedArticles.map((article, idx) => (
-          <React.Fragment key={article.id}>
-            <div className="md:col-span-4 relative">
-              <Link
-                href={getArticleUrl(
-                  article.section_path || article.section,
-                  article.slug,
-                )}
-                className="h-full flex flex-col group"
-              >
-                {/* Image */}
-                <div className="relative w-full aspect-[16/9]">
-                  <div className="relative w-full h-full overflow-hidden">
+        {processedArticles.map((article, idx) => {
+          const row = Math.floor(idx / 4)
+          const isLastInRow = (idx + 1) % 4 === 0
+          const isLastRow = row === 2
+
+          return (
+            <React.Fragment key={article.id}>
+              <div className="md:col-span-3 relative">
+                <Link
+                  href={getArticleUrl(
+                    article.section_path || article.section,
+                    article.slug,
+                  )}
+                  className="flex flex-col group"
+                >
+                  <div className="relative w-full aspect-[16/9] overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
                       src={article.imgUrl}
                       alt={article.title}
                       fill
                       className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 768px) 100vw, 25vw"
                     />
                   </div>
-                </div>
+                  <div className="pt-2 pb-6 md:pb-0 flex-1">
+                    <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
+                      {article.overline && (
+                        <span className="text-primary-red">
+                          {article.overline}.{' '}
+                        </span>
+                      )}
+                      {article.title}
+                    </h2>
+                  </div>
+                </Link>
 
-                {/* Title area */}
-                <div className="pt-2 pb-6 md:pb-0 flex-1">
-                  <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
-                    {article.overline && (
-                      <span className="text-primary-red">
-                        {article.overline}.{' '}
-                      </span>
-                    )}
-                    {article.title}
-                  </h2>
-                </div>
-              </Link>
+                {/* Vertical divider (not on last in row) */}
+                {!isLastInRow && (
+                  <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+                )}
+                {/* Mobile divider */}
+                <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+              </div>
 
-              {/* Vertical divider between articles */}
-              {idx < processedArticles.length - 1 && (
-                <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+              {/* Horizontal divider after each row - not after last */}
+              {isLastInRow && !isLastRow && (
+                <div className="md:col-span-12 h-[1px] bg-gray-400 opacity-50 hidden md:block"></div>
               )}
-
-              {/* Mobile divider */}
-              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
-            </div>
-          </React.Fragment>
-        ))}
+            </React.Fragment>
+          )
+        })}
       </div>
     </main>
   )

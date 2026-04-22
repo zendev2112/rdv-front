@@ -27,6 +27,8 @@ import DeportesSection from '@/components/DeportesSection'
 import LifestyleSection from '@/components/LifestyleSection'
 import EstrenosSection from '@/components/EstrenosSection'
 import PoliticaYEconomiaSection from '@/components/PoliticaYEconomiaSection'
+import MundoSection from '@/components/MundoSection'
+import MasNoticiasSection from '@/components/MasNoticiasSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
 
@@ -133,6 +135,8 @@ export default async function Home() {
     deportesArticles,
     estrenosArticles,
     politicaYEconomiaArticles,
+    mundoArticles,
+    masNoticiasArticles,
   ] = await Promise.all([
     fetchSectionArticles('PrincipalSection'),
     fetchSectionArticles('NoticiasImportantesSection'),
@@ -140,7 +144,7 @@ export default async function Home() {
     fetchSectionArticles('HuanguelenSection'),
     fetchSectionArticles('LaSextaSection'),
     fetchYouTubeRSS(process.env.CHANNEL_ID!),
-    fetchSectionArticles('ActualidadSection', 12),
+    fetchSectionArticles('ActualidadSection', 13),
     fetchLatestHeadlines(),
     fetchSectionArticles('AgroSection'),
     fetchSectionArticles('LifestyleSection'),
@@ -148,6 +152,8 @@ export default async function Home() {
     fetchSectionArticles('DeportesSection'),
     fetchSectionArticles('EstrenosSection'),
     fetchSectionArticles('PoliticaYEconomiaSection'),
+    fetchSectionArticles('MundoSection'),
+    fetchSectionArticles('MasNoticiasSection', 12),
   ])
 
   const featuredVideo = youtubeVideos[0] || null
@@ -216,6 +222,8 @@ export default async function Home() {
 
           <ActualidadSection serverData={actualidadArticles} />
 
+          <MundoSection serverData={mundoArticles} />
+
           <PoliticaYEconomiaSection serverData={politicaYEconomiaArticles} />
 
           {/* Advertisement banner */}
@@ -238,6 +246,8 @@ export default async function Home() {
           <RecetasSection serverData={recetasSection} />
 
           <DeportesSection serverData={deportesArticles} />
+
+          <MasNoticiasSection serverData={masNoticiasArticles} />
 
           <LifestyleSection serverData={lifestyleArticles} />
 
@@ -303,6 +313,8 @@ export default async function Home() {
 
               <ActualidadSection serverData={actualidadArticles} />
 
+              <MundoSection serverData={mundoArticles} />
+
               <PoliticaYEconomiaSection
                 serverData={politicaYEconomiaArticles}
               />
@@ -327,6 +339,8 @@ export default async function Home() {
               <RecetasSection serverData={recetasSection} />
 
               <DeportesSection serverData={deportesArticles} />
+
+              <MasNoticiasSection serverData={masNoticiasArticles} />
 
               <LifestyleSection serverData={lifestyleArticles} />
 

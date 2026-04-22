@@ -33,7 +33,7 @@ export default function ActualidadSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('ActualidadSection', 12)
+  } = useArticles('ActualidadSection', 13)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -41,7 +41,7 @@ export default function ActualidadSection({
   const hasError = !serverData && error
 
   const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 12),
+    () => sortArticlesForSlots(articles, 13),
     [articles],
   )
 
@@ -56,6 +56,9 @@ export default function ActualidadSection({
   if (processedArticles.length === 0) {
     return null
   }
+
+  const heroArticle = processedArticles[0]
+  const gridArticles = processedArticles.slice(1, 13)
 
   return (
     <main className="py-0 md:py-6">
@@ -72,9 +75,55 @@ export default function ActualidadSection({
         </div>
       </div>
 
-      {/* 12-column grid layout - 4 articles of 3 columns each (4x3 = 12 articles) */}
+      {/* HERO — text left (6 cols), image right (6 cols) */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-8">
+        <div className="md:col-span-12">
+          <Link
+            href={getArticleUrl(
+              heroArticle.section_path || heroArticle.section,
+              heroArticle.slug,
+            )}
+            className="flex flex-col md:flex-row gap-6 group"
+          >
+            {/* Text left */}
+            <div className="md:w-1/2 flex flex-col justify-center order-2 md:order-1">
+              <h2 className="font-serif text-xl md:text-2xl font-bold leading-tight">
+                {heroArticle.overline && (
+                  <span className="text-primary-red">
+                    {heroArticle.overline}.{' '}
+                  </span>
+                )}
+                {heroArticle.title}
+              </h2>
+              {heroArticle.excerpt && (
+                <p className="mt-2 text-sm text-gray-600 line-clamp-3">
+                  {heroArticle.excerpt}
+                </p>
+              )}
+            </div>
+            {/* Image right */}
+            <div className="relative md:w-1/2 w-full aspect-[16/9] overflow-hidden order-1 md:order-2 flex-shrink-0">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+              <OptimizedImage
+                src={heroArticle.imgUrl}
+                alt={heroArticle.title}
+                fill
+                className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          </Link>
+          {/* Mobile divider below hero */}
+          <div className="md:hidden w-full h-[1px] bg-gray-300 mt-6"></div>
+        </div>
+      </div>
+
+      {/* Horizontal divider between hero and grid */}
+      <div className="w-full h-[1px] bg-gray-400 opacity-50 hidden md:block mb-8"></div>
+
+      {/* 4x3 GRID — 12 articles */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {processedArticles.map((article, idx) => {
+        {gridArticles.map((article, idx) => {
           const row = Math.floor(idx / 4)
           const isLastInRow = (idx + 1) % 4 === 0
           const isLastRow = row === 2
@@ -87,25 +136,23 @@ export default function ActualidadSection({
                     article.section_path || article.section,
                     article.slug,
                   )}
-                  className="block h-full flex flex-col group"
+                  className="flex flex-col group"
                 >
                   {/* Image */}
-                  <div className="relative w-full aspect-[16/9]">
-                    <div className="relative w-full h-full overflow-hidden">
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                      <OptimizedImage
-                        src={article.imgUrl}
-                        alt={article.title}
-                        fill
-                        className="object-cover transition-opacity duration-300 group-hover:opacity-90"
-                        sizes="(max-width: 768px) 100vw, 25vw"
-                      />
-                    </div>
+                  <div className="relative w-full aspect-[16/9] overflow-hidden">
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                    />
                   </div>
 
                   {/* Title area */}
                   <div className="pt-2 pb-6 md:pb-0 flex-1">
-                    <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
+                    <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
                       {article.overline && (
                         <span className="text-primary-red">
                           {article.overline}.{' '}
@@ -113,11 +160,6 @@ export default function ActualidadSection({
                       )}
                       {article.title}
                     </h2>
-                    {article.author && (
-                      <p className="text-sm text-gray-500 mt-2">
-                        {article.author}
-                      </p>
-                    )}
                   </div>
                 </Link>
 
@@ -130,7 +172,7 @@ export default function ActualidadSection({
                 <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
               </div>
 
-              {/* Horizontal divider after each row (every 4 articles) - not after last row */}
+              {/* Horizontal divider after each row - not after last row */}
               {isLastInRow && !isLastRow && (
                 <div className="md:col-span-12 h-[1px] bg-gray-400 opacity-50 hidden md:block"></div>
               )}

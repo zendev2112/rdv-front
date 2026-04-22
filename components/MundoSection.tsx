@@ -51,118 +51,114 @@ export default function MundoSection({ serverData }: MundoSectionProps) {
     return <div className="container mx-auto p-4 text-red-500">{error}</div>
   }
 
-  if (processedArticles.length === 0) {
-    return null
-  }
+  if (processedArticles.length === 0) return null
 
   const [mainArticle, ...sideArticles] = processedArticles
 
   return (
-    <section className="py-6">
-      <div className="container mx-auto px-4">
-        {/* Section header with red accent */}
-        <div className="flex items-center mb-5 pb-2 border-b border-[#292929]/20">
-          <h2 className="text-xl font-bold text-[#292929]">MUNDO</h2>
-          <div className="ml-auto h-1 w-24 bg-primary-red"></div>
-        </div>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:mb-6 md:opacity-50"></div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Left Column: Main article with image on top, text on bottom */}
-          <div>
+      {/* Header */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">MUNDO</h2>
+        </div>
+      </div>
+
+      {/* 12-column grid layout */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {/* LEFT — Main article (6 cols): image top, title + excerpt below */}
+        {mainArticle && (
+          <div className="md:col-span-6 relative">
             <Link
               href={getArticleUrl(
                 mainArticle.section_path || mainArticle.section,
                 mainArticle.slug,
               )}
-              className="block bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+              className="flex flex-col h-full group"
             >
-              {/* Image container - Full width on top */}
               <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
                   src={mainArticle.imgUrl}
                   alt={mainArticle.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
-
-              {/* Content area - Below image */}
-              <div className="p-4">
-                <h3 className="text-xl font-bold mb-2 leading-tight text-[#292929] line-clamp-3">
+              <div className="pt-3 pb-6 md:pb-0">
+                <h2 className="font-serif text-xl md:text-2xl font-bold leading-tight">
                   {mainArticle.overline && (
-                    <span className="text-primary-red font-bold">
+                    <span className="text-primary-red">
                       {mainArticle.overline}.{' '}
                     </span>
                   )}
                   {mainArticle.title}
-                </h3>
-
-                {mainArticle.excerpt && (
-                  <p className="text-sm text-dark-gray mb-2 line-clamp-3">
-                    {mainArticle.excerpt}
-                  </p>
-                )}
-
-                {mainArticle.author && (
-                  <p className="text-sm text-dark-gray mt-2">
-                    Por {mainArticle.author}
-                  </p>
-                )}
+                </h2>
+                <p className="font-serif text-sm text-gray-600 mt-2 leading-relaxed">
+                  {mainArticle.excerpt || ''}
+                </p>
               </div>
             </Link>
+            {/* Vertical divider */}
+            <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+            {/* Mobile divider */}
+            <div className="md:hidden w-full h-[1px] bg-gray-300 mb-6"></div>
           </div>
+        )}
 
-          {/* Right Column: Stacked side articles with image on left, text on right */}
-          <div className="space-y-4">
-            {sideArticles.map((article, index) => (
-              <Link
-                href={getArticleUrl(
-                  article.section_path || article.section,
-                  article.slug,
-                )}
-                key={article.id}
-                className="flex bg-white rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group h-32"
-              >
-                {/* Image container - Left side */}
-                <div className="relative w-1/3 overflow-hidden">
-                  <OptimizedImage
-                    src={article.imgUrl}
-                    alt={article.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gray-800 bg-opacity-0 hover:bg-opacity-10 transition-all duration-300"></div>
-                </div>
-
-                {/* Content area - Right side */}
-                <div className="p-3 w-2/3 flex flex-col justify-center">
-                  <h3 className="text-base font-bold leading-tight text-[#292929] line-clamp-2">
-                    {article.overline && (
-                      <span className="text-primary-red font-bold">
-                        {article.overline}.{' '}
-                      </span>
-                    )}
-                    {article.title}
-                  </h3>
-
-                  {article.excerpt && (
-                    <p className="text-xs text-dark-gray line-clamp-1 mb-1">
-                      {article.excerpt}
-                    </p>
+        {/* RIGHT — Side articles (6 cols): text left, image right */}
+        <div className="md:col-span-6 flex flex-col gap-6">
+          {sideArticles.map((article, idx) => (
+            <React.Fragment key={article.id}>
+              <div className="relative">
+                <Link
+                  href={getArticleUrl(
+                    article.section_path || article.section,
+                    article.slug,
                   )}
+                  className="flex flex-col md:flex-row group gap-4"
+                >
+                  {/* Image right on desktop */}
+                  <div className="relative w-full md:w-1/2 aspect-[16/9] md:order-2 flex-shrink-0 overflow-hidden">
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={article.imgUrl}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                    />
+                  </div>
+                  {/* Text left on desktop */}
+                  <div className="pt-2 md:pt-0 md:order-1 flex-1">
+                    <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
+                      {article.overline && (
+                        <span className="text-primary-red">
+                          {article.overline}.{' '}
+                        </span>
+                      )}
+                      {article.title}
+                    </h2>
+                  </div>
+                </Link>
+              </div>
 
-                  {article.author && (
-                    <p className="text-xs text-dark-gray mt-auto">
-                      Por {article.author}
-                    </p>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
+              {/* Mobile divider */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+
+              {/* Desktop divider between side articles */}
+              {idx < sideArticles.length - 1 && (
+                <div className="hidden md:block w-full h-[1px] bg-gray-400 opacity-50"></div>
+              )}
+            </React.Fragment>
+          ))}
         </div>
       </div>
-    </section>
+    </main>
   )
 }
