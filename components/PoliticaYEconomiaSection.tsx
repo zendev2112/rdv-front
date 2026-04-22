@@ -86,7 +86,7 @@ export default function PoliticaYEconomiaSection({
       {/* 4-column grid: hero col 1-2 rows 1-3 | side col 3-4 rows 1-3 | bottom row 4 */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* HERO — col 1-2, rows 1-3 */}
-        <div className="md:col-start-1 md:col-span-2 md:row-start-1 md:row-span-3">
+        <div className="md:col-start-1 md:col-span-2 md:row-start-1 md:row-span-3 md:border-r md:border-gray-200 md:pr-6">
           <Link
             href={getArticleUrl(
               heroArticle.section_path || heroArticle.section,
@@ -167,11 +167,18 @@ export default function PoliticaYEconomiaSection({
           </div>
         ))}
 
-        {/* BOTTOM ARTICLES — row 4, one per column */}
+        {/* HORIZONTAL DIVIDER — between top rows and bottom row */}
+        <div className="hidden md:block md:col-start-1 md:col-span-4 md:row-start-4 h-[1px] bg-gray-200"></div>
+
+        {/* BOTTOM ARTICLES — row 5, one per column */}
         {bottomArticles.map((article, idx) => (
           <div
             key={article.id}
-            className={`${BOTTOM_COL_CLASSES[idx]} md:row-start-4 md:border-t md:border-gray-200 md:pt-4`}
+            className={`${BOTTOM_COL_CLASSES[idx]} md:row-start-5 md:pt-4${
+              idx < bottomArticles.length - 1
+                ? ' md:border-r md:border-gray-200 md:pr-4'
+                : ''
+            }`}
           >
             <Link
               href={getArticleUrl(
