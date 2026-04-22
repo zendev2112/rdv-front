@@ -61,8 +61,8 @@ export default function LifestyleSection({
       {/* Header with Title */}
       <div className="flex justify-start mb-6">
         <div className="text-left">
-          <div className="w-16 h-1 bg-[#2a9d8f] mb-2"></div>
-          <h2 className="text-2xl font-bold uppercase">LIFESTYLE</h2>
+          <div className="w-16 h-1 bg-[#7c3aed] mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">LIFESTYLE</h2>
         </div>
       </div>
 
@@ -94,9 +94,9 @@ export default function LifestyleSection({
 
                 {/* Title area */}
                 <div className="pt-2 pb-6 md:pb-0 flex-1">
-                  <h2 className="text-base md:text-base font-bold leading-6 sm:leading-tight">
+                  <h2 className="font-serif text-base md:text-base font-bold leading-6 sm:leading-tight">
                     {article.overline && (
-                      <span className="text-[#2a9d8f]">
+                      <span className="text-[#7c3aed]">
                         {article.overline}.{' '}
                       </span>
                     )}
