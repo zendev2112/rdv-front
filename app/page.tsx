@@ -29,6 +29,7 @@ import EstrenosSection from '@/components/EstrenosSection'
 import PoliticaYEconomiaSection from '@/components/PoliticaYEconomiaSection'
 import MundoSection from '@/components/MundoSection'
 import MasNoticiasSection from '@/components/MasNoticiasSection'
+import NegociosSection from '@/components/NegociosSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
 
@@ -137,6 +138,7 @@ export default async function Home() {
     politicaYEconomiaArticles,
     mundoArticles,
     masNoticiasArticles,
+    negociosArticles,
   ] = await Promise.all([
     fetchSectionArticles('PrincipalSection'),
     fetchSectionArticles('NoticiasImportantesSection'),
@@ -154,6 +156,7 @@ export default async function Home() {
     fetchSectionArticles('PoliticaYEconomiaSection'),
     fetchSectionArticles('MundoSection'),
     fetchSectionArticles('MasNoticiasSection', 12),
+    fetchSectionArticles('NegociosSection', 2),
   ])
 
   const featuredVideo = youtubeVideos[0] || null
@@ -242,6 +245,8 @@ export default async function Home() {
           <section className="py-6 border-t border-gray-200">
             <AgroSection serverData={agroArticles} />
           </section>
+
+          <NegociosSection serverData={negociosArticles} />
 
           <RecetasSection serverData={recetasSection} />
 
@@ -335,6 +340,8 @@ export default async function Home() {
               <section className="py-6 border-t border-gray-200">
                 <AgroSection serverData={agroArticles} />
               </section>
+
+              <NegociosSection serverData={negociosArticles} />
 
               <RecetasSection serverData={recetasSection} />
 
