@@ -22,16 +22,18 @@ interface Article {
   hasVideo?: boolean
 }
 
-interface NegociosSectionProps {
+interface PymesYEmprendimientosSectionProps {
   serverData?: Article[]
 }
 
-export default function NegociosSection({ serverData }: NegociosSectionProps) {
+export default function PymesYEmprendimientosSection({
+  serverData,
+}: PymesYEmprendimientosSectionProps) {
   const {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('NegociosSection', 2)
+  } = useArticles('PymesYEmprendimientosSection', 2)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

@@ -60,127 +60,111 @@ export default function EspectaculosSection({
   const [mainFeature, ...secondaryFeatures] = processedArticles
 
   return (
-    <section className="py-8 bg-white">
-      <div className="container mx-auto px-4">
-        {/* Section header */}
-        <div className="flex flex-col space-y-4 mb-6">
-          {/* Title and red accent line */}
-          <div className="flex items-center pb-2 border-b border-[#292929]/20">
-            <h2 className="text-2xl font-bold text-[#292929]">ESPECTÁCULOS</h2>
-            <div className="ml-auto h-1 w-24 bg-[#ff0808]"></div>
-          </div>
-        </div>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:opacity-50"></div>
 
-        {/* Content layout */}
-        <div className="flex flex-col space-y-6">
-          {/* Main article - full width, image on left, text on right */}
-          <div className="overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group">
+      {/* Header */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-primary-red mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">
+            ESPECTÁCULOS
+          </h2>
+        </div>
+      </div>
+
+      {/* Main article: image left 50%, text right 50% */}
+      <Link
+        href={getArticleUrl(
+          mainFeature.section_path || mainFeature.section,
+          mainFeature.slug,
+        )}
+        className="flex flex-col md:flex-row gap-0 md:gap-6 group mb-6"
+      >
+        <div className="relative w-full md:w-1/2 aspect-[16/9] overflow-hidden flex-shrink-0">
+          {mainFeature.hasVideo && (
+            <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 z-20">
+              VIDEO
+            </div>
+          )}
+          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+          <OptimizedImage
+            src={mainFeature.imgUrl}
+            alt={mainFeature.title}
+            fill
+            className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+        <div className="pt-3 md:pt-0 md:w-1/2 flex flex-col justify-start">
+          <h2 className="font-serif text-xl font-bold leading-tight">
+            {mainFeature.overline && (
+              <span className="text-primary-red">{mainFeature.overline}. </span>
+            )}
+            {mainFeature.title}
+          </h2>
+          {mainFeature.excerpt && (
+            <p className="mt-2 text-sm text-gray-600 line-clamp-3">
+              {mainFeature.excerpt}
+            </p>
+          )}
+        </div>
+      </Link>
+
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:opacity-50"></div>
+
+      {/* Secondary articles: text left, image right */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {secondaryFeatures.slice(0, 2).map((feature, idx) => (
+          <div key={feature.id} className="relative">
             <Link
               href={getArticleUrl(
-                mainFeature.section_path || mainFeature.section,
-                mainFeature.slug,
+                feature.section_path || feature.section,
+                feature.slug,
               )}
-              className="flex flex-col md:flex-row"
+              className="flex gap-4 group"
             >
-              {/* Image on the left - fixed height on desktop */}
-              <div className="relative md:w-1/2 aspect-video md:aspect-[4/3] h-auto overflow-hidden">
-                {mainFeature.hasVideo && (
-                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
+              {/* Text left */}
+              <div className="flex-1 flex flex-col justify-start">
+                <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
+                  {feature.overline && (
+                    <span className="text-primary-red">
+                      {feature.overline}.{' '}
+                    </span>
+                  )}
+                  {feature.title}
+                </h2>
+              </div>
+              {/* Image right */}
+              <div className="relative flex-shrink-0 w-2/5 aspect-[4/3] overflow-hidden">
+                {feature.hasVideo && (
+                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 z-20">
                     VIDEO
                   </div>
                 )}
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                 <OptimizedImage
-                  src={mainFeature.imgUrl}
-                  alt={mainFeature.title}
+                  src={feature.imgUrl}
+                  alt={feature.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                  sizes="(max-width: 768px) 40vw, 20vw"
                 />
-                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              </div>
-
-              {/* Text content on the right */}
-              <div className="md:w-1/2 p-5 flex flex-col justify-center">
-                <h3 className="text-3xl font-bold mb-3 leading-tight text-[#292929]">
-                  {mainFeature.overline && (
-                    <span className="text-primary-red font-bold">
-                      {mainFeature.overline}.{' '}
-                    </span>
-                  )}
-                  {mainFeature.title}
-                </h3>
-
-                {mainFeature.excerpt && (
-                  <p className="text-dark-gray text-base mb-4 line-clamp-3">
-                    {mainFeature.excerpt}
-                  </p>
-                )}
-
-                {mainFeature.author && (
-                  <div className="flex items-center">
-                    <p className="text-sm text-dark-gray">
-                      Por{' '}
-                      <span className="font-medium">{mainFeature.author}</span>
-                    </p>
-                  </div>
-                )}
               </div>
             </Link>
+            {/* Vertical divider */}
+            {idx === 0 && (
+              <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+            )}
+            {/* Mobile divider */}
+            {idx === 0 && (
+              <div className="md:hidden w-full h-[1px] bg-gray-300 mt-4"></div>
+            )}
           </div>
-
-          {/* Secondary articles row - 2 articles side by side */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {secondaryFeatures.slice(0, 2).map((feature) => (
-              <div
-                key={feature.id}
-                className="overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
-              >
-                <Link
-                  href={getArticleUrl(
-                    feature.section_path || feature.section,
-                    feature.slug,
-                  )}
-                  className="flex items-center h-full"
-                >
-                  {/* Text on the left */}
-                  <div className="p-4 w-2/3 flex flex-col justify-center">
-                    <h4 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
-                      {feature.overline && (
-                        <span className="text-primary-red font-bold">
-                          {feature.overline}.{' '}
-                        </span>
-                      )}
-                      {feature.title}
-                    </h4>
-
-                    {feature.author && (
-                      <p className="text-sm text-dark-gray mt-auto">
-                        Por{' '}
-                        <span className="font-medium">{feature.author}</span>
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Image on the right */}
-                  <div className="relative w-1/3 aspect-square overflow-hidden">
-                    {feature.hasVideo && (
-                      <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
-                        VIDEO
-                      </div>
-                    )}
-                    <OptimizedImage
-                      src={feature.imgUrl}
-                      alt={feature.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
-    </section>
+    </main>
   )
 }

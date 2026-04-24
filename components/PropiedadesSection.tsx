@@ -58,71 +58,75 @@ export default function PropiedadesSection({
   }
 
   return (
-    <section className="py-8 bg-white">
-      <div className="container mx-auto px-4">
-        {/* Section header */}
-        <div className="flex flex-col space-y-4 mb-6">
-          {/* Title and blue accent line */}
-          <div className="flex items-center pb-2 border-b border-[#292929]/20">
-            <h2 className="text-2xl font-bold text-[#292929]">PROPIEDADES</h2>
-            <div className="ml-auto h-1 w-24 bg-[#3498db]"></div>
-          </div>
-        </div>
+    <main className="py-0 md:py-6">
+      {/* Horizontal divider */}
+      <div className="w-full h-[1px] bg-gray-300 md:bg-gray-400 mb-6 md:opacity-50"></div>
 
-        {/* Four column grid layout for properties */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {processedArticles.map((property) => (
-            <Link
-              key={property.id}
-              href={getArticleUrl(
-                property.section_path || property.section,
-                property.slug,
-              )}
-              className="block overflow-hidden border-0 shadow-sm bg-white rounded-md hover:shadow-md transition-shadow duration-300 group h-full"
-            >
-              {/* Property image on top */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden">
-                {property.hasVideo && (
-                  <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10">
-                    VIDEO
-                  </div>
-                )}
-                <OptimizedImage
-                  src={property.imgUrl}
-                  alt={property.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gray-800 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              </div>
-
-              {/* Text content below */}
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2 leading-tight text-[#292929]">
-                  {property.overline && (
-                    <span className="text-[#3498db] font-bold">
-                      {property.overline}.{' '}
-                    </span>
-                  )}
-                  {property.title}
-                </h3>
-
-                {property.excerpt && (
-                  <p className="text-dark-gray text-sm mb-3 line-clamp-2">
-                    {property.excerpt}
-                  </p>
-                )}
-
-                {property.author && (
-                  <p className="text-xs text-dark-gray mt-auto">
-                    Por {property.author}
-                  </p>
-                )}
-              </div>
-            </Link>
-          ))}
+      {/* Header */}
+      <div className="flex justify-start mb-6">
+        <div className="text-left">
+          <div className="w-16 h-1 bg-[#3498db] mb-2"></div>
+          <h2 className="font-serif text-2xl font-bold uppercase">
+            PROPIEDADES
+          </h2>
         </div>
       </div>
-    </section>
+
+      {/* 12-column grid – 4 articles of 3 columns each */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        {processedArticles.map((property, idx) => (
+          <React.Fragment key={property.id}>
+            <div className="md:col-span-3 relative">
+              <Link
+                href={getArticleUrl(
+                  property.section_path || property.section,
+                  property.slug,
+                )}
+                className="block h-full flex flex-col group"
+              >
+                {/* Image */}
+                <div className="relative w-full aspect-[4/3]">
+                  <div className="relative w-full h-full overflow-hidden">
+                    {property.hasVideo && (
+                      <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 z-20">
+                        VIDEO
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
+                    <OptimizedImage
+                      src={property.imgUrl}
+                      alt={property.title}
+                      fill
+                      className="object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                    />
+                  </div>
+                </div>
+
+                {/* Title area */}
+                <div className="pt-2 pb-6 md:pb-0 flex-1">
+                  <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
+                    {property.overline && (
+                      <span className="text-[#3498db]">
+                        {property.overline}.{' '}
+                      </span>
+                    )}
+                    {property.title}
+                  </h2>
+                </div>
+              </Link>
+
+              {/* Vertical divider between articles */}
+              {idx < processedArticles.length - 1 && (
+                <div className="absolute top-0 -right-4 w-[1px] h-full bg-gray-400 opacity-50 hidden md:block"></div>
+              )}
+
+              {/* Mobile divider */}
+              <div className="md:hidden w-full h-[1px] bg-gray-300"></div>
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
+    </main>
   )
 }

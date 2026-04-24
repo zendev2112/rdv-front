@@ -29,7 +29,15 @@ import EstrenosSection from '@/components/EstrenosSection'
 import PoliticaYEconomiaSection from '@/components/PoliticaYEconomiaSection'
 import MundoSection from '@/components/MundoSection'
 import MasNoticiasSection from '@/components/MasNoticiasSection'
-import NegociosSection from '@/components/NegociosSection'
+import InversionesSection from '@/components/InversionesSection'
+import EnFocoSection from '@/components/EnFocoSection'
+import PymesYEmprendimientosSection from '@/components/PymesYEmprendimientosSection'
+import BienestarSection from '@/components/BienestarSection'
+import EspectaculosSection from '@/components/EspectaculosSection'
+import TendenciasSection from '@/components/TendenciasSection'
+import IActualidad from '@/components/IActualidad'
+import TechSection from '@/components/TechSection'
+import PropiedadesSection from '@/components/PropiedadesSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
 
@@ -138,7 +146,15 @@ export default async function Home() {
     politicaYEconomiaArticles,
     mundoArticles,
     masNoticiasArticles,
-    negociosArticles,
+    inversionesArticles,
+    enFocoArticles,
+    iActualidadArticles,
+    tendenciasArticles,
+    espectaculosArticles,
+    bienestarArticles,
+    techArticles,
+    pymesArticles,
+    propiedadesArticles,
   ] = await Promise.all([
     fetchSectionArticles('PrincipalSection'),
     fetchSectionArticles('NoticiasImportantesSection'),
@@ -156,7 +172,15 @@ export default async function Home() {
     fetchSectionArticles('PoliticaYEconomiaSection'),
     fetchSectionArticles('MundoSection'),
     fetchSectionArticles('MasNoticiasSection', 12),
-    fetchSectionArticles('NegociosSection', 2),
+    fetchSectionArticles('InversionesSection', 2),
+    fetchSectionArticles('EnFocoSection', 8),
+    fetchSectionArticles('IActualidad', 4),
+    fetchSectionArticles('TendenciasSection'),
+    fetchSectionArticles('EspectaculosSection'),
+    fetchSectionArticles('BienestarSection', 5),
+    fetchSectionArticles('TechSection'),
+    fetchSectionArticles('PymesYEmprendimientosSection', 2),
+    fetchSectionArticles('PropiedadesSection', 4),
   ])
 
   const featuredVideo = youtubeVideos[0] || null
@@ -223,7 +247,11 @@ export default async function Home() {
 
           <LaSextaSection serverData={laSextaArticles} />
 
+          <EnFocoSection serverData={enFocoArticles} />
+
           <ActualidadSection serverData={actualidadArticles} />
+
+          <IActualidad serverData={iActualidadArticles} />
 
           <PoliticaYEconomiaSection serverData={politicaYEconomiaArticles} />
 
@@ -246,9 +274,15 @@ export default async function Home() {
             <AgroSection serverData={agroArticles} />
           </section>
 
-          <NegociosSection serverData={negociosArticles} />
+          <InversionesSection serverData={inversionesArticles} />
+
+          <PymesYEmprendimientosSection serverData={pymesArticles} />
+
+          <PropiedadesSection serverData={propiedadesArticles} />
 
           <RecetasSection serverData={recetasSection} />
+
+          <EspectaculosSection serverData={espectaculosArticles} />
 
           <DeportesSection serverData={deportesArticles} />
 
@@ -256,7 +290,13 @@ export default async function Home() {
 
           <LifestyleSection serverData={lifestyleArticles} />
 
+          <BienestarSection serverData={bienestarArticles} />
+
+          <TechSection serverData={techArticles} />
+
           <EstrenosSection serverData={estrenosArticles} />
+
+          <TendenciasSection serverData={tendenciasArticles} />
 
           <AdPlaceholder />
 
@@ -316,7 +356,11 @@ export default async function Home() {
 
               <LaSextaSection serverData={laSextaArticles} />
 
+              <EnFocoSection serverData={enFocoArticles} />
+
               <ActualidadSection serverData={actualidadArticles} />
+
+              <IActualidad serverData={iActualidadArticles} />
 
               <PoliticaYEconomiaSection
                 serverData={politicaYEconomiaArticles}
@@ -341,9 +385,15 @@ export default async function Home() {
                 <AgroSection serverData={agroArticles} />
               </section>
 
-              <NegociosSection serverData={negociosArticles} />
+              <InversionesSection serverData={inversionesArticles} />
+
+              <PymesYEmprendimientosSection serverData={pymesArticles} />
+
+              <PropiedadesSection serverData={propiedadesArticles} />
 
               <RecetasSection serverData={recetasSection} />
+
+              <EspectaculosSection serverData={espectaculosArticles} />
 
               <DeportesSection serverData={deportesArticles} />
 
@@ -351,7 +401,13 @@ export default async function Home() {
 
               <LifestyleSection serverData={lifestyleArticles} />
 
+              <BienestarSection serverData={bienestarArticles} />
+
+              <TechSection serverData={techArticles} />
+
               <EstrenosSection serverData={estrenosArticles} />
+
+              <TendenciasSection serverData={tendenciasArticles} />
 
               <AdPlaceholder />
 
