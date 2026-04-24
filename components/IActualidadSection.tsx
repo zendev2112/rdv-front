@@ -26,7 +26,7 @@ interface IActualidadProps {
   serverData?: Article[]
 }
 
-export default function IActualidad({ serverData }: IActualidadProps) {
+export default function IActualidadSection({ serverData }: IActualidadProps) {
   const {
     articles: clientArticles,
     loading,
@@ -65,7 +65,7 @@ export default function IActualidad({ serverData }: IActualidadProps) {
         <div className="text-left">
           <div className="w-16 h-1 bg-primary-red mb-2"></div>
           <h2 className="font-serif text-2xl font-bold uppercase">
-            ACTUALIDAD
+            IACTUALIDAD
           </h2>
         </div>
       </div>

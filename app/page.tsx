@@ -35,7 +35,7 @@ import PymesYEmprendimientosSection from '@/components/PymesYEmprendimientosSect
 import BienestarSection from '@/components/BienestarSection'
 import EspectaculosSection from '@/components/EspectaculosSection'
 import TendenciasSection from '@/components/TendenciasSection'
-import IActualidad from '@/components/IActualidad'
+import IActualidadSection from '@/components/IActualidadSection'
 import TechSection from '@/components/TechSection'
 import PropiedadesSection from '@/components/PropiedadesSection'
 import LeftAd from '@/components/ads/LeftAd'
@@ -174,7 +174,7 @@ export default async function Home() {
     fetchSectionArticles('MasNoticiasSection', 12),
     fetchSectionArticles('InversionesSection', 2),
     fetchSectionArticles('EnFocoSection', 8),
-    fetchSectionArticles('IActualidad', 4),
+    fetchSectionArticles('IActualidadSection', 4),
     fetchSectionArticles('TendenciasSection'),
     fetchSectionArticles('EspectaculosSection'),
     fetchSectionArticles('BienestarSection', 5),
@@ -251,7 +251,7 @@ export default async function Home() {
 
           <ActualidadSection serverData={actualidadArticles} />
 
-          <IActualidad serverData={iActualidadArticles} />
+          <IActualidadSection serverData={iActualidadArticles} />
 
           <PoliticaYEconomiaSection serverData={politicaYEconomiaArticles} />
 
@@ -360,7 +360,7 @@ export default async function Home() {
 
               <ActualidadSection serverData={actualidadArticles} />
 
-              <IActualidad serverData={iActualidadArticles} />
+              <IActualidadSection serverData={iActualidadArticles} />
 
               <PoliticaYEconomiaSection
                 serverData={politicaYEconomiaArticles}
