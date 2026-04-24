@@ -247,15 +247,45 @@ export default async function Home() {
 
           <LaSextaSection serverData={laSextaArticles} />
 
-          <EnFocoSection serverData={enFocoArticles} />
-
           <ActualidadSection serverData={actualidadArticles} />
 
-          <IActualidadSection serverData={iActualidadArticles} />
+          {/* Advertisement banner */}
+          <div className="py-6">
+            <div className="bg-gray-100 p-4 text-center">
+              <p className="text-xs text-gray-500 mb-2">AD</p>
+              <div className="h-16 flex items-center justify-center">
+                <p className="text-gray-400">Advertisement Banner</p>
+              </div>
+            </div>
+          </div>
 
           <PoliticaYEconomiaSection serverData={politicaYEconomiaArticles} />
 
+          <DeportesSection serverData={deportesArticles} />
+
           <MundoSection serverData={mundoArticles} />
+
+          <MasNoticiasSection serverData={masNoticiasArticles} />
+
+          <section className="py-6 border-t border-gray-200">
+            <AgroSection serverData={agroArticles} />
+          </section>
+
+          <EnFocoSection serverData={enFocoArticles} />
+
+          {/* Advertisement banner */}
+          <div className="py-6">
+            <div className="bg-gray-100 p-4 text-center">
+              <p className="text-xs text-gray-500 mb-2">AD</p>
+              <div className="h-16 flex items-center justify-center">
+                <p className="text-gray-400">Advertisement Banner</p>
+              </div>
+            </div>
+          </div>
+
+          <RecetasSection serverData={recetasSection} />
+
+          <TendenciasSection serverData={tendenciasArticles} />
 
           {/* Advertisement banner */}
           <div className="py-6">
@@ -269,10 +299,7 @@ export default async function Home() {
 
           <AdPlaceholder />
 
-          {/* Agro Four Column Grid Section */}
-          <section className="py-6 border-t border-gray-200">
-            <AgroSection serverData={agroArticles} />
-          </section>
+          <IActualidadSection serverData={iActualidadArticles} />
 
           <InversionesSection serverData={inversionesArticles} />
 
@@ -280,13 +307,7 @@ export default async function Home() {
 
           <PropiedadesSection serverData={propiedadesArticles} />
 
-          <RecetasSection serverData={recetasSection} />
-
           <EspectaculosSection serverData={espectaculosArticles} />
-
-          <DeportesSection serverData={deportesArticles} />
-
-          <MasNoticiasSection serverData={masNoticiasArticles} />
 
           <LifestyleSection serverData={lifestyleArticles} />
 
@@ -295,8 +316,6 @@ export default async function Home() {
           <TechSection serverData={techArticles} />
 
           <EstrenosSection serverData={estrenosArticles} />
-
-          <TendenciasSection serverData={tendenciasArticles} />
 
           <AdPlaceholder />
 
