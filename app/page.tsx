@@ -167,7 +167,7 @@ export default async function Home() {
     fetchSectionArticles('AgroSection'),
     fetchSectionArticles('LifestyleSection'),
     fetchSectionArticles('RecetasSection'),
-    fetchSectionArticles('DeportesSection'),
+    fetchSectionArticles('DeportesSection', 5),
     fetchSectionArticles('EstrenosSection'),
     fetchSectionArticles('PoliticaYEconomiaSection'),
     fetchSectionArticles('MundoSection'),

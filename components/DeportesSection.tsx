@@ -31,7 +31,7 @@ export default function DeportesSection({ serverData }: DeportesSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('DeportesSection', 4)
+  } = useArticles('DeportesSection', 5)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
@@ -39,7 +39,7 @@ export default function DeportesSection({ serverData }: DeportesSectionProps) {
   const hasError = !serverData && error
 
   const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 4),
+    () => sortArticlesForSlots(articles, 5),
     [articles],
   )
 
