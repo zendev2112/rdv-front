@@ -134,6 +134,20 @@ export default function Footer() {
         <div className="text-xs text-gray-600 text-center md:text-left">
           <div className="flex flex-col md:flex-row flex-wrap gap-2 md:gap-4 justify-center md:justify-start">
             <Link
+              href="/politica-de-privacidad"
+              className="text-gray-600 hover:text-primary-red"
+            >
+              Política de privacidad
+            </Link>
+            <span className="hidden md:inline">|</span>
+            <Link
+              href="/quienes-somos"
+              className="text-gray-600 hover:text-primary-red"
+            >
+              Quiénes somos
+            </Link>
+            <span className="hidden md:inline">|</span>
+            <Link
               href="/contacto"
               className="text-gray-600 hover:text-primary-red"
             >

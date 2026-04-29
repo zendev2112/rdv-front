@@ -106,6 +106,19 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         {children}
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-6THME29QR7"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-6THME29QR7');
+          `}
+        </Script>
         <Script
           src="https://www.instagram.com/embed.js"
           strategy="lazyOnload"
