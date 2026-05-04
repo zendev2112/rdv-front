@@ -18,7 +18,8 @@ import ArticleShareSidebar from '@/components/ArticleShareSidebar'
 import RelatedArticlesSidebar from '@/components/RelatedArticlesSidebar'
 import { getProperSpanishName } from '@/lib/spanishGrammar'
 import YouMayBeInterestedSection from '@/components/YouMayBeInterestedSection'
-import { intercalateEmbeds } from '@/lib/articleEmbeds'
+import { intercalateEmbeds, intercalateSuggestions } from '@/lib/articleEmbeds'
+import SuggestedArticleCard from '@/components/SuggestedArticleCard'
 import EmbedRenderer from '@/components/EmbedRenderer'
 import { applyCloudinaryTransform } from '@/lib/cloudinaryTransforms'
 import { detectImageOrientation } from '@/lib/imageOrientation'
@@ -464,6 +465,32 @@ export default async function DynamicPage({
 
   const readingTimeMinutes = calculateReadingTime(article.article || '')
 
+  // Fetch suggestions: 20 most recent articles excluding current, boost same section
+  const suggestionsCount =
+    readingTimeMinutes < 6 ? 1 : readingTimeMinutes < 10 ? 2 : 3
+
+  const { data: recentArticles } = await supabase
+    .from('article_with_sections')
+    .select(
+      'id, title, slug, imgUrl, overline, created_at, section, section_path',
+    )
+    .eq('status', 'published')
+    .neq('id', article.id)
+    .order('created_at', { ascending: false })
+    .limit(20)
+
+  const suggestions = ((recentArticles || []) as any[])
+    .sort((a, b) => {
+      const sameA = a.section_path === article.section_path ? 1 : 0
+      const sameB = b.section_path === article.section_path ? 1 : 0
+      // novelty-first: only swap if same recency bucket (within 6h)
+      const diff =
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      if (Math.abs(diff) < 6 * 60 * 60 * 1000) return sameB - sameA
+      return diff
+    })
+    .slice(0, suggestionsCount)
+
   return (
     <>
       <div className="md:hidden pt-[184px]">
@@ -569,7 +596,22 @@ export default async function DynamicPage({
                     articleImages: article['article-images'],
                   })
 
-                  return contentParts.map((part, index) => {
+                  const parts = intercalateSuggestions(
+                    contentParts,
+                    suggestions,
+                    readingTimeMinutes,
+                  )
+
+                  return parts.map((part, index) => {
+                    if (part.type === 'suggestion') {
+                      return (
+                        <SuggestedArticleCard
+                          key={`suggestion-${index}`}
+                          article={part.suggestion!}
+                        />
+                      )
+                    }
+
                     if (part.type === 'embed') {
                       return (
                         <EmbedRenderer
@@ -855,7 +897,22 @@ export default async function DynamicPage({
                       articleImages: article['article-images'],
                     })
 
-                    return contentParts.map((part, index) => {
+                    const parts = intercalateSuggestions(
+                      contentParts,
+                      suggestions,
+                      readingTimeMinutes,
+                    )
+
+                    return parts.map((part, index) => {
+                      if (part.type === 'suggestion') {
+                        return (
+                          <SuggestedArticleCard
+                            key={`suggestion-${index}`}
+                            article={part.suggestion!}
+                          />
+                        )
+                      }
+
                       if (part.type === 'embed') {
                         return (
                           <EmbedRenderer
