@@ -124,9 +124,9 @@ export default function BienestarSection({
                     article.section_path || article.section,
                     article.slug,
                   )}
-                  className="flex gap-4 group"
+                  className="flex flex-col md:flex-row gap-4 group"
                 >
-                  <div className="relative flex-shrink-0 w-2/5 aspect-[4/3] overflow-hidden">
+                  <div className="relative flex-shrink-0 w-full md:w-2/5 aspect-[16/9] md:aspect-[4/3] overflow-hidden">
                     <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
                     <OptimizedImage
                       src={article.imgUrl}
@@ -136,7 +136,7 @@ export default function BienestarSection({
                       sizes="(max-width: 768px) 40vw, 20vw"
                     />
                   </div>
-                  <div className="flex-1 flex flex-col justify-start">
+                  <div className="flex-1 flex flex-col justify-start pt-2 md:pt-0">
                     <h2 className="font-serif text-base font-bold leading-6 sm:leading-tight">
                       {article.overline && (
                         <span className="text-primary-red">

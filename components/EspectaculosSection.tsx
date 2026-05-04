@@ -124,7 +124,7 @@ export default function EspectaculosSection({
                 feature.section_path || feature.section,
                 feature.slug,
               )}
-              className="flex gap-4 group"
+              className="flex flex-col-reverse md:flex-row gap-4 group"
             >
               {/* Text left */}
               <div className="flex-1 flex flex-col justify-start">
@@ -138,7 +138,7 @@ export default function EspectaculosSection({
                 </h2>
               </div>
               {/* Image right */}
-              <div className="relative flex-shrink-0 w-2/5 aspect-[4/3] overflow-hidden">
+              <div className="relative flex-shrink-0 w-full md:w-2/5 aspect-[16/9] md:aspect-[4/3] overflow-hidden">
                 {feature.hasVideo && (
                   <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 z-20">
                     VIDEO
