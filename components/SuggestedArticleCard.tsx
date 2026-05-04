@@ -30,23 +30,23 @@ export default function SuggestedArticleCard({ article }: Props) {
         {article.imgUrl && (
           <div
             className="relative flex-shrink-0 overflow-hidden"
-            style={{ width: '28%', height: '72px' }}
+            style={{ width: '32%', aspectRatio: '16/9' }}
           >
             <OptimizedImage
               src={article.imgUrl}
               alt={article.title}
               fill
               className="object-cover transition-opacity duration-300 group-hover:opacity-60"
-              sizes="28vw"
+              sizes="32vw"
             />
           </div>
         )}
-        <div className="flex flex-col justify-center flex-1 min-w-0 px-4 py-2 gap-0.5">
+        <div className="flex flex-col justify-center flex-1 min-w-0 px-4 py-3 gap-1">
           <span className="text-[9px] font-bold uppercase tracking-widest text-gray-400">
             Seguí leyendo
           </span>
           <h3
-            className="font-serif text-sm font-bold leading-snug text-gray-900 group-hover:text-primary-red transition-colors duration-200"
+            className="font-serif text-xs font-bold leading-snug text-gray-900 group-hover:text-primary-red transition-colors duration-200 line-clamp-3"
             style={{ textDecoration: 'none' }}
           >
             {article.title}

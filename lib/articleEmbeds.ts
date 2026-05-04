@@ -116,6 +116,9 @@ export interface SuggestedArticle {
  *   3–6 min  → 1 suggestion at midpoint
  *   6–10 min → 2 suggestions at ⅓ and ⅔
  *   10+ min  → 3 suggestions at ¼, ½ and ¾
+ *
+ * HTML articles are split into per-paragraph pieces before placement so
+ * suggestions are distributed throughout the text, not dumped at the bottom.
  */
 export function intercalateSuggestions(
   parts: { type: 'text' | 'embed'; content: string; embedType?: string }[],
@@ -129,36 +132,62 @@ export function intercalateSuggestions(
 }[] {
   if (suggestions.length === 0) return parts as any
 
-  const textCount = parts.filter((p) => p.type === 'text').length
-
-  // Calculate insertion positions (as fractions of text parts)
-  let fractions: number[]
-  if (readingTimeMinutes < 3) {
-    fractions = [1] // end
-  } else if (readingTimeMinutes < 6) {
-    fractions = [0.5]
-  } else if (readingTimeMinutes < 10) {
-    fractions = [1 / 3, 2 / 3]
-  } else {
-    fractions = [0.25, 0.5, 0.75]
+  // Expand HTML text parts into individual paragraph chunks so suggestions
+  // can be placed between them rather than all at the end.
+  const expanded: any[] = []
+  for (const part of parts) {
+    if (part.type === 'text' && part.content.trimStart().startsWith('<')) {
+      const chunks = part.content
+        .split('</p>')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0)
+        .map((s) => s + '</p>')
+      if (chunks.length > 1) {
+        chunks.forEach((c) => expanded.push({ type: 'text', content: c }))
+        continue
+      }
+    }
+    expanded.push(part)
   }
 
-  // Convert fractions to text-part indices
-  const insertAfterTextIndex = fractions
-    .slice(0, suggestions.length)
-    .map((f) => Math.max(0, Math.round(textCount * f) - 1))
+  const textCount = expanded.filter((p) => p.type === 'text').length
+  if (textCount === 0) return expanded
+
+  // 1-based: "insert after the Nth text part"
+  let insertAfterNth: number[]
+  if (readingTimeMinutes < 3) {
+    insertAfterNth = [textCount] // after the very last paragraph
+  } else if (readingTimeMinutes < 6) {
+    insertAfterNth = [Math.max(1, Math.round(textCount * 0.5))]
+  } else if (readingTimeMinutes < 10) {
+    insertAfterNth = [
+      Math.max(1, Math.round(textCount * (1 / 3))),
+      Math.max(1, Math.round(textCount * (2 / 3))),
+    ]
+  } else {
+    insertAfterNth = [
+      Math.max(1, Math.round(textCount * 0.25)),
+      Math.max(1, Math.round(textCount * 0.5)),
+      Math.max(1, Math.round(textCount * 0.75)),
+    ]
+  }
+
+  // Deduplicate and cap to available suggestions
+  const positions = [...new Set(insertAfterNth)].slice(0, suggestions.length)
 
   const result: any[] = []
   let textSeen = 0
   let suggestionIndex = 0
 
-  for (const part of parts) {
+  for (const part of expanded) {
     result.push(part)
 
     if (part.type === 'text') {
-      if (
-        suggestionIndex < insertAfterTextIndex.length &&
-        textSeen === insertAfterTextIndex[suggestionIndex]
+      textSeen++
+      // Use while so multiple suggestions at the same position all get placed
+      while (
+        suggestionIndex < positions.length &&
+        textSeen === positions[suggestionIndex]
       ) {
         result.push({
           type: 'suggestion',
@@ -167,7 +196,6 @@ export function intercalateSuggestions(
         })
         suggestionIndex++
       }
-      textSeen++
     }
   }
 
