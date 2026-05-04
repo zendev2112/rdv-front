@@ -16,6 +16,27 @@ function slugToTag(slug: string): string {
   return slug.replace(/-/g, ' ').toUpperCase()
 }
 
+function normalizeToSlug(str: string): string {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+}
+
+function extractDisplayTag(articles: any[], slug: string): string {
+  for (const article of articles) {
+    if (!article.tags) continue
+    for (const raw of article.tags.split(',')) {
+      const clean = raw.trim().replace(/^#/, '')
+      if (normalizeToSlug(clean) === slug) {
+        return clean.toUpperCase()
+      }
+    }
+  }
+  return slugToTag(slug)
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const tag = slugToTag(params.tag)
   return {
@@ -44,6 +65,7 @@ function formatDateShort(dateString: string): string {
 export default async function TagPage({ params }: PageProps) {
   const tag = slugToTag(params.tag)
   const articles = await fetchArticlesByTag(tag)
+  const displayTag = extractDisplayTag(articles, params.tag)
 
   if (articles.length === 0) notFound()
 
@@ -60,10 +82,10 @@ export default async function TagPage({ params }: PageProps) {
                 RADIO DEL VOLGA
               </Link>
               <span className="mx-2 text-gray-400">›</span>
-              <span className="font-medium">{tag}</span>
+              <span className="font-medium">{displayTag}</span>
             </nav>
             <h1 className="font-serif text-4xl font-bold mb-2 leading-tight mt-6">
-              {tag}
+              {displayTag}
             </h1>
             <p className="text-gray-500 text-sm mt-2">
               {articles.length} artículos
@@ -124,10 +146,10 @@ export default async function TagPage({ params }: PageProps) {
                 RADIO DEL VOLGA
               </Link>
               <span className="mx-2 text-gray-400">›</span>
-              <span className="font-medium">{tag}</span>
+              <span className="font-medium">{displayTag}</span>
             </nav>
             <h1 className="font-serif text-2xl md:text-3xl font-semibold mb-2 leading-tight mt-4 md:mt-6">
-              {tag}
+              {displayTag}
             </h1>
             <p className="text-gray-500 text-sm">{articles.length} artículos</p>
             <div className="border-t border-gray-300 my-4"></div>
