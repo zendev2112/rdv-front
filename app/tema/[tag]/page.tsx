@@ -39,9 +39,11 @@ function extractDisplayTag(articles: any[], slug: string): string {
 
 export async function generateMetadata({ params }: PageProps) {
   const tag = slugToTag(params.tag)
+  const articles = await fetchArticlesByTag(tag)
+  const displayTag = extractDisplayTag(articles, params.tag)
   return {
-    title: `${tag} | Radio del Volga`,
-    description: `Todas las noticias sobre ${tag} en Radio del Volga`,
+    title: `Últimas noticias de ${displayTag} en RADIO DEL VOLGA`,
+    description: `Todas las noticias sobre ${displayTag} en Radio del Volga`,
   }
 }
 
