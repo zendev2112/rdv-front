@@ -103,7 +103,7 @@ export default function InversionesSection({
                   {article.title}
                 </h2>
                 {article.excerpt && (
-                  <p className="mt-2 text-sm text-gray-600 line-clamp-3">
+                  <p className="hidden md:block mt-2 text-sm text-gray-600 line-clamp-3">
                     {article.excerpt}
                   </p>
                 )}
