@@ -618,7 +618,7 @@ export default async function DynamicPage({
                     const cleanTag = tag.trim().replace(/^#/, '').toUpperCase()
                     const tagSlug = cleanTag
                       .normalize('NFD')
-                      .replace(/\p{Diacritic}/gu, '')
+                      .replace(/[\u0300-\u036f]/g, '')
                       .toLowerCase()
                       .replace(/\s+/g, '-')
                     return (
@@ -904,7 +904,7 @@ export default async function DynamicPage({
                           .toUpperCase()
                         const tagSlug = cleanTag
                           .normalize('NFD')
-                          .replace(/\p{Diacritic}/gu, '')
+                          .replace(/[\u0300-\u036f]/g, '')
                           .toLowerCase()
                           .replace(/\s+/g, '-')
                         return (
