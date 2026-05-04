@@ -619,7 +619,7 @@ export default async function DynamicPage({
                     return (
                       <Link
                         key={cleanTag}
-                        href={`/search?tag=${encodeURIComponent(cleanTag)}`}
+                        href={`/tag/${cleanTag.toLowerCase().replace(/\s+/g, '-')}`}
                         className="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-primary-red hover:text-white transition-all duration-200 text-xs font-bold tracking-wide"
                         style={{
                           textDecoration: 'none',
@@ -900,7 +900,7 @@ export default async function DynamicPage({
                         return (
                           <Link
                             key={cleanTag}
-                            href={`/search?tag=${encodeURIComponent(cleanTag)}`}
+                            href={`/tag/${cleanTag.toLowerCase().replace(/\s+/g, '-')}`}
                             className="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-primary-red hover:text-white transition-all duration-200 text-xs font-bold tracking-wide"
                             style={{
                               textDecoration: 'none',
