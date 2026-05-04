@@ -7,7 +7,6 @@ interface SuggestedArticle {
   title: string
   slug: string
   imgUrl?: string
-  overline?: string
   created_at?: string
   section?: string
   section_path?: string
@@ -19,38 +18,37 @@ interface Props {
 
 export default function SuggestedArticleCard({ article }: Props) {
   return (
-    <div className="my-6 not-prose border-t border-b border-gray-200 py-4">
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-3">
-        Seguí leyendo
-      </p>
+    <div className="not-prose my-8 w-full bg-gray-50 border border-gray-200 rounded-sm overflow-hidden">
       <Link
         href={getArticleUrl(
           article.section_path || article.section,
           article.slug,
         )}
-        className="flex gap-4 group"
+        className="flex w-full group no-underline"
+        style={{ textDecoration: 'none' }}
       >
         {article.imgUrl && (
           <div
             className="relative flex-shrink-0 overflow-hidden"
-            style={{ width: '33%', aspectRatio: '16/10' }}
+            style={{ width: '33%', aspectRatio: '3/2' }}
           >
             <OptimizedImage
               src={article.imgUrl}
               alt={article.title}
               fill
-              className="object-cover transition-opacity duration-300 group-hover:opacity-85"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="33vw"
             />
           </div>
         )}
-        <div className="flex flex-col justify-center flex-1 min-w-0">
-          {article.overline && (
-            <span className="text-primary-red text-xs font-bold uppercase tracking-wide mb-1 block">
-              {article.overline}
-            </span>
-          )}
-          <h3 className="font-serif text-xl font-bold leading-snug group-hover:text-primary-red transition-colors duration-200">
+        <div className="flex flex-col justify-center flex-1 min-w-0 px-5 py-4 gap-1">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+            Seguí leyendo
+          </span>
+          <h3
+            className="font-serif text-base font-bold leading-snug text-gray-900 group-hover:text-primary-red transition-colors duration-200"
+            style={{ textDecoration: 'none' }}
+          >
             {article.title}
           </h3>
         </div>
