@@ -86,6 +86,96 @@ function calculateReadingTime(text: string): number {
   return Math.ceil(wordCount / wordsPerMinute)
 }
 
+// ─── Suggestion algorithm ─────────────────────────────────────────────────
+const LOCAL_CLUSTER_SECTIONS = [
+  'coronel_suarez',
+  'pueblos_alemanes',
+  'santa_trinidad',
+  'san_jose',
+  'santa_maria',
+  'huanguelen',
+  'la_sexta',
+]
+
+// Normalized (accent-stripped, lowercase) tag → section key
+const LOCAL_CLUSTER_TAG_MAP: Record<string, string> = {
+  'coronel suarez': 'coronel_suarez',
+  huanguelen: 'huanguelen',
+  'pueblos alemanes': 'pueblos_alemanes',
+  'santa trinidad': 'santa_trinidad',
+  'san jose': 'san_jose',
+  'santa maria': 'santa_maria',
+  'la sexta': 'la_sexta',
+}
+
+function normalizeText(s: string): string {
+  return s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+}
+
+/**
+ * Returns the cluster identity key (e.g. 'coronel_suarez') for an article,
+ * checking section_path first and falling back to tags. Returns null if the
+ * article is not in the local cluster.
+ */
+function getClusterIdentity(
+  sectionPath: string | null | undefined,
+  tags: string | null | undefined,
+): string | null {
+  for (const s of LOCAL_CLUSTER_SECTIONS) {
+    if ((sectionPath || '').split('.').includes(s)) return s
+  }
+  const tagList = (tags || '')
+    .split(',')
+    .map((t) => normalizeText(t.trim().replace(/^#/, '')))
+  for (const [normalizedTag, sectionKey] of Object.entries(
+    LOCAL_CLUSTER_TAG_MAP,
+  )) {
+    if (tagList.includes(normalizedTag)) return sectionKey
+  }
+  return null
+}
+
+function getTopSection(sectionPath: string | null | undefined): string {
+  return (sectionPath || '').split('.')[0] || ''
+}
+
+function scoreSuggestion(
+  candidate: any,
+  currentSectionPath: string,
+  currentTopSection: string,
+  currentTags: string[],
+  currentClusterIdentity: string | null,
+): number {
+  const candidateClusterIdentity = getClusterIdentity(
+    candidate.section_path,
+    candidate.tags,
+  )
+
+  if (currentClusterIdentity !== null) {
+    // Current article is local cluster → only suggest cluster articles
+    if (candidateClusterIdentity === null) return -1
+    if (candidateClusterIdentity === currentClusterIdentity) return 4
+    return 2 // different cluster node but still local
+  } else {
+    // Non-local section → keep within section/topic
+    if (candidate.section_path === currentSectionPath) return 4
+    if (getTopSection(candidate.section_path) === currentTopSection) return 3
+    const candidateTags = (candidate.tags || '')
+      .split(',')
+      .map((t: string) => normalizeText(t.trim().replace(/^#/, '')))
+    const hasTagOverlap = currentTags.some(
+      (t) => t && candidateTags.includes(normalizeText(t)),
+    )
+    if (hasTagOverlap) return 2
+    if (candidateClusterIdentity !== null) return 1 // Coronel Suárez / Pueblos bonus
+    return -1 // no relation at all → exclude
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────
+
 async function getSectionData(slug: string) {
   const { data } = await supabase
     .from('section_hierarchy')
@@ -465,31 +555,63 @@ export default async function DynamicPage({
 
   const readingTimeMinutes = calculateReadingTime(article.article || '')
 
-  // Fetch suggestions: 20 most recent articles excluding current, boost same section
+  // ─── Fetch suggestion candidates ────────────────────────────────────────
   const suggestionsCount =
     readingTimeMinutes < 6 ? 1 : readingTimeMinutes < 10 ? 2 : 3
 
-  const { data: recentArticles } = await supabase
+  const { data: pool } = await supabase
     .from('article_with_sections')
     .select(
-      'id, title, slug, imgUrl, overline, created_at, section, section_path',
+      'id, title, slug, imgUrl, overline, created_at, section, section_path, tags',
     )
     .eq('status', 'published')
     .neq('id', article.id)
     .order('created_at', { ascending: false })
-    .limit(20)
+    .limit(50)
 
-  const suggestions = ((recentArticles || []) as any[])
+  const currentClusterIdentity = getClusterIdentity(
+    article.section_path,
+    article.tags,
+  )
+  const currentTopSection = getTopSection(article.section_path)
+  const currentTags = (article.tags || '')
+    .split(',')
+    .map((t: string) => t.trim().replace(/^#/, '').toLowerCase())
+    .filter(Boolean)
+
+  const scored = ((pool || []) as any[])
+    .map((a) => ({
+      ...a,
+      _score: scoreSuggestion(
+        a,
+        article.section_path || '',
+        currentTopSection,
+        currentTags,
+        currentClusterIdentity,
+      ),
+    }))
+    .filter((a) => a._score >= 0)
     .sort((a, b) => {
-      const sameA = a.section_path === article.section_path ? 1 : 0
-      const sameB = b.section_path === article.section_path ? 1 : 0
-      // novelty-first: only swap if same recency bucket (within 6h)
-      const diff =
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      if (Math.abs(diff) < 6 * 60 * 60 * 1000) return sameB - sameA
-      return diff
+      if (b._score !== a._score) return b._score - a._score
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     })
-    .slice(0, suggestionsCount)
+
+  // If not enough scored candidates, fill with most recent regardless of section
+  const suggestions =
+    scored.length >= suggestionsCount
+      ? scored.slice(0, suggestionsCount)
+      : [
+          ...scored,
+          ...((pool || []) as any[])
+            .filter((a) => !scored.find((s: any) => s.id === a.id))
+            .sort(
+              (a, b) =>
+                new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime(),
+            )
+            .slice(0, suggestionsCount - scored.length),
+        ].slice(0, suggestionsCount)
+  // ────────────────────────────────────────────────────────────────────────
 
   return (
     <>
