@@ -47,7 +47,7 @@ export default function SuggestedArticleCard({ article }: Props) {
           </span>
           <div
             className="font-serif font-bold leading-snug text-gray-900 group-hover:text-primary-red transition-colors duration-200"
-            style={{ fontSize: '11px', textDecoration: 'none' }}
+            style={{ fontSize: '13px', textDecoration: 'none' }}
           >
             {article.title}
           </div>
