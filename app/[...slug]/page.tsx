@@ -556,8 +556,9 @@ export default async function DynamicPage({
   const readingTimeMinutes = calculateReadingTime(article.article || '')
 
   // ─── Fetch suggestion candidates ────────────────────────────────────────
-  const suggestionsCount =
-    readingTimeMinutes < 6 ? 1 : readingTimeMinutes < 10 ? 2 : 3
+  // Minimum 2 always; 3 for longer reads. intercalateSuggestions places them
+  // at ⅓+⅔ for 2 cards, ¼+½+¾ for 3 cards.
+  const suggestionsCount = readingTimeMinutes < 5 ? 2 : 3
 
   const { data: pool } = await supabase
     .from('article_with_sections')

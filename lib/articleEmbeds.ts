@@ -132,19 +132,36 @@ export function intercalateSuggestions(
 }[] {
   if (suggestions.length === 0) return parts as any
 
-  // Expand HTML text parts into individual paragraph chunks so suggestions
-  // can be placed between them rather than all at the end.
+  // Expand single-blob text parts into individual paragraph chunks so
+  // suggestions can be placed between them rather than all at the end.
   const expanded: any[] = []
   for (const part of parts) {
-    if (part.type === 'text' && part.content.trimStart().startsWith('<')) {
-      const chunks = part.content
-        .split('</p>')
-        .map((s) => s.trim())
-        .filter((s) => s.length > 0)
-        .map((s) => s + '</p>')
-      if (chunks.length > 1) {
-        chunks.forEach((c) => expanded.push({ type: 'text', content: c }))
-        continue
+    if (part.type === 'text') {
+      const isHtml = part.content.trimStart().startsWith('<')
+      if (isHtml) {
+        const chunks = part.content
+          .split('</p>')
+          .map((s: string) => s.trim())
+          .filter((s: string) => s.length > 0)
+          .map((s: string) => s + '</p>')
+        if (chunks.length > 1) {
+          chunks.forEach((c: string) =>
+            expanded.push({ type: 'text', content: c }),
+          )
+          continue
+        }
+      } else {
+        // Markdown: split on blank lines
+        const chunks = part.content
+          .split('\n\n')
+          .map((s: string) => s.trim())
+          .filter((s: string) => s.length > 0)
+        if (chunks.length > 1) {
+          chunks.forEach((c: string) =>
+            expanded.push({ type: 'text', content: c }),
+          )
+          continue
+        }
       }
     }
     expanded.push(part)
@@ -153,22 +170,21 @@ export function intercalateSuggestions(
   const textCount = expanded.filter((p) => p.type === 'text').length
   if (textCount === 0) return expanded
 
-  // 1-based: "insert after the Nth text part"
+  // How many suggestions to place, and where (1-based: "after the Nth text part")
+  // Thresholds are deliberately low — most news articles are 2-4 min reads.
   let insertAfterNth: number[]
-  if (readingTimeMinutes < 3) {
-    insertAfterNth = [textCount] // after the very last paragraph
-  } else if (readingTimeMinutes < 6) {
-    insertAfterNth = [Math.max(1, Math.round(textCount * 0.5))]
-  } else if (readingTimeMinutes < 10) {
+  if (readingTimeMinutes < 2) {
+    insertAfterNth = [textCount] // after last paragraph
+  } else if (readingTimeMinutes < 5) {
     insertAfterNth = [
       Math.max(1, Math.round(textCount * (1 / 3))),
-      Math.max(1, Math.round(textCount * (2 / 3))),
+      Math.max(2, Math.round(textCount * (2 / 3))),
     ]
   } else {
     insertAfterNth = [
       Math.max(1, Math.round(textCount * 0.25)),
-      Math.max(1, Math.round(textCount * 0.5)),
-      Math.max(1, Math.round(textCount * 0.75)),
+      Math.max(2, Math.round(textCount * 0.5)),
+      Math.max(3, Math.round(textCount * 0.75)),
     ]
   }
 

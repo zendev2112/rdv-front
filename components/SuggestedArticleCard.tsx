@@ -45,12 +45,12 @@ export default function SuggestedArticleCard({ article }: Props) {
           <span className="text-[9px] font-bold uppercase tracking-widest text-gray-400">
             Seguí leyendo
           </span>
-          <h3
-            className="font-serif text-xs font-bold leading-snug text-gray-900 group-hover:text-primary-red transition-colors duration-200 line-clamp-3"
-            style={{ textDecoration: 'none' }}
+          <div
+            className="font-serif font-bold leading-snug text-gray-900 group-hover:text-primary-red transition-colors duration-200"
+            style={{ fontSize: '11px', textDecoration: 'none' }}
           >
             {article.title}
-          </h3>
+          </div>
         </div>
       </Link>
     </div>
