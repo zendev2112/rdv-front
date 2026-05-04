@@ -25,13 +25,9 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 async function fetchArticlesByTag(tag: string) {
-  const { data, error } = await supabase
-    .from('article_with_sections')
-    .select('*')
-    .ilike('tags', `%${tag}%`)
-    .eq('status', 'published')
-    .order('created_at', { ascending: false })
-    .limit(48)
+  const { data, error } = await supabase.rpc('search_articles_by_tag', {
+    tag_query: tag,
+  })
 
   if (error) return []
   return data || []

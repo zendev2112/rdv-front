@@ -616,10 +616,15 @@ export default async function DynamicPage({
                 <div className="flex flex-wrap gap-2">
                   {article.tags.split(',').map((tag: string) => {
                     const cleanTag = tag.trim().replace(/^#/, '').toUpperCase()
+                    const tagSlug = cleanTag
+                      .normalize('NFD')
+                      .replace(/\p{Diacritic}/gu, '')
+                      .toLowerCase()
+                      .replace(/\s+/g, '-')
                     return (
                       <Link
                         key={cleanTag}
-                        href={`/tag/${cleanTag.toLowerCase().replace(/\s+/g, '-')}`}
+                        href={`/tag/${tagSlug}`}
                         className="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-primary-red hover:text-white transition-all duration-200 text-xs font-bold tracking-wide"
                         style={{
                           textDecoration: 'none',
@@ -897,10 +902,15 @@ export default async function DynamicPage({
                           .trim()
                           .replace(/^#/, '')
                           .toUpperCase()
+                        const tagSlug = cleanTag
+                          .normalize('NFD')
+                          .replace(/\p{Diacritic}/gu, '')
+                          .toLowerCase()
+                          .replace(/\s+/g, '-')
                         return (
                           <Link
                             key={cleanTag}
-                            href={`/tag/${cleanTag.toLowerCase().replace(/\s+/g, '-')}`}
+                            href={`/tag/${tagSlug}`}
                             className="inline-block px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-primary-red hover:text-white transition-all duration-200 text-xs font-bold tracking-wide"
                             style={{
                               textDecoration: 'none',
