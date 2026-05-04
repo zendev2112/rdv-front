@@ -173,7 +173,10 @@ export function intercalateSuggestions(
   }
 
   // Deduplicate and cap to available suggestions
-  const positions = [...new Set(insertAfterNth)].slice(0, suggestions.length)
+  const positions = Array.from(new Set(insertAfterNth)).slice(
+    0,
+    suggestions.length,
+  )
 
   const result: any[] = []
   let textSeen = 0
