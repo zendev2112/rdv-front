@@ -309,7 +309,7 @@ export default async function Home() {
 
           <PymesYEmprendimientosSection serverData={pymesArticles} />
 
-          <PropiedadesSection serverData={propiedadesArticles} />
+          {/* <PropiedadesSection serverData={propiedadesArticles} /> */}
 
           <LifestyleSection serverData={lifestyleArticles} />
 
@@ -440,7 +440,7 @@ export default async function Home() {
 
               <PymesYEmprendimientosSection serverData={pymesArticles} />
 
-              <PropiedadesSection serverData={propiedadesArticles} />
+              {/* <PropiedadesSection serverData={propiedadesArticles} /> */}
 
               <LifestyleSection serverData={lifestyleArticles} />
 
