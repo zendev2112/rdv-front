@@ -28,7 +28,7 @@ export default function EmbedRenderer({
     if (embedType === 'instagram') {
       // Check if script already exists
       const existingScript = document.querySelector(
-        'script[src*="instagram.com/embed.js"]'
+        'script[src*="instagram.com/embed.js"]',
       )
 
       if (existingScript) {
@@ -58,7 +58,7 @@ export default function EmbedRenderer({
     // Twitter embeds
     if (embedType === 'twitter') {
       const existingScript = document.querySelector(
-        'script[src*="platform.twitter.com"]'
+        'script[src*="platform.twitter.com"]',
       )
 
       if (existingScript) {
@@ -145,7 +145,7 @@ export default function EmbedRenderer({
         <div className="flex justify-center my-8">
           <iframe
             src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
-              content
+              content,
             )}&width=500`}
             width="500"
             height="600"
@@ -184,12 +184,15 @@ export default function EmbedRenderer({
 
     case 'image':
       return (
-        <div className="relative h-96 my-8 rounded-lg overflow-hidden">
+        <div className="my-8">
           <Image
             src={content}
             alt="Article image"
-            fill
-            className="object-cover"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto' }}
+            className="rounded-lg"
           />
         </div>
       )
