@@ -45,11 +45,6 @@ export default function RootLayout({
       addressRegion: 'Buenos Aires',
       addressCountry: 'AR',
     },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '-37.4500',
-      longitude: '-61.9333',
-    },
     areaServed: {
       '@type': 'City',
       name: 'Coronel Suárez',

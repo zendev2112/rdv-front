@@ -103,7 +103,7 @@ export async function generateMetadata({ params }: PageProps) {
       images,
       publishedTime: article.created_at,
       modifiedTime: article.updated_at || article.created_at,
-      authors: article.author ? [article.author] : ['Redacción Del Volga'],
+      authors: article.author ? [article.author] : ['Redacción Radio del Volga'],
     },
     twitter: {
       card: 'summary_large_image',
@@ -657,7 +657,7 @@ export default async function DynamicPage({
     dateModified: article.updated_at || article.created_at,
     author: {
       '@type': 'Person',
-      name: article.author || 'Redacción Del Volga',
+      name: article.author || 'Redacción Radio del Volga',
     },
     image: article.imgUrl ? [article.imgUrl] : [],
     url: `${BASE_URL}${articlePath}`,
