@@ -51,6 +51,8 @@ interface PageProps {
   }
 }
 
+const BASE_URL = 'https://www.radiodelvolga.com.ar'
+
 // Generate metadata
 export async function generateMetadata({ params }: PageProps) {
   // Prevent catch-all from intercepting API routes
@@ -70,14 +72,46 @@ export async function generateMetadata({ params }: PageProps) {
 
   // Otherwise, fetch article metadata
   const article = await fetchArticleBySlug(pathSlug)
-  if (article) {
-    return {
-      title: `${article.title} - Radio del Volga`,
-      description: article.excerpt || `Lee ${article.title} en Radio del Volga`,
-    }
+  if (!article) {
+    return { title: 'Radio del Volga' }
   }
 
-  return { title: 'Radio del Volga' }
+  const canonicalPath = article.section_path
+    ? `/${article.section_path.split('.').map((p: string) => p.replace(/_/g, '-')).join('/')}/${article.slug}`
+    : `/${article.section}/${article.slug}`
+  const canonicalUrl = `${BASE_URL}${canonicalPath}`
+
+  const title = `${article.title} - Radio del Volga`
+  const description = article.excerpt || `Lee ${article.title} en Radio del Volga`
+  const images = article.imgUrl
+    ? [{ url: article.imgUrl, width: 1200, height: 630, alt: article.title }]
+    : [{ url: `${BASE_URL}/images/icon-192.png`, width: 192, height: 192, alt: 'Radio del Volga' }]
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: 'Radio del Volga',
+      locale: 'es_AR',
+      type: 'article',
+      images,
+      publishedTime: article.created_at,
+      modifiedTime: article.updated_at || article.created_at,
+      authors: article.author ? [article.author] : ['Redacción Del Volga'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: images.map((i) => i.url),
+    },
+  }
 }
 
 function calculateReadingTime(text: string): number {
@@ -614,8 +648,42 @@ export default async function DynamicPage({
         ].slice(0, suggestionsCount)
   // ────────────────────────────────────────────────────────────────────────
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.excerpt || '',
+    datePublished: article.created_at,
+    dateModified: article.updated_at || article.created_at,
+    author: {
+      '@type': 'Person',
+      name: article.author || 'Redacción Del Volga',
+    },
+    image: article.imgUrl ? [article.imgUrl] : [],
+    url: `${BASE_URL}${articlePath}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Radio del Volga',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/logo.png`,
+      },
+    },
+    isPartOf: {
+      '@type': 'PublicationIssue',
+      isPartOf: {
+        '@type': 'Periodical',
+        name: 'Radio del Volga',
+      },
+    },
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <div className="md:hidden pt-[184px]">
         <div className="container mx-auto max-w-[1600px] px-4">
           <div className="mb-0 pb-4 py-0 -mt-8">

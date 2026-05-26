@@ -57,7 +57,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className="overflow-x-hidden">
+    <html lang="es-AR" className="overflow-x-hidden">
       <head>
         <link rel="icon" href="/images/icon-192.png" type="image/png" />
         <link rel="manifest" href="/manifest.json" />
