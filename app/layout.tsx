@@ -57,6 +57,7 @@ export default function RootLayout({
   return (
     <html lang="es-AR" className="overflow-x-hidden">
       <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="icon" href="/images/icon-192.png" type="image/png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#ff0808" />
@@ -117,15 +118,6 @@ export default function RootLayout({
             gtag('config', 'G-6THME29QR7');
           `}
         </Script>
-        <Script
-          src="https://www.instagram.com/embed.js"
-          strategy="lazyOnload"
-        />
-        <Script
-          src="https://platform.twitter.com/widgets.js"
-          strategy="lazyOnload"
-        />
-
         <MobileNavBar />
         <Analytics />
       </body>

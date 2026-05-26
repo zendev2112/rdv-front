@@ -1,6 +1,6 @@
 export const imageTransforms = {
-  // ✅ HIGH QUALITY WITH AI UPSCALING: For main article images
-  hq: 'w_1200,c_limit,e_upscale,e_improve,q_auto:best,f_auto,dpr_auto',
+  // Main article images — upscale removed (adds latency on cache miss with no benefit for already-large sources)
+  hq: 'w_1200,c_limit,e_improve,q_auto:best,f_auto,dpr_auto',
 
   // ✅ CAROUSEL: Optimized with AI enhancement
   carousel: 'w_1000,c_limit,e_upscale,e_improve,q_auto:best,f_auto,ar_16:9',
@@ -8,8 +8,8 @@ export const imageTransforms = {
   // ✅ THUMBNAIL: For related articles with improvement
   thumbnail: 'w_400,h_300,c_fill,e_improve,q_auto:good,f_auto',
 
-  // ✅ RESPONSIVE: Mobile with AI upscaling
-  responsive: 'w_800,c_limit,e_upscale,e_improve,q_auto:best,f_auto',
+  // Mobile responsive images
+  responsive: 'w_800,c_limit,e_improve,q_auto:best,f_auto',
 
   // ✅ AGGRESSIVE: For extremely poor quality images
   aggressive: 'w_1200,c_limit,e_upscale,e_improve,e_sharpen:800,e_contrast:30,e_saturation:20,q_auto:best,f_auto,dpr_auto',

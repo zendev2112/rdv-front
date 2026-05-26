@@ -29,6 +29,7 @@ import OptimizedImage from '@/components/OptimizedImage'
 import SectionArticlesGrid from '@/components/SectionArticlesGrid'
 import MobileSectionArticlesGrid from '@/components/MobileSectionArticlesGrid'
 import Footer from '@/components/Footer'
+import Script from 'next/script'
 
 export const revalidate = 300 // Revalidate every 5 minutes
 export const fetchCache = 'force-cache'
@@ -1216,6 +1217,12 @@ export default async function DynamicPage({
           </div>
         </SidelinesLayout>
       </div>
+      {article['ig-post'] && (
+        <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
+      )}
+      {article['tw-post'] && (
+        <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
+      )}
     </>
   )
 }
