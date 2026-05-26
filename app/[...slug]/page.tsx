@@ -64,9 +64,23 @@ export async function generateMetadata({ params }: PageProps) {
   // Check if it's a section page
   const sectionData = await getSectionData(pathSlug)
   if (sectionData) {
+    const canonicalUrl = `${BASE_URL}/${sectionData.breadcrumb_slugs.join('/')}`
+    const title = `${sectionData.name} | Radio del Volga`
+    const description = `Todas las noticias de ${sectionData.name} en Radio del Volga`
     return {
-      title: `${sectionData.name} | Radio del Volga`,
-      description: `Todas las noticias de ${sectionData.name}`,
+      title,
+      description,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      openGraph: {
+        title,
+        description,
+        url: canonicalUrl,
+        siteName: 'Radio del Volga',
+        locale: 'es_AR',
+        type: 'website',
+      },
     }
   }
 
