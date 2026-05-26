@@ -1,5 +1,5 @@
 import type React from 'react'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
@@ -9,6 +9,10 @@ import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
+export const viewport: Viewport = {
+  themeColor: '#ff0808',
+}
+
 export const metadata: Metadata = {
   title: 'Radio del Volga',
   description: 'Noticias de Coronel Suárez y el sudoeste bonaerense',
@@ -17,7 +21,6 @@ export const metadata: Metadata = {
     icon: '/images/icon-192.png',
     apple: '/images/icon-192.png',
   },
-  themeColor: '#ff0808',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
