@@ -18,39 +18,39 @@ export default function SidelinesLayout({
   sidelineWidth = 12, // now represents percentage (12% each side)
 }: SidelinesLayoutProps) {
   const stripeStyle: React.CSSProperties = {
-    backgroundColor: '#fffdfd', // ✅ Plain white instead of #f8f8f8
+    backgroundColor: '#fffdfd', // Plain white instead of #f8f8f8
     minHeight: '100vh',
     flex: `0 0 ${sidelineWidth}%`,
   }
 
+  // Children are rendered ONCE. The side stripes are siblings that only appear
+  // at xl+ (desktop). Below xl, the stripes are hidden and the content column
+  // takes the full width — identical to the previous mobile/tablet rendering,
+  // but without duplicating the entire subtree in the DOM.
   return (
     <div className="relative">
-      <>
-        {/* Mobile/Tablet: Normal layout without sidelines */}
-        <div className={`xl:hidden ${className}`}>{children}</div>
-
-        {/* Desktop: Layout with responsive sidelines */}
-        <div className={`hidden xl:flex justify-center ${className}`}>
-          {/* Left Sideline - Responsive */}
-          <div style={stripeStyle}>
-            <div className="sticky top-[80px] p-4 flex justify-center">
-              {leftAd}
-            </div>
-          </div>
-
-          {/* Main Content - Responsive */}
-          <div className="flex-1 bg-white shadow-sm min-h-screen max-w-[1200px]">
-            {children}
-          </div>
-
-          {/* Right Sideline - Responsive */}
-          <div style={stripeStyle}>
-            <div className="sticky top-[80px] p-4 flex justify-center">
-              {rightAd}
-            </div>
+      <div className="xl:flex xl:justify-center">
+        {/* Left sideline — desktop only */}
+        <div className="hidden xl:block" style={stripeStyle}>
+          <div className="sticky top-[80px] p-4 flex justify-center">
+            {leftAd}
           </div>
         </div>
-      </>
+
+        {/* Main content — rendered once */}
+        <div
+          className={`w-full xl:flex-1 xl:max-w-[1200px] xl:bg-white xl:shadow-sm xl:min-h-screen ${className}`}
+        >
+          {children}
+        </div>
+
+        {/* Right sideline — desktop only */}
+        <div className="hidden xl:block" style={stripeStyle}>
+          <div className="sticky top-[80px] p-4 flex justify-center">
+            {rightAd}
+          </div>
+        </div>
+      </div>
 
       {/* Overlay Ad Placeholder */}
       {overlayAd && (
