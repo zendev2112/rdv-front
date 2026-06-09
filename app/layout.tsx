@@ -58,6 +58,8 @@ export default function RootLayout({
     <html lang="es-AR" className="overflow-x-hidden">
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://dolarapi.com" />
+        <link rel="preconnect" href="https://api.open-meteo.com" />
         <link rel="icon" href="/images/icon-192.png" type="image/png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#ff0808" />
@@ -108,9 +110,9 @@ export default function RootLayout({
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-6THME29QR7"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
