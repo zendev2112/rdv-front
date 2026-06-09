@@ -203,134 +203,19 @@ export default async function Home() {
 
   return (
     <>
-      {/* MOBILE VERSION - NO SidelinesLayout */}
-      <div className="md:hidden pt-[184px]">
-        <PWAInstallPrompt />
-        <div className="container mx-auto max-w-[1600px] px-4">
-          {/* Currency rates */}
-          <div className="hidden md:block border-b border-gray-200 overflow-x-auto">
-            <DollarRates />
-          </div>
-
-          <div className="pt-12 md:pt-0"></div>
-
-          {/* Breaking news ticker */}
-          <div className="hidden md:block border-b border-light-gray overflow-x-auto">
-            <div className="py-2 flex items-center text-sm space-x-2 whitespace-nowrap">
-              <NewsTicker headlines={latestHeadlines} />
-            </div>
-          </div>
-          {/* Main content */}
-          <PrincipalSection serverData={principalSectionArticles} />
-
-          <div className="md:hidden">
-            <MobileDollarRates />
-          </div>
-
-          <NoticiasImportantesSection
-            serverData={noticiasImportantesArticles}
-          />
-
-          <VolgaTVSection
-            featuredVideo={featuredVideo}
-            recentVideos={recentVideos}
-          />
-
-          <PueblosAlemanesSection serverData={pueblosAlemanesArticles} />
-
-          <FarmaciasDeTurno />
-
-          {/* Weather section */}
-          <ClimaSection />
-
-          <HuanguelenSection serverData={huanguelenArticles} />
-
-          <LaSextaSection serverData={laSextaArticles} />
-
-          <ActualidadSection serverData={actualidadArticles} />
-
-          {/* Advertisement banner */}
-          <div className="py-6">
-            <div className="bg-gray-100 p-4 text-center">
-              <p className="text-xs text-gray-500 mb-2">AD</p>
-              <div className="h-16 flex items-center justify-center">
-                <p className="text-gray-400">Advertisement Banner</p>
-              </div>
-            </div>
-          </div>
-
-          <PoliticaYEconomiaSection serverData={politicaYEconomiaArticles} />
-
-          <DeportesSection serverData={deportesArticles} />
-
-          <MundoSection serverData={mundoArticles} />
-
-          <MasNoticiasSection serverData={masNoticiasArticles} />
-
-          <section className="py-6 border-t border-gray-200">
-            <AgroSection serverData={agroArticles} />
-          </section>
-
-          <EnFocoSection serverData={enFocoArticles} />
-
-          {/* Advertisement banner */}
-          <div className="py-6">
-            <div className="bg-gray-100 p-4 text-center">
-              <p className="text-xs text-gray-500 mb-2">AD</p>
-              <div className="h-16 flex items-center justify-center">
-                <p className="text-gray-400">Advertisement Banner</p>
-              </div>
-            </div>
-          </div>
-
-          <RecetasSection serverData={recetasSection} />
-
-          <TendenciasSection serverData={tendenciasArticles} />
-
-          {/* Advertisement banner */}
-          <div className="py-6">
-            <div className="bg-gray-100 p-4 text-center">
-              <p className="text-xs text-gray-500 mb-2">AD</p>
-              <div className="h-16 flex items-center justify-center">
-                <p className="text-gray-400">Advertisement Banner</p>
-              </div>
-            </div>
-          </div>
-
-          <AdPlaceholder />
-
-          <IActualidadSection serverData={iActualidadArticles} />
-
-          <TechSection serverData={techArticles} />
-
-          <EspectaculosSection serverData={espectaculosArticles} />
-
-          <InversionesSection serverData={inversionesArticles} />
-
-          <PymesYEmprendimientosSection serverData={pymesArticles} />
-
-          {/* <PropiedadesSection serverData={propiedadesArticles} /> */}
-
-          <LifestyleSection serverData={lifestyleArticles} />
-
-          <BienestarSection serverData={bienestarArticles} />
-
-          <EstrenosSection serverData={estrenosArticles} />
-
-          <AdPlaceholder />
-
-          <Footer />
-        </div>
-      </div>
-
-      {/* DESKTOP VERSION - WITH SidelinesLayout */}
-      <div className="hidden md:block">
+      {/* Unified responsive layout — single tree. Responsive classes handle
+          the per-breakpoint differences (mobile intentionally has no ticker
+          and no top dollar row; it shows MobileDollarRates instead). */}
+      <div>
         <SidelinesLayout
           leftAd={<LeftAd />}
           rightAd={<RightAd />}
           sidelineWidth={sidelineWidth}
         >
-          <div className="pt-[100px]">
+          <div className="pt-[184px] md:pt-[100px]">
+            <div className="md:hidden">
+              <PWAInstallPrompt />
+            </div>
             <div className="container mx-auto max-w-[1600px] px-4">
               {/* Currency rates + Weather */}
               <div className="hidden md:flex border-b border-gray-200 overflow-x-auto">
