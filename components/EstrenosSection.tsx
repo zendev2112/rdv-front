@@ -1,8 +1,5 @@
-'use client'
-
-import React, { useMemo } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { useArticles } from '../hooks/useArticles'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
 import { sortArticlesForSlots } from '@/lib/articleSlots'
@@ -20,6 +17,7 @@ interface Article {
   section_path?: string
   author?: string
   hasVideo?: boolean
+  [key: string]: unknown
 }
 
 interface EstrenosSectionProps {
@@ -27,29 +25,9 @@ interface EstrenosSectionProps {
 }
 
 export default function EstrenosSection({ serverData }: EstrenosSectionProps) {
-  const {
-    articles: clientArticles,
-    loading,
-    error,
-  } = useArticles('EstrenosSection', 3, serverData)
-
-  const articles =
-    serverData && serverData.length > 0 ? serverData : clientArticles
-  const isLoading = !serverData && loading
-  const hasError = !serverData && error
-
-  const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 3),
-    [articles],
-  )
-
-  if (isLoading && articles.length === 0) {
-    return <div className="container mx-auto p-4">Loading...</div>
-  }
-
-  if (hasError && articles.length === 0) {
-    return <div className="container mx-auto p-4 text-red-500">{error}</div>
-  }
+  // Server Component: data always arrives via serverData (homepage SSR).
+  const articles = serverData ?? []
+  const processedArticles = sortArticlesForSlots(articles, 3)
 
   return (
     <main className="py-0 md:py-6">
