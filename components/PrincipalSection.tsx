@@ -1,8 +1,4 @@
-'use client'
-
-import { useMemo } from 'react'
 import Link from 'next/link'
-import { useArticles } from '../hooks/useArticles'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
 import { sortArticlesForSlots } from '@/lib/articleSlots'
@@ -19,6 +15,7 @@ interface Article {
   section?: string
   section_path?: string
   author?: string
+  [key: string]: unknown
 }
 
 interface PrincipalSectionProps {
@@ -28,31 +25,13 @@ interface PrincipalSectionProps {
 export default function PrincipalSection({
   serverData,
 }: PrincipalSectionProps) {
-  const {
-    articles: clientArticles,
-    loading,
-    error,
-  } = useArticles('PrincipalSection', 10, serverData)
-  const articles =
-    serverData && serverData.length > 0 ? serverData : clientArticles
-  const isLoading = !serverData && loading
-  const hasError = !serverData && error
-  const processedArticles = useMemo(
-    () => sortArticlesForSlots(articles, 6),
-    [articles],
-  )
+  // Server Component: data always arrives via serverData (homepage SSR).
+  const articles = serverData ?? []
+  const processedArticles = sortArticlesForSlots(articles, 6)
 
   const mainArticle = processedArticles[0]
   const upperRowArticles = processedArticles.slice(1, 3)
   const lowerRowArticles = processedArticles.slice(3, 6)
-
-  if (isLoading && (!mainArticle || articles.length === 0)) {
-    return <div className="container mx-auto p-4">Loading...</div>
-  }
-
-  if (hasError && (!mainArticle || articles.length === 0)) {
-    return <div className="container mx-auto p-4 text-red-500">{error}</div>
-  }
 
   if (!mainArticle) {
     return (
