@@ -1,22 +1,28 @@
 // Radio del Volga — service worker.
 //
-// Strategy per resource type:
-//   - /_next/static/*  (hashed, immutable JS/CSS) -> cache-first  (instant repeat launches)
-//   - Cloudinary images                           -> stale-while-revalidate
-//   - page navigations (HTML)                     -> network-first, fall back to cache/offline
-//   - everything else (API, etc.)                 -> passthrough to network (always fresh)
+// Goal: make the installed PWA launch *instantly* (paint from cache, refresh in
+// the background) instead of waiting on the network.
 //
-// Caches are versioned; bumping VERSION purges old caches on activate so a new
-// deploy rolls out cleanly. HTML is never served stale (network-first), so news
-// stays current; only immutable assets and images are served from cache.
+// Strategy per resource type:
+//   - page navigations (HTML)        -> CACHE-FIRST + background revalidate
+//                                       (instant launch; fresh content next open)
+//   - /_next/static/* (hashed JS/CSS)-> cache-first (immutable, never changes)
+//   - Cloudinary images              -> stale-while-revalidate
+//   - everything else (API, etc.)    -> passthrough to network (always fresh)
+//
+// Why cache-first for HTML is safe here: the homepage is content that tolerates
+// being a few minutes old for one launch, and the background fetch updates the
+// cache so the *next* launch is current. Hashed assets are immutable, so the
+// cached HTML's chunk references always resolve. Caches are versioned; bump
+// VERSION to force a clean rollout.
 
-const VERSION = 'v2'
+const VERSION = 'v3'
 const STATIC_CACHE = `rdv-static-${VERSION}`
 const PAGE_CACHE = `rdv-pages-${VERSION}`
 const IMAGE_CACHE = `rdv-images-${VERSION}`
 
-// Minimal app shell precached on install. Kept small on purpose: if any entry
-// 404s, addAll() rejects and install fails — so only stable, known assets here.
+// App shell precached on install, so even the first launch has the homepage
+// ready. Kept small: if any entry 404s, addAll() rejects, so only stable assets.
 const PRECACHE_URLS = ['/', '/images/icon-192.png', '/images/icon-512.png']
 
 self.addEventListener('install', (event) => {
@@ -74,25 +80,6 @@ async function staleWhileRevalidate(request, cacheName) {
   return cached || network
 }
 
-// Try the network first (fresh content); on failure fall back to the cached
-// copy, then to the cached homepage shell so navigation never hard-fails.
-async function networkFirst(request, cacheName) {
-  const cache = await caches.open(cacheName)
-  try {
-    const response = await fetch(request)
-    if (response && response.ok) {
-      cache.put(request, response.clone())
-    }
-    return response
-  } catch (err) {
-    const cached = await cache.match(request)
-    if (cached) return cached
-    const shell = await caches.match('/')
-    if (shell) return shell
-    throw err
-  }
-}
-
 // --- routing --------------------------------------------------------------
 
 self.addEventListener('fetch', (event) => {
@@ -101,8 +88,44 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url)
 
+  // Page navigations -> cache-first for INSTANT launch, revalidate in the
+  // background so the next open is fresh. Falls back to the precached homepage
+  // shell when a specific page isn't cached and the network is unavailable.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(PAGE_CACHE)
+        const cached =
+          (await cache.match(request)) || (await caches.match('/'))
+
+        const network = fetch(request)
+          .then((response) => {
+            if (response && response.ok) {
+              cache.put(request, response.clone())
+            }
+            return response
+          })
+          .catch(() => null)
+
+        if (cached) {
+          // Paint instantly from cache; keep the SW alive to finish the
+          // background refresh so the next launch is up to date.
+          event.waitUntil(network)
+          return cached
+        }
+        // Cold cache (e.g. first ever launch): wait for the network, then
+        // fall back to the homepage shell if that fails too.
+        return (await network) || (await caches.match('/'))
+      })(),
+    )
+    return
+  }
+
   // Immutable Next.js build assets -> cache-first.
-  if (url.origin === self.location.origin && url.pathname.startsWith('/_next/static/')) {
+  if (
+    url.origin === self.location.origin &&
+    url.pathname.startsWith('/_next/static/')
+  ) {
     event.respondWith(cacheFirst(request, STATIC_CACHE))
     return
   }
@@ -110,12 +133,6 @@ self.addEventListener('fetch', (event) => {
   // Cloudinary images -> stale-while-revalidate.
   if (url.hostname === 'res.cloudinary.com') {
     event.respondWith(staleWhileRevalidate(request, IMAGE_CACHE))
-    return
-  }
-
-  // Page navigations (HTML) -> network-first with cache/offline fallback.
-  if (request.mode === 'navigate') {
-    event.respondWith(networkFirst(request, PAGE_CACHE))
     return
   }
 
