@@ -31,7 +31,7 @@ export default function RecetasSection({ serverData }: RecetasSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('RecetasSection', 3)
+  } = useArticles('RecetasSection', 3, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

@@ -31,7 +31,7 @@ export default function DeportesSection({ serverData }: DeportesSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('DeportesSection', 5)
+  } = useArticles('DeportesSection', 5, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

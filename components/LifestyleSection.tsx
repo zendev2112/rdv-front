@@ -33,7 +33,7 @@ export default function LifestyleSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('LifestyleSection', 4)
+  } = useArticles('LifestyleSection', 4, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

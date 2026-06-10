@@ -33,7 +33,7 @@ export default function MasNoticiasSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('MasNoticiasSection', 12)
+  } = useArticles('MasNoticiasSection', 12, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

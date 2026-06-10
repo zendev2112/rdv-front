@@ -33,7 +33,7 @@ export default function BienestarSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('BienestarSection', 5)
+  } = useArticles('BienestarSection', 5, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

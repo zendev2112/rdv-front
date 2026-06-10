@@ -33,7 +33,7 @@ export default function InversionesSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('InversionesSection', 2)
+  } = useArticles('InversionesSection', 2, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

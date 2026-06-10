@@ -31,7 +31,7 @@ export default function TechSection({ serverData }: TechSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('TechSection', 3)
+  } = useArticles('TechSection', 3, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

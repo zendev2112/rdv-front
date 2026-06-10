@@ -33,7 +33,7 @@ export default function ActualidadSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('ActualidadSection', 13)
+  } = useArticles('ActualidadSection', 13, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

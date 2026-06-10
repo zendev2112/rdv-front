@@ -35,7 +35,7 @@ export default function NoticiasImportantesSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('NoticiasImportantesSection', 8)
+  } = useArticles('NoticiasImportantesSection', 8, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

@@ -31,7 +31,7 @@ export default function LaSextaSection({ serverData }: LaSextaSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('LaSextaSection', 8)
+  } = useArticles('LaSextaSection', 8, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

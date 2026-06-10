@@ -31,7 +31,7 @@ export default function IActualidadSection({ serverData }: IActualidadProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('IActualidad', 4)
+  } = useArticles('IActualidad', 4, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

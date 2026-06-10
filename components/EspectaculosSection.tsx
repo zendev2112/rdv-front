@@ -33,7 +33,7 @@ export default function EspectaculosSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('EspectaculosSection', 3)
+  } = useArticles('EspectaculosSection', 3, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

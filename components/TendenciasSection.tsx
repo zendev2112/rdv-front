@@ -33,7 +33,7 @@ export default function TendenciasSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('TendenciasSection', 3)
+  } = useArticles('TendenciasSection', 3, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

@@ -32,7 +32,7 @@ export default function PrincipalSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('PrincipalSection')
+  } = useArticles('PrincipalSection', 10, serverData)
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
   const isLoading = !serverData && loading

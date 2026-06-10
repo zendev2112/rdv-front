@@ -31,7 +31,7 @@ export default function EnFocoSection({ serverData }: EnFocoSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('EnFocoSection', 8)
+  } = useArticles('EnFocoSection', 8, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

@@ -33,7 +33,7 @@ export default function PueblosAlemanesSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('PueblosAlemanesSection', 8)
+  } = useArticles('PueblosAlemanesSection', 8, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

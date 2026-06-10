@@ -31,7 +31,7 @@ export default function MundoSection({ serverData }: MundoSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('MundoSection', 4)
+  } = useArticles('MundoSection', 4, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

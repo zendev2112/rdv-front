@@ -31,7 +31,7 @@ export default function EstrenosSection({ serverData }: EstrenosSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('EstrenosSection', 3)
+  } = useArticles('EstrenosSection', 3, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

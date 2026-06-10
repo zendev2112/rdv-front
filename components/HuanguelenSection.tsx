@@ -33,7 +33,7 @@ export default function HuanguelenSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('HuanguelenSection', 3)
+  } = useArticles('HuanguelenSection', 3, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

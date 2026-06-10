@@ -42,7 +42,7 @@ export default function PoliticaYEconomiaSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('PoliticaYEconomiaSection', 8)
+  } = useArticles('PoliticaYEconomiaSection', 8, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

@@ -33,7 +33,7 @@ export default function PymesYEmprendimientosSection({
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('PymesYEmprendimientosSection', 2)
+  } = useArticles('PymesYEmprendimientosSection', 2, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles

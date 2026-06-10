@@ -31,7 +31,7 @@ export default function AgroSection({ serverData }: AgroSectionProps) {
     articles: clientArticles,
     loading,
     error,
-  } = useArticles('AgroSection', 4)
+  } = useArticles('AgroSection', 4, serverData)
 
   const articles =
     serverData && serverData.length > 0 ? serverData : clientArticles
