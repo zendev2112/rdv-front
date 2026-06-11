@@ -17,9 +17,9 @@ export function useMundialScores() {
     '/api/mundial/scores',
     fetcher,
     {
-      refreshInterval: 60_000,
+      refreshInterval: 30_000,
       revalidateOnFocus: true,
-      dedupingInterval: 30_000,
+      dedupingInterval: 15_000,
     },
   )
 

@@ -5,16 +5,25 @@ import { buildScoresMap, type ScoresMap } from '@/lib/mundial2026Api'
 // without hammering the source. Client polls this route via SWR.
 const UPSTREAM = 'https://worldcup26.ir/get/games'
 
-export const revalidate = 30
+// Run on every request (never prerender at build) and fetch fresh upstream
+// data. The response Cache-Control (s-maxage) still shields the upstream at the
+// CDN, so live scores stay ~30s fresh without hammering the source.
+export const dynamic = 'force-dynamic'
+
+// Upstream is occasionally slow/unreachable from Vercel. Keep the last good
+// scores in warm-instance memory and serve them on a transient timeout so the
+// UI doesn't flicker to "no scores".
+let lastGood: ScoresMap = {}
+let lastGoodAt: string | null = null
 
 export async function GET() {
-  let scores: ScoresMap = {}
+  let scores: ScoresMap | null = null
 
   try {
     const res = await fetch(UPSTREAM, {
-      next: { revalidate: 30 },
+      cache: 'no-store',
       headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(9000),
     })
 
     if (res.ok) {
@@ -24,20 +33,24 @@ export async function GET() {
         scores = buildScoresMap(games)
       }
     } else {
-      console.error('Mundial scores upstream returned', res.status)
+      console.warn('Mundial scores upstream returned', res.status)
     }
   } catch (err) {
-    // Upstream down/slow — return an empty map so the page falls back to the
-    // static fixture (kickoff times) instead of erroring.
-    console.error('Mundial scores fetch failed:', (err as Error).message)
+    // Slow/unreachable upstream — fall through to last-good (or empty) below.
+    console.warn('Mundial scores upstream slow/unreachable:', (err as Error).message)
+  }
+
+  if (scores) {
+    lastGood = scores
+    lastGoodAt = new Date().toISOString()
   }
 
   return NextResponse.json(
-    { scores, updatedAt: new Date().toISOString() },
     {
-      headers: {
-        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
-      },
+      scores: scores ?? lastGood,
+      updatedAt: lastGoodAt ?? new Date().toISOString(),
+      stale: scores === null,
     },
+    { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' } },
   )
 }

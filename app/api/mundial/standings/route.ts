@@ -4,16 +4,19 @@ import { buildStandings, type GrupoPosiciones } from '@/lib/mundial2026Api'
 const GROUPS = 'https://worldcup26.ir/get/groups'
 const TEAMS = 'https://worldcup26.ir/get/teams'
 
-// Standings change only when a match finishes — 60s is plenty.
-export const revalidate = 60
+// Run on every request; CDN s-maxage keeps it ~60s fresh without hammering upstream.
+export const dynamic = 'force-dynamic'
+
+let lastGood: GrupoPosiciones[] = []
+let lastGoodAt: string | null = null
 
 export async function GET() {
-  let grupos: GrupoPosiciones[] = []
+  let grupos: GrupoPosiciones[] | null = null
 
   try {
     const [gRes, tRes] = await Promise.all([
-      fetch(GROUPS, { next: { revalidate: 60 }, signal: AbortSignal.timeout(8000) }),
-      fetch(TEAMS, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(8000) }),
+      fetch(GROUPS, { cache: 'no-store', signal: AbortSignal.timeout(9000) }),
+      fetch(TEAMS, { cache: 'no-store', signal: AbortSignal.timeout(9000) }),
     ])
 
     if (gRes.ok && tRes.ok) {
@@ -25,14 +28,23 @@ export async function GET() {
         grupos = buildStandings(groups, teams)
       }
     } else {
-      console.error('Mundial standings upstream:', gRes.status, tRes.status)
+      console.warn('Mundial standings upstream:', gRes.status, tRes.status)
     }
   } catch (err) {
-    console.error('Mundial standings fetch failed:', (err as Error).message)
+    console.warn('Mundial standings upstream slow/unreachable:', (err as Error).message)
+  }
+
+  if (grupos) {
+    lastGood = grupos
+    lastGoodAt = new Date().toISOString()
   }
 
   return NextResponse.json(
-    { grupos, updatedAt: new Date().toISOString() },
+    {
+      grupos: grupos ?? lastGood,
+      updatedAt: lastGoodAt ?? new Date().toISOString(),
+      stale: grupos === null,
+    },
     { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' } },
   )
 }
