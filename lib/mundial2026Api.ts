@@ -72,6 +72,32 @@ export function pairKey(a: string, b: string): string {
   return [normTeam(a), normTeam(b)].sort().join('|')
 }
 
+// Parse the API scorers field — e.g. `{"J. Quiñones 9'"}` (curly braces +
+// smart quotes) — into a clean list like ["J. Quiñones 9'"]. Player names are
+// proper nouns and stay as-is. Returns [] for "null"/empty.
+export function parseScorers(raw: string | undefined | null): string[] {
+  if (!raw) return []
+  const t = raw.trim()
+  if (t === '' || t === 'null' || t === '{}' || t === '{null}') return []
+
+  // Prefer text inside any double-quote variant (straight or curly).
+  const quoted = t.match(/[“"„]([^”"“„]+)[”"]/g)
+  const items = quoted
+    ? quoted.map((s) => s.replace(/[“”"„{}]/g, '').trim())
+    : t.replace(/[{}“”"„]/g, '').split(',').map((s) => s.trim())
+
+  return items.filter((s) => s && s.toLowerCase() !== 'null')
+}
+
+// The API reports time_elapsed as "live" (a string, not a minute) during play,
+// or a numeric minute when available, or "HT"/"FT". Return a Spanish-safe
+// minute label (numbers keep a "'"; everything else has no English leak).
+export function minutoLive(timeElapsed: string): string | null {
+  if (/^\d+$/.test(timeElapsed)) return `${timeElapsed}'`
+  if (timeElapsed === 'HT') return 'Entretiempo'
+  return null // "live" / unknown → badge already says "En vivo"
+}
+
 // One team's live result as exposed by our proxy route.
 export interface Resultado {
   homeEs: string        // API home team, translated to Spanish
@@ -80,7 +106,9 @@ export interface Resultado {
   awayScore: number
   finished: boolean
   enVivo: boolean       // started but not finished
-  minuto: string | null // e.g. "67" while live, else null
+  minuto: string | null // "67'" / "Entretiempo" while live, else null
+  homeScorers: string[]
+  awayScorers: string[]
 }
 
 // Map keyed by pairKey → Resultado. This is what /api/mundial/scores returns.
@@ -93,8 +121,10 @@ interface ApiGame {
   away_team_name_en?: string
   home_score: string
   away_score: string
+  home_scorers?: string
+  away_scorers?: string
   finished: string        // "TRUE" | "FALSE"
-  time_elapsed: string    // "notstarted" | "45" | "90" | "HT" | ...
+  time_elapsed: string    // "notstarted" | "live" | "45" | "HT" | ...
   type: string
 }
 
@@ -116,7 +146,9 @@ export function buildScoresMap(games: ApiGame[]): ScoresMap {
       awayScore: Number(g.away_score) || 0,
       finished,
       enVivo: started && !finished,
-      minuto: started && !finished ? g.time_elapsed : null,
+      minuto: started && !finished ? minutoLive(g.time_elapsed) : null,
+      homeScorers: parseScorers(g.home_scorers),
+      awayScorers: parseScorers(g.away_scorers),
     }
   }
   return map
@@ -126,6 +158,8 @@ export function buildScoresMap(games: ApiGame[]): ScoresMap {
 export interface PartidoConResultado extends Partido {
   enVivo: boolean
   minuto: string | null
+  golesLocal: string[]      // scorer labels for the local team
+  golesVisitante: string[]  // scorer labels for the visiting team
 }
 
 // Overlay live scores onto our static fixture, respecting home/away orientation.
@@ -136,7 +170,13 @@ export function aplicarResultados(
   scores: ScoresMap | undefined,
 ): PartidoConResultado[] {
   return lista.map((p) => {
-    const base: PartidoConResultado = { ...p, enVivo: false, minuto: null }
+    const base: PartidoConResultado = {
+      ...p,
+      enVivo: false,
+      minuto: null,
+      golesLocal: [],
+      golesVisitante: [],
+    }
     if (!scores) return base
 
     const r = scores[pairKey(p.local, p.visitante)]
@@ -154,6 +194,8 @@ export function aplicarResultados(
       finalizado: r.finished,
       enVivo: r.enVivo,
       minuto: r.minuto,
+      golesLocal: localEsHome ? r.homeScorers : r.awayScorers,
+      golesVisitante: localEsHome ? r.awayScorers : r.homeScorers,
     }
   })
 }
@@ -174,6 +216,7 @@ export interface FilaPosicion {
   ga: number
   gd: number
   pts: number
+  enVivo?: boolean // row affected by a match currently in progress (provisional)
 }
 export interface GrupoPosiciones {
   grupo: string
@@ -247,6 +290,60 @@ export function buildStandings(
   return out
 }
 
+// Layer in-progress matches onto the official standings to produce PROVISIONAL,
+// real-time tables. The official /get/groups only counts finished matches, so
+// for each live match we add its current result (as if it ended now) to both
+// teams, then re-sort. Rows touched by a live match are flagged enVivo.
+// Returns a new array; the input is not mutated.
+export function aplicarEnVivo(
+  grupos: GrupoPosiciones[],
+  scores: ScoresMap | undefined,
+): GrupoPosiciones[] {
+  if (!scores) return grupos
+  const enJuego = Object.values(scores).filter((r) => r.enVivo)
+  if (enJuego.length === 0) return grupos
+
+  const sumar = (row: FilaPosicion, gf: number, ga: number) => {
+    row.mp += 1
+    row.gf += gf
+    row.ga += ga
+    row.gd = row.gf - row.ga
+    if (gf > ga) {
+      row.w += 1
+      row.pts += 3
+    } else if (gf < ga) {
+      row.l += 1
+    } else {
+      row.d += 1
+      row.pts += 1
+    }
+    row.enVivo = true
+  }
+
+  return grupos.map((g) => {
+    const equipos = g.equipos.map((e) => ({ ...e, enVivo: false }))
+    let tocado = false
+
+    for (const r of enJuego) {
+      const local = equipos.find((x) => normTeam(x.nombre) === normTeam(r.homeEs))
+      const visita = equipos.find((x) => normTeam(x.nombre) === normTeam(r.awayEs))
+      if (!local || !visita) continue // live match belongs to another group
+      sumar(local, r.homeScore, r.awayScore)
+      sumar(visita, r.awayScore, r.homeScore)
+      tocado = true
+    }
+
+    if (!tocado) return g
+
+    equipos.sort(
+      (a, b) =>
+        b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.nombre.localeCompare(b.nombre),
+    )
+    equipos.forEach((e, i) => (e.pos = i + 1))
+    return { grupo: g.grupo, equipos }
+  })
+}
+
 // ─────────────────────────────────────────────────────────────────────────
 // KNOCKOUT  (/get/games where type != 'group')
 // ─────────────────────────────────────────────────────────────────────────
@@ -314,6 +411,8 @@ export interface PartidoKO {
   visitanteFlag: string
   golLocal: number | null
   golVisitante: number | null
+  golesLocal: string[]
+  golesVisitante: string[]
   finalizado: boolean
   enVivo: boolean
   minuto: string | null
@@ -339,6 +438,8 @@ interface ApiKoGame {
   away_team_label?: string
   home_score: string
   away_score: string
+  home_scorers?: string
+  away_scorers?: string
   finished: string
   time_elapsed: string
 }
@@ -377,9 +478,11 @@ export function buildKnockout(
       visitanteFlag: V.flag,
       golLocal: conResultado ? Number(g.home_score) || 0 : null,
       golVisitante: conResultado ? Number(g.away_score) || 0 : null,
+      golesLocal: parseScorers(g.home_scorers),
+      golesVisitante: parseScorers(g.away_scorers),
       finalizado: finished,
       enVivo: started && !finished,
-      minuto: started && !finished ? g.time_elapsed : null,
+      minuto: started && !finished ? minutoLive(g.time_elapsed) : null,
       sede: STADIUM_CITY[Number(g.stadium_id)] ?? '',
       tipo: g.type,
     })

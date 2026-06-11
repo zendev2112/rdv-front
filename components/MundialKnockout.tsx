@@ -3,6 +3,7 @@
 import { useMundialKnockout } from '@/lib/useMundialKnockout'
 import type { PartidoKO } from '@/lib/mundial2026Api'
 import { formatFechaCorta } from '@/lib/mundial2026Data'
+import MundialScorers from '@/components/MundialScorers'
 
 function LadoKO({
   nombre,
@@ -52,7 +53,7 @@ function CardKO({ p }: { p: PartidoKO }) {
           {p.enVivo ? (
             <span className="text-green-600 flex items-center gap-1">
               <span className="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse" />
-              {p.minuto ? `${p.minuto}'` : 'En vivo'}
+              {p.minuto || 'En vivo'}
             </span>
           ) : p.finalizado ? (
             'Final'
@@ -74,6 +75,9 @@ function CardKO({ p }: { p: PartidoKO }) {
         )}
         <LadoKO nombre={p.visitante} flag={p.visitanteFlag} align="left" />
       </div>
+
+      {/* Goal scorers */}
+      <MundialScorers local={p.golesLocal} visitante={p.golesVisitante} size="xs" />
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { partidos, esFechaHoy, TV_COLORS, esArgentina, flagUrl } from '@/lib/mun
 import { aplicarResultados, type PartidoConResultado } from '@/lib/mundial2026Api'
 import { useMundialScores } from '@/lib/useMundialScores'
 import MundialShareButtons from '@/components/MundialShareButtons'
+import MundialScorers from '@/components/MundialScorers'
 
 function TvBadge({ canal }: { canal: string }) {
   const color = TV_COLORS[canal] ?? 'bg-gray-500 text-white'
@@ -99,7 +100,7 @@ export default function MundialWidget() {
                 {p.enVivo ? (
                   <span className="text-green-600 text-[11px] font-bold flex items-center gap-1">
                     <span className="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse" />
-                    {p.minuto ? `${p.minuto}'` : 'EN VIVO'}
+                    {p.minuto || 'EN VIVO'}
                   </span>
                 ) : p.finalizado ? (
                   <span className="text-gray-400 text-[10px] font-bold uppercase">Final</span>
@@ -132,6 +133,9 @@ export default function MundialWidget() {
                   </span>
                 </div>
               </div>
+
+              {/* Goal scorers */}
+              <MundialScorers local={p.golesLocal} visitante={p.golesVisitante} size="xs" />
 
               {/* TV channels + share */}
               <div className="flex items-end justify-between gap-2 mt-2">

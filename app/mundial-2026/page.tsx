@@ -18,6 +18,7 @@ import {
 import { useMundialScores } from '@/lib/useMundialScores'
 import SidelinesLayout from '@/components/SidelinesLayout'
 import MundialShareButtons from '@/components/MundialShareButtons'
+import MundialScorers from '@/components/MundialScorers'
 import MundialStandings from '@/components/MundialStandings'
 import MundialKnockout from '@/components/MundialKnockout'
 import Footer from '@/components/Footer'
@@ -65,7 +66,7 @@ function PartidoCard({ p, hoy }: { p: PartidoConResultado; hoy: boolean }) {
           {p.enVivo ? (
             <span className="text-[10px] font-bold uppercase bg-green-600 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
               <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-              En vivo{p.minuto ? ` ${p.minuto}'` : ''}
+              En vivo{p.minuto ? ` ${p.minuto}` : ''}
             </span>
           ) : hoy && !p.finalizado ? (
             <span className="text-[10px] font-bold uppercase bg-primary-red text-white px-2 py-0.5 rounded-full animate-pulse">
@@ -122,6 +123,9 @@ function PartidoCard({ p, hoy }: { p: PartidoConResultado; hoy: boolean }) {
           </span>
         </div>
       </div>
+
+      {/* Goal scorers */}
+      <MundialScorers local={p.golesLocal} visitante={p.golesVisitante} />
 
       {/* TV channels */}
       {p.tv.length > 0 && (

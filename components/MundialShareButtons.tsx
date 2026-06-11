@@ -10,7 +10,7 @@ function buildText(p: PartidoConResultado): string {
   const tieneResult = p.golLocal !== null && p.golVisitante !== null
 
   if (p.enVivo && tieneResult) {
-    return `🔴 EN VIVO · ${p.local} ${p.golLocal}-${p.golVisitante} ${p.visitante}${p.minuto ? ` (${p.minuto}')` : ''} · Mundial 2026`
+    return `🔴 EN VIVO · ${p.local} ${p.golLocal}-${p.golVisitante} ${p.visitante}${p.minuto ? ` (${p.minuto})` : ''} · Mundial 2026`
   }
   if (p.finalizado && tieneResult) {
     return `${p.local} ${p.golLocal}-${p.golVisitante} ${p.visitante} · Mundial 2026`
