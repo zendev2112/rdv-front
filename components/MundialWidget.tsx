@@ -66,17 +66,15 @@ export default function MundialWidget() {
     <section className="border-t border-gray-200 py-6">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="font-serif text-xl font-bold text-gray-900">⚽ Mundial 2026</h2>
+          <div className="flex items-center gap-2">
+            <img src="/images/mundial-2026.svg" alt="Mundial 2026" className="w-6 h-6" />
+            <h2 className="font-serif text-xl font-bold text-gray-900">Mundial 2026</h2>
+          </div>
           <p className="text-xs text-gray-500 mt-0.5">
-            {esHoy ? 'Partidos de hoy · Horarios Argentina' : 'Próximos partidos · Horarios Argentina'}
+            {esHoy ? 'Partidos de hoy ' : 'Próximos partidos'}
           </p>
         </div>
-        <Link
-          href="/mundial-2026"
-          className="text-xs font-bold text-primary-red hover:underline shrink-0 ml-4"
-        >
-          Fixture completo →
-        </Link>
+
       </div>
 
       <div className="space-y-2.5">
