@@ -69,6 +69,15 @@ export default function MobileNavBar() {
           <LayoutGrid className="w-5 h-5 mb-0.5 text-current" />
           Secciones
         </Link>
+        <Link
+          href="/mundial-2026"
+          className="flex flex-col items-center text-xs text-white/95 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+        >
+          <span className="w-5 h-5 mb-0.5 flex items-center justify-center text-base leading-none">
+            ⚽
+          </span>
+          Mundial
+        </Link>
 
         {/* ✅ RADIO PLAY BUTTON - CENTER */}
         <button

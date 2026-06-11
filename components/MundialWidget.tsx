@@ -2,16 +2,29 @@
 
 import { useMemo, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { partidos, esFechaHoy, TV_COLORS, esArgentina } from '@/lib/mundial2026Data'
+import { partidos, esFechaHoy, TV_COLORS, esArgentina, flagUrl } from '@/lib/mundial2026Data'
 import { aplicarResultados, type PartidoConResultado } from '@/lib/mundial2026Api'
 import { useMundialScores } from '@/lib/useMundialScores'
 
 function TvBadge({ canal }: { canal: string }) {
   const color = TV_COLORS[canal] ?? 'bg-gray-500 text-white'
   return (
-    <span className={`inline-block text-[9px] font-bold px-1 py-0.5 rounded ${color}`}>
+    <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded ${color}`}>
       {canal}
     </span>
+  )
+}
+
+function Bandera({ team }: { team: string }) {
+  const url = flagUrl(team)
+  if (!url) return null
+  return (
+    <img
+      src={url}
+      alt={team}
+      className="h-4 w-auto rounded-[2px] shrink-0 shadow-sm"
+      loading="lazy"
+    />
   )
 }
 
@@ -66,7 +79,7 @@ export default function MundialWidget() {
         </Link>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {partidosMostrar.map((p: PartidoConResultado) => {
           const arg = esArgentina(p)
           const tieneResult = p.golLocal !== null && p.golVisitante !== null
@@ -75,51 +88,59 @@ export default function MundialWidget() {
             <div
               key={p.id}
               className={`
-                flex items-center gap-3 px-3 py-2.5 rounded-lg border text-sm
-                ${p.enVivo ? 'border-green-400 bg-green-50' : arg ? 'border-sky-300 bg-sky-50' : 'border-gray-100 bg-white'}
+                rounded-lg border px-3 py-2.5
+                ${p.enVivo ? 'border-green-400 bg-green-50' : arg ? 'border-sky-300 bg-sky-50' : 'border-gray-200 bg-white'}
               `}
             >
-              {/* Hour / live minute */}
-              <span className="font-bold shrink-0 w-11 text-right">
+              {/* Header: group + status/time */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">
+                  Grupo {p.grupo}
+                </span>
                 {p.enVivo ? (
-                  <span className="text-green-600 text-xs flex items-center justify-end gap-1">
+                  <span className="text-green-600 text-[11px] font-bold flex items-center gap-1">
                     <span className="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse" />
                     {p.minuto ? `${p.minuto}'` : 'EN VIVO'}
                   </span>
                 ) : p.finalizado ? (
-                  <span className="text-gray-400 text-[11px] uppercase">Fin</span>
+                  <span className="text-gray-400 text-[10px] font-bold uppercase">Final</span>
                 ) : (
-                  <span className="text-gray-700">{p.hora}</span>
+                  <span className="text-gray-700 text-xs font-bold">{p.hora} hs</span>
                 )}
-              </span>
+              </div>
 
-              {/* Teams + score */}
-              <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                <span className={`font-medium truncate text-right flex-1 ${p.local === 'Argentina' ? 'text-sky-700 font-bold' : 'text-gray-800'}`}>
-                  {p.local}
-                </span>
+              {/* Teams + score (full names, with flags) */}
+              <div className="flex items-center gap-2">
+                <div className="flex items-center justify-end gap-1.5 flex-1 min-w-0">
+                  <span className={`font-semibold text-sm text-right ${p.local === 'Argentina' ? 'text-sky-700' : 'text-gray-900'}`}>
+                    {p.local}
+                  </span>
+                  <Bandera team={p.local} />
+                </div>
+
                 {tieneResult ? (
-                  <span className="font-black text-gray-900 shrink-0 text-base">
+                  <span className="font-black text-gray-900 shrink-0 text-base px-1">
                     {p.golLocal}–{p.golVisitante}
                   </span>
                 ) : (
-                  <span className="text-gray-400 shrink-0 text-xs font-semibold">vs</span>
+                  <span className="text-gray-400 shrink-0 text-[11px] font-semibold px-1">vs</span>
                 )}
-                <span className={`font-medium truncate flex-1 ${p.visitante === 'Argentina' ? 'text-sky-700 font-bold' : 'text-gray-800'}`}>
-                  {p.visitante}
-                </span>
-              </div>
 
-              {/* Group + TV */}
-              <div className="flex flex-col items-end gap-1 shrink-0">
-                <span className="text-[10px] font-bold text-gray-400 uppercase">Gr.{p.grupo}</span>
-                <div className="flex gap-0.5 flex-wrap justify-end max-w-[120px]">
-                  {p.tv.slice(0, 3).map(canal => <TvBadge key={canal} canal={canal} />)}
-                  {p.tv.length > 3 && (
-                    <span className="text-[9px] text-gray-400 self-center">+{p.tv.length - 3}</span>
-                  )}
+                <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                  <Bandera team={p.visitante} />
+                  <span className={`font-semibold text-sm text-left ${p.visitante === 'Argentina' ? 'text-sky-700' : 'text-gray-900'}`}>
+                    {p.visitante}
+                  </span>
                 </div>
               </div>
+
+              {/* TV channels */}
+              {p.tv.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1 mt-2">
+                  <span className="text-[10px] text-gray-400 font-medium mr-0.5">TV:</span>
+                  {p.tv.map(canal => <TvBadge key={canal} canal={canal} />)}
+                </div>
+              )}
             </div>
           )
         })}

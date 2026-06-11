@@ -118,6 +118,65 @@ export const partidos: Partido[] = [
   { id: 72, fecha: '2026-06-27', hora: '23:00', local: 'Jordania',        visitante: 'Argentina',       grupo: 'J', golLocal: null, golVisitante: null, finalizado: false, tv: [TV.TELEFE, TV.TYC, TV.DSPORTS, TV.PUBLICA, TV.DISNEY_P, TV.PARAMOUNT] },
 ]
 
+// ISO 3166-1 alpha-2 codes (flagcdn) per Spanish team name. England/Scotland
+// use GB subdivision codes so they render reliably on Android (emoji flags don't).
+export const FLAG_CODE: Record<string, string> = {
+  Argelia: 'dz',
+  Argentina: 'ar',
+  Australia: 'au',
+  Austria: 'at',
+  'Bélgica': 'be',
+  Bosnia: 'ba',
+  Brasil: 'br',
+  'Canadá': 'ca',
+  'Cabo Verde': 'cv',
+  Colombia: 'co',
+  Croacia: 'hr',
+  Curazao: 'cw',
+  'Rep. Checa': 'cz',
+  'RD del Congo': 'cd',
+  Ecuador: 'ec',
+  Egipto: 'eg',
+  Inglaterra: 'gb-eng',
+  Francia: 'fr',
+  Alemania: 'de',
+  Ghana: 'gh',
+  'Haití': 'ht',
+  'Irán': 'ir',
+  Irak: 'iq',
+  'Costa de Marfil': 'ci',
+  'Japón': 'jp',
+  Jordania: 'jo',
+  'México': 'mx',
+  Marruecos: 'ma',
+  'Países Bajos': 'nl',
+  'Nueva Zelanda': 'nz',
+  Noruega: 'no',
+  'Panamá': 'pa',
+  Paraguay: 'py',
+  Portugal: 'pt',
+  Catar: 'qa',
+  'Arabia Saudita': 'sa',
+  Escocia: 'gb-sct',
+  Senegal: 'sn',
+  'Sudáfrica': 'za',
+  'Corea del Sur': 'kr',
+  'España': 'es',
+  Suecia: 'se',
+  Suiza: 'ch',
+  'Túnez': 'tn',
+  'Turquía': 'tr',
+  'Estados Unidos': 'us',
+  Uruguay: 'uy',
+  'Uzbekistán': 'uz',
+}
+
+// flagcdn returns a 4:3 PNG. w40 = 40×30; display at ~20px wide.
+export function flagUrl(team: string, w: 20 | 40 | 80 = 40): string {
+  const code = FLAG_CODE[team]
+  return code ? `https://flagcdn.com/w${w}/${code}.png` : ''
+}
+
 export const GRUPOS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'] as const
 
 export function esArgentina(p: Partido) {

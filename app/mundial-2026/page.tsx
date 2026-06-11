@@ -9,6 +9,7 @@ import {
   esFechaHoy,
   formatFechaLarga,
   TV_COLORS,
+  flagUrl,
 } from '@/lib/mundial2026Data'
 import {
   aplicarResultados,
@@ -72,9 +73,19 @@ function PartidoCard({ p, hoy }: { p: PartidoConResultado; hoy: boolean }) {
 
       {/* Teams + score */}
       <div className="flex items-center justify-between gap-2">
-        <span className={`font-serif text-base font-bold leading-tight flex-1 text-right ${p.local === 'Argentina' ? 'text-sky-700' : 'text-gray-900'}`}>
-          {p.local}
-        </span>
+        <div className="flex items-center justify-end gap-2 flex-1 min-w-0">
+          <span className={`font-serif text-base font-bold leading-tight text-right ${p.local === 'Argentina' ? 'text-sky-700' : 'text-gray-900'}`}>
+            {p.local}
+          </span>
+          {flagUrl(p.local) && (
+            <img
+              src={flagUrl(p.local)}
+              alt={p.local}
+              className="h-4 w-auto rounded-[2px] shrink-0 shadow-sm"
+              loading="lazy"
+            />
+          )}
+        </div>
 
         {tieneResult ? (
           <div className="flex items-center gap-1 shrink-0">
@@ -86,9 +97,19 @@ function PartidoCard({ p, hoy }: { p: PartidoConResultado; hoy: boolean }) {
           <span className="text-xs text-gray-400 font-semibold shrink-0 px-2">vs.</span>
         )}
 
-        <span className={`font-serif text-base font-bold leading-tight flex-1 text-left ${p.visitante === 'Argentina' ? 'text-sky-700' : 'text-gray-900'}`}>
-          {p.visitante}
-        </span>
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          {flagUrl(p.visitante) && (
+            <img
+              src={flagUrl(p.visitante)}
+              alt={p.visitante}
+              className="h-4 w-auto rounded-[2px] shrink-0 shadow-sm"
+              loading="lazy"
+            />
+          )}
+          <span className={`font-serif text-base font-bold leading-tight text-left ${p.visitante === 'Argentina' ? 'text-sky-700' : 'text-gray-900'}`}>
+            {p.visitante}
+          </span>
+        </div>
       </div>
 
       {/* TV channels */}
