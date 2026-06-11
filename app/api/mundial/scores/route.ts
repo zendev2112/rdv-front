@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { buildScoresMap, type ScoresMap } from '@/lib/mundial2026Api'
+import { upstreamGet } from '@/lib/upstreamGet'
 
 // Public, no-auth upstream. Revalidate every 30s so live scores stay fresh
 // without hammering the source. Client polls this route via SWR.
@@ -20,20 +21,10 @@ export async function GET() {
   let scores: ScoresMap | null = null
 
   try {
-    const res = await fetch(UPSTREAM, {
-      cache: 'no-store',
-      headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(9000),
-    })
-
-    if (res.ok) {
-      const json = await res.json()
-      const games = Array.isArray(json) ? json : json.games
-      if (Array.isArray(games)) {
-        scores = buildScoresMap(games)
-      }
-    } else {
-      console.warn('Mundial scores upstream returned', res.status)
+    const json = await upstreamGet(UPSTREAM)
+    const games = Array.isArray(json) ? json : json.games
+    if (Array.isArray(games)) {
+      scores = buildScoresMap(games)
     }
   } catch (err) {
     // Slow/unreachable upstream — fall through to last-good (or empty) below.

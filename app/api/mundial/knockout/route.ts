@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { buildKnockout, teamsByIdEs, type RondaKO } from '@/lib/mundial2026Api'
+import { upstreamGet } from '@/lib/upstreamGet'
 
 const GAMES = 'https://worldcup26.ir/get/games'
 const TEAMS = 'https://worldcup26.ir/get/teams'
@@ -14,21 +15,14 @@ export async function GET() {
   let rondas: RondaKO[] | null = null
 
   try {
-    const [gRes, tRes] = await Promise.all([
-      fetch(GAMES, { cache: 'no-store', signal: AbortSignal.timeout(9000) }),
-      fetch(TEAMS, { cache: 'no-store', signal: AbortSignal.timeout(9000) }),
+    const [gJson, tJson] = await Promise.all([
+      upstreamGet(GAMES),
+      upstreamGet(TEAMS),
     ])
-
-    if (gRes.ok && tRes.ok) {
-      const gJson = await gRes.json()
-      const tJson = await tRes.json()
-      const games = Array.isArray(gJson) ? gJson : gJson.games
-      const teams = Array.isArray(tJson) ? tJson : tJson.teams
-      if (Array.isArray(games) && Array.isArray(teams)) {
-        rondas = buildKnockout(games, teamsByIdEs(teams))
-      }
-    } else {
-      console.warn('Mundial knockout upstream:', gRes.status, tRes.status)
+    const games = Array.isArray(gJson) ? gJson : gJson.games
+    const teams = Array.isArray(tJson) ? tJson : tJson.teams
+    if (Array.isArray(games) && Array.isArray(teams)) {
+      rondas = buildKnockout(games, teamsByIdEs(teams))
     }
   } catch (err) {
     console.warn('Mundial knockout upstream slow/unreachable:', (err as Error).message)

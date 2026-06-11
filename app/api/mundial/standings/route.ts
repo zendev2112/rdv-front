@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
 import { buildStandings, type GrupoPosiciones } from '@/lib/mundial2026Api'
+import { upstreamGet } from '@/lib/upstreamGet'
 
-const GROUPS = 'https://worldcup26.ir/get/groups'
+// Standings are computed from match results (/get/games), not the upstream
+// /get/groups endpoint, which is unreliable (reverses results, mp=0).
+const GAMES = 'https://worldcup26.ir/get/games'
 const TEAMS = 'https://worldcup26.ir/get/teams'
 
 // Run on every request; CDN s-maxage keeps it ~60s fresh without hammering upstream.
@@ -14,21 +17,14 @@ export async function GET() {
   let grupos: GrupoPosiciones[] | null = null
 
   try {
-    const [gRes, tRes] = await Promise.all([
-      fetch(GROUPS, { cache: 'no-store', signal: AbortSignal.timeout(9000) }),
-      fetch(TEAMS, { cache: 'no-store', signal: AbortSignal.timeout(9000) }),
+    const [gJson, tJson] = await Promise.all([
+      upstreamGet(GAMES),
+      upstreamGet(TEAMS),
     ])
-
-    if (gRes.ok && tRes.ok) {
-      const gJson = await gRes.json()
-      const tJson = await tRes.json()
-      const groups = Array.isArray(gJson) ? gJson : gJson.groups
-      const teams = Array.isArray(tJson) ? tJson : tJson.teams
-      if (Array.isArray(groups) && Array.isArray(teams)) {
-        grupos = buildStandings(groups, teams)
-      }
-    } else {
-      console.warn('Mundial standings upstream:', gRes.status, tRes.status)
+    const games = Array.isArray(gJson) ? gJson : gJson.games
+    const teams = Array.isArray(tJson) ? tJson : tJson.teams
+    if (Array.isArray(games) && Array.isArray(teams)) {
+      grupos = buildStandings(teams, games)
     }
   } catch (err) {
     console.warn('Mundial standings upstream slow/unreachable:', (err as Error).message)

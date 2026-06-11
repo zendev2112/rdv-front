@@ -227,22 +227,16 @@ interface ApiTeam {
   id: string
   name_en: string
   flag?: string
-  groups?: string
+  groups?: string // single group letter, e.g. "A"
 }
-interface ApiGroupRow {
-  team_id: string
-  mp?: string
-  w?: string
-  d?: string
-  l?: string
-  pts?: string
-  gf?: string
-  ga?: string
-  gd?: string
-}
-interface ApiGroup {
-  name: string
-  teams: ApiGroupRow[]
+interface ApiStandingsGame {
+  type: string
+  group: string
+  home_team_id: string
+  away_team_id: string
+  home_score: string
+  away_score: string
+  finished: string
 }
 
 // Map team id → Spanish name (server-side helper for standings/knockout).
@@ -252,38 +246,68 @@ export function teamsByIdEs(teams: ApiTeam[]): Record<string, string> {
   return m
 }
 
+// Compute standings from MATCH RESULTS rather than the upstream /get/groups
+// endpoint — the latter is unreliable (observed reversing winners/losers and
+// reporting mp=0 for finished matches). /get/games is correct, so we tally
+// finished group matches ourselves. Live matches are layered on the client
+// (aplicarEnVivo); here we count finished games only.
 export function buildStandings(
-  groups: ApiGroup[],
   teams: ApiTeam[],
+  games: ApiStandingsGame[],
 ): GrupoPosiciones[] {
-  const byId = teamsByIdEs(teams)
+  // Seed every team into its group with zeroed stats.
+  const filaPorId: Record<string, FilaPosicion> = {}
+  const grupos: Record<string, Record<string, FilaPosicion>> = {}
+  const grupoDeId: Record<string, string> = {}
 
-  const out = groups.map((g) => {
-    const equipos = g.teams.map((row) => {
-      const nombre = byId[row.team_id] ?? '?'
-      const gf = Number(row.gf) || 0
-      const ga = Number(row.ga) || 0
-      return {
-        pos: 0,
-        nombre,
-        flag: flagUrl(nombre),
-        mp: Number(row.mp) || 0,
-        w: Number(row.w) || 0,
-        d: Number(row.d) || 0,
-        l: Number(row.l) || 0,
-        gf,
-        ga,
-        gd: row.gd != null ? Number(row.gd) : gf - ga,
-        pts: Number(row.pts) || 0,
-      }
-    })
-    // FIFA tiebreakers (simplified): points, goal difference, goals for, name.
+  for (const t of teams) {
+    const grupo = (t.groups || '').trim().toUpperCase()
+    if (!grupo) continue
+    const nombre = EN_TO_ES[t.name_en] ?? t.name_en
+    const fila: FilaPosicion = {
+      pos: 0, nombre, flag: flagUrl(nombre),
+      mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0,
+    }
+    filaPorId[t.id] = fila
+    grupoDeId[t.id] = grupo
+    ;(grupos[grupo] ??= {})[t.id] = fila
+  }
+
+  const sumar = (row: FilaPosicion, gf: number, ga: number) => {
+    row.mp += 1
+    row.gf += gf
+    row.ga += ga
+    row.gd = row.gf - row.ga
+    if (gf > ga) {
+      row.w += 1
+      row.pts += 3
+    } else if (gf < ga) {
+      row.l += 1
+    } else {
+      row.d += 1
+      row.pts += 1
+    }
+  }
+
+  for (const g of games) {
+    if (g.type !== 'group' || g.finished !== 'TRUE') continue
+    const home = filaPorId[g.home_team_id]
+    const away = filaPorId[g.away_team_id]
+    if (!home || !away) continue
+    const hg = Number(g.home_score) || 0
+    const ag = Number(g.away_score) || 0
+    sumar(home, hg, ag)
+    sumar(away, ag, hg)
+  }
+
+  const out = Object.keys(grupos).map((letra) => {
+    const equipos = Object.values(grupos[letra])
     equipos.sort(
       (a, b) =>
         b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.nombre.localeCompare(b.nombre),
     )
     equipos.forEach((e, i) => (e.pos = i + 1))
-    return { grupo: g.name, equipos }
+    return { grupo: letra, equipos }
   })
 
   out.sort((a, b) => a.grupo.localeCompare(b.grupo))
