@@ -237,6 +237,10 @@ export default async function Home() {
               {/* Main content */}
               <PrincipalSection serverData={principalSectionArticles} />
 
+              {/* Mundial 2026 — desktop: below PrincipalSection; mobile: above
+                  the dollar widget (MobileDollarRates sits right below). */}
+              <MundialWidget />
+
               <div className="md:hidden">
                 <MobileDollarRates />
               </div>
@@ -278,8 +282,6 @@ export default async function Home() {
               />
 
               <DeportesSection serverData={deportesArticles} />
-
-              <MundialWidget />
 
               <MundoSection serverData={mundoArticles} />
 

@@ -200,12 +200,13 @@ export function formatFechaLarga(fecha: string): string {
   })
 }
 
+// Dark text on a light tint so channels stay legible on white cards.
 export const TV_COLORS: Record<string, string> = {
-  [TV.TELEFE]:    'bg-blue-600 text-white',
-  [TV.TYC]:       'bg-green-700 text-white',
-  [TV.DSPORTS]:   'bg-slate-700 text-white',
-  [TV.DISNEY]:    'bg-blue-800 text-white',
-  [TV.DISNEY_P]:  'bg-indigo-700 text-white',
-  [TV.PARAMOUNT]: 'bg-sky-600 text-white',
-  [TV.PUBLICA]:   'bg-teal-700 text-white',
+  [TV.TELEFE]:    'bg-blue-100 text-blue-800',
+  [TV.TYC]:       'bg-green-100 text-green-800',
+  [TV.DSPORTS]:   'bg-slate-200 text-slate-800',
+  [TV.DISNEY]:    'bg-indigo-100 text-indigo-800',
+  [TV.DISNEY_P]:  'bg-violet-100 text-violet-800',
+  [TV.PARAMOUNT]: 'bg-sky-100 text-sky-800',
+  [TV.PUBLICA]:   'bg-teal-100 text-teal-800',
 }

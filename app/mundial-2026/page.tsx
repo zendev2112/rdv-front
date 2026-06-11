@@ -16,6 +16,7 @@ import {
   type PartidoConResultado,
 } from '@/lib/mundial2026Api'
 import { useMundialScores } from '@/lib/useMundialScores'
+import SidelinesLayout from '@/components/SidelinesLayout'
 import Footer from '@/components/Footer'
 
 type Filtro = 'todos' | 'argentina' | 'hoy' | typeof GRUPOS[number]
@@ -28,9 +29,9 @@ const ETIQUETAS_FILTRO: { key: Filtro; label: string }[] = [
 ]
 
 function TvBadge({ canal }: { canal: string }) {
-  const color = TV_COLORS[canal] ?? 'bg-gray-500 text-white'
+  const color = TV_COLORS[canal] ?? 'bg-gray-200 text-gray-800'
   return (
-    <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded ${color}`}>
+    <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded border border-black/5 ${color}`}>
       {canal}
     </span>
   )
@@ -131,6 +132,8 @@ export default function MundialPage() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
 
+  const sidelineWidth = 15
+
   // Overlay live scores onto the static fixture (recomputes when scores poll in).
   const conResultados = useMemo(
     () => aplicarResultados(partidos, scores),
@@ -156,91 +159,120 @@ export default function MundialPage() {
 
   const hayHoy = mounted && partidos.some(p => esFechaHoy(p.fecha))
 
+  // Shared body (filters + fixture + TV note), rendered in both the mobile and
+  // desktop shells below — mirrors how the section page renders both trees.
+  const cuerpo = (
+    <>
+      {/* Filters */}
+      <div className="flex gap-1.5 overflow-x-auto pb-4 mb-2 scrollbar-hide">
+        {ETIQUETAS_FILTRO.map(({ key, label }) => {
+          if (key === 'hoy' && !hayHoy) return null
+          return (
+            <button
+              key={key}
+              onClick={() => setFiltro(key)}
+              className={`
+                shrink-0 text-xs font-bold px-3 py-1.5 rounded-full border transition-colors
+                ${filtro === key
+                  ? 'bg-primary-red text-white border-primary-red'
+                  : 'bg-white text-gray-600 border-gray-300 hover:border-primary-red hover:text-primary-red'
+                }
+              `}
+            >
+              {label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Fixture list */}
+      {porFecha.length === 0 ? (
+        <div className="text-center py-16 text-gray-400">
+          <p className="text-4xl mb-3">⚽</p>
+          <p className="text-lg font-medium">No hay partidos para este filtro</p>
+        </div>
+      ) : (
+        porFecha.map(([fecha, ps]) => (
+          <section key={fecha} className="mb-8">
+            <h2 className="font-serif text-base font-bold uppercase tracking-wide text-gray-700 mb-3 capitalize border-b border-gray-300 pb-2">
+              {formatFechaLarga(fecha)}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {ps.map(p => (
+                <PartidoCard key={p.id} p={p} hoy={mounted && esFechaHoy(p.fecha)} />
+              ))}
+            </div>
+          </section>
+        ))
+      )}
+
+      {/* Transmission sources */}
+      <div className="mt-12 bg-white border border-gray-200 rounded-lg p-5 text-sm text-gray-600">
+        <p className="font-bold text-gray-800 mb-1">📡 Fuentes de transmisión</p>
+        <p className="leading-relaxed">
+          Los partidos de <strong>Argentina</strong> se transmiten por Telefe, TyC Sports, DSports, TV Pública y Disney+ Premium.
+          La mayoría de los partidos están disponibles en <strong>DSports</strong> y <strong>Paramount+</strong>.
+          Verificar disponibilidad según operador de cable/streaming.
+        </p>
+      </div>
+    </>
+  )
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* ── HEADER ── */}
-      <div className="bg-white border-b border-gray-200 pt-[80px] md:pt-[88px]">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <nav className="text-sm text-gray-500 mb-4">
-            <Link href="/" className="hover:text-primary-red font-medium">Radio del Volga</Link>
-            <span className="mx-2 text-gray-400">›</span>
-            <span className="font-medium">Mundial 2026</span>
-          </nav>
+    <>
+      {/* ✅ MOBILE — matches section page shell */}
+      <div className="md:hidden pt-[184px] pb-24">
+        <div className="container mx-auto max-w-[1600px] px-4">
+          <div className="mb-0 pb-4 py-0 -mt-8">
+            {/* Breadcrumbs */}
+            <nav className="text-sm md:text-xs text-gray-500 mb-4 mt-0">
+              <Link href="/" className="hover:text-primary-red font-medium">
+                RADIO DEL VOLGA
+              </Link>
+              <span className="mx-2 text-gray-400">›</span>
+              <span className="font-medium">Mundial 2026</span>
+            </nav>
 
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 mb-1">
-            ⚽ Fixture Mundial 2026
-          </h1>
-          <p className="text-gray-500 text-sm">
-            Horarios en Argentina (UTC−3) · Fase de Grupos · 11 jun — 27 jun 2026
-          </p>
-
-          <div className="flex gap-3 mt-4 text-xs text-gray-600">
-            <span className="bg-gray-100 px-2 py-1 rounded font-medium">48 equipos</span>
-            <span className="bg-gray-100 px-2 py-1 rounded font-medium">12 grupos</span>
-            <span className="bg-gray-100 px-2 py-1 rounded font-medium">72 partidos de fase de grupos</span>
+            <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2 leading-tight mt-6 md:mt-8">
+              Mundial 2026
+            </h1>
           </div>
+
+          <div className="border-t border-gray-300 my-4"></div>
+
+          {cuerpo}
+
+          <Footer />
         </div>
       </div>
 
-      {/* ── FILTERS ── */}
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="flex gap-1.5 overflow-x-auto py-3 scrollbar-hide">
-            {ETIQUETAS_FILTRO.map(({ key, label }) => {
-              if (key === 'hoy' && !hayHoy) return null
-              return (
-                <button
-                  key={key}
-                  onClick={() => setFiltro(key)}
-                  className={`
-                    shrink-0 text-xs font-bold px-3 py-1.5 rounded-full border transition-colors
-                    ${filtro === key
-                      ? 'bg-primary-red text-white border-primary-red'
-                      : 'bg-white text-gray-600 border-gray-300 hover:border-primary-red hover:text-primary-red'
-                    }
-                  `}
-                >
-                  {label}
-                </button>
-              )
-            })}
+      {/* ✅ DESKTOP — matches section page shell */}
+      <div className="hidden md:block pt-[80px]">
+        <SidelinesLayout sidelineWidth={sidelineWidth}>
+          <div className="mb-0 pb-4 px-8 py-8">
+            {/* Breadcrumbs */}
+            <nav className="text-base md:text-sm text-gray-500 mb-4 mt-4">
+              <Link href="/" className="hover:text-primary-red font-medium">
+                RADIO DEL VOLGA
+              </Link>
+              <span className="mx-2 text-gray-400">›</span>
+              <span className="font-medium">Mundial 2026</span>
+            </nav>
+
+            <h1 className="font-serif text-2xl md:text-3xl font-semibold mb-4 leading-tight mt-4 md:mt-6">
+              Mundial 2026
+            </h1>
+
+            <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
           </div>
-        </div>
-      </div>
 
-      {/* ── FIXTURE LIST ── */}
-      <div className="max-w-4xl mx-auto px-4 py-6 pb-24">
-        {porFecha.length === 0 ? (
-          <div className="text-center py-16 text-gray-400">
-            <p className="text-4xl mb-3">⚽</p>
-            <p className="text-lg font-medium">No hay partidos para este filtro</p>
+          <div className="px-8">{cuerpo}</div>
+
+          <div className="px-8">
+            <Footer />
           </div>
-        ) : (
-          porFecha.map(([fecha, ps]) => (
-            <section key={fecha} className="mb-8">
-              <h2 className="font-serif text-base font-bold uppercase tracking-wide text-gray-700 mb-3 capitalize border-b border-gray-300 pb-2">
-                {formatFechaLarga(fecha)}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {ps.map(p => (
-                  <PartidoCard key={p.id} p={p} hoy={mounted && esFechaHoy(p.fecha)} />
-                ))}
-              </div>
-            </section>
-          ))
-        )}
-
-        <div className="mt-12 bg-white border border-gray-200 rounded-lg p-5 text-sm text-gray-600">
-          <p className="font-bold text-gray-800 mb-1">📡 Fuentes de transmisión</p>
-          <p className="leading-relaxed">
-            Los partidos de <strong>Argentina</strong> se transmiten por Telefe, TyC Sports, DSports, TV Pública y Disney+ Premium.
-            La mayoría de los partidos están disponibles en <strong>DSports</strong> y <strong>Paramount+</strong>.
-            Verificar disponibilidad según operador de cable/streaming.
-          </p>
-        </div>
+        </SidelinesLayout>
       </div>
-
-      <Footer />
-    </div>
+    </>
   )
 }
