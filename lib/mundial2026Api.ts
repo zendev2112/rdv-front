@@ -72,21 +72,23 @@ export function pairKey(a: string, b: string): string {
   return [normTeam(a), normTeam(b)].sort().join('|')
 }
 
-// Parse the API scorers field — e.g. `{"J. Quiñones 9'"}` (curly braces +
-// smart quotes) — into a clean list like ["J. Quiñones 9'"]. Player names are
-// proper nouns and stay as-is. Returns [] for "null"/empty.
+// Parse the API scorers field into a clean list, e.g.
+//   {"J. Quiñones 9'",”R. Jiménez 67'”}  →  ["J. Quiñones 9'", "R. Jiménez 67'"]
+// The upstream wraps each scorer in DOUBLE quotes but uses them inconsistently
+// (opening vs closing curly quotes mixed), so we can't match balanced pairs.
+// Instead we strip every brace/double-quote variant and split on commas. The
+// minute apostrophe (9') is a single quote and is deliberately preserved.
+// Player names are proper nouns and stay as-is. Returns [] for "null"/empty.
 export function parseScorers(raw: string | undefined | null): string[] {
   if (!raw) return []
   const t = raw.trim()
   if (t === '' || t === 'null' || t === '{}' || t === '{null}') return []
 
-  // Prefer text inside any double-quote variant (straight or curly).
-  const quoted = t.match(/[“"„]([^”"“„]+)[”"]/g)
-  const items = quoted
-    ? quoted.map((s) => s.replace(/[“”"„{}]/g, '').trim())
-    : t.replace(/[{}“”"„]/g, '').split(',').map((s) => s.trim())
-
-  return items.filter((s) => s && s.toLowerCase() !== 'null')
+  return t
+    .replace(/[{}“”„‟"«»]/g, '') // braces + double-quote variants (not apostrophes)
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s && s.toLowerCase() !== 'null')
 }
 
 // The API reports time_elapsed as "live" (a string, not a minute) during play,

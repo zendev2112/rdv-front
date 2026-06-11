@@ -1,5 +1,7 @@
 // Goal scorers for a match, attributed to each side. Names come straight from
 // the API (proper nouns, not translated); minute markers like 45' are universal.
+// Handles several scorers per team: each side stacks vertically and names wrap
+// instead of truncating, so the card grows to fit any number of goals.
 export default function MundialScorers({
   local,
   visitante,
@@ -13,23 +15,25 @@ export default function MundialScorers({
   const txt = size === 'xs' ? 'text-[10px]' : 'text-[11px]'
 
   return (
-    <div className={`flex justify-between gap-3 mt-2 ${txt} text-gray-500`}>
-      <div className="space-y-0.5 min-w-0">
+    <div className={`flex justify-between items-start gap-3 mt-2 ${txt} text-gray-500`}>
+      {/* Local scorers — left aligned */}
+      <ul className="space-y-0.5 min-w-0 flex-1">
         {local.map((g, i) => (
-          <div key={i} className="flex items-center gap-1">
-            <span className="shrink-0">⚽</span>
-            <span className="truncate">{g}</span>
-          </div>
+          <li key={i} className="flex items-start gap-1">
+            <span className="shrink-0 leading-tight">⚽</span>
+            <span className="break-words leading-tight">{g}</span>
+          </li>
         ))}
-      </div>
-      <div className="space-y-0.5 min-w-0 text-right">
+      </ul>
+      {/* Visitor scorers — right aligned */}
+      <ul className="space-y-0.5 min-w-0 flex-1 text-right">
         {visitante.map((g, i) => (
-          <div key={i} className="flex items-center justify-end gap-1">
-            <span className="truncate">{g}</span>
-            <span className="shrink-0">⚽</span>
-          </div>
+          <li key={i} className="flex items-start justify-end gap-1">
+            <span className="break-words leading-tight">{g}</span>
+            <span className="shrink-0 leading-tight">⚽</span>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
