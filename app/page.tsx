@@ -40,6 +40,7 @@ import TechSection from '@/components/TechSection'
 import PropiedadesSection from '@/components/PropiedadesSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
+import MundialWidget from '@/components/MundialWidget'
 
 export const metadata: Metadata = {
   title: 'Radio del Volga - Noticias de Coronel Suárez | Actualidad Argentina',
@@ -277,6 +278,8 @@ export default async function Home() {
               />
 
               <DeportesSection serverData={deportesArticles} />
+
+              <MundialWidget />
 
               <MundoSection serverData={mundoArticles} />
 
