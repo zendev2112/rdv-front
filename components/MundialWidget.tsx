@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { partidos, esFechaHoy, TV_COLORS, esArgentina, flagUrl } from '@/lib/mundial2026Data'
 import { aplicarResultados, type PartidoConResultado } from '@/lib/mundial2026Api'
 import { useMundialScores } from '@/lib/useMundialScores'
+import MundialShareButtons from '@/components/MundialShareButtons'
 
 function TvBadge({ canal }: { canal: string }) {
   const color = TV_COLORS[canal] ?? 'bg-gray-500 text-white'
@@ -71,7 +72,7 @@ export default function MundialWidget() {
             <h2 className="font-serif text-xl font-bold text-gray-900">Mundial 2026</h2>
           </div>
           <p className="text-xs text-gray-500 mt-0.5">
-            {esHoy ? 'Partidos de hoy ' : 'Próximos partidos'}
+            {esHoy ? `Partidos de hoy · ${new Date().toLocaleDateString('es-AR', { weekday: 'short', month: 'short', day: 'numeric' })}` : 'Próximos partidos'}
           </p>
         </div>
 
@@ -132,13 +133,18 @@ export default function MundialWidget() {
                 </div>
               </div>
 
-              {/* TV channels */}
-              {p.tv.length > 0 && (
-                <div className="flex flex-wrap items-center gap-1 mt-2">
-                  <span className="text-[10px] text-gray-400 font-medium mr-0.5">TV:</span>
-                  {p.tv.map(canal => <TvBadge key={canal} canal={canal} />)}
-                </div>
-              )}
+              {/* TV channels + share */}
+              <div className="flex items-end justify-between gap-2 mt-2">
+                {p.tv.length > 0 ? (
+                  <div className="flex flex-wrap items-center gap-1">
+                    <span className="text-[10px] text-gray-400 font-medium mr-0.5">TV:</span>
+                    {p.tv.map(canal => <TvBadge key={canal} canal={canal} />)}
+                  </div>
+                ) : (
+                  <span />
+                )}
+                <MundialShareButtons p={p} compact />
+              </div>
             </div>
           )
         })}

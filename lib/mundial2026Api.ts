@@ -4,6 +4,7 @@
 // exactly once in the group stage — verified: all 72 matches resolve).
 
 import type { Partido } from './mundial2026Data'
+import { flagUrl } from './mundial2026Data'
 
 // English (API) → Spanish (our display) for all 48 teams.
 export const EN_TO_ES: Record<string, string> = {
@@ -155,4 +156,240 @@ export function aplicarResultados(
       minuto: r.minuto,
     }
   })
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// STANDINGS  (/get/groups + /get/teams)
+// ─────────────────────────────────────────────────────────────────────────
+
+export interface FilaPosicion {
+  pos: number
+  nombre: string
+  flag: string
+  mp: number
+  w: number
+  d: number
+  l: number
+  gf: number
+  ga: number
+  gd: number
+  pts: number
+}
+export interface GrupoPosiciones {
+  grupo: string
+  equipos: FilaPosicion[]
+}
+
+interface ApiTeam {
+  id: string
+  name_en: string
+  flag?: string
+  groups?: string
+}
+interface ApiGroupRow {
+  team_id: string
+  mp?: string
+  w?: string
+  d?: string
+  l?: string
+  pts?: string
+  gf?: string
+  ga?: string
+  gd?: string
+}
+interface ApiGroup {
+  name: string
+  teams: ApiGroupRow[]
+}
+
+// Map team id → Spanish name (server-side helper for standings/knockout).
+export function teamsByIdEs(teams: ApiTeam[]): Record<string, string> {
+  const m: Record<string, string> = {}
+  for (const t of teams) m[t.id] = EN_TO_ES[t.name_en] ?? t.name_en
+  return m
+}
+
+export function buildStandings(
+  groups: ApiGroup[],
+  teams: ApiTeam[],
+): GrupoPosiciones[] {
+  const byId = teamsByIdEs(teams)
+
+  const out = groups.map((g) => {
+    const equipos = g.teams.map((row) => {
+      const nombre = byId[row.team_id] ?? '?'
+      const gf = Number(row.gf) || 0
+      const ga = Number(row.ga) || 0
+      return {
+        pos: 0,
+        nombre,
+        flag: flagUrl(nombre),
+        mp: Number(row.mp) || 0,
+        w: Number(row.w) || 0,
+        d: Number(row.d) || 0,
+        l: Number(row.l) || 0,
+        gf,
+        ga,
+        gd: row.gd != null ? Number(row.gd) : gf - ga,
+        pts: Number(row.pts) || 0,
+      }
+    })
+    // FIFA tiebreakers (simplified): points, goal difference, goals for, name.
+    equipos.sort(
+      (a, b) =>
+        b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.nombre.localeCompare(b.nombre),
+    )
+    equipos.forEach((e, i) => (e.pos = i + 1))
+    return { grupo: g.name, equipos }
+  })
+
+  out.sort((a, b) => a.grupo.localeCompare(b.grupo))
+  return out
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// KNOCKOUT  (/get/games where type != 'group')
+// ─────────────────────────────────────────────────────────────────────────
+
+// Hours to ADD to stadium-local time to reach Argentina time (UTC-3), for
+// Jun–Jul 2026 (US/Canada on DST; Mexico no DST). Verified vs 70/72 known
+// group-stage kickoffs.
+const STADIUM_ART_DIFF: Record<number, number> = {
+  1: 3, 2: 3, 3: 3,                     // Mexico (UTC-6)
+  4: 2, 5: 2, 6: 2,                     // US Central (UTC-5 CDT)
+  7: 1, 8: 1, 9: 1, 10: 1, 11: 1, 12: 1, // Eastern (UTC-4 EDT)
+  13: 4, 14: 4, 15: 4, 16: 4,          // Pacific (UTC-7 PDT)
+}
+
+export const STADIUM_CITY: Record<number, string> = {
+  1: 'Ciudad de México', 2: 'Guadalajara', 3: 'Monterrey', 4: 'Dallas',
+  5: 'Houston', 6: 'Kansas City', 7: 'Atlanta', 8: 'Miami', 9: 'Boston',
+  10: 'Filadelfia', 11: 'Nueva York/NJ', 12: 'Toronto', 13: 'Vancouver',
+  14: 'Seattle', 15: 'San Francisco', 16: 'Los Ángeles',
+}
+
+// Convert API "MM/DD/YYYY HH:MM" (stadium-local) → Argentina date + time.
+export function toArgentina(
+  localDate: string,
+  stadiumId: number,
+): { fecha: string; hora: string } {
+  const [datePart, timePart] = localDate.split(' ')
+  const [mm, dd, yyyy] = datePart.split('/').map(Number)
+  const [hh, min] = timePart.split(':').map(Number)
+  const diff = STADIUM_ART_DIFF[stadiumId] ?? 0
+  const d = new Date(Date.UTC(yyyy, mm - 1, dd, hh + diff, min))
+  const fecha = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`
+  const hora = `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`
+  return { fecha, hora }
+}
+
+export const RONDA_NOMBRE: Record<string, string> = {
+  r32: 'Ronda de 32',
+  r16: 'Octavos de final',
+  qf: 'Cuartos de final',
+  sf: 'Semifinales',
+  third: 'Tercer puesto',
+  final: 'Final',
+}
+const RONDA_ORDEN = ['r32', 'r16', 'qf', 'sf', 'third', 'final']
+
+// Translate API placeholder labels to Spanish (used until teams are decided).
+export function traducirEtiqueta(label: string): string {
+  if (!label) return 'A definir'
+  return label
+    .replace(/^Winner Group /, '1º Grupo ')
+    .replace(/^Runner-up Group /, '2º Grupo ')
+    .replace(/^3rd Group /, '3º Grupo ')
+    .replace(/^Winner Match /, 'Ganador P')
+    .replace(/^Loser Match /, 'Perdedor P')
+}
+
+export interface PartidoKO {
+  id: number
+  fecha: string
+  hora: string
+  local: string
+  localFlag: string
+  visitante: string
+  visitanteFlag: string
+  golLocal: number | null
+  golVisitante: number | null
+  finalizado: boolean
+  enVivo: boolean
+  minuto: string | null
+  sede: string
+  tipo: string
+}
+export interface RondaKO {
+  ronda: string
+  tipo: string
+  partidos: PartidoKO[]
+}
+
+interface ApiKoGame {
+  id: string
+  type: string
+  local_date: string
+  stadium_id: string
+  home_team_id: string
+  away_team_id: string
+  home_team_name_en?: string
+  away_team_name_en?: string
+  home_team_label?: string
+  away_team_label?: string
+  home_score: string
+  away_score: string
+  finished: string
+  time_elapsed: string
+}
+
+export function buildKnockout(
+  games: ApiKoGame[],
+  byId: Record<string, string>,
+): RondaKO[] {
+  const porRonda: Record<string, PartidoKO[]> = {}
+
+  for (const g of games) {
+    if (g.type === 'group') continue
+    const { fecha, hora } = toArgentina(g.local_date, Number(g.stadium_id))
+
+    const lado = (id: string, nameEn: string | undefined, label: string | undefined) => {
+      if (id && id !== '0') {
+        const es = byId[id] ?? (nameEn ? EN_TO_ES[nameEn] ?? nameEn : '?')
+        return { nombre: es, flag: flagUrl(es) }
+      }
+      return { nombre: traducirEtiqueta(label || ''), flag: '' }
+    }
+
+    const L = lado(g.home_team_id, g.home_team_name_en, g.home_team_label)
+    const V = lado(g.away_team_id, g.away_team_name_en, g.away_team_label)
+    const finished = g.finished === 'TRUE'
+    const started = g.time_elapsed !== 'notstarted' && g.time_elapsed !== ''
+    const conResultado = finished || started
+
+    ;(porRonda[g.type] ??= []).push({
+      id: Number(g.id),
+      fecha,
+      hora,
+      local: L.nombre,
+      localFlag: L.flag,
+      visitante: V.nombre,
+      visitanteFlag: V.flag,
+      golLocal: conResultado ? Number(g.home_score) || 0 : null,
+      golVisitante: conResultado ? Number(g.away_score) || 0 : null,
+      finalizado: finished,
+      enVivo: started && !finished,
+      minuto: started && !finished ? g.time_elapsed : null,
+      sede: STADIUM_CITY[Number(g.stadium_id)] ?? '',
+      tipo: g.type,
+    })
+  }
+
+  return RONDA_ORDEN.filter((t) => porRonda[t]).map((t) => ({
+    ronda: RONDA_NOMBRE[t],
+    tipo: t,
+    partidos: porRonda[t].sort(
+      (a, b) => a.fecha.localeCompare(b.fecha) || a.hora.localeCompare(b.hora) || a.id - b.id,
+    ),
+  }))
 }

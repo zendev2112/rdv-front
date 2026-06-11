@@ -17,9 +17,19 @@ import {
 } from '@/lib/mundial2026Api'
 import { useMundialScores } from '@/lib/useMundialScores'
 import SidelinesLayout from '@/components/SidelinesLayout'
+import MundialShareButtons from '@/components/MundialShareButtons'
+import MundialStandings from '@/components/MundialStandings'
+import MundialKnockout from '@/components/MundialKnockout'
 import Footer from '@/components/Footer'
 
 type Filtro = 'todos' | 'argentina' | 'hoy' | typeof GRUPOS[number]
+type Vista = 'partidos' | 'posiciones' | 'eliminatorias'
+
+const TABS: { key: Vista; label: string }[] = [
+  { key: 'partidos', label: 'Partidos' },
+  { key: 'posiciones', label: 'Posiciones' },
+  { key: 'eliminatorias', label: 'Eliminatorias' },
+]
 
 const ETIQUETAS_FILTRO: { key: Filtro; label: string }[] = [
   { key: 'todos',     label: 'Todos' },
@@ -120,12 +130,18 @@ function PartidoCard({ p, hoy }: { p: PartidoConResultado; hoy: boolean }) {
           {p.tv.map(canal => <TvBadge key={canal} canal={canal} />)}
         </div>
       )}
+
+      {/* Share */}
+      <div className="flex justify-end mt-3 pt-2 border-t border-gray-100">
+        <MundialShareButtons p={p} />
+      </div>
     </div>
   )
 }
 
 export default function MundialPage() {
   const [filtro, setFiltro] = useState<Filtro>('todos')
+  const [vista, setVista] = useState<Vista>('partidos')
   const { scores } = useMundialScores()
   // "Today" highlighting depends on the client clock; this page is prerendered.
   // Gate it behind mount so SSR and first hydration render match.
@@ -159,9 +175,8 @@ export default function MundialPage() {
 
   const hayHoy = mounted && partidos.some(p => esFechaHoy(p.fecha))
 
-  // Shared body (filters + fixture + TV note), rendered in both the mobile and
-  // desktop shells below — mirrors how the section page renders both trees.
-  const cuerpo = (
+  // Partidos tab — filters + fixture by date + transmission note.
+  const cuerpoPartidos = (
     <>
       {/* Filters */}
       <div className="flex gap-1.5 overflow-x-auto pb-4 mb-2 scrollbar-hide">
@@ -215,6 +230,33 @@ export default function MundialPage() {
           Verificar disponibilidad según operador de cable/streaming.
         </p>
       </div>
+    </>
+  )
+
+  // Shared body (tabs + active view), rendered in both the mobile and desktop
+  // shells below — mirrors how the section page renders both trees.
+  const cuerpo = (
+    <>
+      {/* Tabs */}
+      <div className="flex gap-1 mb-5 border-b border-gray-200">
+        {TABS.map((t) => (
+          <button
+            key={t.key}
+            onClick={() => setVista(t.key)}
+            className={`px-4 py-2 text-sm font-bold border-b-2 -mb-px transition-colors ${
+              vista === t.key
+                ? 'border-primary-red text-primary-red'
+                : 'border-transparent text-gray-500 hover:text-gray-800'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {vista === 'partidos' && cuerpoPartidos}
+      {vista === 'posiciones' && <MundialStandings />}
+      {vista === 'eliminatorias' && <MundialKnockout />}
     </>
   )
 

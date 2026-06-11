@@ -188,6 +188,17 @@ export function esFechaHoy(fecha: string): boolean {
   return fecha === hoy
 }
 
+export function formatFechaCorta(fecha: string): string {
+  const [year, month, day] = fecha.split('-').map(Number)
+  const d = new Date(Date.UTC(year, month - 1, day))
+  return d.toLocaleDateString('es-AR', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'UTC',
+  })
+}
+
 export function formatFechaLarga(fecha: string): string {
   const [year, month, day] = fecha.split('-').map(Number)
   // Use UTC to avoid timezone shifts on the label
