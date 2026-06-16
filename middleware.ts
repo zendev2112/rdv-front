@@ -48,8 +48,13 @@ export async function middleware(req: NextRequest) {
 
   // --- Volga Beneficios merchant area (separate Supabase project) ------------
   if (path.startsWith('/beneficios/comercio')) {
-    // The login page must render without a session (avoid a redirect loop).
-    if (path.startsWith('/beneficios/comercio/ingresar')) return res
+    // The login page and the auth callback must run without a session.
+    if (
+      path.startsWith('/beneficios/comercio/ingresar') ||
+      path.startsWith('/beneficios/comercio/auth')
+    ) {
+      return res
+    }
     const supabase = makeClient(
       req,
       res,
