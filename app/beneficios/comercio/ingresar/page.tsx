@@ -20,7 +20,9 @@ export default function IngresarPage() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/beneficios/comercio/panel`,
+        // Land on the callback that exchanges the code for a session cookie, NOT
+        // directly on the guarded /panel (the guard would bounce us with no session).
+        emailRedirectTo: `${window.location.origin}/beneficios/comercio/auth/confirm`,
       },
     })
     if (error) {
