@@ -61,7 +61,7 @@ export default function ConfirmCanje({
           Aplicá <strong>{descuento}</strong> en {comercio}.
         </p>
         <Link
-          href="/beneficios/comercio/validar"
+          href="/beneficios/comercio/panel"
           className="mt-8 inline-block rounded-xl bg-green-600 px-8 py-3 text-sm font-bold text-white hover:bg-green-700"
         >
           Validar otro

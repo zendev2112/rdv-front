@@ -60,16 +60,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://dolarapi.com" />
         <link rel="preconnect" href="https://api.open-meteo.com" />
-        <link rel="icon" href="/images/icon-192.png" type="image/png" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#ff0808" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
-        <meta name="apple-mobile-web-app-title" content="Radio del Volga" />
-        <link rel="apple-touch-icon" href="/images/icon-192.png" />
+        {/* manifest / theme-color / apple-web-app / icons are emitted by the
+            `metadata` + `viewport` exports above, so route segments (e.g. the
+            merchant app) can override them with their own manifest. */}
         <style
           dangerouslySetInnerHTML={{
             __html: `

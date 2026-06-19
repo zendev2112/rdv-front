@@ -60,6 +60,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'beneficio_vencido' }, { status: 410 })
   }
 
+  // One active cupón per member per benefit: if they already have an un-used
+  // (pendiente) canje for this benefit, hand back that same one instead of minting
+  // duplicates. Repeat usage after it's validated is governed by the cap below.
+  const { data: abierto } = await supabase
+    .from('redemptions')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('benefit_id', benefitId)
+    .eq('estado', 'pendiente')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  if (abierto) return NextResponse.json({ redemption: abierto }, { status: 200 })
+
   // Cap check against the existing limite_tipo / limite_cantidad fields.
   if (ben.limite_tipo && ben.limite_tipo !== 'ilimitado' && ben.limite_cantidad) {
     const desde = inicioVentana(ben.limite_tipo)

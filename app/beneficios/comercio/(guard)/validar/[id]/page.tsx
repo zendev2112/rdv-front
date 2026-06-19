@@ -74,7 +74,7 @@ export default async function ValidarPage({ params }: { params: { id: string } }
     <main className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="mx-auto max-w-md">
         <BackButton
-          fallback="/beneficios/comercio/validar"
+          fallback="/beneficios/comercio/panel"
           label="Volver"
           className="mb-6 text-gray-500 hover:text-gray-900"
         />
