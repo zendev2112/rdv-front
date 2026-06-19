@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import RegisterComerciosSW from './RegisterComerciosSW'
+import InstallBanner from './components/InstallBanner'
 
 // Volga Comercios — the merchant app. A separate product from the consumer
 // Beneficios app, sharing one login system but its own identity, manifest, and
@@ -23,6 +24,7 @@ export default function ComercioSectionLayout({
   return (
     <>
       <RegisterComerciosSW />
+      <InstallBanner />
       {children}
     </>
   )
