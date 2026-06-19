@@ -14,7 +14,8 @@ interface Props {
 }
 
 export default function BeneficioCard({ beneficio, dark = false }: Props) {
-  const href = `/beneficios/${beneficio.categoria_slug}/${beneficio.business_slug}`
+  // Each card opens that specific benefit's own page (not the comercio listing).
+  const href = `/beneficios/beneficio/${beneficio.benefit_id}`
   const badge = badgeFor(beneficio.titulo)
 
   return (

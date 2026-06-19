@@ -11,6 +11,10 @@ interface Props {
   params: { categoria: string }
 }
 
+// ISR: regenerate within a minute so newly-added benefits/comercios appear without
+// a redeploy (the page is otherwise statically cached and would stay frozen).
+export const revalidate = 60
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { data } = await supabaseBeneficios
     .from('beneficios_activos')

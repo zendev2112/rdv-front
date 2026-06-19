@@ -74,9 +74,13 @@ export async function POST(req: Request) {
     .maybeSingle()
   if (abierto) return NextResponse.json({ redemption: abierto }, { status: 200 })
 
-  // Cap check against the existing limite_tipo / limite_cantidad fields.
-  if (ben.limite_tipo && ben.limite_tipo !== 'ilimitado' && ben.limite_cantidad) {
-    const desde = inicioVentana(ben.limite_tipo)
+  // Usage cap. DEFAULT IS CAPPED: a benefit is only unlimited if it EXPLICITLY sets
+  // limite_tipo = 'ilimitado'. Anything unset falls back to once-per-week per member,
+  // so a benefit can never be re-used freely just because a limit wasn't configured.
+  const tipo = ben.limite_tipo || 'por_semana'
+  if (tipo !== 'ilimitado') {
+    const cantidad = ben.limite_cantidad ?? 1
+    const desde = inicioVentana(tipo)
     let q = supabase
       .from('redemptions')
       .select('id', { count: 'exact', head: true })
@@ -84,7 +88,7 @@ export async function POST(req: Request) {
       .eq('benefit_id', benefitId)
     if (desde) q = q.gte('created_at', desde.toISOString())
     const { count } = await q
-    if ((count ?? 0) >= ben.limite_cantidad) {
+    if ((count ?? 0) >= cantidad) {
       return NextResponse.json({ error: 'ya_canjeado' }, { status: 409 })
     }
   }

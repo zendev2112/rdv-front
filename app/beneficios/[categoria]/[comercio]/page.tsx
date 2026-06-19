@@ -12,6 +12,10 @@ interface Props {
   params: { categoria: string; comercio: string }
 }
 
+// ISR: regenerate within a minute so a comercio's new benefits appear without a
+// redeploy (the page is otherwise statically cached and would stay frozen).
+export const revalidate = 60
+
 async function getComercio(slug: string): Promise<Comercio | null> {
   const { data, error } = await supabaseBeneficios
     .from('beneficios_activos')
