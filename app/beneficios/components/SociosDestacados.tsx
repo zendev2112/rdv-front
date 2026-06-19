@@ -32,15 +32,13 @@ export default function SociosDestacados({ beneficios }: Props) {
           </p>
           <h2
             style={{
-              fontFamily: "'Playfair Display', serif",
               fontSize: 'clamp(32px, 5vw, var(--font-4xl))',
-              fontWeight: 900,
+              fontWeight: 800,
               color: '#FFFFFF',
-              letterSpacing: 2,
               margin: '0 0 8px',
             }}
           >
-            SOCIOS DESTACADOS
+            Socios destacados
           </h2>
           <p
             style={{

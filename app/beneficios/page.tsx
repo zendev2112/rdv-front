@@ -86,7 +86,7 @@ export default async function BeneficiosPage() {
 
       <main style={{ background: 'var(--rdv-bg-page)', paddingBottom: 80 }}>
         {/* ── Hero ── */}
-        <HeroBanner featured={relevantes.slice(0, 5)} />
+        <HeroBanner />
 
         {/* ── Container ── */}
         <div
@@ -95,45 +95,6 @@ export default async function BeneficiosPage() {
         >
           {/* Category scroller — overlaps hero on desktop */}
           <CategoryScroller categorias={categorias} />
-
-          {/* Discovery bar — mobile only */}
-          <a
-            href="#buscar"
-            className="md:hidden"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              margin: '16px 0',
-              borderRadius: 50,
-              border: '1px solid var(--rdv-border)',
-              padding: '12px 20px',
-              textDecoration: 'none',
-              background: '#FFFFFF',
-            }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span
-                style={{
-                  background: 'var(--rdv-primary)',
-                  color: '#fff',
-                  borderRadius: '50%',
-                  width: 24,
-                  height: 24,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 12,
-                  fontWeight: 700,
-                }}
-              >
-                ?
-              </span>
-            </span>
-            <span style={{ color: 'var(--rdv-primary)', fontWeight: 700 }}>
-              &gt;
-            </span>
-          </a>
 
           {/* ── Beneficios Relevantes ── */}
           <div style={{ marginTop: 48 }}>
@@ -169,21 +130,15 @@ export default async function BeneficiosPage() {
         {/* ── Sorteos Volga (full-bleed dark) ── */}
         <SorteosSection />
 
-        {/* ── Noticias de Suárez ── */}
+        {/* ── Noticias de Suárez + Nuevos Comercios ── */}
         <div
-          style={{
-            maxWidth: 1280,
-            margin: '0 auto',
-            padding: '0 40px',
-            marginTop: 80,
-          }}
-          className="px-4 sm:px-6 lg:px-10"
+          style={{ maxWidth: 1280, margin: '0 auto', padding: '0 40px' }}
+          className="mt-32 px-4 sm:px-6 lg:px-10"
         >
           <NoticiasSection />
 
-          {/* ── Más beneficios (secondary carousel) ── */}
           {nuevos.length > 0 && (
-            <div style={{ marginTop: 64 }}>
+            <div className="mt-16">
               <BeneficioCarousel title="Nuevos Comercios" beneficios={nuevos} />
             </div>
           )}

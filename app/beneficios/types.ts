@@ -68,17 +68,20 @@ export interface Comercio {
 export type Rol = 'user' | 'merchant_staff' | 'admin'
 
 export interface UserProfile {
-  id: string // = auth.users.id
+  id: string // = auth.users.id (registered member; no anonymous rows — §0b)
   nombre: string | null
+  email: string | null // mirror of auth.users.email (verified)
   telefono: string | null
   telefono_verificado: boolean
   rol: Rol
+  marketing_opt_in: boolean // Ley 25.326 consent for email/push novedades
+  marketing_opt_in_at: string | null
+  barrio: string | null
   push_opt_in: boolean
   geo_opt_in: boolean
   created_at: string
 }
 
-// The `businesses` row, as the app thinks of it. Retroactivo policy lives here (screen 18).
 export interface Merchant {
   id: string
   slug: string
@@ -91,21 +94,6 @@ export interface Merchant {
   categoria_id: number
   geo_lat: number | null
   geo_lon: number | null
-  retro_activo: boolean
-  retro_lapso_horas: 24 | 48 | 120 | 168
-  retro_tope_usuario_mes: number
-  retro_tope_comercio_mes: number
-  retro_pedir_foto: boolean
-  retro_aprobacion_automatica: boolean
-}
-
-export interface MerchantRetroConfig {
-  activo: boolean
-  lapso_horas: 24 | 48 | 120 | 168
-  tope_por_usuario_mes: number
-  tope_comercio_mes: number
-  pedir_foto: boolean
-  aprobacion_automatica: boolean
 }
 
 export interface MerchantHours {
@@ -127,7 +115,7 @@ export interface MerchantSpecialHours {
 
 // MVP: a canje is mostly self-reported ("mostrá la pantalla" → "Listo, lo usé").
 // `metodo` records how it happened so the same table serves the later QR phase.
-export type MetodoCanje = 'mostrar' | 'qr' | 'retroactivo'
+export type MetodoCanje = 'mostrar' | 'qr'
 export type EstadoCanje = 'pendiente' | 'usado' | 'validado' | 'vencido' | 'cancelado'
 
 export interface Redemption {
@@ -146,24 +134,3 @@ export interface Redemption {
   created_at: string
 }
 
-export interface RetroClaim {
-  id: string
-  user_id: string
-  business_id: string
-  benefit_id: string
-  fecha_compra: string
-  monto: number | null
-  ticket_url: string
-  ticket_hash: string | null
-  ocr: {
-    fecha: string | null
-    monto: number | null
-    comercio: string | null
-    confianza: number
-  } | null
-  motivo_usuario: string | null
-  estado: 'aprobado' | 'pendiente_humano' | 'rechazado'
-  ahorro_acreditado: number | null
-  resuelto_at: string | null
-  created_at: string
-}

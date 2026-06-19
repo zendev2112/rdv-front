@@ -107,6 +107,9 @@ export default function Header() {
       .catch((error) => console.error('Error fetching sections:', error))
   }, [])
 
+  // Hide on /beneficios routes — BeneficiosHeader handles nav there
+  if (pathname.startsWith('/beneficios')) return null
+
   return (
     <>
       <header

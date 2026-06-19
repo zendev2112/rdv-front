@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createBeneficiosServerClient } from '@/lib/supabase-beneficios-server'
 import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
+import { sendCuponEmail } from '@/lib/beneficios-email'
 
 // Records a "mostrá la pantalla" canje (SPEC §0). Self-reported, no scanner, no
 // TTL. The only gate is the per-benefit cap (existing limite_tipo/limite_cantidad).
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'no_session' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'no_autenticado' }, { status: 401 })
 
   const body = await req.json().catch(() => ({}))
   const benefitId: string | undefined = body.benefit_id
@@ -93,5 +94,28 @@ export async function POST(req: Request) {
     console.error('canje insert failed:', error?.message)
     return NextResponse.json({ error: 'no_creado' }, { status: 500 })
   }
+
+  // Best-effort cupón email (QR for offline use). Never blocks/fails the canje.
+  if (user.email) {
+    try {
+      const origin = new URL(req.url).origin
+      const { data: biz } = await supabaseBeneficiosAdmin
+        .from('businesses')
+        .select('nombre')
+        .eq('id', ben.business_id)
+        .single()
+      await sendCuponEmail({
+        to: user.email,
+        codigo: red.codigo,
+        merchantNombre: biz?.nombre ?? 'tu comercio',
+        descuento: ben.titulo ?? '',
+        validarUrl: `${origin}/beneficios/comercio/validar/${red.id}`,
+        cuponUrl: `${origin}/beneficios/cupon/${red.id}`,
+      })
+    } catch (e) {
+      console.error('cupón email failed (non-blocking):', e)
+    }
+  }
+
   return NextResponse.json({ redemption: red }, { status: 201 })
 }

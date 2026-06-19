@@ -23,7 +23,7 @@ export default function CategoryFilter({
         onClick={() => handleClick(null)}
         className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-all ${
           active === null
-            ? 'bg-primary-red text-white shadow-md shadow-primary-red/20'
+            ? 'bg-brand text-white shadow-md shadow-brand/20'
             : 'bg-white text-dark-gray hover:bg-neutral-100 border border-neutral-200'
         }`}
       >
@@ -36,7 +36,7 @@ export default function CategoryFilter({
           onClick={() => handleClick(cat.slug)}
           className={`flex flex-shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${
             active === cat.slug
-              ? 'bg-primary-red text-white shadow-md shadow-primary-red/20'
+              ? 'bg-brand text-white shadow-md shadow-brand/20'
               : 'bg-white text-dark-gray hover:bg-neutral-100 border border-neutral-200'
           }`}
         >

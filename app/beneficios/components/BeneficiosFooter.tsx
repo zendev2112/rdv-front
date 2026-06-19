@@ -17,7 +17,7 @@ export default function BeneficiosFooter() {
 
   return (
     <nav
-      className="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-primary-red text-white border-t border-light-gray shadow-lg flex justify-around items-center h-14"
+      className="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand text-white border-t border-light-gray shadow-lg flex justify-around items-center h-14"
       aria-label="Navegación inferior"
     >
       {NAV_ITEMS.map((item) => {

@@ -106,7 +106,7 @@ export default function DarkCarousel({
                   <span className="text-xs font-bold uppercase tracking-wider text-white/70 line-clamp-1">
                     {b.business_nombre}
                   </span>
-                  <span className="text-lg font-extrabold text-primary-red">
+                  <span className="text-lg font-extrabold text-brand">
                     {b.titulo}
                   </span>
                 </div>
@@ -118,7 +118,7 @@ export default function DarkCarousel({
         {/* Progress bar */}
         <div className="mx-auto mt-5 h-1 max-w-[120px] overflow-hidden rounded-full bg-white/10 lg:hidden">
           <div
-            className="h-full rounded-full bg-primary-red transition-all duration-150"
+            className="h-full rounded-full bg-brand transition-all duration-150"
             style={{ width: `${Math.max(20, progress * 100)}%` }}
           />
         </div>

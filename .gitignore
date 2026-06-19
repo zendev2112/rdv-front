@@ -4,3 +4,11 @@ node_modules/
 .env*.local
 *.tsbuildinfo
 .vercel
+
+# local skill tooling + throwaway dev scripts + design mockups
+.claude/
+.agents/
+skills-lock.json
+scripts/ui-shots.mjs
+scripts/seed-hero.mjs
+beneficiosapp/

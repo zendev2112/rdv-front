@@ -21,6 +21,12 @@ const config: Config = {
         // Our custom colors
         cream: '#faf6ef',
         'primary-red': '#ff0808',
+        // Volga Beneficios brand maroon — the single accent for /beneficios.
+        brand: {
+          DEFAULT: '#8B0000',
+          dark: '#6B0000',
+          light: '#C0392B',
+        },
         'dark-gray': '#292929',
         politics: '#0a3d62',
         business: '#2c6e49',

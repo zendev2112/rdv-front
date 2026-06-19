@@ -1,59 +1,57 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
+import BackButton from '../../components/BackButton'
 
-// The "mostrá la pantalla" cupón. Shows merchant + discount + a big human code +
-// the philosophy line. "Listo, lo usé" self-reports the canje (PATCH) and swaps
-// to the success state. The code is cached in localStorage so the screen still
-// renders if signal drops at the counter (the SW precache lands with the home pass).
+// The "mostrá la pantalla" cupón. Shows the QR the merchant scans to validate, plus
+// a big human code as the manual-entry fallback. The canje is no longer self-reported
+// by the customer — the merchant confirms it from their own device (SPEC-comercios),
+// so this screen is read-only: pendiente shows the QR; usado/validado shows "ya usado".
+// The code is cached in localStorage so the screen still renders if signal drops.
+const USED = new Set(['usado', 'validado'])
+
 export default function CuponView({
   id,
   codigo,
   estado,
+  qrSrc,
   merchantNombre,
   descuentoLabel,
 }: {
   id: string
   codigo: string
   estado: string
+  qrSrc: string
   merchantNombre: string
   descuentoLabel: string
 }) {
-  const [usado, setUsado] = useState(estado === 'usado')
-  const [guardando, setGuardando] = useState(false)
+  const usado = USED.has(estado)
 
   useEffect(() => {
     try {
       localStorage.setItem(
         `vb-cupon-${id}`,
-        JSON.stringify({ codigo, merchantNombre, descuentoLabel }),
+        JSON.stringify({ codigo, merchantNombre, descuentoLabel, qrSrc }),
       )
     } catch {
       // private mode / storage full — the server render still shows the cupón.
     }
-  }, [id, codigo, merchantNombre, descuentoLabel])
-
-  async function confirmar() {
-    setGuardando(true)
-    try {
-      await fetch(`/api/beneficios/canje/${id}`, { method: 'PATCH' })
-    } catch {
-      // self-reported — even if the network blips, show the user success.
-    }
-    setUsado(true)
-    setGuardando(false)
-  }
+  }, [id, codigo, merchantNombre, descuentoLabel, qrSrc])
 
   if (usado) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-cream px-6 text-center">
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary-red text-4xl text-white shadow-lg shadow-primary-red/30">
+      <main className="relative flex min-h-screen flex-col items-center justify-center bg-cream px-6 text-center">
+        <BackButton
+          fallback="/beneficios/mis-canjes"
+          className="absolute left-4 top-4"
+        />
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand text-4xl text-white shadow-lg shadow-brand/30">
           ✓
         </div>
         <h1 className="mt-5 text-2xl font-extrabold text-dark-gray">¡Listo, disfrutalo!</h1>
         <p className="mt-2 max-w-xs text-sm text-neutral-gray">
-          Aplicaste tu beneficio <strong className="text-dark-gray">{descuentoLabel}</strong> en{' '}
+          Usaste tu beneficio <strong className="text-dark-gray">{descuentoLabel}</strong> en{' '}
           <strong className="text-dark-gray">{merchantNombre}</strong>.
         </p>
 
@@ -70,7 +68,7 @@ export default function CuponView({
           </a>
           <Link
             href="/beneficios"
-            className="block rounded-xl bg-primary-red px-4 py-3 text-sm font-bold text-white hover:bg-primary-red/90"
+            className="block rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white hover:bg-brand/90"
           >
             Ver más beneficios
           </Link>
@@ -80,31 +78,36 @@ export default function CuponView({
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-cream px-6 py-10 text-center">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-cream px-6 py-10 text-center">
+      <BackButton
+        fallback="/beneficios/mis-canjes"
+        className="absolute left-4 top-4"
+      />
       <p className="text-xs font-bold uppercase tracking-widest text-neutral-gray">Tu beneficio</p>
       <h1 className="mt-1 text-2xl font-extrabold text-dark-gray">{merchantNombre}</h1>
       {descuentoLabel && (
-        <span className="mt-2 inline-block rounded-full bg-primary-red/10 px-4 py-1 text-sm font-extrabold text-primary-red">
+        <span className="mt-2 inline-block rounded-full bg-brand/10 px-4 py-1 text-sm font-extrabold text-brand">
           {descuentoLabel}
         </span>
       )}
 
-      <div className="mt-7 rounded-2xl border-2 border-dashed border-primary-red bg-white px-8 py-5">
-        <p className="font-mono text-4xl font-extrabold tracking-[0.2em] text-dark-gray">{codigo}</p>
+      {/* The merchant scans this to validate. */}
+      <div className="mt-6 rounded-2xl border-2 border-brand bg-white p-4 shadow-sm">
+        {/* eslint-disable-next-line @next/next/no-img-element -- data URI; custom next/image loader would mangle it */}
+        <img src={qrSrc} alt="Código QR del cupón" width={220} height={220} className="h-[220px] w-[220px]" />
       </div>
 
       <p className="mt-4 text-sm font-bold text-dark-gray">📲 Mostrá esta pantalla en el local</p>
-      <p className="mt-2 max-w-xs text-sm italic text-neutral-gray">
+
+      {/* Manual-entry fallback when the camera can't read the QR. */}
+      <div className="mt-4 rounded-xl border border-dashed border-neutral-gray/40 bg-white px-6 py-3">
+        <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-gray">Código</p>
+        <p className="font-mono text-2xl font-extrabold tracking-[0.2em] text-dark-gray">{codigo}</p>
+      </div>
+
+      <p className="mt-4 max-w-xs text-sm italic text-neutral-gray">
         «Con que estés acá, el beneficio es tuyo.» Vos pisás, nosotros cumplimos.
       </p>
-
-      <button
-        onClick={confirmar}
-        disabled={guardando}
-        className="mt-8 rounded-xl bg-primary-red px-10 py-3 text-sm font-bold text-white shadow-md shadow-primary-red/20 hover:bg-primary-red/90 disabled:opacity-60"
-      >
-        {guardando ? 'Guardando…' : 'Listo, lo usé'}
-      </button>
     </main>
   )
 }

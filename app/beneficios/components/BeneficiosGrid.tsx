@@ -83,7 +83,7 @@ export default function BeneficiosGrid({ comerciosPorCategoria }: Props) {
           placeholder="Buscar comercio o beneficio..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-xl border border-light-gray bg-white py-3 pl-9 pr-4 text-sm text-dark-gray placeholder:text-neutral-gray focus:border-primary-red focus:outline-none focus:ring-2 focus:ring-primary-red/20"
+          className="w-full rounded-xl border border-light-gray bg-white py-3 pl-9 pr-4 text-sm text-dark-gray placeholder:text-neutral-gray focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
         />
       </div>
 
@@ -164,8 +164,8 @@ function FilterPill({
       onClick={onClick}
       className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
         active
-          ? 'bg-primary-red text-white shadow-sm'
-          : 'border border-light-gray bg-white text-dark-gray hover:border-primary-red/40'
+          ? 'bg-brand text-white shadow-sm'
+          : 'border border-light-gray bg-white text-dark-gray hover:border-brand/40'
       }`}
     >
       {label}

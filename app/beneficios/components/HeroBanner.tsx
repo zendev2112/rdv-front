@@ -1,243 +1,170 @@
 'use client'
 
-import { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { BeneficioActivo } from '../types'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
-interface Props {
-  featured: BeneficioActivo[]
+type Slide = {
+  image: string
+  alt: string
+  icono: string
+  categoria: string
+  titulo: string
+  comercio: string
+  href: string
 }
 
-const SLIDES = [
+// Curated rotating hero. Each slide is a real seeded product; the info card is
+// synced to the photo behind it (same product), so the card "reads" the image.
+const SLIDES: Slide[] = [
   {
-    label1: '2x1',
-    sub1: 'EN GASTRONOMÍA',
-    label2: '35% OFF',
-    sub2: 'EN MODA',
-    label3: '20% OFF',
-    sub3: 'EN SALUD',
+    image:
+      'https://res.cloudinary.com/dptdloagw/image/upload/v1781814765/megan-thomas-xMh_ww8HN_Q-unsplash_fvdezo.jpg',
+    alt: 'Frutas y verduras frescas',
+    icono: '🥬',
+    categoria: 'Verdulería',
+    titulo: '20% en frutas y verduras',
+    comercio: 'Verdulería La Huerta',
+    href: '/beneficios/verduleria/verduleria-la-huerta',
+  },
+  {
+    image:
+      'https://res.cloudinary.com/dptdloagw/image/upload/v1781814596/premium_photo-1719530458136-b55f1cbcb034_joovgt.avif',
+    alt: 'Pescado fresco en la pescadería',
+    icono: '🐟',
+    categoria: 'Pescadería',
+    titulo: '2x1 en pescado fresco',
+    comercio: 'Pescadería Mar del Sur',
+    href: '/beneficios/pescaderia/pescaderia-mar-del-sur',
+  },
+  {
+    image:
+      'https://res.cloudinary.com/dptdloagw/image/upload/v1781814603/close-up-dispenser-liquid-soap-female-hands-store_ihjdia.jpg',
+    alt: 'Productos de limpieza',
+    icono: '🧴',
+    categoria: 'Limpieza',
+    titulo: '15% en artículos de limpieza',
+    comercio: 'Brillo Total',
+    href: '/beneficios/limpieza/limpieza-brillo-total',
+  },
+  {
+    image:
+      'https://res.cloudinary.com/dptdloagw/image/upload/v1781814596/premium_photo-1661726457110-c43a88d74567_omsntv.avif',
+    alt: 'Productos de cosmética',
+    icono: '💄',
+    categoria: 'Cosmética',
+    titulo: '30% en cosmética',
+    comercio: 'Cosmética Bella',
+    href: '/beneficios/cosmetica/cosmetica-bella-suarez',
   },
 ]
 
-export default function HeroBanner({ featured }: Props) {
-  const [active, setActive] = useState(0)
-  const total = Math.max(featured.length, 1)
+export default function HeroBanner() {
+  const [i, setI] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const n = SLIDES.length
+
+  useEffect(() => {
+    if (paused) return
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    const t = setInterval(() => setI((p) => (p + 1) % n), 5500)
+    return () => clearInterval(t)
+  }, [paused, n])
+
+  const go = (d: number) => setI((p) => (p + d + n) % n)
+  const active = SLIDES[i]
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: 420,
-        overflow: 'hidden',
-      }}
+    <section
+      aria-label="Beneficios destacados"
+      className="relative h-[440px] w-full overflow-hidden bg-dark-gray sm:h-[480px]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      {/* Background image / gradient placeholder */}
+      {/* Rotating photos (opacity crossfade — GPU-friendly) */}
+      {SLIDES.map((s, idx) => (
+        <Image
+          key={s.href}
+          src={s.image}
+          alt={s.alt}
+          fill
+          priority={idx === 0}
+          sizes="100vw"
+          className={cn(
+            'object-cover transition-opacity duration-700 ease-out',
+            idx === i ? 'opacity-100' : 'opacity-0',
+          )}
+        />
+      ))}
+
+      {/* Legibility scrim — darker toward the bottom-left where the card sits */}
       <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'linear-gradient(135deg, #1A0000 0%, #8B0000 60%, #C0392B 100%)',
-        }}
-        aria-hidden="true"
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-tr from-black/70 via-black/25 to-transparent"
       />
 
-      {/* Offer pill — desktop top-left, tablet centered */}
-      <div
-        className="hidden md:flex"
-        style={{
-          position: 'absolute',
-          top: 40,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: '#FFFFFF',
-          borderRadius: 50,
-          padding: '16px 0',
-          alignItems: 'center',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
-          zIndex: 10,
-        }}
-      >
-        {/* Logo circle */}
-        <div
-          style={{
-            padding: '0 24px',
-            borderRight: '1px solid var(--rdv-border)',
-          }}
-        >
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: '50%',
-              background: 'var(--rdv-primary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <span style={{ color: '#fff', fontWeight: 900, fontSize: 16 }}>
-              RV
-            </span>
-          </div>
-        </div>
-        {/* Offer columns */}
-        {[
-          { val: '2x1', sub: 'EN GASTRO' },
-          { val: '35% OFF', sub: 'EN MODA' },
-          { val: '20% OFF', sub: 'EN SALUD' },
-        ].map((o, i, arr) => (
-          <div
-            key={i}
-            style={{
-              padding: '0 24px',
-              borderRight:
-                i < arr.length - 1 ? '1px solid var(--rdv-border)' : undefined,
-              textAlign: 'center',
-            }}
-          >
-            <div
-              style={{
-                fontSize: 'var(--font-2xl)',
-                fontWeight: 800,
-                color: 'var(--rdv-text-primary)',
-                lineHeight: 1.1,
-              }}
-            >
-              {o.val}
-            </div>
-            <div
-              style={{
-                fontSize: 'var(--font-xs)',
-                textTransform: 'uppercase',
-                color: 'var(--rdv-text-muted)',
-                marginTop: 4,
-              }}
-            >
-              {o.sub}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Left arrow */}
+      {/* Arrows (desktop) */}
       <button
-        onClick={() => setActive((a) => (a - 1 + total) % total)}
+        type="button"
+        onClick={() => go(-1)}
         aria-label="Anterior"
-        style={{
-          position: 'absolute',
-          left: 20,
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: 44,
-          height: 44,
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.85)',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 10,
-        }}
+        className="absolute right-16 top-6 z-20 hidden size-10 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/25 backdrop-blur-sm transition-colors hover:bg-white/25 md:flex"
       >
-        <ChevronLeft size={20} />
+        <ChevronLeft size={18} />
       </button>
-
-      {/* Right arrow */}
       <button
-        onClick={() => setActive((a) => (a + 1) % total)}
+        type="button"
+        onClick={() => go(1)}
         aria-label="Siguiente"
-        style={{
-          position: 'absolute',
-          right: 20,
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: 44,
-          height: 44,
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.85)',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 10,
-        }}
+        className="absolute right-4 top-6 z-20 hidden size-10 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/25 backdrop-blur-sm transition-colors hover:bg-white/25 md:flex"
       >
-        <ChevronRight size={20} />
+        <ChevronRight size={18} />
       </button>
 
-      {/* Pagination dots */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 80,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          gap: 8,
-          zIndex: 10,
-        }}
-      >
-        {Array.from({ length: Math.min(total, 5) }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            aria-label={`Diapositiva ${i + 1}`}
-            style={{
-              width: i === active ? 24 : 8,
-              height: 8,
-              borderRadius: i === active ? 4 : '50%',
-              background: i === active ? '#FFFFFF' : 'rgba(255,255,255,0.5)',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              padding: 0,
-            }}
-          />
-        ))}
-      </div>
+      {/* Info card — the evolved "pill", synced to the active photo.
+          overflow-hidden clips children to the radius (fixes the squared-corner
+          hover from the old multi-button pill). */}
+      <div className="absolute inset-x-4 bottom-5 z-10 sm:inset-x-auto sm:left-10 sm:max-w-[420px]">
+        <div className="overflow-hidden rounded-2xl bg-white/95 p-5 shadow-xl ring-1 ring-black/5 backdrop-blur-sm sm:p-6">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-brand">
+            <span aria-hidden>{active.icono}</span>
+            {active.categoria}
+          </p>
+          <h1 className="mt-1 text-balance text-2xl font-extrabold leading-tight text-dark-gray sm:text-3xl">
+            {active.titulo}
+          </h1>
+          <p className="mt-1 text-sm text-neutral-gray">{active.comercio}</p>
 
-      {/* Mobile overlay offer block */}
-      <div
-        className="md:hidden"
-        style={{
-          position: 'absolute',
-          bottom: 16,
-          left: 16,
-          background: 'rgba(255,255,255,0.92)',
-          borderRadius: 12,
-          padding: '10px 14px',
-          zIndex: 10,
-        }}
-      >
-        <div
-          style={{
-            fontSize: 'var(--font-sm)',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            color: 'var(--rdv-text-primary)',
-          }}
-        >
-          Volga Beneficios
-        </div>
-        <div
-          style={{
-            fontSize: 'var(--font-xl)',
-            fontWeight: 800,
-            color: 'var(--rdv-primary)',
-          }}
-        >
-          35% OFF
-        </div>
-        <div
-          style={{ fontSize: 'var(--font-xs)', color: 'var(--rdv-text-muted)' }}
-        >
-          Hasta el 30/06
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <Link
+              href={active.href}
+              className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-dark"
+            >
+              Ver beneficio
+              <ArrowRight size={16} />
+            </Link>
+
+            {/* Dots */}
+            <div className="flex items-center gap-1.5">
+              {SLIDES.map((s, idx) => (
+                <button
+                  key={s.href}
+                  type="button"
+                  onClick={() => setI(idx)}
+                  aria-label={`Ir a ${s.categoria}`}
+                  aria-current={idx === i}
+                  className={cn(
+                    'h-2 rounded-full transition-all',
+                    idx === i ? 'w-5 bg-brand' : 'w-2 bg-neutral-gray/40 hover:bg-neutral-gray/60',
+                  )}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -127,7 +127,7 @@ export default async function ComercioPage({ params }: Props) {
         <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
           <h2 className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-neutral-gray">
             Beneficios disponibles
-            <span className="rounded-full bg-primary-red px-2.5 py-0.5 text-xs font-bold text-white">
+            <span className="rounded-full bg-brand px-2.5 py-0.5 text-xs font-bold text-white">
               {comercio.benefits.length}
             </span>
           </h2>

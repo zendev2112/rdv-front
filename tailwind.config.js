@@ -13,6 +13,12 @@ module.exports = {
       colors: {
         cream: '#faf6ef',
         'primary-red': '#ff0808',
+        // Volga Beneficios brand maroon — the single accent for /beneficios.
+        brand: {
+          DEFAULT: '#8B0000',
+          dark: '#6B0000',
+          light: '#C0392B',
+        },
         white: '#ffffff',
         black: '#000000',
         'dark-gray': '#292929',

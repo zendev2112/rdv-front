@@ -32,7 +32,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   experimental: {
-    serverComponentsExternalPackages: ['@supabase/supabase-js'],
+    serverComponentsExternalPackages: ['@supabase/supabase-js', 'qrcode'],
   },
   env: {
     SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,

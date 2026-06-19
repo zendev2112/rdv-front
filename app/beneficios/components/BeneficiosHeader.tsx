@@ -1,22 +1,63 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, Bell, Search, MapPin, X } from 'lucide-react'
+import { Menu, Bell, Search, X, Tag } from 'lucide-react'
+import CuentaButton from './CuentaButton'
+import { createBeneficiosBrowserClient } from '@/lib/supabase-beneficios-browser'
 
-const SUB_NAV = [
+type NavItem = { label: string; href: string }
+
+// Fixed entries; the category entries are appended dynamically below.
+const FIXED_NAV: NavItem[] = [
   { label: 'INICIO', href: '/beneficios' },
-  { label: 'CORONEL SUÁREZ', href: '/beneficios?categoria=coronel-suarez' },
-  { label: 'GASTRO', href: '/beneficios?categoria=gastronomia' },
-  { label: 'SALUD', href: '/beneficios?categoria=salud' },
-  { label: 'MODA', href: '/beneficios?categoria=moda' },
-  { label: 'AGRO', href: '/beneficios?categoria=agro' },
-  { label: 'DEPORTES', href: '/beneficios?categoria=deportes' },
+  { label: 'TODOS LOS BENEFICIOS', href: '/beneficios/todos' },
 ]
 
 export default function BeneficiosHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [navItems, setNavItems] = useState<NavItem[]>(FIXED_NAV)
+
+  useEffect(() => {
+    const supabase = createBeneficiosBrowserClient()
+    supabase.auth.getUser().then(({ data }) => setLoggedIn(!!data.user))
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setLoggedIn(!!session?.user)
+    })
+    return () => sub.subscription.unsubscribe()
+  }, [])
+
+  // Build the category nav from categories that ACTUALLY have active benefits,
+  // so every link resolves to a real page (no dead links; auto-updates as
+  // merchants join). One lightweight query, deduped client-side.
+  useEffect(() => {
+    const supabase = createBeneficiosBrowserClient()
+    let active = true
+    supabase
+      .from('beneficios_activos')
+      .select('categoria_slug, categoria_nombre, categoria_icono')
+      .then(({ data }) => {
+        if (!active || !data) return
+        const seen = new Map<string, NavItem>()
+        for (const r of data) {
+          if (!seen.has(r.categoria_slug)) {
+            seen.set(r.categoria_slug, {
+              label: String(r.categoria_nombre).toUpperCase(),
+              href: `/beneficios/${r.categoria_slug}`,
+            })
+          }
+        }
+        const cats = Array.from(seen.values()).sort((a, b) =>
+          a.label.localeCompare(b.label),
+        )
+        setNavItems([...FIXED_NAV, ...cats])
+      })
+    return () => {
+      active = false
+    }
+  }, [])
 
   const greeting = (() => {
     const h = new Date().getHours()
@@ -59,6 +100,7 @@ export default function BeneficiosHeader() {
         >
           <button
             aria-label="Menú"
+            onClick={() => setMenuOpen(true)}
             style={{
               background: 'none',
               border: 'none',
@@ -169,6 +211,7 @@ export default function BeneficiosHeader() {
           >
             <Bell size={24} color="var(--rdv-text-primary)" />
           </button>
+          <CuentaButton />
           {/*           <div
             style={{
               width: 32,
@@ -189,7 +232,7 @@ export default function BeneficiosHeader() {
         </div>
       </div>
 
-      {/* ── DESKTOP sub-nav ── */}
+      {/* ── DESKTOP sub-nav — single entry to the full listing ── */}
       <div
         className="hidden lg:flex"
         style={{
@@ -201,34 +244,15 @@ export default function BeneficiosHeader() {
           alignItems: 'center',
         }}
       >
-        {SUB_NAV.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            style={{
-              fontSize: 'var(--font-sm)',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              color: 'var(--rdv-text-primary)',
-              padding: '0 20px',
-              height: 48,
-              display: 'flex',
-              alignItems: 'center',
-              letterSpacing: '0.5px',
-              textDecoration: 'none',
-              borderBottom: '2px solid transparent',
-              transition: 'border-color 0.15s',
-            }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.borderBottomColor = 'var(--rdv-primary)')
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.borderBottomColor = 'transparent')
-            }
-          >
-            {item.label}
-          </Link>
-        ))}
+        <Link
+          href="/beneficios/todos"
+          className="group inline-flex h-12 items-center gap-2 text-sm font-bold text-dark-gray"
+        >
+          <Tag size={16} className="text-brand" />
+          <span className="border-b-2 border-transparent transition-colors group-hover:border-brand">
+            Todos los beneficios de Coronel Suárez
+          </span>
+        </Link>
         {/*         <Link
           href="/beneficios/newsletters"
           style={{
@@ -302,31 +326,7 @@ export default function BeneficiosHeader() {
           >
             <Bell size={22} color="var(--rdv-text-primary)" />
           </button>
-          <div
-            style={{
-              width: 44,
-              height: 44,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: '50%',
-                background: 'var(--rdv-bg-input)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 'var(--font-sm)',
-                fontWeight: 700,
-              }}
-            >
-              RV
-            </div>
-          </div>
+          <CuentaButton compact />
         </div>
       </div>
 
@@ -350,21 +350,24 @@ export default function BeneficiosHeader() {
           >
             {greeting}
           </span>
-          <button
-            aria-label="Notificaciones"
-            style={{
-              minWidth: 44,
-              minHeight: 44,
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Bell size={24} color="var(--rdv-text-primary)" />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <CuentaButton compact />
+            <button
+              aria-label="Notificaciones"
+              style={{
+                minWidth: 44,
+                minHeight: 44,
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Bell size={24} color="var(--rdv-text-primary)" />
+            </button>
+          </div>
         </div>
         {/* Row 2 — search */}
         <div style={{ padding: '0 16px 12px', position: 'relative' }}>
@@ -450,7 +453,7 @@ export default function BeneficiosHeader() {
                 <X size={22} />
               </button>
             </div>
-            {SUB_NAV.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -469,6 +472,28 @@ export default function BeneficiosHeader() {
                 {item.label}
               </Link>
             ))}
+            {loggedIn &&
+              [
+                { label: 'Mis canjes', href: '/beneficios/mis-canjes' },
+                { label: 'Favoritos', href: '/beneficios/favoritos' },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: 'block',
+                    padding: '14px 20px',
+                    fontSize: 'var(--font-base)',
+                    fontWeight: 600,
+                    color: 'var(--rdv-text-primary)',
+                    textDecoration: 'none',
+                    borderBottom: '1px solid var(--rdv-border)',
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
           </div>
         </div>
       )}

@@ -1,18 +1,17 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import { Comercio } from '../types'
+import ShareButton from './ShareButton'
+import BackButton from './BackButton'
 
 export default function ComercioHeader({ comercio }: { comercio: Comercio }) {
   return (
     <section className="bg-dark-gray px-4 pb-8 pt-6 sm:px-6">
       <div className="mx-auto max-w-2xl">
         {/* Back */}
-        <Link
-          href="/beneficios"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-neutral-gray transition-colors hover:text-white"
-        >
-          ← Volver a beneficios
-        </Link>
+        <BackButton
+          label="Volver a beneficios"
+          className="mb-6 text-neutral-gray hover:text-white"
+        />
 
         <div className="flex items-start gap-4">
           {/* Logo */}
@@ -50,6 +49,11 @@ export default function ComercioHeader({ comercio }: { comercio: Comercio }) {
               </p>
             )}
           </div>
+
+          <ShareButton
+            path={`/beneficios/${comercio.categoria.slug}/${comercio.slug}`}
+            nombre={comercio.nombre}
+          />
         </div>
 
         {/* Meta */}

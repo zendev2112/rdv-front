@@ -15,7 +15,7 @@ export default function SumarComercioPage() {
 
   return (
     <main className="min-h-screen bg-cream">
-      <div className="bg-primary-red px-6 py-10 text-white">
+      <div className="bg-brand px-6 py-10 text-white">
         <div className="mx-auto max-w-md">
           <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 text-3xl">
             🏪
@@ -42,7 +42,7 @@ export default function SumarComercioPage() {
           href={href}
           target="_blank"
           rel="noreferrer"
-          className="mt-8 block rounded-xl bg-primary-red px-4 py-3.5 text-center text-sm font-bold text-white shadow-md shadow-primary-red/20 hover:bg-primary-red/90"
+          className="mt-8 block rounded-xl bg-brand px-4 py-3.5 text-center text-sm font-bold text-white shadow-md shadow-brand/20 hover:bg-brand/90"
         >
           Quiero sumar mi comercio
         </a>

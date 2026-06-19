@@ -2,9 +2,10 @@
 
 import { useRef } from 'react'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { BeneficioActivo } from '../types'
 import BeneficioCard from './BeneficioCard'
+import { cn } from '@/lib/utils'
 
 interface Props {
   title: string
@@ -13,6 +14,9 @@ interface Props {
   moreHref?: string
 }
 
+// One horizontally-scrollable row at every breakpoint (Club La Nación style).
+// Desktop gets arrow buttons that scroll the SAME track — the previous version
+// only showed 4 cards and the arrow scrolled a hidden element (dead on desktop).
 export default function BeneficioCarousel({
   title,
   beneficios,
@@ -21,159 +25,73 @@ export default function BeneficioCarousel({
 }: Props) {
   const trackRef = useRef<HTMLDivElement>(null)
 
-  const scrollNext = () => {
-    if (trackRef.current) {
-      trackRef.current.scrollBy({
-        left: trackRef.current.offsetWidth * 0.8,
-        behavior: 'smooth',
-      })
-    }
+  const scroll = (dir: -1 | 1) => {
+    const el = trackRef.current
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior: 'smooth' })
   }
 
-  const textColor = dark ? '#FFFFFF' : 'var(--rdv-text-primary)'
-  const linkColor = dark ? '#FFFFFF' : 'var(--rdv-primary)'
+  const showArrows = beneficios.length > 4
 
   return (
-    <section>
-      {/* Header row */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          marginBottom: 24,
-          paddingRight: 16,
-        }}
-      >
-        <h2
-          style={{
-            fontSize: 'var(--font-2xl)',
-            fontWeight: 700,
-            color: textColor,
-            margin: 0,
-          }}
-        >
-          {title}
-        </h2>
-        <Link
-          href={moreHref}
-          style={{
-            fontSize: 'var(--font-sm)',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            color: linkColor,
-            textDecoration: 'none',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          MÁS BENEFICIOS &gt;
-        </Link>
-      </div>
-
-      {/* Desktop: 4-col grid with floating chevron */}
-      <div className="hidden lg:block" style={{ position: 'relative' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 20,
-          }}
-        >
-          {beneficios.slice(0, 4).map((b) => (
-            <BeneficioCard key={b.benefit_id} beneficio={b} dark={dark} />
-          ))}
-        </div>
-        {/* Floating chevron */}
-        <button
-          onClick={scrollNext}
-          aria-label="Ver más beneficios"
-          style={{
-            position: 'absolute',
-            right: -20,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: 40,
-            height: 40,
-            borderRadius: '50%',
-            background: dark ? 'rgba(255,255,255,0.15)' : '#FFFFFF',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <ChevronRight
-            size={18}
-            color={dark ? '#FFFFFF' : 'var(--rdv-text-primary)'}
-          />
-        </button>
-        {/* Progress bar */}
-        <div
-          style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}
-        >
-          <div
-            style={{
-              width: 80,
-              height: 4,
-              borderRadius: 2,
-              background: dark ? 'rgba(255,255,255,0.15)' : 'var(--rdv-border)',
-              overflow: 'hidden',
-            }}
+    <section className="relative">
+      {title && (
+        <div className="mb-5 flex items-baseline justify-between gap-4 pr-2">
+          <h2
+            className={cn(
+              'text-balance text-xl font-bold sm:text-2xl',
+              dark ? 'text-white' : 'text-dark-gray',
+            )}
           >
-            <div
-              style={{
-                width: '33%',
-                height: '100%',
-                background: 'var(--rdv-primary)',
-                borderRadius: 2,
-              }}
-            />
-          </div>
+            {title}
+          </h2>
+          <Link
+            href={moreHref}
+            className={cn(
+              'whitespace-nowrap text-xs font-bold uppercase tracking-wide',
+              dark ? 'text-white' : 'text-brand',
+            )}
+          >
+            Más beneficios ›
+          </Link>
         </div>
-      </div>
+      )}
 
-      {/* Tablet/Mobile: scroll carousel */}
-      <div className="lg:hidden" style={{ paddingLeft: 0 }}>
+      <div className="relative">
+        {showArrows && (
+          <button
+            type="button"
+            onClick={() => scroll(-1)}
+            aria-label="Anterior"
+            className="absolute -left-4 top-1/2 z-20 hidden size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-dark-gray shadow-md ring-1 ring-black/5 transition-colors hover:bg-gray-50 lg:flex"
+          >
+            <ChevronLeft size={18} />
+          </button>
+        )}
+
         <div
           ref={trackRef}
-          className="rdv-carousel-track"
-          style={{ paddingBottom: 8 }}
+          className="flex snap-x gap-4 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {beneficios.map((b) => (
             <div
               key={b.benefit_id}
-              className="rdv-carousel-card"
-              style={{ minWidth: 'clamp(240px, 70vw, 320px)' }}
+              className="w-[78vw] shrink-0 snap-start sm:w-[300px] lg:w-[calc((100%-3rem)/4)]"
             >
               <BeneficioCard beneficio={b} dark={dark} />
             </div>
           ))}
         </div>
-        {/* Progress bar — tablet only */}
-        <div
-          className="hidden md:flex"
-          style={{ justifyContent: 'center', marginTop: 16 }}
-        >
-          <div
-            style={{
-              width: 80,
-              height: 4,
-              borderRadius: 2,
-              background: dark ? 'rgba(255,255,255,0.2)' : 'var(--rdv-border)',
-            }}
+
+        {showArrows && (
+          <button
+            type="button"
+            onClick={() => scroll(1)}
+            aria-label="Siguiente"
+            className="absolute -right-4 top-1/2 z-20 hidden size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-dark-gray shadow-md ring-1 ring-black/5 transition-colors hover:bg-gray-50 lg:flex"
           >
-            <div
-              style={{
-                width: '33%',
-                height: '100%',
-                background: 'var(--rdv-primary)',
-                borderRadius: 2,
-              }}
-            />
-          </div>
-        </div>
+            <ChevronRight size={18} />
+          </button>
+        )}
       </div>
     </section>
   )

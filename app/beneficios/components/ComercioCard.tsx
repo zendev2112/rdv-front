@@ -29,7 +29,7 @@ export default function ComercioCard({
       href={linkHref}
       className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
     >
-      <div className="h-1 w-full bg-gradient-to-r from-primary-red to-primary-red/60" />
+      <div className="h-1 w-full bg-gradient-to-r from-brand to-brand/60" />
 
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-4 flex items-start justify-between">
@@ -43,7 +43,7 @@ export default function ComercioCard({
                 className="h-10 w-10 object-contain"
               />
             ) : (
-              <span className="text-2xl font-bold text-primary-red">
+              <span className="text-2xl font-bold text-brand">
                 {nombre.charAt(0)}
               </span>
             )}
@@ -55,7 +55,7 @@ export default function ComercioCard({
           </span>
         </div>
 
-        <h3 className="mb-1 text-lg font-bold text-dark-gray group-hover:text-primary-red transition-colors">
+        <h3 className="mb-1 text-lg font-bold text-dark-gray group-hover:text-brand transition-colors">
           {nombre}
         </h3>
 
@@ -66,10 +66,10 @@ export default function ComercioCard({
         )}
 
         <div className="mt-auto flex items-center justify-between border-t border-neutral-100 pt-4">
-          <span className="flex items-center gap-1.5 text-sm font-semibold text-primary-red">
+          <span className="flex items-center gap-1.5 text-sm font-semibold text-brand">
             🎁 {benefitCount} {benefitCount === 1 ? 'beneficio' : 'beneficios'}
           </span>
-          <span className="text-xs font-medium text-neutral-gray group-hover:text-primary-red transition-colors">
+          <span className="text-xs font-medium text-neutral-gray group-hover:text-brand transition-colors">
             Ver más →
           </span>
         </div>

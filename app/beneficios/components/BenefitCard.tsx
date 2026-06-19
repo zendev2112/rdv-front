@@ -1,12 +1,8 @@
-import Link from 'next/link'
 import { Benefit, Comercio } from '../types'
 import ExpiryBadge from './ExpiryBadge'
 import UsarBeneficioButton from './UsarBeneficioButton'
+import FavoritoButton from './FavoritoButton'
 
-// Benefit detail card. The two prototype CTAs: primary "Usar beneficio ahora"
-// (records a canje, → cupón) and a ghost "Ya compré · cargar con foto" that
-// routes to the retroactivo flow (lands fully in Phase 2). The legacy lead-gen
-// SolicitarModal stays in the tree but is no longer the primary path (SPEC C-2).
 export default function BenefitCard({
   benefit,
 }: {
@@ -16,10 +12,13 @@ export default function BenefitCard({
   return (
     <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition-all hover:shadow-md">
       <div className="p-5 sm:p-6">
-        {/* Title + expiry */}
+        {/* Title + expiry + favorite */}
         <div className="mb-3 flex items-start justify-between gap-3">
           <h3 className="text-lg font-bold text-dark-gray">{benefit.titulo}</h3>
-          <ExpiryBadge fechaFin={benefit.fecha_fin} />
+          <div className="flex shrink-0 items-center gap-2">
+            <ExpiryBadge fechaFin={benefit.fecha_fin} />
+            <FavoritoButton benefitId={benefit.id} variant="inline" />
+          </div>
         </div>
 
         {benefit.descripcion && (
@@ -58,13 +57,6 @@ export default function BenefitCard({
         )}
 
         <UsarBeneficioButton benefitId={benefit.id} />
-
-        <Link
-          href="/beneficios/reclamar"
-          className="mt-2 block w-full rounded-xl border border-neutral-gray/30 bg-white px-4 py-3 text-center text-sm font-bold text-dark-gray transition-colors hover:bg-cream"
-        >
-          Ya compré · cargar después con foto
-        </Link>
       </div>
     </div>
   )

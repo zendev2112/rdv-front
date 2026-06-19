@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createBeneficiosServerClient } from '@/lib/supabase-beneficios-server'
 import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
+import { qrDataUrl, validarUrl } from '@/lib/beneficios-qr'
 import CuponView from './CuponView'
 
 export const dynamic = 'force-dynamic'
@@ -27,11 +28,15 @@ export default async function CuponPage({ params }: { params: { id: string } }) 
     supabaseBeneficiosAdmin.from('benefits').select('titulo').eq('id', red.benefit_id).single(),
   ])
 
+  // QR the merchant scans to validate this canje (encodes the redemption's UUID).
+  const qrSrc = await qrDataUrl(validarUrl(red.id))
+
   return (
     <CuponView
       id={red.id}
       codigo={red.codigo}
       estado={red.estado}
+      qrSrc={qrSrc}
       merchantNombre={biz?.nombre ?? 'Comercio'}
       descuentoLabel={ben?.titulo ?? ''}
     />

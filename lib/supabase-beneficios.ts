@@ -7,5 +7,5 @@ const serviceKey = process.env.BENEFICIOS_SUPABASE_SERVICE_ROLE_KEY!
 // Public client — for reading benefits (safe to use client-side)
 export const supabaseBeneficios = createClient(url, anonKey)
 
-// Admin client — for writing leads (server-side only)
+// Admin client — service-role writes that bypass RLS (server-side only)
 export const supabaseBeneficiosAdmin = createClient(url, serviceKey)

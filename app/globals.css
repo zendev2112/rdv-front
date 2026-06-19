@@ -291,3 +291,15 @@ body {
   background-size: 16px 12px;
   background-repeat: repeat-x;
 }
+/* ── Volga Beneficios type system (scoped; portal keeps Inter) ──────────── */
+.vb-root {
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
+}
+.vb-root h1,
+.vb-root h2,
+.vb-root h3,
+.vb-root .font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  letter-spacing: -0.025em;
+}

@@ -50,7 +50,7 @@ export default function BenefitCarousel({
         </h2>
         <Link
           href="/beneficios/todos"
-          className="text-xs font-bold uppercase tracking-wider text-primary-red hover:underline"
+          className="text-xs font-bold uppercase tracking-wider text-brand hover:underline"
         >
           Más beneficios &gt;
         </Link>
@@ -114,7 +114,7 @@ export default function BenefitCarousel({
                 <h3 className="mb-1 text-xs font-bold uppercase tracking-wider text-neutral-gray line-clamp-1">
                   {b.business_nombre}
                 </h3>
-                <p className="text-base font-extrabold leading-snug text-primary-red line-clamp-2 sm:text-lg">
+                <p className="text-base font-extrabold leading-snug text-brand line-clamp-2 sm:text-lg">
                   {b.titulo}
                 </p>
               </div>
@@ -126,7 +126,7 @@ export default function BenefitCarousel({
       {/* Progress bar — mobile & tablet only */}
       <div className="mx-auto mt-4 h-1 max-w-[120px] overflow-hidden rounded-full bg-neutral-200 sm:mt-5 lg:hidden">
         <div
-          className="h-full rounded-full bg-primary-red transition-all duration-150"
+          className="h-full rounded-full bg-brand transition-all duration-150"
           style={{ width: `${Math.max(20, progress * 100)}%` }}
         />
       </div>
