@@ -7,15 +7,19 @@ export function validarPath(redemptionId: string): string {
   return `/beneficios/comercio/validar/${redemptionId}`
 }
 
-// Best-effort absolute origin for building scannable URLs from a Server Component
-// or route handler. Prefers an explicit env, else derives from the request host.
+// Canonical public origin. Used to build the cupón QR/email links so they always
+// point at the real domain — never a Vercel deployment alias (rdv-*.vercel.app),
+// which is what the request host would otherwise be on a preview/prod URL.
+const CANONICAL = 'https://www.radiodelvolga.com.ar'
+
+// Absolute origin for building scannable URLs from a Server Component / route
+// handler. Env override wins; otherwise localhost in dev, canonical in production.
 export function siteOrigin(): string {
   const env = process.env.NEXT_PUBLIC_SITE_URL
   if (env) return env.replace(/\/$/, '')
-  const h = headers()
-  const host = h.get('host') ?? 'localhost:3000'
-  const proto = h.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https')
-  return `${proto}://${host}`
+  const host = headers().get('host') ?? ''
+  if (host.startsWith('localhost') || host.startsWith('127.0.0.1')) return `http://${host}`
+  return CANONICAL
 }
 
 export function validarUrl(redemptionId: string): string {

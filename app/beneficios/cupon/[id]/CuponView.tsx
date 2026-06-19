@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import BackButton from '../../components/BackButton'
 
@@ -26,7 +26,7 @@ export default function CuponView({
   merchantNombre: string
   descuentoLabel: string
 }) {
-  const usado = USED.has(estado)
+  const [usado, setUsado] = useState(USED.has(estado))
 
   useEffect(() => {
     try {
@@ -38,6 +38,23 @@ export default function CuponView({
       // private mode / storage full — the server render still shows the cupón.
     }
   }, [id, codigo, merchantNombre, descuentoLabel, qrSrc])
+
+  // Live update: while the cupón is pending, poll its status so the member's screen
+  // flips to "ya usado" on its own the moment the merchant validates it.
+  useEffect(() => {
+    if (usado) return
+    const tick = async () => {
+      try {
+        const res = await fetch(`/api/beneficios/canje/${id}`, { cache: 'no-store' })
+        const data = await res.json().catch(() => ({}))
+        if (USED.has(data.estado)) setUsado(true)
+      } catch {
+        // offline / transient — keep polling
+      }
+    }
+    const t = setInterval(tick, 4000)
+    return () => clearInterval(t)
+  }, [id, usado])
 
   if (usado) {
     return (

@@ -1,7 +1,8 @@
-import { Camera, QrCode } from 'lucide-react'
+import { QrCode } from 'lucide-react'
 import { createBeneficiosServerClient } from '@/lib/supabase-beneficios-server'
 import { supabaseBeneficiosAdmin } from '@/lib/supabase-beneficios'
 import CodigoForm from '../validar/CodigoForm'
+import Scanner from './Scanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -53,13 +54,12 @@ export default async function PanelPage() {
         {/* Validation — the whole point of the app */}
         <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
           <h1 className="text-lg font-extrabold text-gray-900">Validar un canje</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Escaneá el QR del cliente. Se valida al instante, sin salir de la app.
+          </p>
 
-          <div className="mt-4 flex items-start gap-3 rounded-xl bg-brand/5 p-4">
-            <Camera className="mt-0.5 shrink-0 text-brand" size={22} />
-            <p className="text-sm text-gray-700">
-              Apuntá la <strong>cámara de tu teléfono</strong> al código QR del cliente.
-              Se abre solo la pantalla para confirmar.
-            </p>
+          <div className="mt-4">
+            <Scanner />
           </div>
 
           <div className="my-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-gray-400">
