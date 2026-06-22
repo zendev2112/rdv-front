@@ -45,6 +45,18 @@ async function isValidUser(supabase: ReturnType<typeof makeClient>): Promise<boo
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const path = req.nextUrl.pathname
+  const host = req.headers.get('host') ?? ''
+
+  // --- Volga Comercios dedicated subdomain -----------------------------------
+  // comercios.radiodelvolga.com.ar is its OWN origin, so the merchant PWA installs
+  // independently of the news app (which owns the apex and, with scope "/", the whole
+  // site). Any request on this host that isn't already the merchant area is sent to
+  // the merchant login — making the subdomain behave as a standalone merchant app.
+  // This rule only ever runs on the comercios host (see the host-scoped matcher
+  // below), so the news site on the apex/www is completely unaffected.
+  if (host.startsWith('comercios.') && !path.startsWith('/beneficios/comercio')) {
+    return NextResponse.redirect(new URL('/beneficios/comercio/ingresar', req.url))
+  }
 
   // --- Volga Beneficios merchant area (separate Supabase project) ------------
   if (path.startsWith('/beneficios/comercio')) {
@@ -69,19 +81,29 @@ export async function middleware(req: NextRequest) {
 
   // --- Portal admin area (main project) — unchanged behavior -----------------
   if (path === '/login') return res
-  const supabase = makeClient(
-    req,
-    res,
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
-  if (path.startsWith('/admin') && !(await isValidUser(supabase))) {
-    return NextResponse.redirect(new URL('/login', req.url))
+  if (path.startsWith('/admin')) {
+    const supabase = makeClient(
+      req,
+      res,
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    )
+    if (!(await isValidUser(supabase))) {
+      return NextResponse.redirect(new URL('/login', req.url))
+    }
   }
 
   return res
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*', '/login', '/beneficios/comercio/:path*'],
+  matcher: [
+    '/admin/:path*',
+    '/api/admin/:path*',
+    '/login',
+    '/beneficios/comercio/:path*',
+    // Every path, but ONLY on the comercios subdomain — lets us route its root to the
+    // merchant app without running middleware on the news site.
+    { source: '/:path*', has: [{ type: 'host', value: 'comercios.radiodelvolga.com.ar' }] },
+  ],
 }

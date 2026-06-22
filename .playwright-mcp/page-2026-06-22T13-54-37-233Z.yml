@@ -1,0 +1,24 @@
+- generic [active] [ref=e1]:
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - img [ref=e7]
+        - generic [ref=e12]:
+          - heading "Volga Comercios" [level=1] [ref=e13]
+          - paragraph [ref=e14]: Panel del comercio
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - text: Email
+          - textbox "Email" [ref=e17]:
+            - /placeholder: tu@comercio.com
+        - generic [ref=e18]:
+          - text: Contraseña
+          - textbox "Contraseña" [ref=e19]:
+            - /placeholder: ••••••••
+        - button "Ingresar" [ref=e20] [cursor=pointer]
+      - paragraph [ref=e21]:
+        - text: ¿Querés sumar tu comercio a Volga Beneficios?
+        - link "Escribinos" [ref=e22] [cursor=pointer]:
+          - /url: mailto:radiodelvolga@gmail.com
+        - text: .
+  - alert [ref=e23]

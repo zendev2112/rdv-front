@@ -1,0 +1,3 @@
+[    2322ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://www.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[    2689ms] [INFO] Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner. @ https://www.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[   17393ms] [INFO] Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner. @ https://www.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
