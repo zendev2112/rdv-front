@@ -2,6 +2,7 @@
   "name": "Radio del Volga",
   "short_name": "Radio del Volga",
   "description": "Noticias de Coronel Suárez y el sudoeste bonaerense",
+  "id": "/",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ff0808",

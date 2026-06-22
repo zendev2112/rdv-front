@@ -2,6 +2,7 @@
   "name": "Volga Comercios",
   "short_name": "Comercios",
   "description": "Panel de comercios de Volga Beneficios — validá los canjes de tus clientes",
+  "id": "/beneficios/comercio/panel",
   "start_url": "/beneficios/comercio/panel",
   "scope": "/beneficios/comercio",
   "display": "standalone",
