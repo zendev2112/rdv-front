@@ -3,17 +3,20 @@
 import { useEffect, useState } from 'react'
 import { Download, X, Share } from 'lucide-react'
 
-// Invites the merchant to install the Volga Comercios PWA. On Android/Chrome it uses
-// the native install prompt (beforeinstallprompt); on iOS Safari (which has no such
-// event) it shows the manual "Compartir → Agregar a inicio" hint. Hidden when already
-// installed (standalone). Dismissing it only hides it for the current session
-// (sessionStorage), so it returns on the next launch instead of disappearing forever.
+// Invites the merchant to install the Volga Comercios PWA. The banner shows on every
+// platform as long as the app isn't already installed (standalone) and wasn't dismissed
+// this session — it does NOT wait for the flaky `beforeinstallprompt` event. When that
+// event IS available (Android/desktop Chrome), the Instalar button fires the native
+// install prompt; otherwise it reveals manual instructions (iOS share sheet, or the
+// browser's ⋮ → "Instalar app" menu). Dismiss uses sessionStorage, so it returns next
+// launch instead of disappearing forever.
 type Prompt = Event & { prompt: () => void; userChoice: Promise<{ outcome: string }> }
 
 export default function InstallBanner() {
   const [deferred, setDeferred] = useState<Prompt | null>(null)
   const [ios, setIos] = useState(false)
   const [show, setShow] = useState(false)
+  const [hint, setHint] = useState(false)
 
   useEffect(() => {
     const standalone =
@@ -22,28 +25,32 @@ export default function InstallBanner() {
     if (standalone) return
     if (sessionStorage.getItem('vb-comercios-install-dismissed') === '1') return
 
-    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
-    if (isIos) {
-      setIos(true)
-      setShow(true)
-      return
-    }
+    setIos(/iphone|ipad|ipod/i.test(navigator.userAgent))
+    setShow(true)
 
     const onPrompt = (e: Event) => {
       e.preventDefault()
       setDeferred(e as Prompt)
-      setShow(true)
     }
+    const onInstalled = () => setShow(false)
     window.addEventListener('beforeinstallprompt', onPrompt)
-    return () => window.removeEventListener('beforeinstallprompt', onPrompt)
+    window.addEventListener('appinstalled', onInstalled)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onPrompt)
+      window.removeEventListener('appinstalled', onInstalled)
+    }
   }, [])
 
   async function instalar() {
-    if (!deferred) return
-    deferred.prompt()
-    await deferred.userChoice
-    setDeferred(null)
-    setShow(false)
+    if (deferred) {
+      deferred.prompt()
+      await deferred.userChoice
+      setDeferred(null)
+      setShow(false)
+      return
+    }
+    // No native prompt available — reveal the manual how-to instead.
+    setHint(true)
   }
 
   function cerrar() {
@@ -65,6 +72,10 @@ export default function InstallBanner() {
             <p className="text-[11px] text-white/80">
               Tocá <Share size={11} className="inline align-text-bottom" /> Compartir → «Agregar a
               inicio»
+            </p>
+          ) : hint ? (
+            <p className="text-[11px] text-white/80">
+              Abrí el menú ⋮ del navegador y elegí «Instalar app».
             </p>
           ) : (
             <p className="text-[11px] text-white/80">Tenela como app en el teléfono del local.</p>
