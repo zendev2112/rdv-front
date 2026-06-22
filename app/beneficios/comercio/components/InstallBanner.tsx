@@ -28,6 +28,11 @@ export default function InstallBanner() {
     setIos(/iphone|ipad|ipod/i.test(navigator.userAgent))
     setShow(true)
 
+    // The inline script in the section layout may have already captured the
+    // (once-only) beforeinstallprompt event before this component mounted.
+    const w = window as unknown as { __vbInstallPrompt?: Prompt }
+    if (w.__vbInstallPrompt) setDeferred(w.__vbInstallPrompt)
+
     const onPrompt = (e: Event) => {
       e.preventDefault()
       setDeferred(e as Prompt)
@@ -46,6 +51,7 @@ export default function InstallBanner() {
       deferred.prompt()
       await deferred.userChoice
       setDeferred(null)
+      ;(window as unknown as { __vbInstallPrompt?: Prompt }).__vbInstallPrompt = undefined
       setShow(false)
       return
     }

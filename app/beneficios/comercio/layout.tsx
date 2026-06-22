@@ -23,6 +23,16 @@ export default function ComercioSectionLayout({
 }) {
   return (
     <>
+      {/* Capture the install event as early as possible. Chrome fires
+          `beforeinstallprompt` during page load — often before React mounts — and it
+          only fires once. Stashing it on window here means the Instalar button can
+          fire the native prompt immediately instead of missing the event. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html:
+            "window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__vbInstallPrompt=e;});",
+        }}
+      />
       <RegisterComerciosSW />
       <InstallBanner />
       {children}
