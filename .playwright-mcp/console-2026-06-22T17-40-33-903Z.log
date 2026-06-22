@@ -1,0 +1,26 @@
+[    2651ms] Unexpected token '<'
+[    2772ms] Unexpected token '<'
+[    2996ms] Unexpected token '<'
+[    3174ms] Unexpected token '<'
+[    3390ms] Unexpected token '<'
+[    3491ms] Unexpected token '<'
+[    3726ms] Unexpected token '<'
+[    3867ms] Unexpected token '<'
+[    4077ms] Unexpected token '<'
+[    4175ms] Unexpected token '<'
+[    4419ms] Unexpected token '<'
+[    4538ms] Unexpected token '<'
+[    4757ms] Unexpected token '<'
+[    4867ms] Unexpected token '<'
+[    5102ms] Unexpected token '<'
+[    5231ms] Unexpected token '<'
+[    5438ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ https://comercios.radiodelvolga.com.ar/comercios.webmanifest:0
+[    5597ms] Unexpected token '<'
+[    5835ms] Unexpected token '<'
+[    6130ms] Unexpected token '<'
+[    6279ms] Unexpected token '<'
+[    6615ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ https://comercios.radiodelvolga.com.ar/comercios.webmanifest:0
+[    6617ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[    9877ms] [WARNING] The resource https://comercios.radiodelvolga.com.ar/_next/static/media/e4af272ccee01ff0-s.p.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[    9878ms] [WARNING] The resource https://comercios.radiodelvolga.com.ar/_next/static/media/636a5ac981f94f8b-s.p.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[    9878ms] [WARNING] The resource https://comercios.radiodelvolga.com.ar/_next/static/media/9d5a263311222317-s.p.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0

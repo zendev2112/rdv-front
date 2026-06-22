@@ -54,7 +54,17 @@ export async function middleware(req: NextRequest) {
   // the merchant login — making the subdomain behave as a standalone merchant app.
   // This rule only ever runs on the comercios host (see the host-scoped matcher
   // below), so the news site on the apex/www is completely unaffected.
-  if (host.startsWith('comercios.') && !path.startsWith('/beneficios/comercio')) {
+  // Only real PAGE navigations get redirected — never static assets, the manifest,
+  // the service worker, icons, /_next chunks or API routes. If those were redirected
+  // to the login HTML, the PWA couldn't parse its manifest, load its icons, register
+  // its service worker, or run — and it would fail every installability check.
+  const isAsset =
+    path.startsWith('/_next') || path.startsWith('/api') || /\.[^/]+$/.test(path)
+  if (
+    host.startsWith('comercios.') &&
+    !path.startsWith('/beneficios/comercio') &&
+    !isAsset
+  ) {
     return NextResponse.redirect(new URL('/beneficios/comercio/ingresar', req.url))
   }
 

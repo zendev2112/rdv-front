@@ -1,0 +1,49 @@
+[    2401ms] Unexpected token '<'
+[    2621ms] Unexpected token '<'
+[    2770ms] Unexpected token '<'
+[    2985ms] Unexpected token '<'
+[    3087ms] Unexpected token '<'
+[    3328ms] Unexpected token '<'
+[    3485ms] Unexpected token '<'
+[    3673ms] Unexpected token '<'
+[    3798ms] Unexpected token '<'
+[    4008ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ https://comercios.radiodelvolga.com.ar/comercios.webmanifest:0
+[    4199ms] Unexpected token '<'
+[    4358ms] Unexpected token '<'
+[    4473ms] Unexpected token '<'
+[    4645ms] Unexpected token '<'
+[    4751ms] Unexpected token '<'
+[    4987ms] Unexpected token '<'
+[    5097ms] Unexpected token '<'
+[    5280ms] Unexpected token '<'
+[    5380ms] Unexpected token '<'
+[    5618ms] Unexpected token '<'
+[    5725ms] Unexpected token '<'
+[    6111ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ https://comercios.radiodelvolga.com.ar/comercios.webmanifest:0
+[    6112ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[    9349ms] [WARNING] The resource https://comercios.radiodelvolga.com.ar/_next/static/media/e4af272ccee01ff0-s.p.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[    9350ms] [WARNING] The resource https://comercios.radiodelvolga.com.ar/_next/static/media/636a5ac981f94f8b-s.p.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[    9350ms] [WARNING] The resource https://comercios.radiodelvolga.com.ar/_next/static/media/9d5a263311222317-s.p.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
+[   95827ms] Unexpected token '<'
+[   95971ms] Unexpected token '<'
+[   96305ms] Unexpected token '<'
+[   96402ms] Unexpected token '<'
+[   96652ms] Unexpected token '<'
+[   97040ms] Unexpected token '<'
+[   97330ms] Unexpected token '<'
+[   97428ms] Unexpected token '<'
+[   97675ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ https://comercios.radiodelvolga.com.ar/comercios.webmanifest:0
+[   97792ms] Unexpected token '<'
+[   98022ms] Unexpected token '<'
+[   98166ms] Unexpected token '<'
+[   98361ms] Unexpected token '<'
+[   98489ms] Unexpected token '<'
+[   98710ms] Unexpected token '<'
+[   98917ms] Unexpected token '<'
+[   99159ms] Unexpected token '<'
+[   99309ms] Unexpected token '<'
+[   99503ms] Unexpected token '<'
+[   99956ms] Unexpected token '<'
+[  100334ms] Unexpected token '<'
+[  101019ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ https://comercios.radiodelvolga.com.ar/comercios.webmanifest:0
+[  101020ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://comercios.radiodelvolga.com.ar/beneficios/comercio/ingresar:0
