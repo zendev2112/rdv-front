@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Store } from 'lucide-react'
 import { createBeneficiosBrowserClient } from '@/lib/supabase-beneficios-browser'
@@ -16,6 +16,16 @@ export default function IngresarPage() {
   const [password, setPassword] = useState('')
   const [estado, setEstado] = useState<'idle' | 'entrando' | 'error'>('idle')
   const [mensaje, setMensaje] = useState('')
+
+  // This page is the PWA start_url (it always returns 200, unlike the guarded panel,
+  // which is required for the app to be installable). When an already-logged-in
+  // merchant launches the installed app, forward them straight to the panel.
+  useEffect(() => {
+    const supabase = createBeneficiosBrowserClient()
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) router.replace('/beneficios/comercio/panel')
+    })
+  }, [router])
 
   async function ingresar(e: React.FormEvent) {
     e.preventDefault()
