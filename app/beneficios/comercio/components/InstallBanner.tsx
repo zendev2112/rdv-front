@@ -6,7 +6,8 @@ import { Download, X, Share } from 'lucide-react'
 // Invites the merchant to install the Volga Comercios PWA. On Android/Chrome it uses
 // the native install prompt (beforeinstallprompt); on iOS Safari (which has no such
 // event) it shows the manual "Compartir → Agregar a inicio" hint. Hidden when already
-// installed (standalone) or after the merchant dismisses it.
+// installed (standalone). Dismissing it only hides it for the current session
+// (sessionStorage), so it returns on the next launch instead of disappearing forever.
 type Prompt = Event & { prompt: () => void; userChoice: Promise<{ outcome: string }> }
 
 export default function InstallBanner() {
@@ -19,7 +20,7 @@ export default function InstallBanner() {
       window.matchMedia('(display-mode: standalone)').matches ||
       (navigator as unknown as { standalone?: boolean }).standalone === true
     if (standalone) return
-    if (localStorage.getItem('vb-comercios-install-dismissed') === '1') return
+    if (sessionStorage.getItem('vb-comercios-install-dismissed') === '1') return
 
     const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
     if (isIos) {
@@ -46,7 +47,7 @@ export default function InstallBanner() {
   }
 
   function cerrar() {
-    localStorage.setItem('vb-comercios-install-dismissed', '1')
+    sessionStorage.setItem('vb-comercios-install-dismissed', '1')
     setShow(false)
   }
 

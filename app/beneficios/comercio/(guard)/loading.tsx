@@ -1,18 +1,20 @@
-import { Store } from 'lucide-react'
-
 // Branded loading splash for the Volga Comercios app — shown while the panel
-// resolves the session/business (and on PWA launch, after the OS splash). Distinct
-// from the consumer Beneficios chrome.
+// resolves the session/business (and on in-app navigation). A large wordmark over
+// the maroon brand color with three pulsing dots; distinct from the consumer chrome.
 export default function Loading() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-brand text-white">
-      <span className="flex h-16 w-16 animate-pulse items-center justify-center rounded-2xl bg-white/15">
-        <Store size={32} />
-      </span>
-      <p className="mt-4 text-lg font-extrabold">
-        Volga <span className="font-medium text-white/80">Comercios</span>
-      </p>
-      <span className="mt-5 h-6 w-6 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+      <div className="text-center leading-none">
+        <p className="font-display text-5xl font-extrabold tracking-tight">VOLGA</p>
+        <p className="mt-2 text-base font-medium uppercase tracking-[0.35em] text-white/75">
+          Comercios
+        </p>
+      </div>
+      <div className="mt-8 flex gap-2">
+        <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-white/80 [animation-delay:-0.3s]" />
+        <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-white/80 [animation-delay:-0.15s]" />
+        <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-white/80" />
+      </div>
     </main>
   )
 }
