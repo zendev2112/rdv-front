@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { Comercio } from '../types'
-import ShareButton from './ShareButton'
 import BackButton from './BackButton'
 
 export default function ComercioHeader({ comercio }: { comercio: Comercio }) {
@@ -49,11 +48,6 @@ export default function ComercioHeader({ comercio }: { comercio: Comercio }) {
               </p>
             )}
           </div>
-
-          <ShareButton
-            path={`/beneficios/${comercio.categoria.slug}/${comercio.slug}`}
-            nombre={comercio.nombre}
-          />
         </div>
 
         {/* Meta */}

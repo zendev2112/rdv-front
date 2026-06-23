@@ -2,9 +2,11 @@ import { Benefit, Comercio } from '../types'
 import ExpiryBadge from './ExpiryBadge'
 import UsarBeneficioButton from './UsarBeneficioButton'
 import FavoritoButton from './FavoritoButton'
+import ShareButton from './ShareButton'
 
 export default function BenefitCard({
   benefit,
+  comercio,
 }: {
   benefit: Benefit
   comercio: Comercio
@@ -17,6 +19,11 @@ export default function BenefitCard({
           <h3 className="text-lg font-bold text-dark-gray">{benefit.titulo}</h3>
           <div className="flex shrink-0 items-center gap-2">
             <ExpiryBadge fechaFin={benefit.fecha_fin} />
+            <ShareButton
+              path={`/beneficios/beneficio/${benefit.id}`}
+              nombre={comercio.nombre}
+              variant="inline"
+            />
             <FavoritoButton benefitId={benefit.id} variant="inline" />
           </div>
         </div>

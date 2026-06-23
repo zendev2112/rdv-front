@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 // (mobile), and to clipboard if neither opens.
 //   variant="header"  — pill on the dark ComercioHeader
 //   variant="overlay" — small floating button over a card image
+//   variant="inline"  — sits beside the favorite on a white benefit card
 export default function ShareButton({
   path,
   nombre,
@@ -16,7 +17,7 @@ export default function ShareButton({
 }: {
   path: string
   nombre: string
-  variant?: 'header' | 'overlay'
+  variant?: 'header' | 'overlay' | 'inline'
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -62,12 +63,14 @@ export default function ShareButton({
           'size-10 bg-white/10 text-white ring-1 ring-white/15 hover:bg-white/20',
         variant === 'overlay' &&
           'size-8 bg-white/90 text-neutral-gray shadow-sm ring-1 ring-black/5 backdrop-blur-sm hover:bg-white',
+        variant === 'inline' &&
+          'size-9 bg-cream text-neutral-gray ring-1 ring-black/5 hover:bg-gray-100',
       )}
     >
       {copied ? (
-        <Check size={variant === 'overlay' ? 16 : 20} className="text-brand" />
+        <Check size={variant === 'header' ? 20 : 16} className="text-brand" />
       ) : (
-        <Share2 size={variant === 'overlay' ? 16 : 20} />
+        <Share2 size={variant === 'header' ? 20 : 16} />
       )}
     </button>
   )
