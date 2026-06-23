@@ -122,6 +122,14 @@ export default function CuponView({
         <p className="font-mono text-2xl font-extrabold tracking-[0.2em] text-dark-gray">{codigo}</p>
       </div>
 
+      {/* Save/print the whole cupón as a PDF. */}
+      <a
+        href={`/beneficios/cupon/${id}/pdf`}
+        className="mt-4 inline-flex items-center gap-2 rounded-xl border border-brand bg-white px-5 py-2.5 text-sm font-bold text-brand hover:bg-brand/5"
+      >
+        ⬇ Descargar cupón (PDF)
+      </a>
+
       <p className="mt-4 max-w-xs text-sm italic text-neutral-gray">
         «Con que estés acá, el beneficio es tuyo.» Vos pisás, nosotros cumplimos.
       </p>

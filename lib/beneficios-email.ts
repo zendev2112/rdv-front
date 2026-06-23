@@ -76,6 +76,8 @@ function cuponEmailHtml(opts: {
           <p style="margin:0 0 22px;font-size:12px;color:#999">Funciona sin internet — queda guardado en este correo.</p>
 
           <a href="${opts.cuponUrl}" style="display:inline-block;background:${brand};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:12px;font-weight:700;font-size:15px">Ver mi cupón online</a>
+          <br />
+          <a href="${opts.cuponUrl}/pdf" style="display:inline-block;margin-top:12px;color:${brand};text-decoration:none;padding:10px 22px;border:1px solid ${brand};border-radius:12px;font-weight:700;font-size:14px">⬇ Descargar cupón (PDF)</a>
         </div>
       </div>
 
