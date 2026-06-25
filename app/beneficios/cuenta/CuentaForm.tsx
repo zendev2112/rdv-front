@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createBeneficiosBrowserClient } from '@/lib/supabase-beneficios-browser'
 
-type Mode = 'login' | 'registro'
+type Mode = 'login' | 'registro' | 'recuperar'
 
 // Google can't carry our consent checkbox through the OAuth redirect, so we stash
 // it briefly; the /auth/callback route reads it and records the opt-in.
@@ -86,13 +86,10 @@ export default function CuentaForm({ next, errorFlag }: { next: string; errorFla
     router.refresh()
   }
 
-  async function olvideClave() {
-    if (!email) {
-      setEstado('error')
-      setMensaje('Escribí tu email arriba y tocá de nuevo "Olvidé mi contraseña".')
-      return
-    }
+  async function olvideClave(e: React.FormEvent) {
+    e.preventDefault()
     setEstado('cargando')
+    setMensaje('')
     const redirectTo = `${window.location.origin}/beneficios/auth/callback?next=${encodeURIComponent(
       '/beneficios/cuenta?reset=1',
     )}`
@@ -123,6 +120,49 @@ export default function CuentaForm({ next, errorFlag }: { next: string; errorFla
   }
 
   const cargando = estado === 'cargando'
+
+  if (mode === 'recuperar') {
+    return (
+      <div className="mt-6">
+        <h2 className="text-base font-extrabold text-gray-900">Recuperar contraseña</h2>
+        <p className="mt-1 text-sm text-gray-600">
+          Ingresá tu email y te mandamos un link para crear una nueva contraseña.
+        </p>
+        <form onSubmit={olvideClave} className="mt-4 space-y-3">
+          <Field label="Email">
+            <input
+              type="email"
+              required
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="tu@email.com"
+              className={inputCls}
+            />
+          </Field>
+          <button
+            type="submit"
+            disabled={cargando}
+            className="w-full rounded-lg bg-red-600 px-4 py-2.5 font-bold text-white hover:bg-red-700 disabled:opacity-60"
+          >
+            {cargando ? 'Enviando…' : 'Enviar link'}
+          </button>
+          {estado === 'error' && <p className="text-sm text-red-600">{mensaje}</p>}
+        </form>
+        <button
+          type="button"
+          onClick={() => {
+            setMode('login')
+            setEstado('idle')
+            setMensaje('')
+          }}
+          className="mt-4 text-xs font-bold text-red-600"
+        >
+          ← Volver al ingreso
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-6">
@@ -220,7 +260,15 @@ export default function CuentaForm({ next, errorFlag }: { next: string; errorFla
           </button>
         )}
         {mode === 'login' && (
-          <button type="button" onClick={olvideClave} className="underline">
+          <button
+            type="button"
+            onClick={() => {
+              setMode('recuperar')
+              setEstado('idle')
+              setMensaje('')
+            }}
+            className="underline"
+          >
             Olvidé mi contraseña
           </button>
         )}
