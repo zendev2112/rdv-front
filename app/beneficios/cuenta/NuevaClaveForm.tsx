@@ -6,7 +6,7 @@ import { createBeneficiosBrowserClient } from '@/lib/supabase-beneficios-browser
 
 // Shown when a password-recovery link returns the user here logged in (?reset=1).
 // They set a new password via updateUser on the active recovery session.
-export default function NuevaClaveForm({ next }: { next: string }) {
+export default function NuevaClaveForm() {
   const router = useRouter()
   const [password, setPassword] = useState('')
   const [estado, setEstado] = useState<'idle' | 'cargando' | 'error'>('idle')
@@ -22,7 +22,10 @@ export default function NuevaClaveForm({ next }: { next: string }) {
       setMensaje('No pudimos cambiar la contraseña. Pedí un nuevo link.')
       return
     }
-    router.push(next)
+    // The recovery link left an active session; sign out so they log in fresh with
+    // the new password instead of going straight into the app.
+    await supabase.auth.signOut()
+    router.replace('/beneficios/cuenta?updated=1')
     router.refresh()
   }
 

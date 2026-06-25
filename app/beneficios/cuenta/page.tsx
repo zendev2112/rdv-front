@@ -15,7 +15,7 @@ function safeNext(raw: string | undefined): string {
 export default async function CuentaPage({
   searchParams,
 }: {
-  searchParams: { next?: string; error?: string; reset?: string }
+  searchParams: { next?: string; error?: string; reset?: string; updated?: string }
 }) {
   const next = safeNext(searchParams.next)
   const supabase = createBeneficiosServerClient()
@@ -27,7 +27,7 @@ export default async function CuentaPage({
   if (user && searchParams.reset) {
     return (
       <Shell>
-        <NuevaClaveForm next={next} />
+        <NuevaClaveForm />
       </Shell>
     )
   }
@@ -36,7 +36,11 @@ export default async function CuentaPage({
 
   return (
     <Shell>
-      <CuentaForm next={next} errorFlag={searchParams.error === 'auth'} />
+      <CuentaForm
+        next={next}
+        errorFlag={searchParams.error === 'auth'}
+        updatedFlag={searchParams.updated === '1'}
+      />
     </Shell>
   )
 }

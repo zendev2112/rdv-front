@@ -26,7 +26,10 @@ export default function NuevaClavePage() {
       setMensaje('No pudimos cambiar la contraseña. Pedí un link nuevo desde la pantalla de ingreso.')
       return
     }
-    router.replace('/beneficios/comercio/panel')
+    // The recovery link left an active session; sign out so the merchant logs in
+    // fresh with the new password instead of dropping straight into the panel.
+    await supabase.auth.signOut()
+    router.replace('/beneficios/comercio/ingresar?updated=1')
     router.refresh()
   }
 

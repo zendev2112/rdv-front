@@ -13,7 +13,15 @@ function setConsentCookie(on: boolean) {
   document.cookie = `vb-consent=${on ? '1' : '0'}; path=/beneficios; max-age=600; samesite=lax`
 }
 
-export default function CuentaForm({ next, errorFlag }: { next: string; errorFlag: boolean }) {
+export default function CuentaForm({
+  next,
+  errorFlag,
+  updatedFlag,
+}: {
+  next: string
+  errorFlag: boolean
+  updatedFlag?: boolean
+}) {
   const router = useRouter()
   const [mode, setMode] = useState<Mode>('login')
   const [nombre, setNombre] = useState('')
@@ -169,6 +177,12 @@ export default function CuentaForm({ next, errorFlag }: { next: string; errorFla
       {errorFlag && (
         <p className="mb-3 rounded-lg bg-red-50 p-3 text-xs text-red-700">
           No pudimos completar el ingreso. Probá otra vez.
+        </p>
+      )}
+
+      {updatedFlag && (
+        <p className="mb-3 rounded-lg bg-green-50 p-3 text-xs text-green-800">
+          Contraseña actualizada. Entrá con tu nueva contraseña.
         </p>
       )}
 

@@ -15,7 +15,7 @@ export default function IngresarPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [estado, setEstado] = useState<
-    'idle' | 'entrando' | 'error' | 'reset-enviando' | 'reset-enviado'
+    'idle' | 'entrando' | 'error' | 'reset-enviando' | 'reset-enviado' | 'actualizada'
   >('idle')
   const [mensaje, setMensaje] = useState('')
 
@@ -29,6 +29,12 @@ export default function IngresarPage() {
       setEstado('error')
       setMensaje('El link de recuperación expiró o ya se usó. Pedí uno nuevo.')
       return // not logged in, so skip the session check / panel redirect
+    }
+    if (params.get('updated') === '1') {
+      // Just reset the password — invite a fresh login, don't auto-enter the panel.
+      setEstado('actualizada')
+      setMensaje('Contraseña actualizada. Ingresá con tu nueva contraseña.')
+      return
     }
     const supabase = createBeneficiosBrowserClient()
     supabase.auth.getSession().then(({ data }) => {
@@ -137,6 +143,7 @@ export default function IngresarPage() {
               contraseña. Revisá tu email (y la carpeta de spam).
             </p>
           )}
+          {estado === 'actualizada' && <p className="text-sm text-green-700">{mensaje}</p>}
           <button
             type="button"
             onClick={recuperar}
