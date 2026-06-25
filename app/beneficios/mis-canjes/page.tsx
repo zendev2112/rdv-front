@@ -7,6 +7,7 @@ import BeneficiosHeader from '../components/BeneficiosHeader'
 import BeneficiosFooter from '../components/BeneficiosFooter'
 import CanjeCard, { CanjeCardData } from '../components/CanjeCard'
 import BackButton from '../components/BackButton'
+import NotificacionesToggle from '../components/NotificacionesToggle'
 
 export const dynamic = 'force-dynamic'
 
@@ -91,6 +92,10 @@ export default async function MisCanjesPage() {
             Mis canjes
           </h1>
           <p className="mt-1 text-sm text-neutral-gray">Lo que fuiste usando.</p>
+
+          <div className="mt-5 max-w-xl">
+            <NotificacionesToggle />
+          </div>
 
           {canjeCards.length === 0 ? (
             <div className="mt-10 rounded-2xl border border-dashed border-neutral-gray/30 bg-white p-8 text-center text-sm text-neutral-gray">

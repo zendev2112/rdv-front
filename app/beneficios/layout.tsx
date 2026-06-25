@@ -1,6 +1,7 @@
 import { Bricolage_Grotesque, Plus_Jakarta_Sans } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import FavoritesProvider from './components/FavoritesProvider'
+import RegisterBeneficiosSW from './components/RegisterBeneficiosSW'
 
 // Deliberate pairing scoped to /beneficios only (the portal keeps Inter):
 // Bricolage Grotesque carries the personality on headings; Plus Jakarta Sans
@@ -25,6 +26,7 @@ export default function BeneficiosLayout({
 }) {
   return (
     <FavoritesProvider>
+      <RegisterBeneficiosSW />
       <div className={cn('vb-root pb-14 xl:pb-0', display.variable, body.variable)}>
         {children}
       </div>
