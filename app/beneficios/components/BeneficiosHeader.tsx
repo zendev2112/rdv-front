@@ -341,15 +341,34 @@ export default function BeneficiosHeader() {
             padding: '16px 16px 8px',
           }}
         >
-          <span
-            style={{
-              fontSize: 'var(--font-lg)',
-              fontWeight: 700,
-              color: 'var(--rdv-text-primary)',
-            }}
-          >
-            {greeting}
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <button
+              aria-label="Menú"
+              onClick={() => setMenuOpen(true)}
+              style={{
+                minWidth: 44,
+                minHeight: 44,
+                marginLeft: -10,
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Menu size={24} color="var(--rdv-text-primary)" />
+            </button>
+            <span
+              style={{
+                fontSize: 'var(--font-lg)',
+                fontWeight: 700,
+                color: 'var(--rdv-text-primary)',
+              }}
+            >
+              {greeting}
+            </span>
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <CuentaButton compact />
             <button
