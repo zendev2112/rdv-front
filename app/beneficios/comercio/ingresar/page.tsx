@@ -14,18 +14,52 @@ export default function IngresarPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [estado, setEstado] = useState<'idle' | 'entrando' | 'error'>('idle')
+  const [estado, setEstado] = useState<
+    'idle' | 'entrando' | 'error' | 'reset-enviando' | 'reset-enviado'
+  >('idle')
   const [mensaje, setMensaje] = useState('')
 
   // This page is the PWA start_url (it always returns 200, unlike the guarded panel,
   // which is required for the app to be installable). When an already-logged-in
   // merchant launches the installed app, forward them straight to the panel.
   useEffect(() => {
+    // A recovery link that expired or was already used bounces back here with a flag.
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('error') === 'auth') {
+      setEstado('error')
+      setMensaje('El link de recuperación expiró o ya se usó. Pedí uno nuevo.')
+      return // not logged in, so skip the session check / panel redirect
+    }
     const supabase = createBeneficiosBrowserClient()
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) router.replace('/beneficios/comercio/panel')
     })
   }, [router])
+
+  // Sends a Supabase password-recovery email. The link returns to the merchant
+  // callback on THIS origin (comercios subdomain), which exchanges it for a recovery
+  // session and forwards to nueva-clave. Supabase reports success whether or not the
+  // address has an account, so the confirmation never reveals which emails exist.
+  async function recuperar() {
+    if (!email.trim()) {
+      setEstado('error')
+      setMensaje('Escribí tu email arriba y volvé a tocar "¿Olvidaste tu contraseña?".')
+      return
+    }
+    setEstado('reset-enviando')
+    setMensaje('')
+    const supabase = createBeneficiosBrowserClient()
+    const redirectTo = `${window.location.origin}/beneficios/comercio/auth/callback?next=${encodeURIComponent(
+      '/beneficios/comercio/nueva-clave',
+    )}`
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo })
+    if (error) {
+      setEstado('error')
+      setMensaje(error.message)
+      return
+    }
+    setEstado('reset-enviado')
+  }
 
   async function ingresar(e: React.FormEvent) {
     e.preventDefault()
@@ -97,6 +131,20 @@ export default function IngresarPage() {
             {estado === 'entrando' ? 'Ingresando…' : 'Ingresar'}
           </button>
           {estado === 'error' && <p className="text-sm text-red-600">{mensaje}</p>}
+          {estado === 'reset-enviado' && (
+            <p className="text-sm text-green-700">
+              Si esa dirección tiene una cuenta, te enviamos un link para restablecer la
+              contraseña. Revisá tu email (y la carpeta de spam).
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={recuperar}
+            disabled={estado === 'reset-enviando'}
+            className="w-full text-center text-xs font-semibold text-brand hover:underline disabled:opacity-60"
+          >
+            {estado === 'reset-enviando' ? 'Enviando…' : '¿Olvidaste tu contraseña?'}
+          </button>
         </form>
 
         <p className="mt-5 text-center text-xs text-gray-400">
