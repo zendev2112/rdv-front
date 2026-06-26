@@ -10,6 +10,7 @@ import SorteosSection from './components/SorteosSection'
 import NoticiasSection from './components/NoticiasSection'
 import BeneficiosFooter from './components/BeneficiosFooter'
 import EmptyState from './components/EmptyState'
+import NotificacionesToggle from './components/NotificacionesToggle'
 import { supabaseBeneficios } from '@/lib/supabase-beneficios'
 
 export const metadata: Metadata = {
@@ -95,6 +96,12 @@ export default async function BeneficiosPage() {
         >
           {/* Category scroller — overlaps hero on desktop */}
           <CategoryScroller categorias={categorias} />
+
+          {/* Push opt-in — renders only on supported browsers; routes logged-out
+              visitors to login before subscribing. */}
+          <div style={{ marginTop: 32 }} className="mx-auto max-w-2xl">
+            <NotificacionesToggle />
+          </div>
 
           {/* ── Beneficios Relevantes ── */}
           <div style={{ marginTop: 48 }}>

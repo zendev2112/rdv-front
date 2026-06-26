@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import { Bell, BellOff, BellRing } from 'lucide-react'
+import { createBeneficiosBrowserClient } from '@/lib/supabase-beneficios-browser'
 
 const VAPID_PUBLIC = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
 
@@ -26,7 +28,17 @@ type Estado =
 // Opt-in control for Web Push. Reflects the real subscription state (reads it from
 // the service worker on mount), so it stays correct across devices/sessions.
 export default function NotificacionesToggle() {
+  const router = useRouter()
+  const pathname = usePathname()
   const [estado, setEstado] = useState<Estado>('cargando')
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null)
+
+  // Subscriptions are account-tied, so we need to know if there's a session. On the
+  // public home page a logged-out visitor is sent to login before subscribing.
+  useEffect(() => {
+    const supabase = createBeneficiosBrowserClient()
+    supabase.auth.getUser().then(({ data }) => setLoggedIn(!!data.user))
+  }, [])
 
   useEffect(() => {
     if (
@@ -49,6 +61,12 @@ export default function NotificacionesToggle() {
   }, [])
 
   async function activar() {
+    if (!loggedIn) {
+      router.push(
+        `/beneficios/cuenta?next=${encodeURIComponent(pathname || '/beneficios')}`,
+      )
+      return
+    }
     setEstado('trabajando')
     try {
       const perm = await Notification.requestPermission()

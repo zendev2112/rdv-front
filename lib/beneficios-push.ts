@@ -66,3 +66,18 @@ export async function sendPushToUsers(
   const results = await Promise.all(data.map((s) => sendOne(s as SubRow, payload)))
   return results.filter(Boolean).length
 }
+
+// Phase 2 — event-driven send: notify every opted-in member that new benefits are
+// live, and record the send in notifications_sent (optionally tied to an
+// activation). Returns how many devices got it. Triggered by the admin when new
+// benefits are published, so the copy is human-controlled (not a per-row firehose).
+export async function broadcastToOptedIn(
+  payload: PushPayload,
+  opts?: { activationId?: string },
+): Promise<number> {
+  const enviadas = await sendPushToUsers(payload)
+  await supabaseBeneficiosAdmin
+    .from('notifications_sent')
+    .insert({ activation_id: opts?.activationId ?? null, enviadas })
+  return enviadas
+}

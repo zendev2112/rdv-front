@@ -1,5 +1,5 @@
 import { Store } from 'lucide-react'
-import SalirButton from './SalirButton'
+import ComercioMenu from './ComercioMenu'
 
 // The Volga Comercios app header — its own identity, distinct from the consumer
 // Beneficios chrome. Shows the app name, the merchant's business, and logout.
@@ -18,7 +18,7 @@ export default function ComercioAppHeader({ businessNombre }: { businessNombre: 
             <p className="text-[11px] text-white/70">{businessNombre}</p>
           </div>
         </div>
-        <SalirButton />
+        <ComercioMenu businessNombre={businessNombre} />
       </div>
     </header>
   )
