@@ -39,14 +39,39 @@ export async function POST(req: Request) {
     if (biz?.nombre) negocio = biz.nombre
   }
 
+  const title = `Nuevo beneficio en ${negocio} 🎉`
+  const mensaje = benefit.titulo || 'Mirá las novedades en Volga Beneficios.'
+
   const enviadas = await broadcastToOptedIn({
-    title: `Nuevo beneficio en ${negocio} 🎉`,
-    body: benefit.titulo || 'Mirá las novedades en Volga Beneficios.',
+    title,
+    body: mensaje,
     url: '/beneficios',
     // Per-business tag: a burst of inserts for the same comercio collapses into one
     // visible notification instead of N, while different comercios still show apart.
     tag: `vb-benefit-${benefit.business_id || 'all'}`,
   })
 
-  return NextResponse.json({ ok: true, enviadas })
+  // In-app inbox (the header bell): fan out one row per member, independent of
+  // push opt-in — the bell is in-app, so even members who never granted browser
+  // push permission see new benefits there.
+  const { data: members } = await supabaseBeneficiosAdmin
+    .from('user_profiles')
+    .select('id')
+  let inbox = 0
+  if (members && members.length) {
+    const rows = members.map((m: { id: string }) => ({
+      user_id: m.id,
+      title,
+      body: mensaje,
+      url: '/beneficios',
+      business_id: benefit.business_id || null,
+    }))
+    const { error: inboxErr } = await supabaseBeneficiosAdmin
+      .from('user_notifications')
+      .insert(rows)
+    if (inboxErr) console.error('[on-benefit] inbox fanout failed:', inboxErr.message)
+    else inbox = rows.length
+  }
+
+  return NextResponse.json({ ok: true, enviadas, inbox })
 }

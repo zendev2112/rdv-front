@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, Bell, Search, X, Tag } from 'lucide-react'
+import { Menu, Search, X, Tag } from 'lucide-react'
 import CuentaButton from './CuentaButton'
+import NotificationsBell from './NotificationsBell'
 import { createBeneficiosBrowserClient } from '@/lib/supabase-beneficios-browser'
 
 type NavItem = { label: string; href: string }
@@ -200,17 +201,7 @@ export default function BeneficiosHeader() {
           >
             Sumarse
           </a> */}
-          <button
-            aria-label="Notificaciones"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 4,
-            }}
-          >
-            <Bell size={24} color="var(--rdv-text-primary)" />
-          </button>
+          <NotificationsBell size={24} />
           <CuentaButton />
           {/*           <div
             style={{
@@ -311,21 +302,7 @@ export default function BeneficiosHeader() {
           />
         </Link>
         <div style={{ display: 'flex', gap: 4 }}>
-          <button
-            aria-label="Notificaciones"
-            style={{
-              minWidth: 44,
-              minHeight: 44,
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Bell size={22} color="var(--rdv-text-primary)" />
-          </button>
+          <NotificationsBell size={22} />
           <CuentaButton compact />
         </div>
       </div>
@@ -371,21 +348,7 @@ export default function BeneficiosHeader() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <CuentaButton compact />
-            <button
-              aria-label="Notificaciones"
-              style={{
-                minWidth: 44,
-                minHeight: 44,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Bell size={24} color="var(--rdv-text-primary)" />
-            </button>
+            <NotificationsBell size={24} />
           </div>
         </div>
         {/* Row 2 — search */}
