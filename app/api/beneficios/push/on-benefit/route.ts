@@ -41,11 +41,14 @@ export async function POST(req: Request) {
 
   const title = `Nuevo beneficio en ${negocio} 🎉`
   const mensaje = benefit.titulo || 'Mirá las novedades en Volga Beneficios.'
+  // Deep-link straight to the benefit's page so tapping the push (or the bell)
+  // lands on it, not the home. Falls back to home if the row has no id.
+  const url = benefit.id ? `/beneficios/beneficio/${benefit.id}` : '/beneficios'
 
   const enviadas = await broadcastToOptedIn({
     title,
     body: mensaje,
-    url: '/beneficios',
+    url,
     // Per-business tag: a burst of inserts for the same comercio collapses into one
     // visible notification instead of N, while different comercios still show apart.
     tag: `vb-benefit-${benefit.business_id || 'all'}`,
@@ -63,7 +66,7 @@ export async function POST(req: Request) {
       user_id: m.id,
       title,
       body: mensaje,
-      url: '/beneficios',
+      url,
       business_id: benefit.business_id || null,
     }))
     const { error: inboxErr } = await supabaseBeneficiosAdmin
