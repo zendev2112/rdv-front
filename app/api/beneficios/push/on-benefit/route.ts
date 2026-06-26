@@ -49,9 +49,11 @@ export async function POST(req: Request) {
     title,
     body: mensaje,
     url,
-    // Per-business tag: a burst of inserts for the same comercio collapses into one
-    // visible notification instead of N, while different comercios still show apart.
-    tag: `vb-benefit-${benefit.business_id || 'all'}`,
+    // Per-benefit tag: each new benefit shows as its own freshly-alerting
+    // notification. (A per-business tag would let a later benefit silently replace
+    // an earlier, still-undismissed one in the tray — benefits arrive one at a
+    // time here, so there's nothing to collapse.)
+    tag: `vb-benefit-${benefit.id || benefit.business_id || 'all'}`,
   })
 
   // In-app inbox (the header bell): fan out one row per member, independent of
