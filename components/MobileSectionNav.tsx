@@ -15,6 +15,7 @@ const sections = [
   { name: 'Lifestyle', href: '/lifestyle' },
   { name: 'Deportes', href: '/deportes' },
   { name: 'IActualidad', href: '/iactualidad' },
+  { name: 'Autos', href: '/autos' },
 ]
 
 export default function MobileSectionNav() {

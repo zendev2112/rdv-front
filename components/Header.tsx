@@ -21,6 +21,7 @@ const mobileSections = [
   { name: 'Economia', href: '/economia' },
   { name: 'Lifestyle', href: '/lifestyle' },
   { name: 'Deportes', href: '/deportes' },
+  { name: 'Autos', href: '/autos' },
 ]
 
 interface Section {
