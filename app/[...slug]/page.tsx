@@ -27,6 +27,7 @@ import StickyShareSidebar from '@/components/StickyShareSidebar'
 import AdContainer from '@/components/AdContainer'
 import OptimizedImage from '@/components/OptimizedImage'
 import SectionArticlesGrid from '@/components/SectionArticlesGrid'
+import MarketsPanel from '@/components/MarketsPanel'
 import MobileSectionArticlesGrid from '@/components/MobileSectionArticlesGrid'
 import Footer from '@/components/Footer'
 import Script from 'next/script'
@@ -346,6 +347,9 @@ export default async function DynamicPage({
             {/* ✅ DIVISORY LINE */}
             <div className="border-t border-gray-300 my-4"></div>
 
+            {/* ✅ MERCADOS PANEL — AGRO ONLY */}
+            {sectionData.id === 'agro' && <MarketsPanel />}
+
             {/* ✅ MOBILE ARTICLES GRID WITH PROGRESSIVE LOADING */}
             <MobileSectionArticlesGrid
               initialArticles={articles}
@@ -540,6 +544,13 @@ export default async function DynamicPage({
                 <div className="px-8">
                   <div className="border-t border-gray-300 my-4 px-4 md:px-0"></div>
                 </div>
+
+                {/* ✅ MERCADOS PANEL — AGRO ONLY */}
+                {sectionData.id === 'agro' && (
+                  <div className="px-8">
+                    <MarketsPanel />
+                  </div>
+                )}
 
                 {/* ✅ PROGRESSIVE LOADING GRID COMPONENT */}
                 <SectionArticlesGrid

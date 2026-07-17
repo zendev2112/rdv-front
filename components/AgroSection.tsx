@@ -1,4 +1,5 @@
 import React from 'react'
+import MarketsMini from './MarketsMini'
 import Link from 'next/link'
 import OptimizedImage from './OptimizedImage'
 import { getArticleUrl } from '@/lib/utils'
@@ -41,6 +42,9 @@ export default function AgroSection({ serverData }: AgroSectionProps) {
           <h2 className="font-serif text-2xl font-bold uppercase">AGRO</h2>
         </div>
       </div>
+
+      {/* Mercados: tiny strip (full panel lives in /agro) */}
+      <MarketsMini />
 
       {/* 12-column grid layout - 4 articles of 3 columns each */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
