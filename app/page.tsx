@@ -246,6 +246,14 @@ export default async function Home() {
                 <MobileDollarRates />
               </div>
 
+              {/* Paid in-feed ads — high in the feed so they land on the first
+                  screens of a phone (right after the hero). */}
+              <InFeedAd
+                imageUrl="https://res.cloudinary.com/dptdloagw/image/upload/v1784803682/mayorista-juan-huevos_lhjeit.jpg"
+                href="https://wa.me/5492923651823"
+                alt="Mayorista Juan Huevos — venta por mayor en Coronel Suárez"
+              />
+
               <NoticiasImportantesSection
                 serverData={noticiasImportantesArticles}
               />
@@ -318,8 +326,6 @@ export default async function Home() {
                   </div>
                 </div>
               </div>
-
-              <InFeedAd />
 
               <IActualidadSection serverData={iActualidadArticles} />
 
