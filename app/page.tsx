@@ -40,6 +40,7 @@ import TechSection from '@/components/TechSection'
 import PropiedadesSection from '@/components/PropiedadesSection'
 import LeftAd from '@/components/ads/LeftAd'
 import RightAd from '@/components/ads/RightAd'
+import InFeedAd from '@/components/ads/InFeedAd'
 import MundialWidget from '@/components/MundialWidget'
 
 export const metadata: Metadata = {
@@ -318,7 +319,7 @@ export default async function Home() {
                 </div>
               </div>
 
-              <AdPlaceholder />
+              <InFeedAd />
 
               <IActualidadSection serverData={iActualidadArticles} />
 
