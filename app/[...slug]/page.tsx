@@ -615,63 +615,73 @@ export default async function DynamicPage({
 
   const readingTimeMinutes = calculateReadingTime(article.article || '')
 
-  // ─── Fetch suggestion candidates ────────────────────────────────────────
-  // Minimum 2 always; 3 for longer reads. intercalateSuggestions places them
-  // at ⅓+⅔ for 2 cards, ¼+½+¾ for 3 cards.
+  // ─── Recomendaciones: recencia anclada a relevancia (nunca al azar) ─────────
+  // No ordenamos por fecha GLOBAL (eso se siente aleatorio): anclamos a la sección
+  // del artículo y bajamos por una escalera (misma sección → sección madre → las
+  // últimas). Si no hay nada relacionado (poco volumen), el bloque de abajo cae a
+  // las más nuevas del sitio bajo el título honesto "Últimas noticias" — nunca
+  // disfrazadas de "relacionadas".
   const suggestionsCount = readingTimeMinutes < 5 ? 2 : 3
+  const topSection = getTopSection(article.section_path)
+  const SUGGEST_COLS =
+    'id, title, slug, imgUrl, overline, created_at, section, section_path, tags'
 
-  const { data: pool } = await supabase
-    .from('article_with_sections')
-    .select(
-      'id, title, slug, imgUrl, overline, created_at, section, section_path, tags',
+  const [sameSectionRes, sameTopRes, latestRes] = await Promise.all([
+    supabase
+      .from('article_with_sections')
+      .select(SUGGEST_COLS)
+      .eq('status', 'published')
+      .neq('id', article.id)
+      .eq('section_path', article.section_path || '')
+      .order('created_at', { ascending: false })
+      .limit(15),
+    supabase
+      .from('article_with_sections')
+      .select(SUGGEST_COLS)
+      .eq('status', 'published')
+      .neq('id', article.id)
+      .like('section_path', `${topSection}%`)
+      .order('created_at', { ascending: false })
+      .limit(24),
+    supabase
+      .from('article_with_sections')
+      .select(SUGGEST_COLS)
+      .eq('status', 'published')
+      .neq('id', article.id)
+      .order('created_at', { ascending: false })
+      .limit(24),
+  ])
+
+  const uniqById = (arr: any[]): any[] => {
+    const seen = new Set<string>()
+    return arr.filter(
+      (a) => a && a.id && !seen.has(a.id) && !!seen.add(a.id),
     )
-    .eq('status', 'published')
-    .neq('id', article.id)
-    .order('created_at', { ascending: false })
-    .limit(50)
+  }
+  const sameSection = uniqById((sameSectionRes.data as any[]) || [])
+  const sameTop = uniqById((sameTopRes.data as any[]) || [])
+  const latest = uniqById((latestRes.data as any[]) || [])
 
-  const currentClusterIdentity = getClusterIdentity(
-    article.section_path,
-    article.tags,
+  // Intercaladas ("Seguí el tema"): ancla más ajustada primero — misma sección,
+  // luego misma sección madre, luego (si falta) las últimas. Determinista, nunca
+  // aleatorio global.
+  const suggestions = uniqById([...sameSection, ...sameTop, ...latest]).slice(
+    0,
+    suggestionsCount,
   )
-  const currentTopSection = getTopSection(article.section_path)
-  const currentTags = (article.tags || '')
-    .split(',')
-    .map((t: string) => t.trim().replace(/^#/, '').toLowerCase())
-    .filter(Boolean)
 
-  const scored = ((pool || []) as any[])
-    .map((a) => ({
-      ...a,
-      _score: scoreSuggestion(
-        a,
-        article.section_path || '',
-        currentTopSection,
-        currentTags,
-        currentClusterIdentity,
-      ),
-    }))
-    .filter((a) => a._score >= 0)
-    .sort((a, b) => {
-      if (b._score !== a._score) return b._score - a._score
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    })
-
-  // If not enough scored candidates, fill with most recent regardless of section
-  const suggestions =
-    scored.length >= suggestionsCount
-      ? scored.slice(0, suggestionsCount)
-      : [
-          ...scored,
-          ...((pool || []) as any[])
-            .filter((a) => !scored.find((s: any) => s.id === a.id))
-            .sort(
-              (a, b) =>
-                new Date(b.created_at).getTime() -
-                new Date(a.created_at).getTime(),
-            )
-            .slice(0, suggestionsCount - scored.length),
-        ].slice(0, suggestionsCount)
+  // Bloque de abajo: relacionadas a nivel sección, sin repetir las de arriba. Si
+  // hay poco relacionado, cae a "Últimas noticias" (título honesto, no "relacionadas").
+  const usedIds = new Set(suggestions.map((s: any) => s.id))
+  const relatedBelow = uniqById([...sameSection, ...sameTop]).filter(
+    (a) => !usedIds.has(a.id),
+  )
+  const MIN_RELATED_BELOW = 4
+  const belowIsRelated = relatedBelow.length >= MIN_RELATED_BELOW
+  const belowArticles = (
+    belowIsRelated ? relatedBelow : latest.filter((a) => !usedIds.has(a.id))
+  ).slice(0, 12)
+  const belowHeading = belowIsRelated ? 'Te puede interesar' : 'Últimas noticias'
   // ────────────────────────────────────────────────────────────────────────
 
   const articleJsonLd = {
@@ -902,8 +912,8 @@ export default async function DynamicPage({
           {/* ✅ YOU MAY BE INTERESTED SECTION - MOBILE */}
           <div className="mt-12">
             <YouMayBeInterestedSection
-              currentArticleId={article.id}
-              currentSectionPath={article.section_path}
+              articles={belowArticles}
+              heading={belowHeading}
             />
           </div>
 
@@ -1217,8 +1227,8 @@ export default async function DynamicPage({
 
           <div className="col-span-12 mt-12 px-8">
             <YouMayBeInterestedSection
-              currentArticleId={article.id}
-              currentSectionPath={article.section_path}
+              articles={belowArticles}
+              heading={belowHeading}
             />
           </div>
 
