@@ -3,49 +3,89 @@
 import { useState, useEffect } from 'react'
 import { X, Download } from 'lucide-react'
 
+// Never show to someone who already installed the app; keep reminding those who
+// haven't, on a cadence (not once-forever). Storage keys:
+//   pwa-installed  → 'true' once installed (permanent) → never prompt again
+//   pwa-prompt-snooze → timestamp (ms) until which we stay quiet
+const INSTALLED_KEY = 'pwa-installed'
+const SNOOZE_KEY = 'pwa-prompt-snooze'
+const HOUR = 60 * 60 * 1000
+const DAY = 24 * HOUR
+// Ignored (shown but not acted on) → remind again tomorrow. Dismissed with ✕ →
+// give it a few days. Tune these two to make it more/less insistent.
+const SNOOZE_ON_SHOW = 1 * DAY
+const SNOOZE_ON_DISMISS = 3 * DAY
+
+function isInstalled(): boolean {
+  if (typeof window === 'undefined') return false
+  if (localStorage.getItem(INSTALLED_KEY) === 'true') return true
+  const standalone = window.matchMedia?.('(display-mode: standalone)')?.matches
+  const iosStandalone = (window.navigator as any).standalone === true
+  return !!(standalone || iosStandalone)
+}
+
+function snooze(ms: number) {
+  try {
+    localStorage.setItem(SNOOZE_KEY, String(Date.now() + ms))
+  } catch {}
+}
+
 export default function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const [showPrompt, setShowPrompt] = useState(false)
 
   useEffect(() => {
-    // Check if user has already dismissed the prompt
-    const hasSeenPrompt = localStorage.getItem('pwa-prompt-dismissed')
-    if (hasSeenPrompt) {
+    // 1. Already installed → never prompt, and remember it permanently.
+    if (isInstalled()) {
+      localStorage.setItem(INSTALLED_KEY, 'true')
       return
     }
+    // 2. Within a snooze window → stay quiet for now.
+    const snoozeUntil = Number(localStorage.getItem(SNOOZE_KEY) || 0)
+    if (Date.now() < snoozeUntil) return
 
     const handler = (e: Event) => {
       e.preventDefault()
       setDeferredPrompt(e)
       setShowPrompt(true)
+      // Showing counts as one reminder: if ignored, come back tomorrow (not on
+      // every reload). Dismiss/install override this below.
+      snooze(SNOOZE_ON_SHOW)
+      setTimeout(() => setShowPrompt(false), 12000)
+    }
 
-      // Auto-dismiss after 10 seconds
-      setTimeout(() => {
-        setShowPrompt(false)
-        localStorage.setItem('pwa-prompt-dismissed', 'true')
-      }, 10000)
+    // The app was installed (this tab or another) → never prompt again.
+    const onInstalled = () => {
+      localStorage.setItem(INSTALLED_KEY, 'true')
+      setShowPrompt(false)
+      setDeferredPrompt(null)
     }
 
     window.addEventListener('beforeinstallprompt', handler)
-    return () => window.removeEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', onInstalled)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener('appinstalled', onInstalled)
+    }
   }, [])
 
   const handleInstall = async () => {
     if (!deferredPrompt) return
-
     deferredPrompt.prompt()
     const { outcome } = await deferredPrompt.userChoice
-
+    setShowPrompt(false)
+    setDeferredPrompt(null)
     if (outcome === 'accepted') {
-      setDeferredPrompt(null)
-      setShowPrompt(false)
-      localStorage.setItem('pwa-prompt-dismissed', 'true')
+      // 'appinstalled' will also fire, but set it now so we never re-prompt.
+      localStorage.setItem(INSTALLED_KEY, 'true')
+    } else {
+      snooze(SNOOZE_ON_DISMISS)
     }
   }
 
   const handleDismiss = () => {
     setShowPrompt(false)
-    localStorage.setItem('pwa-prompt-dismissed', 'true')
+    snooze(SNOOZE_ON_DISMISS)
   }
 
   if (!showPrompt || !deferredPrompt) return null
@@ -65,6 +105,7 @@ export default function PWAInstallPrompt() {
         <button
           onClick={handleDismiss}
           className="text-gray-400 hover:text-gray-600 flex-shrink-0"
+          aria-label="Cerrar"
         >
           <X className="w-4 h-4" />
         </button>
