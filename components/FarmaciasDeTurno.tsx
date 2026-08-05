@@ -9,7 +9,7 @@ import { MapPin, Phone, ChevronRight, Navigation } from 'lucide-react'
 // month". SCHEDULE_MONTH/YEAR pin which month `pharmacies` describes so the UI can
 // say so plainly instead of showing a stale month's pharmacy as if it were today's.
 export const SCHEDULE_YEAR = 2026
-export const SCHEDULE_MONTH = 6 // 0-indexed: 6 = julio
+export const SCHEDULE_MONTH = 7 // 0-indexed: 7 = agosto
 
 export type Pharmacy = {
   day: number
@@ -21,49 +21,37 @@ export type Pharmacy = {
 }
 
 export const pharmacies: Pharmacy[] = [
-  { day: 1, name: 'GOMEZ', address: 'Av. San Martín 218', phone: '15407906' },
-  { day: 2, name: 'JAIME', address: 'Brandsen y Brown', phone: '422254' },
-  { day: 3, name: 'MENNA', address: 'Av. Sixto Rodriguez y Alem', phone: '431467' },
-  { day: 4, name: 'PASTEUR', address: 'Belgrano y Junín', phone: '422156' },
-  { day: 5, name: 'PERRIG', address: 'Av. Balcarce 459', phone: '15408697' },
-  { day: 6, name: 'SANTOMAURO', address: 'Las Heras 1242', phone: '15407913' },
-  { day: 7, name: 'SCHUVAB', address: 'Belgrano y Sarmiento', phone: '15500643' },
-  { day: 8, name: 'SOTELO', address: 'Hipólito Irigoyen 855', phone: '421739' },
-  { day: 9, name: 'MATTA', address: 'Lamadrid y Conturbi', phone: '15492303' },
-  { day: 10, name: 'CORONEL SUÁREZ', address: 'Avellaneda y Rivadavia', phone: '430019' },
-  { day: 11, name: 'FETTER', address: 'Mitre y San Martín', phone: '422778' },
-  { day: 12, name: 'DE LA CIUDAD', address: 'Las Heras y Garibaldi', phone: '15500641' },
-  { day: 13, name: 'DEL PUEBLO', address: 'Mitre y Brandsen', phone: '424338' },
-  {
-    day: 14,
-    name: 'GOMEZ',
-    address: 'Av. San Martín 218',
-    phone: '15407906',
-    nota: 'Hasta las 8:30 hs del 15/07',
-  },
-  {
-    day: 15,
-    name: 'JAIME',
-    address: 'Brandsen y Brown',
-    phone: '422254',
-    nota: 'Desde las 8:30 hs del 15/07',
-  },
-  { day: 16, name: 'MATTA', address: 'Lamadrid y Conturbi', phone: '15492303' },
-  { day: 17, name: 'PASTEUR', address: 'Belgrano y Junín', phone: '422156' },
-  { day: 18, name: 'PERRIG', address: 'Av. Balcarce 459', phone: '15408697' },
-  { day: 19, name: 'SANTOMAURO', address: 'Las Heras 1242', phone: '15407913' },
-  { day: 20, name: 'SCHUVAB', address: 'Belgrano y Sarmiento', phone: '15500643' },
-  { day: 21, name: 'SOTELO', address: 'Hipólito Irigoyen 855', phone: '421739' },
-  { day: 22, name: 'MATTA', address: 'Lamadrid y Conturbi', phone: '15492303' },
-  { day: 23, name: 'CORONEL SUÁREZ', address: 'Avellaneda y Rivadavia', phone: '430019' },
-  { day: 24, name: 'FETTER', address: 'Mitre y San Martín', phone: '422778' },
-  { day: 25, name: 'DE LA CIUDAD', address: 'Las Heras y Garibaldi', phone: '15500641' },
-  { day: 26, name: 'DEL PUEBLO', address: 'Mitre y Brandsen', phone: '424338' },
-  { day: 27, name: 'FONZO', address: 'Belgrano 1269', phone: '422230' },
-  { day: 28, name: 'JAIME', address: 'Brandsen y Brown', phone: '422254' },
+  { day: 1, name: 'SANTOMAURO', address: 'Las Heras 1242', phone: '15407913' },
+  { day: 2, name: 'SCHUVAB', address: 'Belgrano y Sarmiento', phone: '15500643' },
+  { day: 3, name: 'SOTELO', address: 'Hipólito Irigoyen 855', phone: '421739' },
+  { day: 4, name: 'MENNA', address: 'Av. Sixto Rodriguez y Alem', phone: '431467' },
+  { day: 5, name: 'CORONEL SUÁREZ', address: 'Avellaneda y Rivadavia', phone: '430019' },
+  { day: 6, name: 'FETTER', address: 'Mitre y San Martín', phone: '422778' },
+  { day: 7, name: 'DE LA CIUDAD', address: 'Las Heras y Garibaldi', phone: '15500641' },
+  { day: 8, name: 'DEL PUEBLO', address: 'Mitre y Brandsen', phone: '424338' },
+  { day: 9, name: 'FONZO', address: 'Belgrano 1269', phone: '422230' },
+  { day: 10, name: 'GOMEZ', address: 'Av. San Martín 218', phone: '15407906' },
+  { day: 11, name: 'MENNA', address: 'Av. Sixto Rodriguez y Alem', phone: '431467' },
+  { day: 12, name: 'PASTEUR', address: 'Belgrano y Junín', phone: '422156' },
+  { day: 13, name: 'PERRIG', address: 'Av. Balcarce 459', phone: '15408697' },
+  { day: 14, name: 'SANTOMAURO', address: 'Las Heras 1242', phone: '15407913' },
+  { day: 15, name: 'SCHUVAB', address: 'Belgrano y Sarmiento', phone: '15500643' },
+  { day: 16, name: 'SOTELO', address: 'Hipólito Irigoyen 855', phone: '421739' },
+  { day: 17, name: 'MATTA', address: 'Lamadrid y Conturbi', phone: '15492303' },
+  { day: 18, name: 'CORONEL SUÁREZ', address: 'Avellaneda y Rivadavia', phone: '430019' },
+  { day: 19, name: 'FETTER', address: 'Mitre y San Martín', phone: '422778' },
+  { day: 20, name: 'DE LA CIUDAD', address: 'Las Heras y Garibaldi', phone: '15500641' },
+  { day: 21, name: 'DEL PUEBLO', address: 'Mitre y Brandsen', phone: '424338' },
+  { day: 22, name: 'FONZO', address: 'Belgrano 1269', phone: '422230' },
+  { day: 23, name: 'GOMEZ', address: 'Av. San Martín 218', phone: '15407906' },
+  { day: 24, name: 'JAIME', address: 'Brandsen y Brown', phone: '422254' },
+  { day: 25, name: 'PASTEUR', address: 'Belgrano y Junín', phone: '422156' },
+  { day: 26, name: 'PERRIG', address: 'Av. Balcarce 459', phone: '15408697' },
+  { day: 27, name: 'SANTOMAURO', address: 'Las Heras 1242', phone: '15407913' },
+  { day: 28, name: 'SCHUVAB', address: 'Belgrano y Sarmiento', phone: '15500643' },
   { day: 29, name: 'SOTELO', address: 'Hipólito Irigoyen 855', phone: '421739' },
-  { day: 30, name: 'PASTEUR', address: 'Belgrano y Junín', phone: '422156' },
-  { day: 31, name: 'PERRIG', address: 'Av. Balcarce 459', phone: '15408697' },
+  { day: 30, name: 'MATTA', address: 'Lamadrid y Conturbi', phone: '15492303' },
+  { day: 31, name: 'CORONEL SUÁREZ', address: 'Avellaneda y Rivadavia', phone: '430019' },
 ]
 
 // Street-corner addresses ("Mitre y Brandsen") are ambiguous nationwide — pin the
