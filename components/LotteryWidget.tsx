@@ -70,37 +70,19 @@ function QuinielaCard({ q }: { q: Quiniela }) {
   return (
     <div className="border border-gray-200 rounded-lg p-4 bg-white break-inside-avoid">
       <h3 className="font-bold text-lg text-primary-red mb-3">{q.name}</h3>
-      <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
         {q.turnos.map((t) => (
-          <div key={t.label}>
-            <div className="flex items-baseline justify-between mb-2 gap-2">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-600">
-                {t.label}
-              </p>
-              {t.date && <span className="text-[11px] text-gray-400">{shortDate(t.date)}</span>}
-            </div>
-            <div className="grid grid-cols-5 sm:grid-cols-10 gap-1">
-              {t.numbers.map((n, i) => (
-                <div
-                  key={i}
-                  className={`flex flex-col items-center justify-center rounded border py-1 tabular-nums ${
-                    i === 0
-                      ? 'bg-primary-red/10 border-primary-red/30'
-                      : 'bg-gray-50 border-gray-200'
-                  }`}
-                  title={`Posición ${i + 1}`}
-                >
-                  <span className="text-[9px] leading-none text-gray-400">{i + 1}</span>
-                  <span
-                    className={`text-sm font-bold leading-tight ${
-                      i === 0 ? 'text-primary-red' : 'text-gray-900'
-                    }`}
-                  >
-                    {n}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div
+            key={t.label}
+            className="flex flex-col items-center justify-center rounded-lg border border-gray-200 bg-gray-50 py-3"
+          >
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+              {t.label}
+            </span>
+            <span className="text-2xl font-bold text-gray-900 tabular-nums leading-tight my-0.5">
+              {t.numbers[0]}
+            </span>
+            {t.date && <span className="text-[10px] text-gray-400">{shortDate(t.date)}</span>}
           </div>
         ))}
       </div>
