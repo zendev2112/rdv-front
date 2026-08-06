@@ -29,7 +29,6 @@ import OptimizedImage from '@/components/OptimizedImage'
 import SectionArticlesGrid from '@/components/SectionArticlesGrid'
 import MarketsPanel from '@/components/MarketsPanel'
 import LotteryWidget from '@/components/LotteryWidget'
-import QuinielaWidget from '@/components/QuinielaWidget'
 import MobileSectionArticlesGrid from '@/components/MobileSectionArticlesGrid'
 import Footer from '@/components/Footer'
 import Script from 'next/script'
@@ -355,10 +354,7 @@ export default async function DynamicPage({
             {/* ✅ LOTERÍAS Y QUINIELAS — that section only */}
             {typeof sectionData.id === 'string' &&
               sectionData.id.includes('loteria') && (
-                <>
-                  <QuinielaWidget />
-                  <LotteryWidget />
-                </>
+                <LotteryWidget />
               )}
 
             {/* ✅ MOBILE ARTICLES GRID WITH PROGRESSIVE LOADING */}
@@ -562,6 +558,14 @@ export default async function DynamicPage({
                     <MarketsPanel />
                   </div>
                 )}
+
+                {/* ✅ LOTERÍAS Y QUINIELAS — that section only */}
+                {typeof sectionData.id === 'string' &&
+                  sectionData.id.includes('loteria') && (
+                    <div className="px-8">
+                      <LotteryWidget />
+                    </div>
+                  )}
 
                 {/* ✅ PROGRESSIVE LOADING GRID COMPONENT */}
                 <SectionArticlesGrid

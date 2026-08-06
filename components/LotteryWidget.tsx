@@ -1,40 +1,33 @@
 import { supabase } from '@/lib/supabase'
 
-// Loterías y Quinielas panel for the /loterias-quinielas section page. Reads
-// Supabase `lottery_results` (refreshed by the news-API lottery cron). Server
-// component — rides the section page's ISR revalidate.
+// Loterías y Quinielas — full mirror of clarin.com/loterias-y-quinielas. Reads the
+// Supabase `lottery_snapshot` row (one JSONB row refreshed by the news-API lottery
+// cron): every game with its modalities + every quiniela jurisdiction with its turnos
+// and 20 positioned numbers. Server component — rides the section page's ISR.
 
-type LotteryRow = {
-  game: string
-  modality: string
-  numbers: string
-  draw: string | null
-  draw_date: string | null
-  source: string | null
+type Modality = { label: string; date: string | null; numbers: string[] }
+type Game = { name: string; slug: string; modalities: Modality[] }
+type Turno = { label: string; date: string | null; numbers: string[] }
+type Quiniela = { name: string; slug: string; turnos: Turno[] }
+type Snapshot = {
+  games: Game[]
+  quinielas: Quiniela[]
   updated_at: string
 }
 
-const GAMES = [
-  { key: 'quini6', label: 'Quini 6' },
-  { key: 'brinco', label: 'Brinco' },
-  { key: 'telekino', label: 'Telekino' },
-]
-const MOD_ORDER = ['Tradicional', 'La Segunda', 'Revancha', 'Siempre Sale', 'unica']
-
-export async function getLottery(): Promise<LotteryRow[]> {
+async function getSnapshot(): Promise<Snapshot | null> {
   const { data } = await supabase
-    .from('lottery_results')
-    .select('game, modality, numbers, draw, draw_date, source, updated_at')
-  return (data || []) as LotteryRow[]
+    .from('lottery_snapshot')
+    .select('games, quinielas, updated_at')
+    .eq('id', 'latest')
+    .single()
+  return (data as Snapshot) || null
 }
 
-function dateLabel(r: LotteryRow): string {
-  const iso = r.draw_date || r.updated_at
-  const d = iso ? new Date(iso) : null
-  const ds = d
-    ? new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short' }).format(d)
-    : ''
-  return r.draw ? `Sorteo ${r.draw} · ${ds}` : ds ? `Últ. sorteo · ${ds}` : ''
+function shortDate(iso: string | null): string {
+  if (!iso) return ''
+  const d = new Date(`${iso}T12:00:00`)
+  return new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: '2-digit' }).format(d)
 }
 
 function Ball({ n }: { n: string }) {
@@ -45,59 +38,112 @@ function Ball({ n }: { n: string }) {
   )
 }
 
+function GameCard({ g }: { g: Game }) {
+  const date = g.modalities[0]?.date
+  return (
+    <div className="border border-gray-200 rounded-lg p-4 bg-white break-inside-avoid">
+      <div className="flex items-baseline justify-between mb-3 gap-2">
+        <h3 className="font-bold text-lg text-primary-red">{g.name}</h3>
+        {date && <span className="text-xs text-gray-500">{shortDate(date)}</span>}
+      </div>
+      <div className="flex flex-col gap-3">
+        {g.modalities.map((m) => (
+          <div key={m.label}>
+            {m.label !== g.name && (
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 mb-1.5">
+                {m.label}
+              </p>
+            )}
+            <div className="flex flex-wrap gap-1.5">
+              {m.numbers.map((n, i) => (
+                <Ball key={i} n={n} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function QuinielaCard({ q }: { q: Quiniela }) {
+  return (
+    <div className="border border-gray-200 rounded-lg p-4 bg-white break-inside-avoid">
+      <h3 className="font-bold text-lg text-primary-red mb-3">{q.name}</h3>
+      <div className="flex flex-col gap-4">
+        {q.turnos.map((t) => (
+          <div key={t.label}>
+            <div className="flex items-baseline justify-between mb-2 gap-2">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-600">
+                {t.label}
+              </p>
+              {t.date && <span className="text-[11px] text-gray-400">{shortDate(t.date)}</span>}
+            </div>
+            <div className="grid grid-cols-5 sm:grid-cols-10 gap-1">
+              {t.numbers.map((n, i) => (
+                <div
+                  key={i}
+                  className={`flex flex-col items-center justify-center rounded border py-1 tabular-nums ${
+                    i === 0
+                      ? 'bg-primary-red/10 border-primary-red/30'
+                      : 'bg-gray-50 border-gray-200'
+                  }`}
+                  title={`Posición ${i + 1}`}
+                >
+                  <span className="text-[9px] leading-none text-gray-400">{i + 1}</span>
+                  <span
+                    className={`text-sm font-bold leading-tight ${
+                      i === 0 ? 'text-primary-red' : 'text-gray-900'
+                    }`}
+                  >
+                    {n}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default async function LotteryWidget() {
-  const rows = await getLottery()
-  if (!rows.length) return null
-
-  const byGame: Record<string, LotteryRow[]> = {}
-  for (const r of rows) (byGame[r.game] ||= []).push(r)
-
-  const games = GAMES.filter((g) => byGame[g.key]?.length)
-  if (!games.length) return null
+  const snap = await getSnapshot()
+  const games = snap?.games ?? []
+  const quinielas = snap?.quinielas ?? []
+  if (!games.length && !quinielas.length) return null
 
   return (
     <section className="my-8">
-      <h2 className="font-serif text-xl font-bold mb-1 text-gray-900">
+      <h2 className="font-serif text-2xl font-bold mb-1 text-gray-900">
         Loterías y Quinielas
       </h2>
       <div className="border-t border-gray-300 mb-5"></div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {games.map((g) => {
-          const gr = [...byGame[g.key]].sort(
-            (a, b) => MOD_ORDER.indexOf(a.modality) - MOD_ORDER.indexOf(b.modality),
-          )
-          return (
-            <div key={g.key} className="border border-gray-200 rounded-lg p-4 bg-white">
-              <div className="flex items-baseline justify-between mb-3 gap-2">
-                <h3 className="font-bold text-lg text-primary-red">{g.label}</h3>
-                <span className="text-xs text-gray-500 text-right">
-                  {dateLabel(gr[0])}
-                </span>
-              </div>
-              <div className="flex flex-col gap-3">
-                {gr.map((r) => (
-                  <div key={r.modality}>
-                    {r.modality !== 'unica' && (
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 mb-1.5">
-                        {r.modality}
-                      </p>
-                    )}
-                    <div className="flex flex-wrap gap-1.5">
-                      {r.numbers.split(',').map((n, i) => (
-                        <Ball key={i} n={n.trim()} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )
-        })}
-      </div>
-      <p className="text-[11px] text-gray-400 mt-3">
-        Fuente: Lotería de Santa Fe · Telekino
-      </p>
+      {games.length > 0 && (
+        <>
+          <h3 className="font-serif text-lg font-bold text-gray-700 mb-3">Loterías</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            {games.map((g) => (
+              <GameCard key={g.slug} g={g} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {quinielas.length > 0 && (
+        <>
+          <h3 className="font-serif text-lg font-bold text-gray-700 mb-3">Quinielas</h3>
+          <div className="grid grid-cols-1 gap-4">
+            {quinielas.map((q) => (
+              <QuinielaCard key={q.slug} q={q} />
+            ))}
+          </div>
+        </>
+      )}
+
+      <p className="text-[11px] text-gray-400 mt-4">Fuente: Clarín</p>
     </section>
   )
 }
