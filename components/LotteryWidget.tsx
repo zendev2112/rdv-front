@@ -103,23 +103,23 @@ export default async function LotteryWidget() {
       </h2>
       <div className="border-t border-gray-300 mb-5"></div>
 
-      {games.length > 0 && (
+      {quinielas.length > 0 && (
         <>
-          <h3 className="font-serif text-lg font-bold text-gray-700 mb-3">Loterías</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {games.map((g) => (
-              <GameCard key={g.slug} g={g} />
+          <h3 className="font-serif text-lg font-bold text-gray-700 mb-3">Quinielas</h3>
+          <div className="grid grid-cols-1 gap-4 mb-8">
+            {quinielas.map((q) => (
+              <QuinielaCard key={q.slug} q={q} />
             ))}
           </div>
         </>
       )}
 
-      {quinielas.length > 0 && (
+      {games.length > 0 && (
         <>
-          <h3 className="font-serif text-lg font-bold text-gray-700 mb-3">Quinielas</h3>
-          <div className="grid grid-cols-1 gap-4">
-            {quinielas.map((q) => (
-              <QuinielaCard key={q.slug} q={q} />
+          <h3 className="font-serif text-lg font-bold text-gray-700 mb-3">Loterías</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {games.map((g) => (
+              <GameCard key={g.slug} g={g} />
             ))}
           </div>
         </>
