@@ -10,6 +10,7 @@ const sections = [
   { name: 'Pueblos Alemanes', href: '/pueblos-alemanes' },
   { name: 'Huanguelén', href: '/huanguelen' },
   { name: 'La Sexta', href: '/la-sexta' },
+  { name: 'Loterías y Quinielas', href: '/loterias-quinielas' },
   { name: 'Agro', href: '/agro' },
   { name: 'Actualidad', href: '/actualidad' },
   { name: 'Lifestyle', href: '/lifestyle' },
