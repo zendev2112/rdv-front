@@ -67,11 +67,17 @@ function GameCard({ g }: { g: Game }) {
 }
 
 function QuinielaCard({ q }: { q: Quiniela }) {
+  // Show only the most recent day's turnos: while the day is in progress we show the
+  // turnos drawn so far (Previa → … → Nocturna); the previous day is dropped as soon as
+  // the first turno of a new day arrives.
+  const latest = q.turnos.reduce((m, t) => (t.date && t.date > m ? t.date : m), '')
+  const turnos = latest ? q.turnos.filter((t) => t.date === latest) : q.turnos
+
   return (
     <div className="border border-gray-200 rounded-lg p-4 bg-white break-inside-avoid">
       <h3 className="font-bold text-lg text-primary-red mb-3">{q.name}</h3>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-        {q.turnos.map((t) => (
+        {turnos.map((t) => (
           <div
             key={t.label}
             className="flex flex-col items-center justify-center rounded-lg border border-gray-200 bg-gray-50 py-3"
@@ -98,11 +104,6 @@ export default async function LotteryWidget() {
 
   return (
     <section className="my-8">
-      <h2 className="font-serif text-2xl font-bold mb-1 text-gray-900">
-        Loterías y Quinielas
-      </h2>
-      <div className="border-t border-gray-300 mb-5"></div>
-
       {quinielas.length > 0 && (
         <>
           <h3 className="font-serif text-lg font-bold text-gray-700 mb-3">Quinielas</h3>
